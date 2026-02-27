@@ -147,13 +147,82 @@
             margin-top: 15px;
         }
         
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 2000; /* 最前面に配置 */
+            padding: 0;
+        }
+
+        /* ボタンの棒の色をロゴやアクセントカラーに合わせる */
+        .menu-toggle span {
+            width: 100%;
+            height: 3px;
+            background-color: #667eea; /* ここをロゴと同じ色に固定 */
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* -----------------------------------------
+           3. スマホ表示（992px以下で切り替え）
+        ----------------------------------------- */
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: flex;
             }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                /* 背景色を「透過なしの白」または「濃い紫」に固定して視認性を確保 */
+                background-color: #ffffff; 
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 35px;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                /* メニューの左側に影をつけて境界をはっきりさせる */
+                box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+                z-index: 1500;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            /* メニュー内のリンク文字色もスマホ用に調整 */
+            .nav-links a {
+                color: #333 !important;
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+
+            /* ×印になった時の色調整（必要に応じて） */
+            .menu-toggle.active span {
+                background-color: #764ba2;
             }
         }
     </style>
@@ -162,7 +231,14 @@
     <nav>
         <div class="nav-container">
             <a href="index.html" class="logo">🛠️ Fig's ToolBox</a>
-            <ul class="nav-links">
+
+            <button class="menu-toggle" id="menuToggle" aria-label="メニュー開閉">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="random.html">文字生成</a></li>
                 <li><a href="password.html">パスワード</a></li>
@@ -213,6 +289,24 @@
     <footer>
         <p>Created by Fig | <a href="about.html">About Me</a></p>
     </footer>
-</body>
 
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        // ボタンクリックでメニュー開閉
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // メニューの外側をクリックしたら閉じる設定
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
 </html>
