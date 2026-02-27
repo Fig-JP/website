@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランダム文字生成器 | Fig's ToolBox</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        /* テーマ: ライト */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        nav {
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            color: #667eea;
+        }
+        
+        .nav-links a {
+            color: #555;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #667eea;
+        }
+        
+        .nav-links a::after {
+            background: #667eea;
+        }
+        
+        .container {
+            background: white;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        .subtitle {
+            color: #666;
+        }
+        
+        .settings {
+            background: #f8f9fa;
+        }
+        
+        .checkbox-item {
+            background: white;
+            border-color: #e0e0e0;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #667eea;
+        }
+        
+        .checkbox-item.checked {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        input[type="range"] {
+            background: #ddd;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            background: #667eea;
+        }
+        
+        .length-value {
+            color: #667eea;
+        }
+        
+        .result {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 8px;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .result-placeholder {
+            color: #999;
+            font-size: 1.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #555;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .history-section {
+            border-color: #eee;
+        }
+        
+        .history-item {
+            background: #f8f9fa;
+        }
+        
+        .history-text {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .history-btn-copy {
+            background: #667eea;
+            color: white;
+        }
+        
+        .history-btn-copy:hover {
+            background: #5568d3;
+        }
+        
+        .history-btn-share {
+            background: #1da1f2;
+            color: white;
+        }
+        
+        .history-btn-share:hover {
+            background: #0d8bd9;
+        }
+        
+        .empty-history {
+            color: #999;
+        }
+        
+        .toast {
+            background: #333;
+        }
+        
+        footer {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        footer a {
+            color: white;
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .result {
+                font-size: 2.5rem;
+                letter-spacing: 5px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">🛠️ Fig's ToolBox</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="random.html" class="active">文字生成</a></li>
+                <li><a href="password.html">パスワード</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1>🔤 ランダム文字生成器</h1>
+        <p class="subtitle">カスタマイズ可能なランダム文字列ジェネレーター</p>
+        
+        <div class="settings">
+            <div class="setting-row">
+                <label class="setting-label">文字種を選択</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item checked">
+                        <input type="checkbox" id="check-lower" checked onchange="updateCheckboxStyle(this)">
+                        <span>英小文字 (a-z)</span>
+                    </label>
+                    <label class="checkbox-item checked">
+                        <input type="checkbox" id="check-upper" checked onchange="updateCheckboxStyle(this)">
+                        <span>英大文字 (A-Z)</span>
+                    </label>
+                    <label class="checkbox-item checked">
+                        <input type="checkbox" id="check-hira" checked onchange="updateCheckboxStyle(this)">
+                        <span>ひらがな</span>
+                    </label>
+                    <label class="checkbox-item checked">
+                        <input type="checkbox" id="check-hira-daku" checked onchange="updateCheckboxStyle(this)">
+                        <span>濁音・半濁音</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <label class="setting-label">文字数: <span id="length-display" class="length-value">3</span> 文字</label>
+                <div class="length-control">
+                    <span>1</span>
+                    <input type="range" id="length-slider" min="1" max="10" value="3" oninput="updateLengthDisplay(this.value)">
+                    <span>10</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-container">
+            <div class="result" id="display">
+                <span class="result-placeholder">「作成する」ボタンを押してください</span>
+            </div>
+            
+            <div class="actions">
+                <button class="btn btn-primary" onclick="generate()">🎲 作成する</button>
+                <button class="btn btn-secondary" id="btn-copy" onclick="copyCurrent()" disabled>📋 コピー</button>
+                <button class="btn btn-secondary" id="btn-share" onclick="shareCurrent()" disabled>🐦 シェア</button>
+            </div>
+        </div>
+        
+        <div class="history-section">
+            <div class="history-header">
+                <span class="history-title">📜 生成履歴</span>
+                <button class="clear-btn" onclick="clearHistory()">クリア</button>
+            </div>
+            <div class="history-list" id="history-list">
+                <div class="empty-history">まだ履歴がありません</div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Created by Fig | <a href="about.html">About Me</a></p>
+    </footer>
+    
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const charSets = {
+            lower: "abcdefghijklmnopqrstuvwxyz",
+            upper: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            hira: "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん",
+            hiraDaku: "がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽ"
+        };
+        
+        let history = [];
+        let currentResult = "";
+        
+        function updateCheckboxStyle(checkbox) {
+            const label = checkbox.closest('.checkbox-item');
+            if (checkbox.checked) {
+                label.classList.add('checked');
+            } else {
+                label.classList.remove('checked');
+            }
+        }
+        
+        function updateLengthDisplay(value) {
+            document.getElementById('length-display').textContent = value;
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        function generate() {
+            let combined = "";
+            
+            if (document.getElementById('check-lower').checked) combined += charSets.lower;
+            if (document.getElementById('check-upper').checked) combined += charSets.upper;
+            if (document.getElementById('check-hira').checked) combined += charSets.hira;
+            if (document.getElementById('check-hira-daku').checked) combined += charSets.hiraDaku;
+            
+            if (combined === "") {
+                showToast("⚠️ 少なくとも1つの文字種を選択してください");
+                return;
+            }
+            
+            const length = parseInt(document.getElementById('length-slider').value);
+            let result = "";
+            
+            for (let i = 0; i < length; i++) {
+                result += combined.charAt(Math.floor(Math.random() * combined.length));
+            }
+            
+            currentResult = result;
+            document.getElementById('display').textContent = result;
+            document.getElementById('btn-copy').disabled = false;
+            document.getElementById('btn-share').disabled = false;
+            
+            addToHistory(result);
+        }
+        
+        function addToHistory(text) {
+            history = history.filter(item => item !== text);
+            history.unshift(text);
+            if (history.length > 10) history = history.slice(0, 10);
+            updateHistoryDisplay();
+        }
+        
+        function updateHistoryDisplay() {
+            const container = document.getElementById('history-list');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<div class="empty-history">まだ履歴がありません</div>';
+                return;
+            }
+            
+            container.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <span class="history-text">${item}</span>
+                    <div class="history-actions">
+                        <button class="history-btn history-btn-copy" onclick="copyText('${item}')">コピー</button>
+                        <button class="history-btn history-btn-share" onclick="shareText('${item}')">シェア</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function clearHistory() {
+            history = [];
+            updateHistoryDisplay();
+            showToast("履歴をクリアしました");
+        }
+        
+        function copyCurrent() {
+            if (currentResult) copyText(currentResult);
+        }
+        
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`「${text}」をコピーしました`);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast(`「${text}」をコピーしました`);
+            });
+        }
+        
+        function shareCurrent() {
+            if (currentResult) shareText(currentResult);
+        }
+        
+        function shareText(text) {
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`ランダム生成結果: ${text}\n\n#ランダム文字生成器`)}`;
+            window.open(url, '_blank', 'width=550,height=420');
+        }
+        
+        document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
+            updateCheckboxStyle(checkbox);
+        });
+    </script>
+</body>
+</html>

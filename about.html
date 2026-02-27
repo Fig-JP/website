@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me | Fig's ToolBox</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        /* テーマ: ライト */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        nav {
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            color: #667eea;
+        }
+        
+        .nav-links a {
+            color: #555;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #667eea;
+        }
+        
+        .nav-links a::after {
+            background: #667eea;
+        }
+        
+        .container {
+            background: white;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        footer {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        footer a {
+            color: white;
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        /* About専用 */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        .handle {
+            color: #667eea;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .profile-section {
+            margin-bottom: 40px;
+        }
+        
+        .profile-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .profile-section p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .hobby-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .hobby-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">🛠️ Fig's ToolBox</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="random.html">文字生成</a></li>
+                <li><a href="password.html">パスワード</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container container-wide">
+        <div class="profile-header">
+            <img src="icon.jpg" alt="Figのアイコン" class="avatar">
+            <h1>Fig</h1>
+            <p class="handle">@kosen24s</p>
+        </div>
+        
+        <div class="profile-section">
+            <h2>🎓 所属</h2>
+            <p>鶴岡高専（#kosen24s）</p>
+            <p>高専生として日々勉強に励んでいます。レポート提出前の徹夜はお手の物...？</p>
+        </div>
+        
+        <div class="profile-section">
+            <h2>🎮 趣味</h2>
+            <div class="hobby-tags">
+                <span class="hobby-tag">ガジェット</span>
+                <span class="hobby-tag">音ゲー</span>
+            </div>
+            <p style="margin-top: 15px;">
+                最新ガジェットを集めるのが大好き。音ゲーは日課としてプレイしています。
+                高専生らしく、技術と遊びの両立を目指しています。
+            </p>
+        </div>
+        
+        <div class="profile-section">
+            <h2>🛠️ このサイトについて</h2>
+            <p>
+                自分で使いやすいツールを作ろうと思い立ち、このサイトを作成。
+                すべてブラウザ上で動作し、データは外部に送信されません。
+            </p>
+        </div>
+        
+        <div class="profile-section">
+            <h2>📱 関連リンク</h2>
+            <div class="links">
+                <a href="https://github.com/Fig-JP" class="link-btn" target="_blank">🐙 GitHub</a>
+                <a href="https://twitter.com/_0fig" class="link-btn" target="_blank">🐦 Twitter</a>
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <h2>💬 連絡先</h2>
+            <p>
+                ツールに関するご意見・バグ報告は、GitHubのIssueまたはTwitterのDMまでお願いします。<br>
+            </p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Created by Fig | <a href="index.html">Fig's ToolBox Home</a></p>
+    </footer>
+</body>
+</html>
