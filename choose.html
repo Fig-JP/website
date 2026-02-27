@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランダム選択 | Fig's ToolBox</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ナビゲーション */
+        nav {
+            background: rgba(30, 41, 59, 0.95);
+            border-bottom: 1px solid #334155;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            padding: 15px 30px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #38bdf8;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #38bdf8;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #38bdf8;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        /* メインコンテンツ */
+        main {
+            padding: 100px 20px 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid #334155;
+        }
+
+        h1 {
+            color: #f8fafc;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* 入力エリア */
+        .input-section {
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .options-textarea {
+            width: 100%;
+            min-height: 120px;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 15px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .options-textarea:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        .options-textarea::placeholder {
+            color: #64748b;
+        }
+
+        .input-hint {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        /* 設定エリア */
+        .settings {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .setting-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-label {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .count-input {
+            width: 80px;
+            background: #1e293b;
+            border: 2px solid #475569;
+            border-radius: 8px;
+            padding: 10px;
+            color: #38bdf8;
+            font-size: 1.2rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .count-input:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        /* 重複許可トグル */
+        .toggle {
+            position: relative;
+            width: 48px;
+            height: 26px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #334155;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background: #38bdf8;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+        /* ボタン */
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0f172a;
+            background: #38bdf8;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary:hover {
+            background: #7dd3fc;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        /* 結果表示 */
+        .result-section {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+
+        .result-placeholder {
+            color: #64748b;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .result-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .result-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-number {
+            background: #38bdf8;
+            color: #0f172a;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        /* 履歴 */
+        .history-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #334155;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .history-title {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px 15px;
+        }
+
+        .history-query {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .history-result {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+        }
+
+        .empty-history {
+            color: #64748b;
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* トースト */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            font-weight: 500;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error {
+            background: #ef4444;
+        }
+
+        /* フッター */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #38bdf8;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.5);
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">🛠️ Fig's ToolBox</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1>🎯 ランダム選択</h1>
+            <p class="subtitle">入力した選択肢からランダムに選びます</p>
+
+            <div class="input-section">
+                <label class="section-label">選択肢（1行に1つ）</label>
+                <textarea 
+                    class="options-textarea" 
+                    id="optionsInput" 
+                    placeholder="選択肢を入力してください&#10;例：&#10;カレー&#10;ラーメン&#10;ハンバーグ&#10;寿司"
+                ></textarea>
+                <p class="input-hint">入力した選択肢の数: <span id="optionCount">0</span>個</p>
+            </div>
+
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">選ぶ個数</span>
+                    <input 
+                        type="number" 
+                        class="count-input" 
+                        id="selectCount" 
+                        value="1" 
+                        min="1" 
+                        max="100"
+                    >
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">同じ選択肢を複数回選ぶ（重複許可）</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="allowDuplicate">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="selectRandom()">🎲 ランダムに選ぶ</button>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-placeholder">選択肢を入力して「ランダムに選ぶ」を押してください</div>
+            </div>
+
+            <div class="history-section">
+                <div class="history-header">
+                    <span class="history-title">📜 履歴</span>
+                    <button class="btn-secondary" onclick="clearHistory()">クリア</button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div class="empty-history">まだ履歴がありません</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Created by Fig | <a href="about.html">About Me</a></p>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let history = [];
+
+        // 選択肢カウント更新
+        document.getElementById('optionsInput').addEventListener('input', function() {
+            const lines = this.value.split('\n').filter(line => line.trim() !== '');
+            document.getElementById('optionCount').textContent = lines.length;
+        });
+
+        function selectRandom() {
+            const input = document.getElementById('optionsInput').value.trim();
+            const selectCount = parseInt(document.getElementById('selectCount').value) || 1;
+            const allowDuplicate = document.getElementById('allowDuplicate').checked;
+
+            // 選択肢を配列化
+            const options = input.split('\n').filter(line => line.trim() !== '');
+            
+            if (options.length === 0) {
+                showToast('⚠️ 選択肢を入力してください', true);
+                return;
+            }
+
+            if (selectCount < 1) {
+                showToast('⚠️ 選ぶ個数は1以上を指定してください', true);
+                return;
+            }
+
+            if (!allowDuplicate && selectCount > options.length) {
+                showToast(`⚠️ 選択肢が${options.length}個しかないため、${selectCount}個選べません（重複を許可してください）`, true);
+                return;
+            }
+
+            // ランダム選択
+            const results = [];
+            const tempOptions = [...options];
+
+            for (let i = 0; i < selectCount; i++) {
+                if (allowDuplicate) {
+                    // 重複許可: 毎回全候補から選ぶ
+                    const randomIndex = Math.floor(Math.random() * options.length);
+                    results.push(options[randomIndex]);
+                } else {
+                    // 重複禁止: 選んだものを除外
+                    const randomIndex = Math.floor(Math.random() * tempOptions.length);
+                    results.push(tempOptions[randomIndex]);
+                    tempOptions.splice(randomIndex, 1);
+                }
+            }
+
+            // 結果表示
+            displayResult(results);
+            
+            // 履歴追加
+            addToHistory(options.length, selectCount, allowDuplicate, results);
+        }
+
+        function displayResult(results) {
+            const section = document.getElementById('resultSection');
+            
+            const resultsHtml = results.map((result, index) => `
+                <div class="result-item">
+                    <span class="result-number">${index + 1}</span>
+                    <span>${escapeHtml(result)}</span>
+                </div>
+            `).join('');
+
+            section.innerHTML = `<div class="result-list">${resultsHtml}</div>`;
+        }
+
+        function addToHistory(totalOptions, selectCount, allowDuplicate, results) {
+            const historyItem = {
+                totalOptions: totalOptions,
+                selectCount: selectCount,
+                allowDuplicate: allowDuplicate,
+                results: results,
+                timestamp: new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })
+            };
+
+            history.unshift(historyItem);
+            if (history.length > 10) history = history.slice(0, 10);
+
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const list = document.getElementById('historyList');
+
+            if (history.length === 0) {
+                list.innerHTML = '<div class="empty-history">まだ履歴がありません</div>';
+                return;
+            }
+
+            list.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <div class="history-query">
+                        ${item.timestamp} | ${item.totalOptions}個から${item.selectCount}個選ぶ ${item.allowDuplicate ? '(重複許可)' : ''}
+                    </div>
+                    <div class="history-result">
+                        ${item.results.map((r, i) => `${i + 1}. ${escapeHtml(r)}`).join('、')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            history = [];
+            updateHistoryDisplay();
+            showToast('履歴をクリアしました');
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>
