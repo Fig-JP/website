@@ -6,94 +6,15 @@
     <title>ダイスローラー | Fig's ToolBox</title>
     <link rel="stylesheet" href="css/common.css">
     <style>
-        body {
-            background: #0f172a;
-            color: #e2e8f0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* ナビゲーション */
-        nav {
-            background: rgba(30, 41, 59, 0.95);
-            border-bottom: 1px solid #334155;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-            padding: 15px 30px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            color: #38bdf8;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #38bdf8;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #38bdf8;
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
-        /* メインコンテンツ */
+        /* dice.html 専用スタイル */
         main {
             padding: 100px 20px 40px;
         }
 
         .container {
-            background: #1e293b;
-            border-radius: 16px;
-            padding: 25px;
             max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border: 1px solid #334155;
         }
 
-        /* ヘッダー・設定 */
         .header-row {
             display: flex;
             justify-content: space-between;
@@ -103,8 +24,9 @@
 
         .header-row h1 {
             font-size: 1.5rem;
-            color: #38bdf8;
+            color: var(--accent);
             margin: 0;
+            text-align: left;
         }
 
         .mode-switch {
@@ -112,7 +34,7 @@
             align-items: center;
             gap: 8px;
             font-size: 0.85rem;
-            color: #94a3b8;
+            color: var(--text-muted);
         }
 
         .switch {
@@ -135,7 +57,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #334155;
+            background: var(--toggle-off);
             transition: .4s;
             border-radius: 20px;
         }
@@ -153,18 +75,17 @@
         }
 
         input:checked + .slider {
-            background-color: #38bdf8;
+            background: var(--toggle-on);
         }
 
         input:checked + .slider:before {
             transform: translateX(16px);
         }
 
-        /* 統計 */
         .stats-box {
             display: none;
-            background: rgba(56, 189, 248, 0.05);
-            border: 1px dashed #38bdf8;
+            background: var(--settings-bg);
+            border: 1px dashed var(--accent);
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 20px;
@@ -178,35 +99,34 @@
 
         .stat-label {
             font-size: 0.7rem;
-            color: #94a3b8;
+            color: var(--text-muted);
         }
 
         .stat-value {
             font-size: 1rem;
             font-weight: bold;
-            color: #38bdf8;
+            color: var(--accent);
         }
 
-        /* 入力エリア */
         .input-area {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            background: #0f172a;
+            background: var(--settings-bg);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid #334155;
+            border: 1px solid var(--card-border);
         }
 
         .num-input {
             width: 70px;
-            background: #1e293b;
-            border: 2px solid #475569;
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
             border-radius: 8px;
             padding: 10px;
-            color: #38bdf8;
+            color: var(--accent);
             font-size: 1.5rem;
             text-align: center;
             font-weight: bold;
@@ -214,18 +134,18 @@
 
         .num-input:focus {
             outline: none;
-            border-color: #38bdf8;
+            border-color: var(--accent);
         }
 
         .d-label {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #64748b;
+            color: var(--text-muted);
         }
 
         .roll-btn {
-            background: #38bdf8;
-            color: #0f172a;
+            background: var(--accent);
+            color: white;
             border: none;
             border-radius: 8px;
             padding: 12px 25px;
@@ -235,34 +155,32 @@
         }
 
         .roll-btn:hover {
-            background: #7dd3fc;
+            opacity: 0.85;
             transform: translateY(-2px);
         }
 
-        /* 結果カード */
         .result-card {
-            background: #0f172a;
+            background: var(--settings-bg);
             border-radius: 12px;
             padding: 20px;
             text-align: center;
             margin-bottom: 20px;
-            border: 2px solid #334155;
+            border: 2px solid var(--card-border);
         }
 
         .result-total {
             font-size: 4rem;
             font-weight: bold;
-            color: #38bdf8;
+            color: var(--accent);
             margin: 5px 0;
             line-height: 1;
         }
 
         .result-sub {
-            color: #64748b;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
 
-        /* 個別ダイス表示エリア */
         .dice-container {
             display: flex;
             flex-wrap: wrap;
@@ -275,9 +193,9 @@
         }
 
         .die-chip {
-            background: #1e293b;
-            color: #38bdf8;
-            border: 1px solid #334155;
+            background: var(--card-bg);
+            color: var(--accent);
+            border: 1px solid var(--card-border);
             border-radius: 4px;
             min-width: 28px;
             height: 28px;
@@ -296,8 +214,8 @@
         }
 
         .p-btn {
-            background: #334155;
-            color: #e2e8f0;
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-color);
             border: none;
             border-radius: 6px;
             padding: 8px;
@@ -307,24 +225,24 @@
         }
 
         .p-btn:hover {
-            background: #475569;
+            background: var(--btn-secondary-hover);
         }
 
         .history-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #94a3b8;
+            color: var(--text-muted);
             font-size: 0.8rem;
             margin-bottom: 10px;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 5px;
         }
 
         .reset-btn {
             background: none;
-            border: 1px solid #475569;
-            color: #94a3b8;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
             border-radius: 4px;
             padding: 2px 8px;
             cursor: pointer;
@@ -333,43 +251,20 @@
         }
 
         .reset-btn:hover {
-            border-color: #38bdf8;
-            color: #38bdf8;
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .history-item {
             display: flex;
             justify-content: space-between;
             padding: 10px;
-            border-bottom: 1px solid #1e293b;
+            border-bottom: 1px solid var(--border-color);
             font-size: 0.9rem;
+            color: var(--text-primary);
         }
 
-        /* フッター */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
-        }
-
-        footer a {
-            color: #38bdf8;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.5);
-        }
-
-        /* レスポンシブ */
         @media (max-width: 768px) {
-            .nav-links {
-                gap: 15px;
-                font-size: 0.9rem;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
             .result-total {
                 font-size: 3rem;
             }
@@ -439,7 +334,7 @@
             </div>
 
             <div class="result-card" id="resultCard">
-                <div style="color:#475569; padding-top:30px;">ダイスを振ってください</div>
+                <div style="color:var(--text-muted); padding-top:30px;">ダイスを振ってください</div>
             </div>
 
             <div class="history-header">
@@ -504,52 +399,40 @@
                 document.getElementById('rollingMax').textContent = "--";
                 return;
             }
-            const sum = historyTotals.reduce((a, b) => a + b, 0);
-            const avg = (sum / historyTotals.length).toFixed(1).replace(/\.0$/, '');
+            const avg = (historyTotals.reduce((a, b) => a + b, 0) / historyTotals.length).toFixed(1);
             const max = Math.max(...historyTotals);
-
             document.getElementById('rollingAvg').textContent = avg;
             document.getElementById('rollingMax').textContent = max;
         }
 
-        function displayResult(n, m, total, currentAvg, results) {
+        function displayResult(n, m, total, avg, results) {
             const card = document.getElementById('resultCard');
-
-            const diceHtml = results.map(r => `<div class="die-chip">${r}</div>`).join('');
-
-            let cocHtml = "";
-            if (isCocMode) {
-                const half = Math.floor(total / 2);
-                const fifth = Math.floor(total / 5);
-                cocHtml = `<div style="color:#38bdf8; font-size:0.9rem; margin-top:8px;">1/2: <b>${half}</b> | 1/5: <b>${fifth}</b></div>`;
-                if (n === 1 && m === 100) {
-                    if (total <= 5) cocHtml += '<div style="color:#10b981; font-weight:bold; margin-top:5px;">✨ 決定的成功</div>';
-                    else if (total >= 96) cocHtml += '<div style="color:#ef4444; font-weight:bold; margin-top:5px;">💀 致命的失敗</div>';
-                }
-            }
-
+            const diceChips = results.map(r => `<div class="die-chip">${r}</div>`).join('');
+            
             card.innerHTML = `
-                <div class="result-sub">${n}D${m} (今回の平均: ${currentAvg})</div>
                 <div class="result-total">${total}</div>
-                <div class="dice-container">${diceHtml}</div>
-                ${cocHtml}
+                <div class="result-sub">${n}D${m} | 平均: ${avg}</div>
+                ${n > 1 ? `<div class="dice-container">${diceChips}</div>` : ''}
             `;
         }
 
         function updateHistoryUI(n, m, total) {
             const list = document.getElementById('historyList');
-            const item = `<div class="history-item"><span style="color:#64748b;">${n}D${m}</span><b>= ${total}</b></div>`;
-            list.insertAdjacentHTML('afterbegin', item);
-            if (list.children.length > 10) list.lastChild.remove();
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML = `<span>${n}D${m}</span><span>${total}</span>`;
+            list.insertBefore(item, list.firstChild);
+
+            const items = list.querySelectorAll('.history-item');
+            if (items.length > 10) {
+                list.removeChild(items[items.length - 1]);
+            }
         }
 
         function resetHistory() {
-            if(confirm("履歴と統計をリセットしますか？")) {
-                historyTotals = [];
-                document.getElementById('historyList').innerHTML = "";
-                document.getElementById('resultCard').innerHTML = '<div style="color:#475569; padding-top:30px;">リセットしました</div>';
-                updateStats();
-            }
+            historyTotals = [];
+            document.getElementById('historyList').innerHTML = '';
+            updateStats();
         }
     </script>
 </body>
