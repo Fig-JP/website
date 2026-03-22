@@ -64,6 +64,83 @@
             font-size: 0.9rem;
             font-weight: 500;
         }
+
+        /* 所持端末カード */
+        .device-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+        }
+
+        .device-item {
+            background: var(--result-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .device-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--accent-light);
+            border-color: var(--accent);
+        }
+
+        .device-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .device-spec {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .device-sub-specs {
+            list-style: none;
+            padding: 0;
+            margin-top: 6px;
+        }
+
+        .device-sub-specs li {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            padding: 2px 0 2px 14px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .device-sub-specs li::before {
+            content: "–";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .device-accessories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .accessory-tag {
+            background: var(--accent-light);
+            color: var(--accent);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .device-list {
+                grid-template-columns: 1fr;
+            }
+        }
         
         .links {
             display: flex;
@@ -214,21 +291,49 @@
         
         <div class="profile-section">
             <h2>💻 所持端末</h2>
-            <p>
-                ・iPhone 16 Pro (A18 Pro) 256GB (Natural Titanium)<br>
-                ・Xiaomi 14 (SnapDragon 8 gen 3) 16/512GB (White)<br>
-                ・iPhone 14 (A15 Bionic) 128GB (Starlight)<br>
-                ・iPad Pro 11" 3rd (M1) 256GB (Space Gray)<br>
-                - with Apple Pencil 2nd, Magic Keyboard<br>
-                ・MacBook Pro 14" (M5 Pro) 24/1TB (Silver, Nano-texture)<br>
-                ・自作PC<br>
-                    - Ryzen 7 3700X<br>
-                    - DDR4 16GB×2<br>
-                    - Radeon RX Vega 56 8GB<br>
-                    - M.2 ssd 1TB + 512GB<br>
-                ・Apple Watch SE 2nd 44mm Wifi+GPS (Midnight)<br>
-                ・Apple AirPods Pro (2nd, lightning)
-            </p>
+            <div class="device-list">
+                <div class="device-item">
+                    <div class="device-name">📱 iPhone 16 Pro</div>
+                    <div class="device-spec">A18 Pro · 256GB · Natural Titanium</div>
+                </div>
+                <div class="device-item">
+                    <div class="device-name">📱 Xiaomi 14</div>
+                    <div class="device-spec">Snapdragon 8 Gen 3 · 16/512GB · White</div>
+                </div>
+                <div class="device-item">
+                    <div class="device-name">📱 iPhone 14</div>
+                    <div class="device-spec">A15 Bionic · 128GB · Starlight</div>
+                </div>
+                <div class="device-item">
+                    <div class="device-name">📟 iPad Pro 11" (第3世代)</div>
+                    <div class="device-spec">M1 · 256GB · Space Gray</div>
+                    <div class="device-accessories">
+                        <span class="accessory-tag">Apple Pencil 第2世代</span>
+                        <span class="accessory-tag">Magic Keyboard</span>
+                    </div>
+                </div>
+                <div class="device-item">
+                    <div class="device-name">💻 MacBook Pro 14"</div>
+                    <div class="device-spec">M5 Pro · 24GB RAM · 1TB · Silver · Nano-texture</div>
+                </div>
+                <div class="device-item">
+                    <div class="device-name">🖥️ 自作PC</div>
+                    <ul class="device-sub-specs">
+                        <li>Ryzen 7 3700X</li>
+                        <li>DDR4 16GB × 2</li>
+                        <li>Radeon RX Vega 56 8GB</li>
+                        <li>M.2 SSD 1TB + 512GB</li>
+                    </ul>
+                </div>
+                <div class="device-item">
+                    <div class="device-name">⌚ Apple Watch SE (第2世代)</div>
+                    <div class="device-spec">44mm · GPS+Cellular · Midnight</div>
+                </div>
+                <div class="device-item">
+                    <div class="device-name">🎧 AirPods Pro (第2世代)</div>
+                    <div class="device-spec">Lightning</div>
+                </div>
+            </div>
         </div>
         <div class="profile-section">
             <h2>🛠️ このサイトについて</h2>
