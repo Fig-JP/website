@@ -208,6 +208,11 @@
         .small-btn-secondary:hover { background: var(--btn-secondary-hover); }
         .small-btn-danger { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
         .small-btn-danger:hover { background: rgba(239, 68, 68, 0.25); }
+        .small-btn-csv { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+        .small-btn-csv:hover { background: rgba(34, 197, 94, 0.25); }
+        @media (prefers-color-scheme: dark) {
+            .small-btn-csv { color: #4ade80; }
+        }
 
         /* プレイヤー設定 */
         .player-section {
@@ -531,6 +536,8 @@
                     <span class="best-title">📊 ベスト枠 (B30)</span>
                     <div class="best-actions">
                         <button class="small-btn small-btn-secondary" onclick="generateImage('arcaea')">🖼️ 画像生成</button>
+                        <button class="small-btn small-btn-csv" onclick="exportCSV('arcaea')">📥 CSV保存</button>
+                        <button class="small-btn small-btn-csv" onclick="importCSV('arcaea')">📤 CSV読込</button>
                         <button class="small-btn small-btn-danger" onclick="clearBest('arcaea')">🗑️ クリア</button>
                     </div>
                 </div>
@@ -603,6 +610,8 @@
                     <span class="best-title">📊 ベスト枠 (B27)</span>
                     <div class="best-actions">
                         <button class="small-btn small-btn-secondary" onclick="generateImage('phigros')">🖼️ 画像生成</button>
+                        <button class="small-btn small-btn-csv" onclick="exportCSV('phigros')">📥 CSV保存</button>
+                        <button class="small-btn small-btn-csv" onclick="importCSV('phigros')">📤 CSV読込</button>
                         <button class="small-btn small-btn-danger" onclick="clearBest('phigros')">🗑️ クリア</button>
                     </div>
                 </div>
@@ -684,6 +693,8 @@
                     <span class="best-title">📊 ベスト枠 (上位40曲合計)</span>
                     <div class="best-actions">
                         <button class="small-btn small-btn-secondary" onclick="generateImage('takumi3')">🖼️ 画像生成</button>
+                        <button class="small-btn small-btn-csv" onclick="exportCSV('takumi3')">📥 CSV保存</button>
+                        <button class="small-btn small-btn-csv" onclick="importCSV('takumi3')">📤 CSV読込</button>
                         <button class="small-btn small-btn-danger" onclick="clearBest('takumi3')">🗑️ クリア</button>
                     </div>
                 </div>
@@ -985,6 +996,125 @@
         saveBest(game, []);
         renderBest(game);
         document.getElementById('imagePreviewSection-' + game).style.display = 'none';
+    }
+
+    // =============================================
+    // CSV エクスポート／インポート
+    // 形式: 1行目=プレイヤー名,ゲーム名
+    //       2行目以降=曲名,難易度,譜面定数,レート,フラグ(0:なし 1:FC/FR 2:AP/PM/φ/AJ)
+    // =============================================
+
+    function csvQuote(s) {
+        s = String(s ?? '');
+        return s.includes(',') || s.includes('"') || s.includes('\n')
+            ? '"' + s.replace(/"/g, '""') + '"'
+            : s;
+    }
+
+    function parseCSVLine(line) {
+        const result = [];
+        let field = '';
+        let inQ = false;
+        for (let i = 0; i < line.length; i++) {
+            const c = line[i];
+            if (c === '"') {
+                if (inQ && line[i + 1] === '"') { field += '"'; i++; }
+                else inQ = !inQ;
+            } else if (c === ',' && !inQ) {
+                result.push(field); field = '';
+            } else {
+                field += c;
+            }
+        }
+        result.push(field);
+        return result;
+    }
+
+    function exportCSV(game) {
+        const GAME_LABEL = { arcaea: 'Arcaea', phigros: 'Phigros', takumi3: 'TAKUMI3' };
+        const player = localStorage.getItem('fig_player_' + game) || 'Player';
+        const list   = loadBest(game);
+        const rows   = [`${csvQuote(player)},${GAME_LABEL[game]}`];
+
+        list.forEach(e => {
+            let flag = 0;
+            if (game === 'arcaea')  { if (e.pm)    flag = 2; else if (e.fr)    flag = 1; }
+            if (game === 'phigros') { if (e.isPhi) flag = 2; else if (e.fc)    flag = 1; }
+            if (game === 'takumi3') { if (e.aj)    flag = 2; else if (e.fc)    flag = 1; }
+            rows.push([
+                csvQuote(e.name),
+                csvQuote(e.diff ?? ''),
+                e.constant ?? '',
+                e.rate,
+                flag
+            ].join(','));
+        });
+
+        const bom  = '\uFEFF';
+        const blob = new Blob([bom + rows.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+        const a    = document.createElement('a');
+        a.href     = URL.createObjectURL(blob);
+        a.download = `best_${game}_${player}_${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        showToast(`📥 CSV保存完了 (${list.length}曲)`);
+    }
+
+    function importCSV(game) {
+        const input   = document.createElement('input');
+        input.type    = 'file';
+        input.accept  = '.csv,text/csv';
+        input.onchange = ev => {
+            const file = ev.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = re => {
+                const text  = re.target.result.replace(/^\uFEFF/, ''); // strip BOM
+                const lines = text.split(/\r?\n/).filter(l => l.trim());
+                if (lines.length < 2) { showToast('⚠️ CSVが空か形式が違います'); return; }
+
+                // 1行目: プレイヤー名,ゲーム名
+                const header = parseCSVLine(lines[0]);
+                const importedPlayer = (header[0] || '').trim();
+                if (importedPlayer) {
+                    localStorage.setItem('fig_player_' + game, importedPlayer);
+                    updatePlayerNameDisplay();
+                }
+
+                let list = loadBest(game);
+                let count = 0;
+
+                for (let i = 1; i < lines.length; i++) {
+                    const p = parseCSVLine(lines[i]);
+                    // 対応カラム: name, diff, constant, rate, flag
+                    if (p.length < 4) continue;
+                    const name     = (p[0] || '').trim();
+                    const diff     = (p[1] || '').trim();
+                    const constant = p[2] !== '' ? parseFloat(p[2]) : null;
+                    const rate     = parseFloat(p[3]);
+                    const flag     = parseInt(p[4] ?? 0) || 0;
+                    if (!name || isNaN(rate)) continue;
+
+                    const key = name + '\x00' + diff;
+                    const idx = list.findIndex(e => (e.name + '\x00' + (e.diff || '')) === key);
+                    if (idx !== -1) list.splice(idx, 1);
+
+                    const entry = { name, diff, rate, constant };
+                    if (game === 'arcaea')  { entry.fr = flag >= 1; entry.pm = flag >= 2; }
+                    if (game === 'phigros') { entry.fc = flag >= 1; entry.isPhi = flag >= 2; }
+                    if (game === 'takumi3') { entry.fc = flag >= 1; entry.aj  = flag >= 2; }
+                    list.push(entry);
+                    count++;
+                }
+
+                list.sort((a, b) => b.rate - a.rate);
+                if (list.length > BEST_LIMITS[game]) list = list.slice(0, BEST_LIMITS[game]);
+                saveBest(game, list);
+                renderBest(game);
+                showToast(`✅ ${count}曲 読み込みました`);
+            };
+            reader.readAsText(file, 'UTF-8');
+        };
+        input.click();
     }
 
     function renderBest(game) {
