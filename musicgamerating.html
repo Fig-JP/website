@@ -351,6 +351,51 @@
         .rank-A  { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
         .rank-B  { background: linear-gradient(135deg, #10b981, #059669); color: white; }
         .rank-C  { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
+
+        /* 難易度セレクター */
+        .diff-select {
+            padding: 10px 10px;
+            border: 1.5px solid var(--card-border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            min-width: 90px;
+        }
+
+        .diff-select:focus { outline: none; border-color: var(--accent); }
+
+        /* 難易度バッジ */
+        .diff-badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 6px;
+            white-space: nowrap;
+            letter-spacing: 0.04em;
+        }
+
+        /* Arcaea */
+        .diff-PST { background: #4ade80; color: #052e16; }
+        .diff-PRS { background: #fbbf24; color: #1c1917; }
+        .diff-FTR { background: #a855f7; color: white; }
+        .diff-ETR { background: #ef4444; color: white; }
+        .diff-BYD { background: #991b1b; color: #fecaca; }
+
+        /* TAKUMI3 */
+        .diff-Normal   { background: #4ade80; color: #052e16; }
+        .diff-Hard     { background: #60a5fa; color: #1e3a5f; }
+        .diff-Master   { background: #a855f7; color: white; }
+        .diff-Insanity { background: #ef4444; color: white; }
+        .diff-Ravage   { background: #1e1b4b; color: #c7d2fe; border: 1px solid #6366f1; }
+
+        /* Phigros */
+        .diff-EZ { background: #4ade80; color: #052e16; }
+        .diff-HD { background: #60a5fa; color: #1e3a5f; }
+        .diff-IN { background: #ef4444; color: white; }
+        .diff-AT { background: linear-gradient(135deg, #fbbf24, #f97316); color: #1c1917; }
     </style>
 </head>
 <body>
@@ -415,6 +460,13 @@
                 <div class="add-to-best-label">ベスト枠に追加</div>
                 <div class="add-to-best-row">
                     <input class="text-input" type="text" id="arc-song-name" placeholder="曲名">
+                    <select class="diff-select" id="arc-diff">
+                        <option value="PST">PST</option>
+                        <option value="PRS">PRS</option>
+                        <option value="FTR" selected>FTR</option>
+                        <option value="ETR">ETR</option>
+                        <option value="BYD">BYD</option>
+                    </select>
                     <button class="small-btn small-btn-primary" onclick="addToBest('arcaea')">＋ 追加</button>
                 </div>
             </div>
@@ -484,6 +536,12 @@
                 </div>
                 <div class="add-to-best-row">
                     <input class="text-input" type="text" id="phi-song-name" placeholder="曲名">
+                    <select class="diff-select" id="phi-diff">
+                        <option value="EZ">EZ</option>
+                        <option value="HD">HD</option>
+                        <option value="IN" selected>IN</option>
+                        <option value="AT">AT</option>
+                    </select>
                     <button class="small-btn small-btn-primary" onclick="addToBest('phigros')">＋ 追加</button>
                 </div>
             </div>
@@ -554,6 +612,13 @@
                 <div class="add-to-best-label">ベスト枠に追加</div>
                 <div class="add-to-best-row">
                     <input class="text-input" type="text" id="tak-song-name" placeholder="曲名">
+                    <select class="diff-select" id="tak-diff">
+                        <option value="Normal">Normal</option>
+                        <option value="Hard">Hard</option>
+                        <option value="Master" selected>Master</option>
+                        <option value="Insanity">Insanity</option>
+                        <option value="Ravage">Ravage</option>
+                    </select>
                     <button class="small-btn small-btn-primary" onclick="addToBest('takumi3')">＋ 追加</button>
                 </div>
             </div>
@@ -788,26 +853,31 @@
         if (rate === null) { showToast('⚠️ 先にスコアを計算してください', true); return; }
 
         const nameId = { arcaea: 'arc-song-name', phigros: 'phi-song-name', takumi3: 'tak-song-name' }[game];
+        const diffId = { arcaea: 'arc-diff',      phigros: 'phi-diff',      takumi3: 'tak-diff'      }[game];
+
         const name = document.getElementById(nameId).value.trim() || '無題の曲';
+        const diff = document.getElementById(diffId).value;
         const constant = getCurrentConstant(game);
 
-        // Phigros: φフラグ
         const isPhi = game === 'phigros'
             ? document.getElementById('phi-is-phi').checked
             : undefined;
 
+        // 重複キー = 曲名 + 難易度（同じ曲の別難易度は別エントリ）
+        const entryKey = name + '\x00' + diff;
+
         let list = loadBest(game);
-        const existingIdx = list.findIndex(e => e.name === name);
+        const existingIdx = list.findIndex(e => (e.name + '\x00' + (e.diff || '')) === entryKey);
 
         if (existingIdx !== -1) {
             if (list[existingIdx].rate >= rate) {
-                showToast(`「${name}」は既により高いレートで登録済みです`);
+                showToast(`「${name} [${diff}]」は既により高いレートで登録済みです`);
                 return;
             }
             list.splice(existingIdx, 1);
         }
 
-        const entry = { name, rate, constant };
+        const entry = { name, diff, rate, constant };
         if (game === 'phigros') entry.isPhi = isPhi;
 
         list.push(entry);
@@ -818,7 +888,7 @@
         renderBest(game);
         document.getElementById(nameId).value = '';
         if (game === 'phigros') document.getElementById('phi-is-phi').checked = false;
-        showToast(`✅ 「${name}」を追加しました`);
+        showToast(`✅ 「${name} [${diff}]」を追加しました`);
     }
 
     function removeBestItem(game, index) {
@@ -855,6 +925,7 @@
             listEl.innerHTML = topList.map((e, i) => `
                 <div class="best-item">
                     <span class="best-rank ${i < 3 ? 'top3' : ''}">#${String(i+1).padStart(2,'0')}</span>
+                    ${e.diff ? `<span class="diff-badge diff-${e.diff}">${e.diff}</span>` : ''}
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(2)}</span>
@@ -885,6 +956,7 @@
             listEl.innerHTML = topList.map((e, i) => `
                 <div class="best-item">
                     <span class="best-rank ${i < 3 ? 'top3' : ''}">#${String(i+1).padStart(2,'0')}</span>
+                    ${e.diff ? `<span class="diff-badge diff-${e.diff}">${e.diff}</span>` : ''}
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
                     ${e.isPhi ? '<span class="phi-badge">φ</span>' : ''}
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
@@ -907,6 +979,7 @@
             listEl.innerHTML = topList.map((e, i) => `
                 <div class="best-item">
                     <span class="best-rank ${i < 3 ? 'top3' : ''}">#${String(i+1).padStart(2,'0')}</span>
+                    ${e.diff ? `<span class="diff-badge diff-${e.diff}">${e.diff}</span>` : ''}
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(3)}</span>
@@ -1044,19 +1117,45 @@
             ctx.roundRect(x, y, CARD_W, CARD_H, 7);
             ctx.stroke();
 
-            // ランク
+            // ランク番号
             ctx.font = `bold 10px "SF Mono",Monaco,monospace`;
             ctx.fillStyle = i < 3 ? t.accent : t.sub;
             ctx.fillText(`#${String(i+1).padStart(2,'0')}`, x + 9, y + 19);
 
+            // 難易度バッジ
+            let nameOffsetX = 9;
+            if (entry.diff) {
+                const DIFF_COLORS = {
+                    PST: ['#4ade80','#052e16'], PRS: ['#fbbf24','#1c1917'],
+                    FTR: ['#a855f7','#fff'],    ETR: ['#ef4444','#fff'],
+                    BYD: ['#991b1b','#fecaca'],
+                    Normal: ['#4ade80','#052e16'], Hard: ['#60a5fa','#1e3a5f'],
+                    Master: ['#a855f7','#fff'],    Insanity: ['#ef4444','#fff'],
+                    Ravage: ['#1e1b4b','#c7d2fe'],
+                    EZ: ['#4ade80','#052e16'], HD: ['#60a5fa','#1e3a5f'],
+                    IN: ['#ef4444','#fff'],    AT: ['#fbbf24','#1c1917'],
+                };
+                const dc = DIFF_COLORS[entry.diff] || [t.accent, '#fff'];
+                ctx.font = `bold 9px -apple-system,BlinkMacSystemFont,sans-serif`;
+                const dw = Math.max(ctx.measureText(entry.diff).width + 8, 24);
+                const dh = 14, dx = x + 9, dy = y + 6;
+                ctx.fillStyle = dc[0];
+                ctx.beginPath();
+                ctx.roundRect(dx, dy, dw, dh, 3);
+                ctx.fill();
+                ctx.fillStyle = dc[1];
+                ctx.fillText(entry.diff, dx + 4, dy + 10);
+                nameOffsetX = 9 + dw + 5;
+            }
+
             // 曲名
             ctx.font = `600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
             ctx.fillStyle = t.text;
-            const maxW = CARD_W - 95;
+            const maxW = CARD_W - 95 - (nameOffsetX - 9);
             let name = entry.name;
             while (ctx.measureText(name).width > maxW && name.length > 0) name = name.slice(0, -1);
             if (name !== entry.name) name += '…';
-            ctx.fillText(name, x + 9, y + 37);
+            ctx.fillText(name, x + nameOffsetX, y + 37);
 
             // φバッジ（Phigros）
             if (game === 'phigros' && entry.isPhi) {
