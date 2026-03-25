@@ -927,6 +927,41 @@
         return isNaN(v) ? null : v;
     }
 
+    function getCurrentScore(game) {
+        const id = { arcaea: 'arc-score', phigros: 'phi-achieve', takumi3: 'tak-score' }[game];
+        const v = parseFloat(document.getElementById(id).value);
+        return isNaN(v) ? null : v;
+    }
+
+    // スコア＋定数からレートを計算（CSV インポート時も使用）
+    function calcRateFromScore(game, score, constant) {
+        if (score == null || constant == null) return null;
+        let rate = 0;
+        if (game === 'arcaea') {
+            const s = score, c = constant;
+            if (s >= 10000000)     rate = c + 2.0;
+            else if (s >= 9800000) rate = c + 1.0 + (s - 9800000) / 200000;
+            else                   rate = Math.max(0, c + (s - 9500000) / 300000);
+            rate = Math.round(rate * 100) / 100;
+        } else if (game === 'phigros') {
+            const a = score, c = constant;
+            rate = a < 70 ? 0 : Math.round(c * Math.pow((a - 55) / 45, 2) * 100) / 100;
+        } else if (game === 'takumi3') {
+            const s = score, c = constant;
+            if (s < 700000)        rate = 0;
+            else if (s < 800000)   rate = (c + (s - 700000) / 200000) / 34;
+            else if (s < 900000)   rate = (c + 0.5 + (s - 800000) / 200000) / 34;
+            else if (s < 950000)   rate = (c + 1.0 + (s - 900000) / 100000) / 34;
+            else if (s < 975000)   rate = (c + 1.5 + (s - 950000) / 50000) / 34;
+            else if (s < 990000)   rate = (c + 1.5 + (s - 975000) / 30000) / 34;
+            else if (s < 995000)   rate = (c + 1.5 + (s - 990000) / 10000) / 34;
+            else if (s < 999000)   rate = (c + 1.5 + (s - 995000) / 8000)  / 34;
+            else                   rate = (c + 2   + (s - 999000) / 10000) / 34;
+            rate = Math.round(rate * 1000) / 1000;
+        }
+        return rate;
+    }
+
     function addToBest(game) {
         const rate = getCurrentRate(game);
         if (rate === null) { showToast('⚠️ 先にスコアを計算してください', true); return; }
@@ -934,9 +969,10 @@
         const nameId = { arcaea: 'arc-song-name', phigros: 'phi-song-name', takumi3: 'tak-song-name' }[game];
         const diffId = { arcaea: 'arc-diff',      phigros: 'phi-diff',      takumi3: 'tak-diff'      }[game];
 
-        const name = document.getElementById(nameId).value.trim() || '無題の曲';
-        const diff = document.getElementById(diffId).value;
+        const name     = document.getElementById(nameId).value.trim() || '無題の曲';
+        const diff     = document.getElementById(diffId).value;
         const constant = getCurrentConstant(game);
+        const score    = getCurrentScore(game);
 
         // FC / AP フラグ取得
         let fr = false, pm = false, fc = false, isPhi = false, aj = false;
@@ -965,7 +1001,7 @@
             list.splice(existingIdx, 1);
         }
 
-        const entry = { name, diff, rate, constant };
+        const entry = { name, diff, rate, constant, score };
         if (game === 'arcaea')  { entry.fr = fr; entry.pm = pm; }
         if (game === 'phigros') { entry.fc = fc; entry.isPhi = isPhi; }
         if (game === 'takumi3') { entry.fc = fc; entry.aj = aj; }
@@ -1045,7 +1081,7 @@
                 csvQuote(e.name),
                 csvQuote(e.diff ?? ''),
                 e.constant ?? '',
-                e.rate,
+                e.score ?? '',   // スコア（旧エントリはスコア未保存のため空）
                 flag
             ].join(','));
         });
@@ -1085,20 +1121,22 @@
 
                 for (let i = 1; i < lines.length; i++) {
                     const p = parseCSVLine(lines[i]);
-                    // 対応カラム: name, diff, constant, rate, flag
+                    // 対応カラム: name, diff, constant, score, flag
                     if (p.length < 4) continue;
                     const name     = (p[0] || '').trim();
                     const diff     = (p[1] || '').trim();
                     const constant = p[2] !== '' ? parseFloat(p[2]) : null;
-                    const rate     = parseFloat(p[3]);
+                    const score    = p[3] !== '' ? parseFloat(p[3]) : null;
                     const flag     = parseInt(p[4] ?? 0) || 0;
-                    if (!name || isNaN(rate)) continue;
+                    if (!name || score == null || isNaN(score)) continue;
+                    const rate = calcRateFromScore(game, score, constant);
+                    if (rate === null || isNaN(rate)) continue;
 
                     const key = name + '\x00' + diff;
                     const idx = list.findIndex(e => (e.name + '\x00' + (e.diff || '')) === key);
                     if (idx !== -1) list.splice(idx, 1);
 
-                    const entry = { name, diff, rate, constant };
+                    const entry = { name, diff, rate, constant, score };
                     if (game === 'arcaea')  { entry.fr = flag >= 1; entry.pm = flag >= 2; }
                     if (game === 'phigros') { entry.fc = flag >= 1; entry.isPhi = flag >= 2; }
                     if (game === 'takumi3') { entry.fc = flag >= 1; entry.aj  = flag >= 2; }
