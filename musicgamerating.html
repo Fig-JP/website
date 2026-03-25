@@ -328,7 +328,77 @@
             transition: opacity 0.2s;
         }
 
-        .best-delete:hover { opacity: 1; color: #ef4444; }
+        .best-delete:hover  { opacity: 1; color: #ef4444; }
+
+        .best-edit {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            opacity: 0.4;
+            font-size: 0.82rem;
+            padding: 2px 4px;
+            transition: opacity 0.2s;
+        }
+        .best-edit:hover { opacity: 1; color: var(--accent); }
+
+        /* 編集モーダル */
+        .edit-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(3px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .edit-overlay.open { display: flex; }
+        .edit-modal {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 28px 24px;
+            width: min(480px, 92vw);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+        }
+        .edit-modal h3 {
+            margin: 0 0 18px;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+        .edit-field { margin-bottom: 14px; }
+        .edit-field label {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        .edit-field input, .edit-field select {
+            width: 100%;
+            box-sizing: border-box;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 8px 10px;
+            font-size: 0.9rem;
+        }
+        .edit-modal-badges {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .edit-modal-badges label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .edit-modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 4px;
+        }
 
         .empty-best {
             text-align: center;
@@ -1181,6 +1251,7 @@
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(2)}</span>
+                    <button class="best-edit"   onclick="editBestItem('arcaea',${i})">✎</button>
                     <button class="best-delete" onclick="removeBestItem('arcaea',${i})">✕</button>
                 </div>`).join('');
         }
@@ -1215,6 +1286,7 @@
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(2)}</span>
+                    <button class="best-edit"   onclick="editBestItem('phigros',${i})">✎</button>
                     <button class="best-delete" onclick="removeBestItem('phigros',${i})">✕</button>
                 </div>`).join('');
         }
@@ -1239,6 +1311,7 @@
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(3)}</span>
+                    <button class="best-edit"   onclick="editBestItem('takumi3',${i})">✎</button>
                     <button class="best-delete" onclick="removeBestItem('takumi3',${i})">✕</button>
                 </div>`).join('');
         }
@@ -1504,6 +1577,151 @@
         renderBest('phigros');
         renderBest('takumi3');
     });
+    // =============================================
+    //  エントリ編集モーダル
+    // =============================================
+    const DIFF_OPTIONS = {
+        arcaea:  ['PST','PRS','FTR','ETR','BYD'],
+        phigros: ['EZ','HD','IN','AT'],
+        takumi3: ['Normal','Hard','Master','Insanity','Ravage']
+    };
+    const SCORE_LABELS  = { arcaea: 'スコア (0–10005000)', phigros: '達成率 (0–100)', takumi3: 'スコア (0–1000000)' };
+    const SCORE_STEPS   = { arcaea: 1, phigros: 0.01, takumi3: 1 };
+    const SCORE_MAX     = { arcaea: 10005000, phigros: 100, takumi3: 1000000 };
+
+    let _editCtx = null; // { game, index }
+
+    function editBestItem(game, index) {
+        const list  = loadBest(game);
+        const entry = list[index];
+        if (!entry) return;
+        _editCtx = { game, index };
+
+        // タイトル
+        document.getElementById('em-title').textContent =
+            `編集: ${entry.name} [${entry.diff || '-'}]`;
+
+        // 曲名
+        document.getElementById('em-name').value = entry.name;
+
+        // 難易度
+        const diffSel = document.getElementById('em-diff');
+        diffSel.innerHTML = DIFF_OPTIONS[game]
+            .map(d => `<option value="${d}"${d === entry.diff ? ' selected' : ''}>${d}</option>`)
+            .join('');
+
+        // 譜面定数
+        document.getElementById('em-constant').value = entry.constant ?? '';
+
+        // スコア
+        const scoreInput = document.getElementById('em-score');
+        scoreInput.placeholder = SCORE_LABELS[game];
+        scoreInput.step        = SCORE_STEPS[game];
+        scoreInput.max         = SCORE_MAX[game];
+        scoreInput.value       = entry.score ?? '';
+        document.getElementById('em-score-label').textContent = SCORE_LABELS[game];
+
+        // FC/AP チェックボックス
+        const badgeArea = document.getElementById('em-badges');
+        if (game === 'arcaea') {
+            badgeArea.innerHTML = `
+                <label><input type="checkbox" id="em-fr"${entry.fr ? ' checked' : ''}> Full Recall</label>
+                <label><input type="checkbox" id="em-pm"${entry.pm ? ' checked' : ''}> Pure Memory</label>`;
+        } else if (game === 'phigros') {
+            badgeArea.innerHTML = `
+                <label><input type="checkbox" id="em-fc"${entry.fc     ? ' checked' : ''}> FC</label>
+                <label><input type="checkbox" id="em-isphi"${entry.isPhi ? ' checked' : ''}> φ (Phi)</label>`;
+        } else {
+            badgeArea.innerHTML = `
+                <label><input type="checkbox" id="em-fc"${entry.fc ? ' checked' : ''}> FC</label>
+                <label><input type="checkbox" id="em-aj"${entry.aj ? ' checked' : ''}> All Justice</label>`;
+        }
+
+        document.getElementById('editOverlay').classList.add('open');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editOverlay').classList.remove('open');
+        _editCtx = null;
+    }
+
+    function saveEdit() {
+        if (!_editCtx) return;
+        const { game, index } = _editCtx;
+
+        const name     = document.getElementById('em-name').value.trim() || '無題の曲';
+        const diff     = document.getElementById('em-diff').value;
+        const constant = document.getElementById('em-constant').value !== ''
+                         ? parseFloat(document.getElementById('em-constant').value) : null;
+        const scoreRaw = document.getElementById('em-score').value;
+        const score    = scoreRaw !== '' ? parseFloat(scoreRaw) : null;
+        const rate     = calcRateFromScore(game, score, constant);
+
+        if (score === null || isNaN(score)) { showToast('⚠️ スコアを入力してください', true); return; }
+        if (constant === null || isNaN(constant)) { showToast('⚠️ 譜面定数を入力してください', true); return; }
+        if (rate === null || isNaN(rate)) { showToast('⚠️ レートを計算できません', true); return; }
+
+        let fr = false, pm = false, fc = false, isPhi = false, aj = false;
+        if (game === 'arcaea') {
+            fr = document.getElementById('em-fr')?.checked || false;
+            pm = document.getElementById('em-pm')?.checked || false;
+        } else if (game === 'phigros') {
+            fc    = document.getElementById('em-fc')?.checked || false;
+            isPhi = document.getElementById('em-isphi')?.checked || false;
+        } else {
+            fc = document.getElementById('em-fc')?.checked || false;
+            aj = document.getElementById('em-aj')?.checked || false;
+        }
+
+        let list = loadBest(game);
+        const updated = { ...list[index], name, diff, constant, score, rate };
+        if (game === 'arcaea')  { updated.fr = fr; updated.pm = pm; }
+        if (game === 'phigros') { updated.fc = fc; updated.isPhi = isPhi; }
+        if (game === 'takumi3') { updated.fc = fc; updated.aj = aj; }
+
+        list[index] = updated;
+        list.sort((a, b) => b.rate - a.rate);
+        if (list.length > BEST_LIMITS[game]) list = list.slice(0, BEST_LIMITS[game]);
+        saveBest(game, list);
+        renderBest(game);
+        closeEditModal();
+        showToast(`✅ 「${name} [${diff}]」を更新しました`);
+    }
+
+    // オーバーレイ外クリックで閉じる
+    document.getElementById('editOverlay')
+        .addEventListener('click', e => { if (e.target.id === 'editOverlay') closeEditModal(); });
     </script>
+
+    <!-- 編集モーダル -->
+    <div class="edit-overlay" id="editOverlay">
+        <div class="edit-modal">
+            <h3 id="em-title">編集</h3>
+            <div class="edit-field">
+                <label>曲名</label>
+                <input type="text" id="em-name" placeholder="曲名">
+            </div>
+            <div style="display:flex;gap:10px;">
+                <div class="edit-field" style="flex:0 0 120px;">
+                    <label>難易度</label>
+                    <select id="em-diff"></select>
+                </div>
+                <div class="edit-field" style="flex:1;">
+                    <label>譜面定数</label>
+                    <input type="number" id="em-constant" placeholder="0.0" step="0.1" min="0" max="20">
+                </div>
+            </div>
+            <div class="edit-field">
+                <label id="em-score-label">スコア</label>
+                <input type="number" id="em-score" min="0">
+            </div>
+            <div class="edit-modal-badges" id="em-badges"></div>
+            <div class="edit-modal-actions">
+                <button class="small-btn" onclick="closeEditModal()"
+                    style="background:var(--btn-secondary-bg);color:var(--btn-secondary-color);">キャンセル</button>
+                <button class="small-btn small-btn-primary" onclick="saveEdit()">保存</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
