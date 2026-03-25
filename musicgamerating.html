@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音ゲーレート計算 | Fig's ToolBox</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        /* ===== ゲーム選択タブ ===== */
+        .game-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .game-tab {
+            flex: 1;
+            min-width: 90px;
+            padding: 10px 8px;
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            background: var(--settings-bg);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .game-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .game-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .game-tab .game-icon {
+            display: block;
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        /* ===== フォームパネル ===== */
+        .game-panel {
+            display: none;
+        }
+
+        .game-panel.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .input-label .hint {
+            font-size: 0.78rem;
+            opacity: 0.65;
+            font-weight: 400;
+            margin-left: 6px;
+        }
+
+        .score-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            background: var(--settings-bg);
+            color: var(--text-primary);
+            transition: border-color 0.2s;
+            font-family: "SF Mono", Monaco, monospace;
+        }
+
+        .score-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .score-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.5;
+            font-weight: 400;
+        }
+
+        /* ===== レート表示 ===== */
+        .rate-display {
+            background: var(--settings-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .rate-display.has-result {
+            border-color: var(--accent);
+        }
+
+        .rate-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .rate-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: "SF Mono", Monaco, monospace;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .rate-value.empty {
+            color: var(--text-muted);
+            opacity: 0.3;
+            font-size: 2.5rem;
+        }
+
+        .rank-badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        /* ===== ベスト枠セクション ===== */
+        .best-section {
+            margin-top: 30px;
+            padding-top: 24px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .best-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .best-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .best-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .small-btn {
+            padding: 7px 14px;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .small-btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .small-btn-primary:hover {
+            opacity: 0.85;
+        }
+
+        .small-btn-secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-color);
+        }
+
+        .small-btn-secondary:hover {
+            background: var(--btn-secondary-hover);
+        }
+
+        .small-btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .small-btn-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* ===== ベスト枠リスト ===== */
+        .best-avg-bar {
+            background: var(--settings-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .best-avg-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .best-avg-value {
+            font-weight: 800;
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-family: "SF Mono", Monaco, monospace;
+        }
+
+        .best-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
+        .best-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: var(--history-item-bg);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .best-rank {
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 28px;
+            font-size: 0.8rem;
+            font-family: monospace;
+        }
+
+        .best-rank.top3 {
+            color: var(--accent);
+        }
+
+        .best-song-name {
+            flex: 1;
+            color: var(--text-primary);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .best-constant {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            min-width: 38px;
+            text-align: right;
+        }
+
+        .best-rate {
+            font-weight: 700;
+            color: var(--accent);
+            font-family: "SF Mono", Monaco, monospace;
+            min-width: 52px;
+            text-align: right;
+        }
+
+        .best-delete {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            opacity: 0.4;
+            font-size: 0.85rem;
+            padding: 2px 4px;
+            transition: opacity 0.2s;
+        }
+
+        .best-delete:hover {
+            opacity: 1;
+            color: #ef4444;
+        }
+
+        .empty-best {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 30px;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* ===== 曲名入力フォーム（ベスト枠用） ===== */
+        .add-to-best {
+            background: var(--settings-bg);
+            border: 1px dashed var(--card-border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 16px;
+        }
+
+        .add-to-best-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .song-name-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1.5px solid var(--card-border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .song-name-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .song-name-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        /* ===== Canvasプレビュー ===== */
+        #imagePreviewSection {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #bestCanvas {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        /* ===== ランク色 ===== */
+        .rank-EX { background: linear-gradient(135deg, #a855f7, #7c3aed); color: white; }
+        .rank-S  { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .rank-A  { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+        .rank-B  { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .rank-C  { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">🛠️ Fig's ToolBox</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container container-wide">
+        <h1>🎵 音ゲーレート計算</h1>
+        <p class="subtitle">譜面定数とスコアから単曲レートを計算します</p>
+
+        <!-- ゲーム選択タブ -->
+        <div class="game-tabs">
+            <button class="game-tab active" onclick="switchGame('arcaea')" id="tab-arcaea">
+                <span class="game-icon">🔵</span>Arcaea
+            </button>
+            <button class="game-tab" onclick="switchGame('phigros')" id="tab-phigros">
+                <span class="game-icon">⚪</span>Phigros
+            </button>
+            <button class="game-tab" onclick="switchGame('takumi3')" id="tab-takumi3">
+                <span class="game-icon">🟣</span>TAKUMI³
+            </button>
+        </div>
+
+        <!-- ===== Arcaea パネル ===== -->
+        <div class="game-panel active" id="panel-arcaea">
+            <div class="input-group">
+                <label class="input-label">
+                    譜面定数
+                    <span class="hint">例: 11.4</span>
+                </label>
+                <input
+                    class="score-input"
+                    type="number"
+                    inputmode="decimal"
+                    id="arc-constant"
+                    placeholder="0.0"
+                    step="0.1"
+                    min="0"
+                    max="13"
+                    oninput="calcArcaea()"
+                >
+            </div>
+            <div class="input-group">
+                <label class="input-label">
+                    スコア
+                    <span class="hint">最大 10,005,000</span>
+                </label>
+                <input
+                    class="score-input"
+                    type="number"
+                    inputmode="numeric"
+                    id="arc-score"
+                    placeholder="9800000"
+                    step="1"
+                    min="0"
+                    max="10005000"
+                    oninput="calcArcaea()"
+                >
+            </div>
+
+            <div class="rate-display" id="arc-display">
+                <div class="rate-label">単曲レート (PTT)</div>
+                <div class="rate-value empty" id="arc-rate">--.-—</div>
+                <div id="arc-rank"></div>
+            </div>
+
+            <div class="add-to-best">
+                <div class="add-to-best-row">
+                    <input class="song-name-input" type="text" id="arc-song-name" placeholder="曲名（ベスト枠に追加する場合）">
+                    <button class="small-btn small-btn-primary" onclick="addToBest('arcaea')">＋ 追加</button>
+                </div>
+            </div>
+
+            <!-- ベスト枠 (B30) -->
+            <div class="best-section">
+                <div class="best-header">
+                    <span class="best-title">📊 ベスト枠 (B30)</span>
+                    <div class="best-actions">
+                        <button class="small-btn small-btn-secondary" onclick="generateImage('arcaea')">🖼️ 画像生成</button>
+                        <button class="small-btn small-btn-danger" onclick="clearBest('arcaea')">🗑️ クリア</button>
+                    </div>
+                </div>
+                <div class="best-avg-bar">
+                    <span class="best-avg-label">B30 平均レート</span>
+                    <span class="best-avg-value" id="arc-avg">--.-—</span>
+                </div>
+                <div class="best-list" id="arc-best-list">
+                    <div class="empty-best">曲を追加するとここに表示されます</div>
+                </div>
+            </div>
+
+            <div id="imagePreviewSection-arcaea">
+                <div style="margin-top:16px; margin-bottom:8px; font-weight:600; color:var(--text-primary);">生成画像プレビュー</div>
+                <canvas id="canvas-arcaea"></canvas>
+                <br>
+                <button class="small-btn small-btn-primary" style="margin-top:10px;" onclick="downloadImage('arcaea')">⬇️ ダウンロード</button>
+            </div>
+        </div>
+
+        <!-- ===== Phigros パネル ===== -->
+        <div class="game-panel" id="panel-phigros">
+            <div class="input-group">
+                <label class="input-label">
+                    譜面定数
+                    <span class="hint">例: 15.0</span>
+                </label>
+                <input
+                    class="score-input"
+                    type="number"
+                    inputmode="decimal"
+                    id="phi-constant"
+                    placeholder="0.0"
+                    step="0.1"
+                    min="0"
+                    max="20"
+                    oninput="calcPhigros()"
+                >
+            </div>
+            <div class="input-group">
+                <label class="input-label">
+                    達成率 (%)
+                    <span class="hint">0.00 〜 100.00</span>
+                </label>
+                <input
+                    class="score-input"
+                    type="number"
+                    inputmode="decimal"
+                    id="phi-achieve"
+                    placeholder="100.00"
+                    step="0.01"
+                    min="0"
+                    max="100"
+                    oninput="calcPhigros()"
+                >
+            </div>
+
+            <div class="rate-display" id="phi-display">
+                <div class="rate-label">単曲レート (RKS)</div>
+                <div class="rate-value empty" id="phi-rate">--.-—</div>
+                <div id="phi-rank"></div>
+            </div>
+
+            <div class="add-to-best">
+                <div class="add-to-best-row">
+                    <input class="song-name-input" type="text" id="phi-song-name" placeholder="曲名（ベスト枠に追加する場合）">
+                    <button class="small-btn small-btn-primary" onclick="addToBest('phigros')">＋ 追加</button>
+                </div>
+            </div>
+
+            <!-- ベスト枠 (B19) -->
+            <div class="best-section">
+                <div class="best-header">
+                    <span class="best-title">📊 ベスト枠 (B19)</span>
+                    <div class="best-actions">
+                        <button class="small-btn small-btn-secondary" onclick="generateImage('phigros')">🖼️ 画像生成</button>
+                        <button class="small-btn small-btn-danger" onclick="clearBest('phigros')">🗑️ クリア</button>
+                    </div>
+                </div>
+                <div class="best-avg-bar">
+                    <span class="best-avg-label">B19 平均レート</span>
+                    <span class="best-avg-value" id="phi-avg">--.-—</span>
+                </div>
+                <div class="best-list" id="phi-best-list">
+                    <div class="empty-best">曲を追加するとここに表示されます</div>
+                </div>
+            </div>
+
+            <div id="imagePreviewSection-phigros">
+                <div style="margin-top:16px; margin-bottom:8px; font-weight:600; color:var(--text-primary);">生成画像プレビュー</div>
+                <canvas id="canvas-phigros"></canvas>
+                <br>
+                <button class="small-btn small-btn-primary" style="margin-top:10px;" onclick="downloadImage('phigros')">⬇️ ダウンロード</button>
+            </div>
+        </div>
+
+        <!-- ===== TAKUMI3 パネル ===== -->
+        <div class="game-panel" id="panel-takumi3">
+            <div class="input-group">
+                <label class="input-label">
+                    譜面定数
+                    <span class="hint">例: 34</span>
+                </label>
+                <input
+                    class="score-input"
+                    type="number"
+                    inputmode="decimal"
+                    id="tak-constant"
+                    placeholder="0"
+                    step="0.1"
+                    min="0"
+                    max="50"
+                    oninput="calcTakumi3()"
+                >
+            </div>
+            <div class="input-group">
+                <label class="input-label">
+                    スコア
+                    <span class="hint">最大 1,000,000</span>
+                </label>
+                <input
+                    class="score-input"
+                    type="number"
+                    inputmode="numeric"
+                    id="tak-score"
+                    placeholder="1000000"
+                    step="1"
+                    min="0"
+                    max="1000000"
+                    oninput="calcTakumi3()"
+                >
+            </div>
+
+            <div class="rate-display" id="tak-display">
+                <div class="rate-label">単曲レート</div>
+                <div class="rate-value empty" id="tak-rate">--.---</div>
+                <div id="tak-rank"></div>
+            </div>
+
+            <div class="add-to-best">
+                <div class="add-to-best-row">
+                    <input class="song-name-input" type="text" id="tak-song-name" placeholder="曲名（ベスト枠に追加する場合）">
+                    <button class="small-btn small-btn-primary" onclick="addToBest('takumi3')">＋ 追加</button>
+                </div>
+            </div>
+
+            <!-- ベスト枠 -->
+            <div class="best-section">
+                <div class="best-header">
+                    <span class="best-title">📊 ベスト枠</span>
+                    <div class="best-actions">
+                        <button class="small-btn small-btn-secondary" onclick="generateImage('takumi3')">🖼️ 画像生成</button>
+                        <button class="small-btn small-btn-danger" onclick="clearBest('takumi3')">🗑️ クリア</button>
+                    </div>
+                </div>
+                <div class="best-avg-bar">
+                    <span class="best-avg-label">平均レート</span>
+                    <span class="best-avg-value" id="tak-avg">--.---</span>
+                </div>
+                <div class="best-list" id="tak-best-list">
+                    <div class="empty-best">曲を追加するとここに表示されます</div>
+                </div>
+            </div>
+
+            <div id="imagePreviewSection-takumi3">
+                <div style="margin-top:16px; margin-bottom:8px; font-weight:600; color:var(--text-primary);">生成画像プレビュー</div>
+                <canvas id="canvas-takumi3"></canvas>
+                <br>
+                <button class="small-btn small-btn-primary" style="margin-top:10px;" onclick="downloadImage('takumi3')">⬇️ ダウンロード</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created by Fig | <a href="about.html">About Me</a></p>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // =============================================
+    //  ゲーム切替
+    // =============================================
+    let currentGame = 'arcaea';
+
+    function switchGame(game) {
+        document.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.game-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('tab-' + game).classList.add('active');
+        document.getElementById('panel-' + game).classList.add('active');
+        currentGame = game;
+    }
+
+    // =============================================
+    //  レート計算ロジック（Pythonから移植）
+    // =============================================
+
+    // --- Arcaea ---
+    function calcArcaea() {
+        const c = parseFloat(document.getElementById('arc-constant').value);
+        const s = parseInt(document.getElementById('arc-score').value);
+        const display = document.getElementById('arc-display');
+        const rateEl = document.getElementById('arc-rate');
+        const rankEl = document.getElementById('arc-rank');
+
+        if (isNaN(c) || isNaN(s)) {
+            rateEl.textContent = '--.-—';
+            rateEl.className = 'rate-value empty';
+            rankEl.innerHTML = '';
+            display.classList.remove('has-result');
+            return;
+        }
+
+        if (s > 10005000) {
+            showToast('⚠️ スコアが理論値(10,005,000)を超えています', true);
+            return;
+        }
+
+        let rate;
+        if (s >= 10000000) {
+            rate = c + 2.0;
+        } else if (s >= 9800000) {
+            rate = c + 1.0 + (s - 9800000) / 200000;
+        } else {
+            rate = c + (s - 9500000) / 300000;
+            if (rate < 0) rate = 0;
+        }
+        rate = Math.round(rate * 100) / 100;
+
+        rateEl.textContent = rate.toFixed(2);
+        rateEl.className = 'rate-value';
+        display.classList.add('has-result');
+
+        // ランク判定
+        const { label, cls } = arcRank(s);
+        rankEl.innerHTML = `<span class="rank-badge ${cls}">${label}</span>`;
+    }
+
+    function arcRank(s) {
+        if (s >= 10000000) return { label: 'PM', cls: 'rank-EX' };
+        if (s >= 9900000)  return { label: 'EX+', cls: 'rank-EX' };
+        if (s >= 9800000)  return { label: 'EX', cls: 'rank-S' };
+        if (s >= 9500000)  return { label: 'AA', cls: 'rank-A' };
+        if (s >= 9200000)  return { label: 'A', cls: 'rank-A' };
+        if (s >= 8900000)  return { label: 'B', cls: 'rank-B' };
+        if (s >= 8600000)  return { label: 'C', cls: 'rank-B' };
+        return { label: 'D', cls: 'rank-C' };
+    }
+
+    // --- Phigros ---
+    function calcPhigros() {
+        const c = parseFloat(document.getElementById('phi-constant').value);
+        const a = parseFloat(document.getElementById('phi-achieve').value);
+        const display = document.getElementById('phi-display');
+        const rateEl = document.getElementById('phi-rate');
+        const rankEl = document.getElementById('phi-rank');
+
+        if (isNaN(c) || isNaN(a)) {
+            rateEl.textContent = '--.-—';
+            rateEl.className = 'rate-value empty';
+            rankEl.innerHTML = '';
+            display.classList.remove('has-result');
+            return;
+        }
+
+        if (a > 100.0) {
+            showToast('⚠️ 達成率が100%を超えています', true);
+            return;
+        }
+
+        let rate;
+        if (a < 70) {
+            rate = 0;
+        } else {
+            rate = c * Math.pow((a - 55) / 45, 2);
+        }
+        rate = Math.round(rate * 100) / 100;
+
+        rateEl.textContent = rate.toFixed(2);
+        rateEl.className = 'rate-value';
+        display.classList.add('has-result');
+
+        const { label, cls } = phiRank(a);
+        rankEl.innerHTML = `<span class="rank-badge ${cls}">${label}</span>`;
+    }
+
+    function phiRank(a) {
+        if (a >= 100)  return { label: 'φ', cls: 'rank-EX' };
+        if (a >= 95)   return { label: 'V', cls: 'rank-EX' };
+        if (a >= 90)   return { label: 'S', cls: 'rank-S' };
+        if (a >= 80)   return { label: 'A', cls: 'rank-A' };
+        if (a >= 70)   return { label: 'B', cls: 'rank-B' };
+        if (a >= 60)   return { label: 'C', cls: 'rank-B' };
+        return { label: 'F', cls: 'rank-C' };
+    }
+
+    // --- TAKUMI3 ---
+    function calcTakumi3() {
+        const c = parseFloat(document.getElementById('tak-constant').value);
+        const s = parseInt(document.getElementById('tak-score').value);
+        const display = document.getElementById('tak-display');
+        const rateEl = document.getElementById('tak-rate');
+        const rankEl = document.getElementById('tak-rank');
+
+        if (isNaN(c) || isNaN(s)) {
+            rateEl.textContent = '--.---';
+            rateEl.className = 'rate-value empty';
+            rankEl.innerHTML = '';
+            display.classList.remove('has-result');
+            return;
+        }
+
+        if (s > 1000000) {
+            showToast('⚠️ スコアが理論値(1,000,000)を超えています', true);
+            return;
+        }
+
+        let rate = 0;
+        if (s <= 800000) {
+            rate = 0;
+        } else if (s < 970000) {
+            const correction = (s - 800000) / 170000;
+            rate = (c * correction) / 34;
+        } else if (s < 990000) {
+            const correction = (s - 970000) / 20000;
+            rate = (c + correction) / 34;
+        } else if (s < 995000) {
+            const correction = 1 + (s - 990000) / 10000;
+            rate = (c + correction) / 34;
+        } else if (s < 999000) {
+            const correction = 1.5 + (s - 995000) / 8000;
+            rate = (c + correction) / 34;
+        } else {
+            const correction = 2 + (s - 999000) / 10000;
+            rate = (c + correction) / 34;
+        }
+        rate = Math.round(rate * 1000) / 1000;
+
+        rateEl.textContent = rate.toFixed(3);
+        rateEl.className = 'rate-value';
+        display.classList.add('has-result');
+
+        const { label, cls } = takumiRank(s);
+        rankEl.innerHTML = `<span class="rank-badge ${cls}">${label}</span>`;
+    }
+
+    function takumiRank(s) {
+        if (s >= 1000000) return { label: '理論値', cls: 'rank-EX' };
+        if (s >= 999000)  return { label: 'S+', cls: 'rank-EX' };
+        if (s >= 995000)  return { label: 'S+', cls: 'rank-S' };
+        if (s >= 990000)  return { label: 'S', cls: 'rank-S' };
+        if (s >= 970000)  return { label: 'AAA', cls: 'rank-A' };
+        if (s >= 800000)  return { label: 'BB+', cls: 'rank-B' };
+        return { label: 'BB-', cls: 'rank-C' };
+    }
+
+    // =============================================
+    //  ベスト枠管理
+    // =============================================
+    const BEST_LIMITS = { arcaea: 30, phigros: 19, takumi3: 30 };
+
+    function getBestKey(game) {
+        return 'fig_best_' + game;
+    }
+
+    function loadBest(game) {
+        try {
+            return JSON.parse(localStorage.getItem(getBestKey(game))) || [];
+        } catch { return []; }
+    }
+
+    function saveBest(game, list) {
+        localStorage.setItem(getBestKey(game), JSON.stringify(list));
+    }
+
+    function getCurrentRate(game) {
+        if (game === 'arcaea') {
+            const v = document.getElementById('arc-rate').textContent;
+            return v === '--.-—' ? null : parseFloat(v);
+        }
+        if (game === 'phigros') {
+            const v = document.getElementById('phi-rate').textContent;
+            return v === '--.-—' ? null : parseFloat(v);
+        }
+        if (game === 'takumi3') {
+            const v = document.getElementById('tak-rate').textContent;
+            return v === '--.---' ? null : parseFloat(v);
+        }
+        return null;
+    }
+
+    function getCurrentConstant(game) {
+        if (game === 'arcaea') return parseFloat(document.getElementById('arc-constant').value) || null;
+        if (game === 'phigros') return parseFloat(document.getElementById('phi-constant').value) || null;
+        if (game === 'takumi3') return parseFloat(document.getElementById('tak-constant').value) || null;
+        return null;
+    }
+
+    function addToBest(game) {
+        const rate = getCurrentRate(game);
+        if (rate === null) {
+            showToast('⚠️ 先にスコアを計算してください', true);
+            return;
+        }
+
+        const nameInputId = game === 'arcaea' ? 'arc-song-name'
+                          : game === 'phigros' ? 'phi-song-name'
+                          : 'tak-song-name';
+        const name = document.getElementById(nameInputId).value.trim() || '無題の曲';
+        const constant = getCurrentConstant(game);
+
+        let list = loadBest(game);
+
+        // 同じ曲名なら上書き
+        const existing = list.findIndex(e => e.name === name);
+        if (existing !== -1) {
+            if (list[existing].rate >= rate) {
+                showToast(`「${name}」は既により高いレートで登録済みです`);
+                return;
+            }
+            list.splice(existing, 1);
+        }
+
+        list.push({ name, rate, constant });
+        list.sort((a, b) => b.rate - a.rate);
+
+        // ベスト枠の上限で切り捨て
+        if (list.length > BEST_LIMITS[game]) {
+            list = list.slice(0, BEST_LIMITS[game]);
+        }
+
+        saveBest(game, list);
+        renderBest(game);
+
+        document.getElementById(nameInputId).value = '';
+        showToast(`✅ 「${name}」を追加しました`);
+    }
+
+    function removeBestItem(game, index) {
+        let list = loadBest(game);
+        list.splice(index, 1);
+        saveBest(game, list);
+        renderBest(game);
+    }
+
+    function clearBest(game) {
+        if (!confirm('ベスト枠をすべてクリアしますか？')) return;
+        saveBest(game, []);
+        renderBest(game);
+        // キャンバス非表示
+        document.getElementById('imagePreviewSection-' + game).style.display = 'none';
+    }
+
+    function renderBest(game) {
+        const list = loadBest(game);
+        const listEl = document.getElementById(
+            game === 'arcaea' ? 'arc-best-list'
+          : game === 'phigros' ? 'phi-best-list'
+          : 'tak-best-list'
+        );
+        const avgEl = document.getElementById(
+            game === 'arcaea' ? 'arc-avg'
+          : game === 'phigros' ? 'phi-avg'
+          : 'tak-avg'
+        );
+        const limit = BEST_LIMITS[game];
+        const decimals = game === 'takumi3' ? 3 : 2;
+
+        if (list.length === 0) {
+            listEl.innerHTML = '<div class="empty-best">曲を追加するとここに表示されます</div>';
+            avgEl.textContent = game === 'takumi3' ? '--.---' : '--.-—';
+            return;
+        }
+
+        // 平均計算（ベスト枠の上限に満たない場合も上限分で割る）
+        const topList = list.slice(0, limit);
+        const sum = topList.reduce((acc, e) => acc + e.rate, 0);
+        const avg = sum / limit;
+        avgEl.textContent = avg.toFixed(decimals);
+
+        listEl.innerHTML = topList.map((e, i) => `
+            <div class="best-item">
+                <span class="best-rank ${i < 3 ? 'top3' : ''}">#${i + 1}</span>
+                <span class="best-song-name" title="${e.name}">${e.name}</span>
+                ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
+                <span class="best-rate">${e.rate.toFixed(decimals)}</span>
+                <button class="best-delete" onclick="removeBestItem('${game}', ${i})" title="削除">✕</button>
+            </div>
+        `).join('');
+    }
+
+    // =============================================
+    //  画像生成（Canvas API）
+    // =============================================
+    const GAME_THEMES = {
+        arcaea: {
+            bg: ['#1a0533', '#2d0a5e'],
+            accent: '#a855f7',
+            accent2: '#7c3aed',
+            title: 'Arcaea · Best 30',
+            textColor: '#f3e8ff',
+            subColor: '#c4b5fd',
+            cardBg: 'rgba(255,255,255,0.06)',
+            cardBorder: 'rgba(168,85,247,0.3)',
+        },
+        phigros: {
+            bg: ['#0a0a14', '#141428'],
+            accent: '#e2e8f0',
+            accent2: '#94a3b8',
+            title: 'Phigros · Best 19',
+            textColor: '#f8fafc',
+            subColor: '#cbd5e1',
+            cardBg: 'rgba(255,255,255,0.06)',
+            cardBorder: 'rgba(226,232,240,0.2)',
+        },
+        takumi3: {
+            bg: ['#0d0d1a', '#1a0d33'],
+            accent: '#818cf8',
+            accent2: '#6366f1',
+            title: 'TAKUMI³ · Best',
+            textColor: '#eef2ff',
+            subColor: '#a5b4fc',
+            cardBg: 'rgba(255,255,255,0.06)',
+            cardBorder: 'rgba(129,140,248,0.3)',
+        }
+    };
+
+    function generateImage(game) {
+        const list = loadBest(game);
+        if (list.length === 0) {
+            showToast('⚠️ ベスト枠にデータがありません', true);
+            return;
+        }
+
+        const theme = GAME_THEMES[game];
+        const limit = Math.min(list.length, BEST_LIMITS[game]);
+        const topList = list.slice(0, limit);
+        const decimals = game === 'takumi3' ? 3 : 2;
+
+        const cols = 3;
+        const rows = Math.ceil(limit / cols);
+        const cardW = 300;
+        const cardH = 64;
+        const padX = 24;
+        const padY = 24;
+        const gapX = 12;
+        const gapY = 8;
+        const headerH = 90;
+
+        const canvasW = cols * cardW + (cols - 1) * gapX + padX * 2;
+        const canvasH = headerH + rows * cardH + (rows - 1) * gapY + padY * 2;
+
+        const canvas = document.getElementById('canvas-' + game);
+        canvas.width = canvasW;
+        canvas.height = canvasH;
+        const ctx = canvas.getContext('2d');
+
+        // 背景グラデーション
+        const bg = ctx.createLinearGradient(0, 0, canvasW, canvasH);
+        bg.addColorStop(0, theme.bg[0]);
+        bg.addColorStop(1, theme.bg[1]);
+        ctx.fillStyle = bg;
+        ctx.roundRect(0, 0, canvasW, canvasH, 16);
+        ctx.fill();
+
+        // ヘッダー
+        ctx.font = 'bold 26px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillStyle = theme.textColor;
+        ctx.fillText(theme.title, padX, padY + 30);
+
+        // 平均レート
+        const avgSum = topList.reduce((a, b) => a + b.rate, 0);
+        const avg = avgSum / BEST_LIMITS[game];
+        ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillStyle = theme.subColor;
+        ctx.fillText(`平均レート: ${avg.toFixed(decimals)}  (${topList.length}/${BEST_LIMITS[game]}曲)`, padX, padY + 56);
+
+        // アクセントライン
+        ctx.fillStyle = theme.accent;
+        ctx.fillRect(padX, padY + 68, 200, 2);
+
+        // カード描画
+        topList.forEach((entry, i) => {
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+            const x = padX + col * (cardW + gapX);
+            const y = headerH + row * (cardH + gapY);
+
+            // カード背景
+            ctx.fillStyle = theme.cardBg;
+            ctx.beginPath();
+            ctx.roundRect(x, y, cardW, cardH, 8);
+            ctx.fill();
+
+            // カード枠
+            ctx.strokeStyle = theme.cardBorder;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.roundRect(x, y, cardW, cardH, 8);
+            ctx.stroke();
+
+            // ランク番号
+            const rankColor = i < 3 ? theme.accent : theme.subColor;
+            ctx.font = `bold 11px "SF Mono", Monaco, monospace`;
+            ctx.fillStyle = rankColor;
+            ctx.fillText(`#${String(i + 1).padStart(2, '0')}`, x + 10, y + 22);
+
+            // 曲名
+            ctx.font = `600 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+            ctx.fillStyle = theme.textColor;
+            const maxNameW = cardW - 110;
+            let songName = entry.name;
+            while (ctx.measureText(songName).width > maxNameW && songName.length > 0) {
+                songName = songName.slice(0, -1);
+            }
+            if (songName !== entry.name) songName += '…';
+            ctx.fillText(songName, x + 10, y + 40);
+
+            // 譜面定数
+            if (entry.constant != null) {
+                ctx.font = `11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+                ctx.fillStyle = theme.subColor;
+                ctx.fillText(`定数 ${entry.constant}`, x + 10, y + 56);
+            }
+
+            // レート（右寄せ）
+            const rateStr = entry.rate.toFixed(decimals);
+            ctx.font = `bold 20px "SF Mono", Monaco, monospace`;
+            ctx.fillStyle = theme.accent;
+            const rateW = ctx.measureText(rateStr).width;
+            ctx.fillText(rateStr, x + cardW - rateW - 12, y + 40);
+        });
+
+        // フッター
+        ctx.font = '11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillStyle = theme.subColor;
+        ctx.globalAlpha = 0.5;
+        ctx.fillText('Generated by Fig\'s ToolBox', padX, canvasH - 8);
+        ctx.globalAlpha = 1;
+
+        // 表示
+        const section = document.getElementById('imagePreviewSection-' + game);
+        section.style.display = 'block';
+        section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        showToast('✅ 画像を生成しました');
+    }
+
+    function downloadImage(game) {
+        const canvas = document.getElementById('canvas-' + game);
+        const link = document.createElement('a');
+        link.download = `best_${game}_${new Date().toISOString().slice(0, 10)}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }
+
+    // =============================================
+    //  トースト
+    // =============================================
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.background = isError ? '#ef4444' : 'var(--accent)';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // =============================================
+    //  初期化
+    // =============================================
+    window.addEventListener('DOMContentLoaded', () => {
+        renderBest('arcaea');
+        renderBest('phigros');
+        renderBest('takumi3');
+    });
+    </script>
+</body>
+</html>
