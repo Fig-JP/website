@@ -396,6 +396,56 @@
         .diff-HD { background: #60a5fa; color: #1e3a5f; }
         .diff-IN { background: #ef4444; color: white; }
         .diff-AT { background: linear-gradient(135deg, #fbbf24, #f97316); color: #1c1917; }
+
+        /* FC / AP バッジ */
+        .fc-badges {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .fc-badges label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1.5px solid var(--card-border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            transition: all 0.15s;
+        }
+
+        .fc-badges label:has(input:checked) {
+            border-color: var(--accent);
+            background: var(--settings-bg);
+            color: var(--text-primary);
+        }
+
+        .fc-badges input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        /* 達成バッジ（リスト表示用） */
+        .achieve-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .badge-FR { background: #bfdbfe; color: #1e3a5f; }
+        .badge-PM { background: linear-gradient(135deg, #fde68a, #f59e0b); color: #1c1917; }
+        .badge-FC-arc { background: #bbf7d0; color: #052e16; }
+        .badge-FC-phi { background: #bbf7d0; color: #052e16; }
+        .badge-FC-tak { background: #bbf7d0; color: #052e16; }
+        .badge-AJ { background: linear-gradient(135deg, #fde68a, #f97316); color: #1c1917; }
     </style>
 </head>
 <body>
@@ -458,6 +508,10 @@
             <!-- ベスト枠追加 -->
             <div class="add-to-best">
                 <div class="add-to-best-label">ベスト枠に追加</div>
+                <div class="fc-badges">
+                    <label><input type="checkbox" id="arc-fr">Full Recall</label>
+                    <label><input type="checkbox" id="arc-pm">Pure Memory</label>
+                </div>
                 <div class="add-to-best-row">
                     <input class="text-input" type="text" id="arc-song-name" placeholder="曲名">
                     <select class="diff-select" id="arc-diff">
@@ -527,12 +581,9 @@
 
             <div class="add-to-best">
                 <div class="add-to-best-label">ベスト枠に追加</div>
-                <div class="phi-check-row">
-                    <input type="checkbox" id="phi-is-phi" style="width:16px;height:16px;accent-color:var(--accent);">
-                    <label for="phi-is-phi">ACC 100%（φ）達成済み</label>
-                    <span style="font-size:0.75rem;color:var(--text-muted);margin-left:auto;">
-                        ※達成率100%は自動でチェックされます
-                    </span>
+                <div class="fc-badges">
+                    <label><input type="checkbox" id="phi-fc">FC</label>
+                    <label><input type="checkbox" id="phi-is-phi">Phi（φ）<span style="font-size:0.72rem;opacity:0.6;margin-left:2px;">ACC100%で自動ON</span></label>
                 </div>
                 <div class="add-to-best-row">
                     <input class="text-input" type="text" id="phi-song-name" placeholder="曲名">
@@ -556,7 +607,7 @@
                     </div>
                 </div>
                 <div class="best-score-bar">
-                    <span class="best-avg-label">上位27曲 合計</span>
+                    <span class="best-avg-label">B27 平均レート</span>
                     <span class="best-avg-value" id="phi-sum27">--.-—</span>
                 </div>
                 <div class="best-score-bar">
@@ -610,6 +661,10 @@
 
             <div class="add-to-best">
                 <div class="add-to-best-label">ベスト枠に追加</div>
+                <div class="fc-badges">
+                    <label><input type="checkbox" id="tak-fc">FC</label>
+                    <label><input type="checkbox" id="tak-aj">All Justice<span style="font-size:0.72rem;opacity:0.6;margin-left:2px;">理論値で自動ON</span></label>
+                </div>
                 <div class="add-to-best-row">
                     <input class="text-input" type="text" id="tak-song-name" placeholder="曲名">
                     <select class="diff-select" id="tak-diff">
@@ -715,6 +770,11 @@
         display.classList.add('has-result');
         const { label, cls } = arcRank(s);
         rankEl.innerHTML = `<span class="rank-badge ${cls}">${label}</span>`;
+        // Pure Memory (= score>=10000000) → FR・PM 両方自動ON
+        if (s >= 10000000) {
+            document.getElementById('arc-fr').checked = true;
+            document.getElementById('arc-pm').checked = true;
+        }
     }
 
     function arcRank(s) {
@@ -750,8 +810,11 @@
         rateEl.className = 'rate-value';
         display.classList.add('has-result');
 
-        // ACC100%なら自動チェック
-        if (a >= 100) document.getElementById('phi-is-phi').checked = true;
+        // ACC100% → FC・Phi 両方自動ON
+        if (a >= 100) {
+            document.getElementById('phi-fc').checked = true;
+            document.getElementById('phi-is-phi').checked = true;
+        }
 
         const { label, cls } = phiRank(a);
         rankEl.innerHTML = `<span class="rank-badge ${cls}">${label}</span>`;
@@ -804,6 +867,11 @@
         display.classList.add('has-result');
         const { label, cls } = takumiRank(s);
         rankEl.innerHTML = `<span class="rank-badge ${cls}">${label}</span>`;
+        // All Justice (= 理論値 1000000) → FC・AJ 両方自動ON
+        if (s >= 1000000) {
+            document.getElementById('tak-fc').checked = true;
+            document.getElementById('tak-aj').checked = true;
+        }
     }
 
     function takumiRank(s) {
@@ -859,9 +927,18 @@
         const diff = document.getElementById(diffId).value;
         const constant = getCurrentConstant(game);
 
-        const isPhi = game === 'phigros'
-            ? document.getElementById('phi-is-phi').checked
-            : undefined;
+        // FC / AP フラグ取得
+        let fr = false, pm = false, fc = false, isPhi = false, aj = false;
+        if (game === 'arcaea') {
+            fr = document.getElementById('arc-fr').checked;
+            pm = document.getElementById('arc-pm').checked;
+        } else if (game === 'phigros') {
+            fc     = document.getElementById('phi-fc').checked;
+            isPhi  = document.getElementById('phi-is-phi').checked;
+        } else if (game === 'takumi3') {
+            fc = document.getElementById('tak-fc').checked;
+            aj = document.getElementById('tak-aj').checked;
+        }
 
         // 重複キー = 曲名 + 難易度（同じ曲の別難易度は別エントリ）
         const entryKey = name + '\x00' + diff;
@@ -878,7 +955,9 @@
         }
 
         const entry = { name, diff, rate, constant };
-        if (game === 'phigros') entry.isPhi = isPhi;
+        if (game === 'arcaea')  { entry.fr = fr; entry.pm = pm; }
+        if (game === 'phigros') { entry.fc = fc; entry.isPhi = isPhi; }
+        if (game === 'takumi3') { entry.fc = fc; entry.aj = aj; }
 
         list.push(entry);
         list.sort((a, b) => b.rate - a.rate);
@@ -887,7 +966,10 @@
         saveBest(game, list);
         renderBest(game);
         document.getElementById(nameId).value = '';
-        if (game === 'phigros') document.getElementById('phi-is-phi').checked = false;
+        // チェックボックスリセット
+        if (game === 'arcaea')  { document.getElementById('arc-fr').checked = false; document.getElementById('arc-pm').checked = false; }
+        if (game === 'phigros') { document.getElementById('phi-fc').checked = false; document.getElementById('phi-is-phi').checked = false; }
+        if (game === 'takumi3') { document.getElementById('tak-fc').checked = false; document.getElementById('tak-aj').checked = false; }
         showToast(`✅ 「${name} [${diff}]」を追加しました`);
     }
 
@@ -926,6 +1008,8 @@
                 <div class="best-item">
                     <span class="best-rank ${i < 3 ? 'top3' : ''}">#${String(i+1).padStart(2,'0')}</span>
                     ${e.diff ? `<span class="diff-badge diff-${e.diff}">${e.diff}</span>` : ''}
+                    ${e.pm  ? '<span class="achieve-badge badge-PM">PM</span>'  : ''}
+                    ${e.fr && !e.pm ? '<span class="achieve-badge badge-FR">FR</span>' : ''}
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(2)}</span>
@@ -933,32 +1017,34 @@
                 </div>`).join('');
         }
 
-        // ===== Phigros: B27合計 + φ×3 =====
+        // ===== Phigros: B27平均 + φ×3 =====
         if (game === 'phigros') {
-            const sum27El   = document.getElementById('phi-sum27');
+            const avg27El   = document.getElementById('phi-sum27');
             const bonusEl   = document.getElementById('phi-phi-bonus');
             const totalEl   = document.getElementById('phi-total-rks');
             const listEl    = document.getElementById('phi-best-list');
             if (topList.length === 0) {
-                sum27El.textContent = '--.-—';
+                avg27El.textContent = '--.-—';
                 bonusEl.textContent = '0';
                 totalEl.textContent = '--.-—';
                 listEl.innerHTML = '<div class="empty-best">曲を追加するとここに表示されます</div>';
                 return;
             }
-            const sum27 = topList.reduce((a, b) => a + b.rate, 0);
+            const sum27    = topList.reduce((a, b) => a + b.rate, 0);
+            const avg27    = sum27 / limit;
             const phiCount = topList.filter(e => e.isPhi).length;
-            const bonus = phiCount * 3;
-            const total = sum27 + bonus;
-            sum27El.textContent = sum27.toFixed(2);
-            bonusEl.textContent = `${bonus} （φ×${phiCount}曲）`;
+            const bonus    = phiCount * 3;
+            const total    = (sum27 + bonus) / limit;
+            avg27El.textContent = avg27.toFixed(2);
+            bonusEl.textContent = `+${(bonus / limit).toFixed(2)} （φ×${phiCount}曲 ÷${limit}）`;
             totalEl.textContent = total.toFixed(2);
             listEl.innerHTML = topList.map((e, i) => `
                 <div class="best-item">
                     <span class="best-rank ${i < 3 ? 'top3' : ''}">#${String(i+1).padStart(2,'0')}</span>
                     ${e.diff ? `<span class="diff-badge diff-${e.diff}">${e.diff}</span>` : ''}
+                    ${e.isPhi ? '<span class="achieve-badge badge-PM">φ</span>'    : ''}
+                    ${e.fc && !e.isPhi ? '<span class="achieve-badge badge-FC-phi">FC</span>' : ''}
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
-                    ${e.isPhi ? '<span class="phi-badge">φ</span>' : ''}
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(2)}</span>
                     <button class="best-delete" onclick="removeBestItem('phigros',${i})">✕</button>
@@ -980,6 +1066,8 @@
                 <div class="best-item">
                     <span class="best-rank ${i < 3 ? 'top3' : ''}">#${String(i+1).padStart(2,'0')}</span>
                     ${e.diff ? `<span class="diff-badge diff-${e.diff}">${e.diff}</span>` : ''}
+                    ${e.aj  ? '<span class="achieve-badge badge-AJ">AJ</span>'  : ''}
+                    ${e.fc && !e.aj ? '<span class="achieve-badge badge-FC-tak">FC</span>' : ''}
                     <span class="best-song-name" title="${e.name}">${e.name}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(3)}</span>
@@ -1037,10 +1125,10 @@
             const avg = topList.reduce((a, b) => a + b.rate, 0) / limit;
             scoreText = `B30 avg: ${avg.toFixed(2)}  (${topList.length}/${limit}曲)`;
         } else if (game === 'phigros') {
-            const sum27 = topList.reduce((a, b) => a + b.rate, 0);
+            const sum27    = topList.reduce((a, b) => a + b.rate, 0);
             const phiCount = topList.filter(e => e.isPhi).length;
-            const total = sum27 + phiCount * 3;
-            scoreText = `RKS: ${total.toFixed(2)}  [B27: ${sum27.toFixed(2)} + φ×${phiCount}(+${phiCount*3})]  (${topList.length}/${limit}曲)`;
+            const total    = (sum27 + phiCount * 3) / limit;
+            scoreText = `RKS: ${total.toFixed(2)}  [B27 avg: ${(sum27/limit).toFixed(2)} + φ×${phiCount}÷${limit}(+${(phiCount*3/limit).toFixed(2)})]  (${topList.length}/${limit}曲)`;
         } else {
             const total = topList.reduce((a, b) => a + b.rate, 0);
             scoreText = `合計: ${total.toFixed(3)}  (${topList.length}/${limit}曲)`;
@@ -1157,24 +1245,38 @@
             if (name !== entry.name) name += '…';
             ctx.fillText(name, x + nameOffsetX, y + 37);
 
-            // φバッジ（Phigros）
-            if (game === 'phigros' && entry.isPhi) {
-                ctx.font = `bold 10px -apple-system,BlinkMacSystemFont,sans-serif`;
-                ctx.fillStyle = '#0f172a';
-                ctx.fillStyle = 'rgba(226,232,240,0.9)';
-                const bw = 20, bh = 14;
-                const bx = x + 9, by = y + 42;
-                ctx.beginPath();
-                ctx.roundRect(bx, by, bw, bh, 4);
-                ctx.fill();
-                ctx.fillStyle = '#0f172a';
-                ctx.fillText('φ', bx + 4, by + 11);
+            // 実績バッジ（カード右上）
+            const FONT_B = `-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
+            const badges = [];
+            if (game === 'arcaea') {
+                if (entry.pm) badges.push({ label: 'PM', bg: '#ffb700', fg: '#1a1000' });
+                else if (entry.fr) badges.push({ label: 'FR', bg: '#7ecfff', fg: '#00274d' });
+            } else if (game === 'phigros') {
+                if (entry.isPhi) badges.push({ label: 'φ',  bg: '#c084fc', fg: '#1a0028' });
+                else if (entry.fc) badges.push({ label: 'FC', bg: '#4ade80', fg: '#003318' });
+            } else if (game === 'takumi3') {
+                if (entry.aj) badges.push({ label: 'AJ', bg: '#f97316', fg: '#1a0700' });
+                else if (entry.fc) badges.push({ label: 'FC', bg: '#4ade80', fg: '#003318' });
             }
+            let badgeRX = x + CARD_W - 7;
+            badges.forEach(({ label, bg, fg }) => {
+                ctx.font = `bold 10px ${FONT_B}`;
+                const tw = ctx.measureText(label).width + 8;
+                ctx.fillStyle = bg;
+                ctx.beginPath();
+                ctx.roundRect(badgeRX - tw, y + 6, tw, 14, 3);
+                ctx.fill();
+                ctx.fillStyle = fg;
+                ctx.textAlign = 'right';
+                ctx.fillText(label, badgeRX - 4, y + 16);
+                badgeRX -= (tw + 4);
+            });
 
             // 譜面定数
             if (entry.constant != null) {
-                ctx.font = `11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
+                ctx.font = `11px ${FONT_B}`;
                 ctx.fillStyle = t.sub;
+                ctx.textAlign = 'left';
                 ctx.fillText(`定数 ${entry.constant}`, x + 9, y + 55);
             }
 
@@ -1182,8 +1284,8 @@
             const rateStr = entry.rate.toFixed(dec);
             ctx.font = `bold 18px "SF Mono",Monaco,monospace`;
             ctx.fillStyle = t.accent;
-            const rw = ctx.measureText(rateStr).width;
-            ctx.fillText(rateStr, x + CARD_W - rw - 10, y + 38);
+            ctx.textAlign = 'right';
+            ctx.fillText(rateStr, x + CARD_W - 10, y + 38);
         });
 
         // フッター
