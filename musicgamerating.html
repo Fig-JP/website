@@ -1335,6 +1335,9 @@
             ctx.roundRect(x, y, CARD_W, CARD_H, 7);
             ctx.stroke();
 
+            // テキスト揃えをカードごとにリセット
+            ctx.textAlign = 'left';
+
             // ランク番号
             ctx.font = `bold 10px "SF Mono",Monaco,monospace`;
             ctx.fillStyle = i < 3 ? t.accent : t.sub;
