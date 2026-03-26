@@ -1169,11 +1169,15 @@
         const input   = document.createElement('input');
         input.type    = 'file';
         input.accept  = '.csv,text/csv';
+        input.style.display = 'none';
+        document.body.appendChild(input); // ダイアログが確実に開くよう DOM に追加
         input.onchange = ev => {
+            document.body.removeChild(input);
             const file = ev.target.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = re => {
+                try {
                 const text  = re.target.result.replace(/^\uFEFF/, ''); // strip BOM
                 const lines = text.split(/\r?\n/).filter(l => l.trim());
                 if (lines.length < 2) { showToast('⚠️ CSVが空か形式が違います'); return; }
@@ -1183,7 +1187,7 @@
                 const importedPlayer = (header[0] || '').trim();
                 if (importedPlayer) {
                     localStorage.setItem('fig_player_' + game, importedPlayer);
-                    updatePlayerNameDisplay();
+                    loadPlayer(game); // プレイヤー名表示を更新
                 }
 
                 let list = loadBest(game);
@@ -1219,6 +1223,9 @@
                 saveBest(game, list);
                 renderBest(game);
                 showToast(`✅ ${count}曲 読み込みました`);
+                } catch(err) {
+                    showToast('⚠️ 読み込みエラー: ' + err.message, true);
+                }
             };
             reader.readAsText(file, 'UTF-8');
         };
