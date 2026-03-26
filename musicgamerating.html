@@ -136,9 +136,19 @@
             gap: 8px;
             align-items: center;
             margin-bottom: 8px;
+            flex-wrap: wrap;
         }
 
         .add-to-best-row:last-child { margin-bottom: 0; }
+
+        /* スマホ: 追加ボタンが収まらない場合は下段に全幅で表示 */
+        @media (max-width: 520px) {
+            .add-to-best-row .small-btn-primary {
+                flex: 1 1 100%;
+                padding: 10px;
+                font-size: 0.95rem;
+            }
+        }
 
         .text-input {
             flex: 1;
