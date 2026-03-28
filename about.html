@@ -66,6 +66,21 @@
         }
 
         /* 所持端末カード用 */
+        details > summary {
+            cursor: pointer;
+            list-style: none;
+            user-select: none;
+        }
+        details > summary::-webkit-details-marker { display: none; }
+        details > summary h2::before {
+            content: "▶ ";
+            font-size: 0.7em;
+            opacity: 0.5;
+        }
+        details[open] > summary h2::before {
+            content: "▼ ";
+        }
+        
         .device-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -292,7 +307,8 @@
         </div>
         
         <div class="profile-section">
-            <h2>💻 所持端末</h2>
+            <details>
+            <summary><h2 style="display:inline;margin:0;">💻 所持端末</h2></summary>
             <div class="device-list">
                 <div class="device-item">
                     <div class="device-name">📱 iPhone 16 Pro</div>
@@ -374,6 +390,7 @@
                     <div class="device-name">🎧 Nothing Ear (a)</div>
                 </div>
             </div>
+            </details>
         </div>
         <div class="profile-section">
             <h2>🛠️ このサイトについて</h2>
