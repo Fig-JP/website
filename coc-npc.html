@@ -331,6 +331,124 @@
             gap: 5px;
         }
 
+        .accordion {
+            background: var(--settings-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: var(--accent-end);
+        }
+
+        .accordion-header::after {
+            content: '▼';
+            transition: transform 0.2s;
+        }
+
+        .accordion-header.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .accordion-body {
+            display: none;
+            padding: 15px;
+        }
+
+        .accordion-body.show {
+            display: block;
+        }
+
+        .skill-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 10px;
+            align-items: center;
+            padding: 10px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+
+        .skill-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .skill-value {
+            text-align: center;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .skill-input-row {
+            display: grid;
+            grid-template-columns: minmax(140px, 2fr) minmax(80px, 1fr) minmax(80px, 1fr) auto;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            background: var(--settings-bg);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            min-width: 0;
+        }
+
+        .skill-name-input,
+        .skill-base-input,
+        .skill-growth-input {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .remove-skill-btn {
+            width: auto;
+            white-space: nowrap;
+        }
+
+        .remove-skill-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
+
+        .remove-skill-btn:hover {
+            background: #ff3742;
+        }
+
         @media (max-width: 768px) {
             .npc-card {
                 padding: 15px;
@@ -347,6 +465,79 @@
             .form-row {
                 grid-template-columns: 1fr 1fr;
             }
+
+            .skill-item,
+            .skill-input-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .skill-name-input,
+            .skill-base-input,
+            .skill-growth-input,
+            .remove-skill-btn {
+                width: 100%;
+            }
+
+            .image-preview {
+                max-width: 100% !important;
+                max-height: 300px !important;
+                margin: 15px 0 !important;
+                border-radius: 8px;
+                object-fit: contain !important;
+                display: block !important;
+            }
+
+            .image-upload {
+                margin-top: 10px;
+            }
+
+            .skill-input-row {
+                display: grid;
+                grid-template-columns: minmax(140px, 2fr) minmax(80px, 1fr) minmax(80px, 1fr) auto;
+                gap: 10px;
+                align-items: center;
+                margin-bottom: 10px;
+                padding: 10px;
+                width: 100%;
+                background: var(--settings-bg);
+                border-radius: 6px;
+                border: 1px solid var(--border-color);
+                min-width: 0;
+            }
+
+            /* 画像プレビュー用スタイル（常に適用）*/
+            .image-preview {
+                max-width: 100%;
+                max-height: 200px;
+                margin-top: 10px;
+                border-radius: 8px;
+                object-fit: cover;
+            }
+
+            .image-upload {
+                margin-top: 10px;
+            }
+        }
+
+        /* 編集用説明テキストエリアのスタイル */
+        #edit-description,
+        .edit-description-textarea {
+            width: 100% !important;
+            min-height: 120px !important;
+            padding: 12px !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 6px !important;
+            font-size: 1rem !important;
+            font-family: inherit !important;
+            resize: vertical !important;
+            box-sizing: border-box !important;
+            margin-top: 8px !important;
+        }
+
+        /* 編集モード時の説明セクション */
+        .npc-stat.edit-mode {
+            margin: 20px 0 !important;
         }
     </style>
 </head>
@@ -599,8 +790,37 @@
                         </div>
                     </div>
 
+                    <h3>画像</h3>
+                    <div class="image-upload">
+                        <input type="file" id="manual-image" accept="image/*" onchange="previewImage(event)" style="margin-bottom: 10px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;">
+                        <img id="image-preview" class="image-preview" style="display: none;">
+                    </div>
+
                     <h3>タグ</h3>
                     <input type="text" id="manual-tags" class="tag-input" placeholder="タグをカンマ区切りで入力（例：NPC,敵,ボス）">
+
+                    <h3>技能</h3>
+                    <div id="skills-container">
+                        <div class="skill-input-row">
+                            <input type="text" class="skill-name-input" placeholder="技能名" value="回避">
+                            <input type="number" class="skill-base-input" placeholder="初期値" value="0" min="0">
+                            <input type="number" class="skill-growth-input" placeholder="成長分" value="0" min="0">
+                            <button type="button" class="remove-skill-btn" onclick="removeSkillRow(this)">削除</button>
+                        </div>
+                        <div class="skill-input-row">
+                            <input type="text" class="skill-name-input" placeholder="技能名" value="目星">
+                            <input type="number" class="skill-base-input" placeholder="初期値" value="25" min="0">
+                            <input type="number" class="skill-growth-input" placeholder="成長分" value="0" min="0">
+                            <button type="button" class="remove-skill-btn" onclick="removeSkillRow(this)">削除</button>
+                        </div>
+                        <div class="skill-input-row">
+                            <input type="text" class="skill-name-input" placeholder="技能名" value="聞き耳">
+                            <input type="number" class="skill-base-input" placeholder="初期値" value="20" min="0">
+                            <input type="number" class="skill-growth-input" placeholder="成長分" value="0" min="0">
+                            <button type="button" class="remove-skill-btn" onclick="removeSkillRow(this)">削除</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="addSkillRow()" style="margin-top: 10px;">+ 技能を追加</button>
 
                     <button class="btn-primary" onclick="submitManualForm()">確認</button>
                 </div>
@@ -617,12 +837,46 @@
             document.getElementById(displayId).textContent = newVal;
         }
 
+        function addSkillRow() {
+            const container = document.getElementById('skills-container');
+            const row = document.createElement('div');
+            row.className = 'skill-input-row';
+            row.innerHTML = `
+                <input type="text" class="skill-name-input" placeholder="技能名">
+                <input type="number" class="skill-base-input" placeholder="初期値" value="0" min="0">
+                <input type="number" class="skill-growth-input" placeholder="成長分" value="0" min="0">
+                <button type="button" class="remove-skill-btn" onclick="removeSkillRow(this)">削除</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function removeSkillRow(button) {
+            const row = button.parentElement;
+            if (document.querySelectorAll('.skill-input-row').length > 1) {
+                row.remove();
+            } else {
+                alert('少なくとも1つの技能は必要です');
+            }
+        }
+
         function submitManualForm() {
+            const skills = [];
+            const skillRows = document.querySelectorAll('.skill-input-row');
+            skillRows.forEach(row => {
+                const name = row.querySelector('.skill-name-input').value.trim();
+                const base = parseInt(row.querySelector('.skill-base-input').value) || 0;
+                const growth = parseInt(row.querySelector('.skill-growth-input').value) || 0;
+                if (name) {
+                    skills.push({ name: name, base: base, growth: growth });
+                }
+            });
+
             const npc = {
                 name: document.getElementById('manual-name').value || '名前未入力',
                 job: document.getElementById('manual-job').value || '職業未入力',
                 age: parseInt(document.getElementById('manual-age').value) || 0,
                 desc: document.getElementById('manual-desc').value || '',
+                image: document.getElementById('image-preview').src || '',
                 str: parseInt(document.getElementById('manual-str-val').textContent) || 50,
                 con: parseInt(document.getElementById('manual-con-val').textContent) || 50,
                 pow: parseInt(document.getElementById('manual-pow-val').textContent) || 50,
@@ -635,9 +889,35 @@
                 san: parseInt(document.getElementById('manual-san').value) || 50,
                 luck: parseInt(document.getElementById('manual-luck').value) || 50,
                 tags: document.getElementById('manual-tags').value.split(',').map(t => t.trim()).filter(t => t),
-                version: currentVersion
+                version: currentVersion,
+                source: 'manual',
+                skills: skills
             };
             displayNPC(npc);
+
+            let imageData = '';
+            const fileInput = document.getElementById('manual-image');
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageData = e.target.result;
+                    const npc = {
+                        // ... 他のプロパティ ...
+                        image: imageData,
+                        // ... 他のプロパティ ...
+                    };
+                    displayNPC(npc);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                const npc = {
+                    // ... 通常のNPCデータ ...
+                    image: document.getElementById('image-preview')?.src || '',
+                    // ... 他のプロパティ ...
+                };
+                displayNPC(npc);
+            }
         }
 
         // ココフォリアフォーム
@@ -658,6 +938,17 @@
                         <input type="text" id="cocfo-job" placeholder="職業を入力（例：私立探偵）">
                     </div>
                     <div class="form-group">
+                        <label>説明・メモ</label>
+                        <textarea id="cocfo-desc" placeholder="容姿や背景、メモなど"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>画像</label>
+                        <div class="image-upload">
+                            <input type="file" id="cocfo-image" accept="image/*" onchange="previewImage(event)" style="margin-bottom: 10px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;">
+                            <img id="cocfo-image-preview" class="image-preview" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>タグ</label>
                         <input type="text" id="cocfo-tags" class="tag-input" placeholder="タグをカンマ区切りで入力（例：NPC,敵,ボス）" style="margin-top: 0;">
                     </div>
@@ -667,16 +958,39 @@
             document.getElementById('input-form').innerHTML = form;
         }
 
+
         function parseCocfo() {
             try {
                 const json = JSON.parse(document.getElementById('cocfo-input').value);
                 const data = json.data;
                 
+                // commandsから技能を抽出
+                const skills = [];
+                if (data.commands) {
+                    const skillRegex = /CC<=(\d+)\s*【(.+?)】/g;
+                    let match;
+                    const processedSkills = new Set();
+                    
+                    while ((match = skillRegex.exec(data.commands)) !== null) {
+                        const value = parseInt(match[1]);
+                        const skillName = match[2];
+                        
+                        // 重複を避ける
+                        if (!processedSkills.has(skillName)) {
+                            skills.push({ name: skillName, base: value, growth: 0 });
+                            processedSkills.add(skillName);
+                        }
+                    }
+                }
+                
                 const npc = {
                     name: data.name || '名前未入力',
                     job: document.getElementById('cocfo-job').value || '-',
                     age: parseInt(document.getElementById('cocfo-age').value) || 0,
-                    desc: '',
+                    desc: document.getElementById('cocfo-desc').value || '',
+                    image: document.getElementById('cocfo-image-preview')?.src || 
+                            (document.getElementById('cocfo-image')?.files[0] ? 
+                            URL.createObjectURL(document.getElementById('cocfo-image').files[0]) : ''),
                     str: 0,
                     con: 0,
                     pow: 0,
@@ -689,7 +1003,9 @@
                     san: data.status?.find(s => s.label === 'SAN')?.value || 50,
                     luck: data.status?.find(s => s.label === '幸運')?.value || 50,
                     tags: document.getElementById('cocfo-tags').value.split(',').map(t => t.trim()).filter(t => t),
-                    version: currentVersion
+                    version: currentVersion,
+                    source: 'cocfo',
+                    skills: skills
                 };
 
                 // paramsから能力値を抽出
@@ -708,6 +1024,13 @@
             } catch (e) {
                 alert('JSONの解析に失敗しました：' + e.message);
             }
+            // parseCocfo()関数の最後に追加
+            displayNPC(npc);
+            switchTab('library'); // 自動で保存済みNPCタブに移動
+
+            // parseIachar()関数の最後に追加
+            displayNPC(npc);
+            switchTab('library'); // 自動で保存済みNPCタブに移動
         }
 
         // iacharaテキストファイルアップロード
@@ -721,6 +1044,17 @@
                     <div class="form-group">
                         <label>ファイル選択</label>
                         <input type="file" id="iachar-file" accept=".txt" style="padding: 8px;">
+                    </div>
+                    <div class="form-group">
+                    <label>説明・メモ</label>
+                        <textarea id="iachar-desc" placeholder="追加の説明やメモを入力"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>画像</label>
+                        <div class="image-upload">
+                            <input type="file" id="iachar-image" accept="image/*" onchange="previewImage(event)" style="margin-bottom: 10px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;">
+                            <img id="iachar-image-preview" class="image-preview" style="display: none;">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>タグ</label>
@@ -744,31 +1078,71 @@
                 reader.onload = function(e) {
                     const text = e.target.result;
                     
-                    // 正規表現でより正確に抽出
                     const extractLine = (pattern) => {
                         const match = text.match(pattern);
                         return match ? match[1].trim() : '';
                     };
 
+                    const fileTags = extractLine(/タグ:\s*(.+?)(?:\n|$)/);
+                    const manualTags = document.getElementById('iachar-tags').value.split(',').map(t => t.trim()).filter(t => t);
+
                     const npc = {
                         name: extractLine(/名前:\s*(.+?)(?:\n|$)/) || '名前未入力',
                         job: extractLine(/職業:\s*(.+?)(?:\n|$)/) || '-',
                         age: parseInt(extractLine(/年齢:\s*(\d+)/)) || 0,
-                        desc: extractLine(/\[容姿の描写\]\n([\s\S]+?)\n\[/) || '',
-                        str: parseInt(extractLine(/^STR\s+(\d+)/m)) || 0,
-                        con: parseInt(extractLine(/^CON\s+(\d+)/m)) || 0,
-                        pow: parseInt(extractLine(/^POW\s+(\d+)/m)) || 0,
-                        dex: parseInt(extractLine(/^DEX\s+(\d+)/m)) || 0,
-                        app: parseInt(extractLine(/^APP\s+(\d+)/m)) || 0,
-                        siz: parseInt(extractLine(/^SIZ\s+(\d+)/m)) || 0,
-                        int: parseInt(extractLine(/^INT\s+(\d+)/m)) || 0,
-                        edu: parseInt(extractLine(/^EDU\s+(\d+)/m)) || 0,
-                        hp: parseInt(extractLine(/^HP\s+(\d+)/m)) || 10,
-                        san: parseInt(extractLine(/現在SAN値\s+(\d+)/)) || 50,
-                        luck: parseInt(extractLine(/^幸運\s+(\d+)/m)) || 50,
-                        tags: document.getElementById('iachar-tags').value.split(',').map(t => t.trim()).filter(t => t),
-                        version: currentVersion
+                        desc: (extractLine(/\[容姿の描写\]\n([\s\S]+?)\n\[/) || '') + '\n' + (document.getElementById('iachar-desc').value || ''),
+                        image: document.getElementById('iachar-image-preview')?.src || 
+                                (document.getElementById('iachar-image')?.files[0] ? 
+                                URL.createObjectURL(document.getElementById('iachar-image').files[0]) : ''),
+                        str: parseInt(extractLine(/^\s*STR\s+(\d+)/m)) || 0,
+                        con: parseInt(extractLine(/^\s*CON\s+(\d+)/m)) || 0,
+                        pow: parseInt(extractLine(/^\s*POW\s+(\d+)/m)) || 0,
+                        dex: parseInt(extractLine(/^\s*DEX\s+(\d+)/m)) || 0,
+                        app: parseInt(extractLine(/^\s*APP\s+(\d+)/m)) || 0,
+                        siz: parseInt(extractLine(/^\s*SIZ\s+(\d+)/m)) || 0,
+                        int: parseInt(extractLine(/^\s*INT\s+(\d+)/m)) || 0,
+                        edu: parseInt(extractLine(/^\s*EDU\s+(\d+)/m)) || 0,
+                        hp: parseInt(extractLine(/^\s*HP\s+(\d+)/m)) || 10,
+                        san: parseInt(extractLine(/現在SAN値\s*(\d+)/)) || 50,
+                        luck: parseInt(extractLine(/^\s*幸運\s+(\d+)/m)) || 50,
+                        tags: [...new Set([...(fileTags ? fileTags.split(',').map(t => t.trim()) : []), ...manualTags])],
+                        version: currentVersion,
+                        source: 'iachar',
+                        skills: []
                     };
+
+
+                    const skillsMatch = text.match(/【技能値】([\s\S]+?)(?:\n【|$)/);
+                    if (skillsMatch) {
+                        const skillsText = skillsMatch[1];
+                        const skillLines = skillsText.split(/\r?\n/).map(line => line.trim()).filter(line => {
+                            if (!line) return false;
+                            if (line.startsWith('職業ポイント') || line.startsWith('興味ポイント')) return false;
+                            if (/^技能名/.test(line)) return false;
+                            if (/^『.*』$/.test(line)) return false;
+                            return /\d/.test(line);
+                        });
+
+                        skillLines.forEach(line => {
+                            const normalizedLine = line.replace(/[　]+/g, ' ');
+                            const match = normalizedLine.match(/^(.+?)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s*$/);
+                            if (match) {
+                                const skillName = match[1].trim();
+                                const total = parseInt(match[2]) || 0;
+                                const baseVal = parseInt(match[3]) || 0;
+                                const jobPoints = parseInt(match[4]) || 0;
+                                const interestPoints = parseInt(match[5]) || 0;
+                                const growth = parseInt(match[6]) || Math.max(0, total - baseVal);
+                                npc.skills.push({
+                                    name: skillName,
+                                    base: baseVal,
+                                    jobInterest: jobPoints + interestPoints,
+                                    growth: growth,
+                                    total: total
+                                });
+                            }
+                        });
+                    }
 
                     displayNPC(npc);
                 };
@@ -776,10 +1150,24 @@
             } catch (e) {
                 alert('ファイルの読み込みに失敗しました：' + e.message);
             }
+
+            // parseCocfo()関数の最後に追加
+            displayNPC(npc);
+            switchTab('library'); // 自動で保存済みNPCタブに移動
+
+            // parseIachar()関数の最後に追加
+            displayNPC(npc);
+            switchTab('library'); // 自動で保存済みNPCタブに移動
         }
 
         // NPC表示
         function displayNPC(npc) {
+            console.log('NPCデータ:', npc);
+            console.log('画像データ存在確認:', !!npc.image);
+            if (npc.image) {
+                console.log('画像データ長さ:', npc.image.length);
+                console.log('画像データプレビュー:', npc.image.substring(0, 100));
+            }
             currentNPC = npc;
             
             // ダメージボーナス計算（STR + SIZ）
@@ -847,7 +1235,8 @@
                 <button class="btn-secondary" onclick="${backButton}" style="margin-bottom: 15px;">← 戻る</button>
                 <div class="npc-card">
                     <h2 style="margin-top: 0; color: var(--accent);">${npc.name}</h2>
-                    
+                    ${npc.image ? '<img src="' + npc.image + '" class="image-preview" style="margin: 15px 0; display: block;">' : ''}
+
                     <div class="npc-stat">
                         <span class="npc-stat-label">職業</span>
                         <span class="npc-stat-value">${npc.job}</span>
@@ -919,6 +1308,39 @@
                     </div>
 
                     ${npc.tags && npc.tags.length > 0 ? '<div style="margin-top: 15px;"><strong>タグ:</strong><div class="npc-tags">' + npc.tags.map(tag => '<span class="tag">' + tag + '</span>').join('') + '</div></div>' : ''}
+
+                    <h3 style="margin-top: 25px; margin-bottom: 15px; color: var(--text-primary);">技能</h3>
+                    <div class="accordion">
+                        <button class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>技能一覧 ${npc.source === 'cocfo' ? '(値)' : npc.source === 'iachar' ? '(初期値 / 職業P+興味P / 成長分 / 合計)' : '(基本値 / 成長分 / 合計)'}</span>
+                        </button>
+                        <div class="accordion-body">
+                            ${(npc.skills || []).map(skill => {
+                                if (npc.source === 'cocfo') {
+                                    return '<div class="skill-item">' +
+                                        '<span class="skill-name">' + skill.name + '</span>' +
+                                        '<span class="skill-value">' + (skill.base || 0) + '</span>' +
+                                        '</div>';
+                                } else if (npc.source === 'iachar') {
+                                    return '<div class="skill-item">' +
+                                        '<span class="skill-name">' + skill.name + '</span>' +
+                                        '<span class="skill-value">' + (skill.base || 0) + '</span>' +
+                                        '<span class="skill-value">' + (skill.jobInterest || 0) + '</span>' +
+                                        '<span class="skill-value">' + (skill.growth || 0) + '</span>' +
+                                        '<span class="skill-value">' + (skill.total || 0) + '</span>' +
+                                        '</div>';
+                                } else {
+                                    const total = (skill.base || 0) + (skill.growth || 0);
+                                    return '<div class="skill-item">' +
+                                        '<span class="skill-name">' + skill.name + '</span>' +
+                                        '<span class="skill-value">' + (skill.base || 0) + '</span>' +
+                                        '<span class="skill-value">' + (skill.growth || 0) + '</span>' +
+                                        '<span class="skill-value">' + total + '</span>' +
+                                        '</div>';
+                                }
+                            }).join('')}
+                        </div>
+                    </div>
 
                     <div class="button-group">
                         <button class="btn-secondary" onclick="copyToClipboard()">📋 コピー</button>
@@ -1011,21 +1433,138 @@
             document.querySelectorAll('.npc-stat').forEach(stat => {
                 const label = stat.querySelector('.npc-stat-label').textContent;
                 const valueEl = stat.querySelector('.npc-stat-value');
-                if (valueEl && !valueEl.querySelector('input')) {
+                if (valueEl && !valueEl.querySelector('input') && !valueEl.querySelector('textarea')) {
                     const value = valueEl.textContent;
                     valueEl.innerHTML = '<input type="text" value="' + value + '" style="width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px;">';
                 }
             });
 
-            // descをtextareaに
-            const descStat = document.querySelector('.npc-stat[style*="flex-direction: column"]');
-            if (descStat) {
+            // 説明・メモの編集（新規追加も可能）
+            let descStat = document.querySelector('.npc-stat[style*="flex-direction: column"]');
+            if (!descStat) {
+                // 説明が存在しない場合は新規作成
+                const ageStat = Array.from(document.querySelectorAll('.npc-stat')).find(stat => 
+                    stat.querySelector('.npc-stat-label')?.textContent === '年齢');
+                
+                if (ageStat) {
+                    const descContainer = document.createElement('div');
+                    descContainer.style.margin = '15px 0';
+                    
+                    const descLabel = document.createElement('div');
+                    descLabel.className = 'npc-stat-label';
+                    descLabel.style.fontWeight = '600';
+                    descLabel.style.color = 'var(--text-secondary)';
+                    descLabel.style.marginBottom = '5px';
+                    descLabel.textContent = '説明';
+                    
+                    const descTextarea = document.createElement('textarea');
+                    descTextarea.id = 'edit-description';
+                    descTextarea.style.width = '100%';
+                    descTextarea.style.padding = '8px';
+                    descTextarea.style.border = '1px solid var(--border-color)';
+                    descTextarea.style.borderRadius = '4px';
+                    descTextarea.style.resize = 'vertical';
+                    descTextarea.style.minHeight = '100px';
+                    descTextarea.style.fontFamily = 'inherit';
+                    descTextarea.style.fontSize = '1rem';
+                    descTextarea.value = currentNPC.desc || '';
+                    
+                    descContainer.appendChild(descLabel);
+                    descContainer.appendChild(descTextarea);
+                    
+                    ageStat.parentNode.insertBefore(descContainer, ageStat.nextSibling);
+                }
+            } else {
+                // 既存の説明を編集可能に
                 const valueEl = descStat.querySelector('.npc-stat-value');
                 if (valueEl && !valueEl.querySelector('textarea')) {
                     const value = valueEl.textContent;
-                    valueEl.innerHTML = '<textarea style="width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px; resize: vertical; min-height: 60px;">' + value + '</textarea>';
+                    valueEl.innerHTML = '<textarea style="width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; resize: vertical; min-height: 100px; font-family: inherit; font-size: 1rem;">' + value + '</textarea>';
                 }
             }
+
+            // タグ編集機能（editNPC関数内）
+            let tagsSection = document.getElementById('edit-tags-section');
+            if (!tagsSection) {
+                // タグセクションが存在しない場合は新規作成
+                const tagsContainer = document.createElement('div');
+                tagsContainer.id = 'edit-tags-section';
+                tagsContainer.style.marginTop = '15px';
+                
+                const tagsLabel = document.createElement('div');
+                tagsLabel.style.fontWeight = '600';
+                tagsLabel.style.color = 'var(--text-primary)';
+                tagsLabel.style.marginBottom = '8px';
+                tagsLabel.textContent = 'タグ';
+                
+                const tagsEditContainer = document.createElement('div');
+                tagsEditContainer.id = 'edit-tags-container';
+                tagsEditContainer.innerHTML = `
+                    <input type="text" id="edit-tags" class="tag-input" value="${Array.isArray(currentNPC.tags) ? currentNPC.tags.join(', ') : (currentNPC.tags || '')}" 
+                        placeholder="タグをカンマ区切りで入力（例：NPC,敵,ボス）" 
+                        style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; box-sizing: border-box;">
+                    <div id="edit-tags-preview" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 5px;"></div>
+                `;
+                
+                tagsContainer.appendChild(tagsLabel);
+                tagsContainer.appendChild(tagsEditContainer);
+                
+                // 説明または年齢の後にタグセクションを挿入
+                const insertPoint = document.querySelector('.npc-stat[style*="flex-direction: column"]') ||
+                                Array.from(document.querySelectorAll('.npc-stat')).find(stat => 
+                                    stat.querySelector('.npc-stat-label')?.textContent === '年齢');
+                
+                if (insertPoint) {
+                    insertPoint.parentNode.insertBefore(tagsContainer, insertPoint.nextSibling);
+                } else {
+                    document.querySelector('.npc-card').appendChild(tagsContainer);
+                }
+                
+                // タグプレビューの更新（少し遅延させてDOMが確実に描画されるように）
+                setTimeout(() => {
+                    const tagsInput = document.getElementById('edit-tags');
+                    if (tagsInput) {
+                        updateTagsPreview();
+                        tagsInput.addEventListener('input', updateTagsPreview);
+                    }
+                }, 100);
+            }
+
+            // 画像編集機能
+            const npcCard = document.querySelector('.npc-card');
+            const imageEditExists = document.getElementById('edit-image-section');
+            if (!imageEditExists) {
+                const imageSection = document.createElement('div');
+                imageSection.id = 'edit-image-section';
+                imageSection.innerHTML = `
+                    <h3 style="margin-top: 25px; margin-bottom: 15px; color: var(--text-primary);">画像編集</h3>
+                    <div class="image-upload">
+                        <input type="file" id="edit-image-input" accept="image/*" onchange="previewEditImage(event)" style="margin-bottom: 10px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px;">
+                        <img id="edit-image-preview" class="image-preview" src="${currentNPC.image || ''}" style="display: ${currentNPC.image ? 'block' : 'none'};">
+                    </div>
+                `;
+                
+                // 年齢または説明の後に画像セクションを挿入
+                const insertPoint = document.querySelector('.npc-stat[style*="flex-direction: column"]') || 
+                                Array.from(document.querySelectorAll('.npc-stat')).find(stat => 
+                                    stat.querySelector('.npc-stat-label')?.textContent === '年齢');
+                if (insertPoint) {
+                    insertPoint.parentNode.insertBefore(imageSection, insertPoint.nextSibling);
+                } else {
+                    npcCard.insertBefore(imageSection, npcCard.querySelector('.button-group'));
+                }
+            }
+
+            // 技能を編集可能にする
+            const skillItems = document.querySelectorAll('.skill-item');
+            skillItems.forEach((item, index) => {
+                if (!item.querySelector('input')) {
+                    const skillValues = item.querySelectorAll('.skill-value');
+                    skillValues[0].innerHTML = '<input type="number" value="' + (skillValues[0].textContent || 0) + '" min="0" max="100" style="width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px;" onchange="updateSkillTotal(this)">';
+                    skillValues[1].innerHTML = '<input type="number" value="' + (skillValues[1].textContent || 0) + '" min="0" max="100" style="width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px;" onchange="updateSkillTotal(this)">';
+                    skillValues[2].innerHTML = '<input type="number" value="' + (skillValues[2].textContent || 0) + '" min="0" max="200" style="width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px;" readonly>';
+                }
+            });
 
             // ボタンを変更
             const buttonGroup = document.querySelector('.button-group');
@@ -1033,6 +1572,25 @@
                 <button class="btn-secondary" onclick="cancelEdit()">❌ キャンセル</button>
                 <button class="btn-primary" onclick="updateNPC()" style="flex: 1;">💾 更新</button>
             `;
+        }
+
+        // 技能の合計値を更新
+        function updateSkillTotal(input) {
+            const skillItem = input.closest('.skill-item');
+            const skillInputs = skillItem.querySelectorAll('input');
+            if (skillInputs.length >= 3) {
+                const base = parseInt(skillInputs[0].value) || 0;
+                const growth = parseInt(skillInputs[1].value) || 0;
+                const total = base + growth;
+                skillInputs[2].value = total;
+            }
+        }
+
+        // アコーディオンの開閉
+        function toggleAccordion(header) {
+            header.classList.toggle('collapsed');
+            const body = header.nextElementSibling;
+            body.classList.toggle('show');
         }
 
         // 編集キャンセル
@@ -1075,6 +1633,28 @@
                 currentNPC.desc = descTextarea.value;
             }
 
+            // タグ更新
+            const tagsInput = document.getElementById('edit-tags');
+            if (tagsInput) {
+                currentNPC.tags = tagsInput.value.split(',').map(t => t.trim()).filter(t => t);
+            }
+
+            // 画像更新
+            const editImagePreview = document.getElementById('edit-image-preview');
+            if (editImagePreview && editImagePreview.src) {
+                currentNPC.image = editImagePreview.src;
+            }
+
+            // スキル更新
+            const skillItems = document.querySelectorAll('.skill-item');
+            skillItems.forEach((item, index) => {
+                const inputs = item.querySelectorAll('input');
+                if (inputs.length >= 2 && currentNPC.skills && currentNPC.skills[index]) {
+                    currentNPC.skills[index].base = parseInt(inputs[0].value) || 0;
+                    currentNPC.skills[index].growth = parseInt(inputs[1].value) || 0;
+                }
+            });
+
             // localStorage更新
             let npcList = JSON.parse(localStorage.getItem('coc-npcs') || '[]');
             const index = npcList.findIndex(n => n.id === currentNPC.id);
@@ -1086,6 +1666,77 @@
             displayNPC(currentNPC);
             alert('NPCを更新しました！');
         }
+
+        // 画像プレビュー機能
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // ファイルタイプチェック
+            if (!file.type.startsWith('image/')) {
+                alert('画像ファイルを選択してください');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById(event.target.id.replace('-image', '') + '-image-preview') || 
+                            document.getElementById('image-preview');
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    preview.style.maxWidth = '100%';
+                    preview.style.maxHeight = '300px';
+                    preview.style.objectFit = 'contain';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 編集画面用画像プレビュー
+        function previewEditImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('edit-image-preview');
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 編集画面用画像プレビュー
+        function previewEditImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('edit-image-preview');
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // タグプレビュー更新用
+        function updateTagsPreview() {
+            const tagsInput = document.getElementById('edit-tags');
+            const previewDiv = document.getElementById('edit-tags-preview');
+            if (!tagsInput || !previewDiv) return;
+            
+            const tags = tagsInput.value.split(',').map(t => t.trim()).filter(t => t);
+            previewDiv.innerHTML = tags.map(tag => 
+                `<span class="tag" style="background: var(--accent-light); color: var(--accent); padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">${tag}</span>`
+            ).join('');
+        }
+
     </script>
 </body>
 </html>
