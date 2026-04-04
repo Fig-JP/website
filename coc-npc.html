@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoC NPC管理ツール | Fig's ToolBox</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        /* coc-npc.html 専用スタイル */
+        .npc-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .npc-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .npc-stat:last-child {
+            border-bottom: none;
+        }
+
+        .npc-stat-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            flex: 0 0 120px;
+        }
+
+        .npc-stat-value {
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: right;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-end) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--btn-secondary-hover);
+        }
+
+        .btn-secondary.active {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-end) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transform: scale(1.02);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .info-box {
+            background: var(--settings-bg);
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .info-box-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-col label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-col input {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .stat-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: var(--settings-bg);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .stat-btn:hover {
+            background: var(--accent-end);
+            transform: scale(1.05);
+        }
+
+        .stat-btn:active {
+            transform: scale(0.95);
+        }
+
+        .stat-value {
+            flex: 1;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent);
+            min-width: 40px;
+        }
+
+        .mode-section {
+            max-width: 600px;
+        }
+
+        .npc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .npc-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .npc-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .npc-item h4 {
+            margin: 0 0 8px 0;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .npc-item p {
+            margin: 4px 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .npc-tags {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tag {
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .tag-input {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .npc-item-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .npc-card {
+                padding: 15px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn-secondary {
+                margin-right: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">🛠️ Fig's ToolBox</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <h1>🎭 CoC NPC管理ツール</h1>
+        <p class="subtitle">クトゥルフの呼び声用キャラクター管理ツール</p>
+        
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('create')">🆕 新規作成</button>
+            <button class="tab-btn" onclick="switchTab('library')">📚 保存済みNPC</button>
+        </div>
+
+        <!-- 新規作成タブ -->
+        <div id="create-tab" class="tab-content active">
+            <div id="mode-selector" class="mode-section">
+                <div class="info-box">
+                    <div class="info-box-title">ステップ1：ゲームバージョンを選択</div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn-secondary version-btn" id="btn-6th" onclick="selectVersion('6th')" style="flex: 1; padding: 15px;">6版</button>
+                        <button class="btn-secondary version-btn" id="btn-7th" onclick="selectVersion('7th')" style="flex: 1; padding: 15px;">7版</button>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 20px; display: none;" id="mode-select-box">
+                    <div class="info-box-title">ステップ2：入力方式を選択 <span style="font-size: 0.8rem; color: var(--accent);" id="current-version-display"></span></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                        <button class="btn-secondary" onclick="selectMode('manual')" style="padding: 15px;">✏️ 手動入力</button>
+                        <button class="btn-secondary" onclick="selectMode('cocfo')" style="padding: 15px;">📋 ココフォリア</button>
+                        <button class="btn-secondary" onclick="selectMode('iachar')" style="padding: 15px; grid-column: 1 / -1;">📄 iacharaテキスト</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="input-section" style="display: none;">
+                <button class="btn-secondary" onclick="backToMode()" style="margin-bottom: 15px;">← 戻る</button>
+                <div id="input-form"></div>
+        </div>
+
+        </div>
+
+        <!-- NPC結果表示 -->
+        <div id="npc-result" style="display: none;">
+            <div id="npc-display"></div>
+        </div>
+
+        <!-- 保存済みNPCタブ -->
+        <div id="library-tab" class="tab-content">
+            <div id="npc-library" class="npc-list"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created by Fig | <a href="about.html">About Me</a></p>
+    </footer>
+
+    <script>
+        let currentVersion = null;
+        let currentMode = null;
+        let currentNPC = null;
+
+        // タブ切り替え
+        let currentTab = 'create';
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            currentTab = tab;
+            
+            if (tab === 'library') {
+                loadNPCLibrary();
+            }
+        }
+
+        // バージョン選択
+        function selectVersion(version) {
+            currentVersion = version;
+            document.getElementById('btn-6th').classList.remove('active');
+            document.getElementById('btn-7th').classList.remove('active');
+            document.getElementById('btn-' + version).classList.add('active');
+            document.getElementById('mode-select-box').style.display = 'block';
+            document.getElementById('current-version-display').textContent = '(' + version + ')';
+        }
+
+        // モード選択
+        function selectMode(mode) {
+            if (!currentVersion) {
+                alert('先にバージョンを選択してください');
+                return;
+            }
+
+            currentMode = mode;
+            document.getElementById('mode-selector').style.display = 'none';
+            document.getElementById('input-section').style.display = 'block';
+
+            if (mode === 'manual') {
+                showManualForm();
+            } else if (mode === 'cocfo') {
+                showCocfoForm();
+            } else if (mode === 'iachar') {
+                showIacharForm();
+            }
+        }
+
+        // 戻る（入力画面から）
+        function backToMode() {
+            currentMode = null;
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('mode-selector').style.display = 'block';
+            document.getElementById('input-form').innerHTML = '';
+        }
+
+        // 戻る（ライブラリ表示から）
+        function backToLibrary() {
+            document.getElementById('npc-result').style.display = 'none';
+            document.getElementById('npc-library').style.display = 'block';
+        }
+
+        // 完全にリセット（バージョン選択から）
+        function resetAll() {
+            currentVersion = null;
+            currentMode = null;
+            document.getElementById('btn-6th').classList.remove('active');
+            document.getElementById('btn-7th').classList.remove('active');
+            document.getElementById('mode-select-box').style.display = 'none';
+            document.getElementById('mode-selector').style.display = 'block';
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('npc-result').style.display = 'none';
+        }
+
+        // 手動入力フォーム
+        function showManualForm() {
+            const form = `
+                <div class="info-box">
+                    <div class="info-box-title">キャラクター情報を入力</div>
+                </div>
+                <div class="npc-card">
+                    <h3>基本情報</h3>
+                    <div class="form-group">
+                        <label>名前</label>
+                        <input type="text" id="manual-name" placeholder="例：山田太郎">
+                    </div>
+                    <div class="form-group">
+                        <label>職業</label>
+                        <input type="text" id="manual-job" placeholder="例：私立探偵">
+                    </div>
+                    <div class="form-group">
+                        <label>年齢</label>
+                        <input type="number" id="manual-age" placeholder="34">
+                    </div>
+                    <div class="form-group">
+                        <label>説明・背景</label>
+                        <textarea id="manual-desc" placeholder="容姿や背景について"></textarea>
+                    </div>
+
+                    <h3>能力値 <span style="font-size: 0.8rem; color: var(--text-muted);">${currentVersion === '7th' ? '(矢印1回で±5)' : '(矢印1回で±1)'}</span></h3>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>STR</label>
+                            <div class="stat-control">
+                                <button type="button" class="stat-btn" onclick="adjustStat('str', -1)">−</button>
+                                <span id="manual-str-val" class="stat-value">50</span>
+                                <button type="button" class="stat-btn" onclick="adjustStat('str', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <label>CON</label>
+                            <div class="stat-control">
+                                <button type="button" class="stat-btn" onclick="adjustStat('con', -1)">−</button>
+                                <span id="manual-con-val" class="stat-value">50</span>
+                                <button type="button" class="stat-btn" onclick="adjustStat('con', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <label>POW</label>
+                            <div class="stat-control">
+                                <button type="button" class="stat-btn" onclick="adjustStat('pow', -1)">−</button>
+                                <span id="manual-pow-val" class="stat-value">50</span>
+                                <button type="button" class="stat-btn" onclick="adjustStat('pow', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <label>DEX</label>
+                            <div class="stat-control">
+                                <button type="button" class="stat-btn" onclick="adjustStat('dex', -1)">−</button>
+                                <span id="manual-dex-val" class="stat-value">50</span>
+                                <button type="button" class="stat-btn" onclick="adjustStat('dex', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>APP</label>
+                            <div class="stat-control">
+                                <button type="button" class="stat-btn" onclick="adjustStat('app', -1)">−</button>
+                                <span id="manual-app-val" class="stat-value">50</span>
+                                <button type="button" class="stat-btn" onclick="adjustStat('app', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <label>SIZ</label>
+                            <div class="stat-control">
+                                <button type="button" class="stat-btn" onclick="adjustStat('siz', -1)">−</button>
+                                <span id="manual-siz-val" class="stat-value">50</span>
+                                <button type="button" class="stat-btn" onclick="adjustStat('siz', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <label>INT</label>
+                            <div class="stat-control">
+                                <button type="button" class="stat-btn" onclick="adjustStat('int', -1)">−</button>
+                                <span id="manual-int-val" class="stat-value">50</span>
+                                <button type="button" class="stat-btn" onclick="adjustStat('int', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <label>EDU</label>
+                            <div class="stat-control">
+                                <button type="button" class="stat-btn" onclick="adjustStat('edu', -1)">−</button>
+                                <span id="manual-edu-val" class="stat-value">50</span>
+                                <button type="button" class="stat-btn" onclick="adjustStat('edu', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>ステータス</h3>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>HP</label>
+                            <input type="number" id="manual-hp" value="10" min="0">
+                        </div>
+                        <div class="form-col">
+                            <label>SAN</label>
+                            <input type="number" id="manual-san" value="50" min="0" max="99">
+                        </div>
+                        <div class="form-col">
+                            <label>幸運</label>
+                            <input type="number" id="manual-luck" value="50" min="0" max="99">
+                        </div>
+                    </div>
+
+                    <h3>タグ</h3>
+                    <input type="text" id="manual-tags" class="tag-input" placeholder="タグをカンマ区切りで入力（例：NPC,敵,ボス）">
+
+                    <button class="btn-primary" onclick="submitManualForm()">確認</button>
+                </div>
+            `;
+            document.getElementById('input-form').innerHTML = form;
+        }
+
+        function adjustStat(stat, direction) {
+            const step = currentVersion === '7th' ? 5 : 1;
+            const increase = step * direction;
+            const displayId = 'manual-' + stat + '-val';
+            const currentVal = parseInt(document.getElementById(displayId).textContent) || 50;
+            const newVal = Math.max(0, Math.min(100, currentVal + increase));
+            document.getElementById(displayId).textContent = newVal;
+        }
+
+        function submitManualForm() {
+            const npc = {
+                name: document.getElementById('manual-name').value || '名前未入力',
+                job: document.getElementById('manual-job').value || '職業未入力',
+                age: parseInt(document.getElementById('manual-age').value) || 0,
+                desc: document.getElementById('manual-desc').value || '',
+                str: parseInt(document.getElementById('manual-str-val').textContent) || 50,
+                con: parseInt(document.getElementById('manual-con-val').textContent) || 50,
+                pow: parseInt(document.getElementById('manual-pow-val').textContent) || 50,
+                dex: parseInt(document.getElementById('manual-dex-val').textContent) || 50,
+                app: parseInt(document.getElementById('manual-app-val').textContent) || 50,
+                siz: parseInt(document.getElementById('manual-siz-val').textContent) || 50,
+                int: parseInt(document.getElementById('manual-int-val').textContent) || 50,
+                edu: parseInt(document.getElementById('manual-edu-val').textContent) || 50,
+                hp: parseInt(document.getElementById('manual-hp').value) || 10,
+                san: parseInt(document.getElementById('manual-san').value) || 50,
+                luck: parseInt(document.getElementById('manual-luck').value) || 50,
+                tags: document.getElementById('manual-tags').value.split(',').map(t => t.trim()).filter(t => t),
+                version: currentVersion
+            };
+            displayNPC(npc);
+        }
+
+        // ココフォリアフォーム
+        function showCocfoForm() {
+            const form = `
+                <div class="info-box">
+                    <div class="info-box-title">ココフォリア駒出力をペースト</div>
+                    <div class="info-box-text">ココフォリアから出力したJSON形式のデータを下に貼り付けてください</div>
+                </div>
+                <div class="npc-card">
+                    <textarea id="cocfo-input" placeholder='{"kind":"character","data":{...}}' style="width: 100%; height: 200px; font-family: monospace; font-size: 0.9rem; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;"></textarea>
+                    <div class="form-group">
+                        <label>年齢</label>
+                        <input type="number" id="cocfo-age" placeholder="年齢を入力（例：34）">
+                    </div>
+                    <div class="form-group">
+                        <label>職業</label>
+                        <input type="text" id="cocfo-job" placeholder="職業を入力（例：私立探偵）">
+                    </div>
+                    <div class="form-group">
+                        <label>タグ</label>
+                        <input type="text" id="cocfo-tags" class="tag-input" placeholder="タグをカンマ区切りで入力（例：NPC,敵,ボス）" style="margin-top: 0;">
+                    </div>
+                    <button class="btn-primary" onclick="parseCocfo()">解析</button>
+                </div>
+            `;
+            document.getElementById('input-form').innerHTML = form;
+        }
+
+        function parseCocfo() {
+            try {
+                const json = JSON.parse(document.getElementById('cocfo-input').value);
+                const data = json.data;
+                
+                const npc = {
+                    name: data.name || '名前未入力',
+                    job: document.getElementById('cocfo-job').value || '-',
+                    age: parseInt(document.getElementById('cocfo-age').value) || 0,
+                    desc: '',
+                    str: 0,
+                    con: 0,
+                    pow: 0,
+                    dex: 0,
+                    app: 0,
+                    siz: 0,
+                    int: 0,
+                    edu: 0,
+                    hp: data.status?.find(s => s.label === 'HP')?.value || 10,
+                    san: data.status?.find(s => s.label === 'SAN')?.value || 50,
+                    luck: data.status?.find(s => s.label === '幸運')?.value || 50,
+                    tags: document.getElementById('cocfo-tags').value.split(',').map(t => t.trim()).filter(t => t),
+                    version: currentVersion
+                };
+
+                // paramsから能力値を抽出
+                if (data.params) {
+                    const paramMap = {
+                        'STR': 'str', 'CON': 'con', 'POW': 'pow', 'DEX': 'dex',
+                        'APP': 'app', 'SIZ': 'siz', 'INT': 'int', 'EDU': 'edu'
+                    };
+                    data.params.forEach(p => {
+                        const key = paramMap[p.label];
+                        if (key) npc[key] = parseInt(p.value) || 0;
+                    });
+                }
+
+                displayNPC(npc);
+            } catch (e) {
+                alert('JSONの解析に失敗しました：' + e.message);
+            }
+        }
+
+        // iacharaテキストファイルアップロード
+        function showIacharForm() {
+            const form = `
+                <div class="info-box">
+                    <div class="info-box-title">iacharaテキストファイルをアップロード</div>
+                    <div class="info-box-text">iacharaからエクスポートした.txtファイルを選択してください</div>
+                </div>
+                <div class="npc-card">
+                    <div class="form-group">
+                        <label>ファイル選択</label>
+                        <input type="file" id="iachar-file" accept=".txt" style="padding: 8px;">
+                    </div>
+                    <div class="form-group">
+                        <label>タグ</label>
+                        <input type="text" id="iachar-tags" class="tag-input" placeholder="タグをカンマ区切りで入力（例：NPC,敵,ボス）" style="margin-top: 0;">
+                    </div>
+                    <button class="btn-primary" onclick="parseIachar()">解析</button>
+                </div>
+            `;
+            document.getElementById('input-form').innerHTML = form;
+        }
+
+        function parseIachar() {
+            try {
+                const file = document.getElementById('iachar-file').files[0];
+                if (!file) {
+                    alert('ファイルを選択してください');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const text = e.target.result;
+                    
+                    // 正規表現でより正確に抽出
+                    const extractLine = (pattern) => {
+                        const match = text.match(pattern);
+                        return match ? match[1].trim() : '';
+                    };
+
+                    const npc = {
+                        name: extractLine(/名前:\s*(.+?)(?:\n|$)/) || '名前未入力',
+                        job: extractLine(/職業:\s*(.+?)(?:\n|$)/) || '-',
+                        age: parseInt(extractLine(/年齢:\s*(\d+)/)) || 0,
+                        desc: extractLine(/\[容姿の描写\]\n([\s\S]+?)\n\[/) || '',
+                        str: parseInt(extractLine(/^STR\s+(\d+)/m)) || 0,
+                        con: parseInt(extractLine(/^CON\s+(\d+)/m)) || 0,
+                        pow: parseInt(extractLine(/^POW\s+(\d+)/m)) || 0,
+                        dex: parseInt(extractLine(/^DEX\s+(\d+)/m)) || 0,
+                        app: parseInt(extractLine(/^APP\s+(\d+)/m)) || 0,
+                        siz: parseInt(extractLine(/^SIZ\s+(\d+)/m)) || 0,
+                        int: parseInt(extractLine(/^INT\s+(\d+)/m)) || 0,
+                        edu: parseInt(extractLine(/^EDU\s+(\d+)/m)) || 0,
+                        hp: parseInt(extractLine(/^HP\s+(\d+)/m)) || 10,
+                        san: parseInt(extractLine(/現在SAN値\s+(\d+)/)) || 50,
+                        luck: parseInt(extractLine(/^幸運\s+(\d+)/m)) || 50,
+                        tags: document.getElementById('iachar-tags').value.split(',').map(t => t.trim()).filter(t => t),
+                        version: currentVersion
+                    };
+
+                    displayNPC(npc);
+                };
+                reader.readAsText(file);
+            } catch (e) {
+                alert('ファイルの読み込みに失敗しました：' + e.message);
+            }
+        }
+
+        // NPC表示
+        function displayNPC(npc) {
+            currentNPC = npc;
+            
+            // ダメージボーナス計算（STR + SIZ）
+            function calcDB(str, siz, version) {
+                const total = str + siz;
+                
+                if (version === '7th') {
+                    // 7版のテーブル
+                    if (total <= 64) return '-2';
+                    if (total <= 84) return '-1';
+                    if (total <= 124) return '0';
+                    if (total <= 164) return '+1d4';
+                    if (total <= 204) return '+1d6';
+                    if (total <= 284) return '+2d6';
+                    if (total <= 364) return '+3d6';
+                    if (total <= 444) return '+4d6';
+                    if (total <= 524) return '+5d6';
+                    return '+5d6';
+                } else {
+                    // 6版のテーブル
+                    if (total <= 12) return '-1d6';
+                    if (total <= 16) return '-1d4';
+                    if (total <= 24) return '0';
+                    if (total <= 32) return '+1d4';
+                    if (total <= 40) return '+1d6';
+                    if (total <= 46) return '+2d6';
+                    if (total <= 56) return '+2d6';
+                    if (total <= 72) return '+3d6';
+                    if (total <= 88) return '+4d6';
+                    if (total <= 104) return '+5d6';
+                    if (total <= 120) return '+6d6';
+                    if (total <= 136) return '+7d6';
+                    if (total <= 152) return '+8d6';
+                    if (total <= 168) return '+9d6';
+                    if (total <= 184) return '+10d6';
+                    return '+10d6';
+                }
+            }
+
+            // 移動速度計算
+            function calcMOV(str, dex, siz, age, version) {
+                let mov;
+                if (str < siz && dex < siz) {
+                    mov = 7;
+                } else {
+                    mov = 8;
+                }
+                const ageNum = parseInt(age) || 0;
+                if (ageNum >= 40 && ageNum < 50) mov -= 1;
+                else if (ageNum >= 50 && ageNum < 60) mov -= 2;
+                else if (ageNum >= 60 && ageNum < 70) mov -= 3;
+                else if (ageNum >= 70 && ageNum < 80) mov -= 4;
+                else if (ageNum >= 80) mov -= 5;
+                return Math.max(0, mov);
+            }
+            
+            const db = calcDB(npc.str, npc.siz, npc.version);
+            const mov = calcMOV(npc.str, npc.dex, npc.siz, npc.age, npc.version);
+
+            const backButton = currentTab === 'library' ? 'backToLibrary()' : 'backToMode()';
+            const saveButton = currentNPC.id ? 'updateNPC()' : 'saveNPC()';
+            const saveLabel = currentNPC.id ? '💾 更新' : '💾 保存';
+
+            const display = `
+                <button class="btn-secondary" onclick="${backButton}" style="margin-bottom: 15px;">← 戻る</button>
+                <div class="npc-card">
+                    <h2 style="margin-top: 0; color: var(--accent);">${npc.name}</h2>
+                    
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">職業</span>
+                        <span class="npc-stat-value">${npc.job}</span>
+                    </div>
+                    
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">年齢</span>
+                        <span class="npc-stat-value">${npc.age}</span>
+                    </div>
+
+                    ${npc.desc ? '<div class="npc-stat" style="flex-direction: column; align-items: flex-start;"><span class="npc-stat-label">説明</span><span class="npc-stat-value" style="text-align: left; margin-top: 8px;">' + npc.desc + '</span></div>' : ''}
+
+                    <h3 style="margin-top: 25px; margin-bottom: 15px; color: var(--text-primary);">基本特性</h3>
+                    
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">STR</span>
+                        <span class="npc-stat-value">${npc.str}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">CON</span>
+                        <span class="npc-stat-value">${npc.con}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">POW</span>
+                        <span class="npc-stat-value">${npc.pow}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">DEX</span>
+                        <span class="npc-stat-value">${npc.dex}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">APP</span>
+                        <span class="npc-stat-value">${npc.app}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">SIZ</span>
+                        <span class="npc-stat-value">${npc.siz}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">INT</span>
+                        <span class="npc-stat-value">${npc.int}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">EDU</span>
+                        <span class="npc-stat-value">${npc.edu}</span>
+                    </div>
+
+                    <h3 style="margin-top: 25px; margin-bottom: 15px; color: var(--text-primary);">ステータス</h3>
+                    
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">HP</span>
+                        <span class="npc-stat-value">${npc.hp}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">SAN</span>
+                        <span class="npc-stat-value">${npc.san}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">幸運</span>
+                        <span class="npc-stat-value">${npc.luck}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">DB</span>
+                        <span class="npc-stat-value">${db}</span>
+                    </div>
+                    <div class="npc-stat">
+                        <span class="npc-stat-label">移動速度</span>
+                        <span class="npc-stat-value">${mov}</span>
+                    </div>
+
+                    ${npc.tags && npc.tags.length > 0 ? '<div style="margin-top: 15px;"><strong>タグ:</strong><div class="npc-tags">' + npc.tags.map(tag => '<span class="tag">' + tag + '</span>').join('') + '</div></div>' : ''}
+
+                    <div class="button-group">
+                        <button class="btn-secondary" onclick="copyToClipboard()">📋 コピー</button>
+                        <button class="btn-secondary" onclick="editNPC()">✏️ 編集</button>
+                        <button class="btn-primary" onclick="${saveButton}" style="margin-top: 0; flex: 1;">${saveLabel}</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('npc-result').style.display = 'block';
+            document.getElementById('npc-display').innerHTML = display;
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('npc-display').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('キャラクター情報をコピーしました！');
+            });
+        }
+
+        // LocalStorageにNPCを保存
+        function saveNPC() {
+            if (!currentNPC) return;
+
+            const npcList = JSON.parse(localStorage.getItem('coc-npcs') || '[]');
+            currentNPC.id = Date.now();
+            npcList.push(currentNPC);
+            localStorage.setItem('coc-npcs', JSON.stringify(npcList));
+
+            alert('NPCを保存しました！');
+            resetAll();
+        }
+
+        // NPCライブラリを読み込み
+        function loadNPCLibrary() {
+            const npcList = JSON.parse(localStorage.getItem('coc-npcs') || '[]');
+            const libraryDiv = document.getElementById('npc-library');
+
+            if (npcList.length === 0) {
+                libraryDiv.innerHTML = '<p style="text-align: center; color: var(--text-muted);">保存されたNPCはまだありません</p>';
+                return;
+            }
+
+            libraryDiv.innerHTML = npcList.map(npc => {
+                const tagsHtml = npc.tags && npc.tags.length > 0 
+                    ? '<div class="npc-tags">' + npc.tags.map(tag => '<span class="tag">' + tag + '</span>').join('') + '</div>'
+                    : '';
+                return '<div class="npc-item">' +
+                    '<h4>' + npc.name + '</h4>' +
+                    '<p>職業: ' + npc.job + '</p>' +
+                    '<p>年齢: ' + npc.age + '</p>' +
+                    '<p>版: ' + npc.version + '</p>' +
+                    (tagsHtml ? '<div style="margin-top: 8px;">' + tagsHtml + '</div>' : '') +
+                    '<div class="npc-item-actions">' +
+                    '<button class="btn-secondary" onclick="viewNPC(' + npc.id + ')">👁️ 表示</button>' +
+                    '<button class="delete-btn" onclick="deleteNPC(' + npc.id + ')">🗑️</button>' +
+                    '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        // NPC詳細表示
+        function viewNPC(id) {
+            const npcList = JSON.parse(localStorage.getItem('coc-npcs') || '[]');
+            const npc = npcList.find(n => n.id === id);
+            if (npc) {
+                currentNPC = npc;
+                document.getElementById('npc-library').style.display = 'none';
+                document.getElementById('npc-result').style.display = 'block';
+                displayNPC(npc);
+            }
+        }
+
+        // NPC削除
+        function deleteNPC(id) {
+            if (confirm('このNPCを削除してもよろしいですか？')) {
+                let npcList = JSON.parse(localStorage.getItem('coc-npcs') || '[]');
+                npcList = npcList.filter(n => n.id !== id);
+                localStorage.setItem('coc-npcs', JSON.stringify(npcList));
+                loadNPCLibrary();
+            }
+        }
+
+        // NPC編集
+        function editNPC() {
+            if (!currentNPC) return;
+
+            // 各statをinputに変更
+            document.querySelectorAll('.npc-stat').forEach(stat => {
+                const label = stat.querySelector('.npc-stat-label').textContent;
+                const valueEl = stat.querySelector('.npc-stat-value');
+                if (valueEl && !valueEl.querySelector('input')) {
+                    const value = valueEl.textContent;
+                    valueEl.innerHTML = '<input type="text" value="' + value + '" style="width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px;">';
+                }
+            });
+
+            // descをtextareaに
+            const descStat = document.querySelector('.npc-stat[style*="flex-direction: column"]');
+            if (descStat) {
+                const valueEl = descStat.querySelector('.npc-stat-value');
+                if (valueEl && !valueEl.querySelector('textarea')) {
+                    const value = valueEl.textContent;
+                    valueEl.innerHTML = '<textarea style="width: 100%; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px; resize: vertical; min-height: 60px;">' + value + '</textarea>';
+                }
+            }
+
+            // ボタンを変更
+            const buttonGroup = document.querySelector('.button-group');
+            buttonGroup.innerHTML = `
+                <button class="btn-secondary" onclick="cancelEdit()">❌ キャンセル</button>
+                <button class="btn-primary" onclick="updateNPC()" style="flex: 1;">💾 更新</button>
+            `;
+        }
+
+        // 編集キャンセル
+        function cancelEdit() {
+            displayNPC(currentNPC);
+        }
+
+        // NPC更新
+        function updateNPC() {
+            if (!currentNPC) return;
+
+            // 各statの値を更新
+            document.querySelectorAll('.npc-stat').forEach(stat => {
+                const label = stat.querySelector('.npc-stat-label').textContent;
+                const input = stat.querySelector('input');
+                if (input) {
+                    const value = input.value;
+                    switch (label) {
+                        case '職業': currentNPC.job = value; break;
+                        case '年齢': currentNPC.age = parseInt(value) || 0; break;
+                        case 'STR': currentNPC.str = parseInt(value) || 0; break;
+                        case 'CON': currentNPC.con = parseInt(value) || 0; break;
+                        case 'POW': currentNPC.pow = parseInt(value) || 0; break;
+                        case 'DEX': currentNPC.dex = parseInt(value) || 0; break;
+                        case 'APP': currentNPC.app = parseInt(value) || 0; break;
+                        case 'SIZ': currentNPC.siz = parseInt(value) || 0; break;
+                        case 'INT': currentNPC.int = parseInt(value) || 0; break;
+                        case 'EDU': currentNPC.edu = parseInt(value) || 0; break;
+                        case 'HP': currentNPC.hp = parseInt(value) || 0; break;
+                        case 'SAN': currentNPC.san = parseInt(value) || 0; break;
+                        case '幸運': currentNPC.luck = parseInt(value) || 0; break;
+                        case 'DB': case '移動速度': break; // 計算値なので無視
+                    }
+                }
+            });
+
+            // desc更新
+            const descTextarea = document.querySelector('.npc-stat[style*="flex-direction: column"] textarea');
+            if (descTextarea) {
+                currentNPC.desc = descTextarea.value;
+            }
+
+            // localStorage更新
+            let npcList = JSON.parse(localStorage.getItem('coc-npcs') || '[]');
+            const index = npcList.findIndex(n => n.id === currentNPC.id);
+            if (index !== -1) {
+                npcList[index] = currentNPC;
+                localStorage.setItem('coc-npcs', JSON.stringify(npcList));
+            }
+
+            displayNPC(currentNPC);
+            alert('NPCを更新しました！');
+        }
+    </script>
+</body>
+</html>
