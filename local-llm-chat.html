@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f9f7f4">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Local AI Chat</title>
+<style>
+  :root {
+    --bg: #f9f7f4;
+    --surface: #ffffff;
+    --surface2: #f3f0ec;
+    --border: #e8e3dc;
+    --text-primary: #1a1714;
+    --text-secondary: #6b6560;
+    --text-muted: #a09890;
+    --accent: #c17c3a;
+    --accent-light: #f5ede1;
+    --user-bubble: #1a1714;
+    --user-text: #f9f7f4;
+    --assistant-bubble: #ffffff;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+    --radius: 18px;
+    --radius-sm: 10px;
+    --font-sans: -apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;
+    --font-mono: 'SF Mono','Fira Code',monospace;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;overflow:hidden;font-family:var(--font-sans);background:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;}
+  #app{display:flex;flex-direction:column;height:100dvh;height:100vh;}
+
+  /* HEADER */
+  #header{flex-shrink:0;height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;position:relative;z-index:10;}
+  #header-logo{width:28px;height:28px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  #header-logo svg{width:16px;height:16px;fill:white;}
+  #header-title{flex:1;font-size:15px;font-weight:600;letter-spacing:-.01em;}
+  #model-badge{font-size:11px;font-weight:500;color:var(--accent);background:var(--accent-light);padding:3px 8px;border-radius:20px;cursor:pointer;border:none;transition:background .15s;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;}
+  #model-badge:hover{background:#eedcbb;}
+  .icon-btn{width:36px;height:36px;border:none;background:transparent;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:background .15s,color .15s;flex-shrink:0;}
+  .icon-btn:hover{background:var(--surface2);color:var(--text-primary);}
+  .icon-btn svg{width:18px;height:18px;}
+
+  /* STATUS */
+  #status-bar{flex-shrink:0;background:var(--accent-light);border-bottom:1px solid #e8d9c4;padding:8px 16px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--accent);font-weight:500;}
+  #status-bar.hidden{display:none;}
+  #status-bar.error{background:#fdecea;border-color:#f5c6c0;color:#c0392b;}
+  #status-bar.ready{background:#e8f5e9;border-color:#c8e6c9;color:#2e7d32;}
+  #status-progress{flex:1;height:3px;background:rgba(0,0,0,.1);border-radius:2px;overflow:hidden;}
+  #status-progress-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .3s ease;}
+  #status-bar.ready #status-progress-fill{background:#4caf50;}
+  #status-bar.error #status-progress-fill{background:#c0392b;}
+
+  /* MESSAGES */
+  #messages{flex:1;overflow-y:auto;padding:16px 0;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;}
+  #messages::-webkit-scrollbar{width:4px;}
+  #messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+  .msg-group{display:flex;flex-direction:column;padding:4px 16px;gap:2px;}
+  .msg-row{display:flex;align-items:flex-end;gap:8px;}
+  .msg-row.user{flex-direction:row-reverse;}
+  .avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;}
+  .avatar.assistant{background:var(--accent);color:white;}
+  .avatar.user{background:var(--user-bubble);color:var(--user-text);}
+  .bubble{max-width:min(72vw,480px);padding:10px 14px;border-radius:var(--radius);font-size:14.5px;line-height:1.6;word-break:break-word;}
+  .bubble.user{background:var(--user-bubble);color:var(--user-text);border-bottom-right-radius:5px;}
+  .bubble.assistant{background:var(--assistant-bubble);color:var(--text-primary);border-bottom-left-radius:5px;box-shadow:var(--shadow-sm);border:1px solid var(--border);}
+  .bubble p{margin:0 0 .5em;}.bubble p:last-child{margin-bottom:0;}
+  .bubble code{font-family:var(--font-mono);font-size:12.5px;background:var(--surface2);color:var(--accent);padding:1px 5px;border-radius:4px;}
+  .bubble.user code{background:rgba(255,255,255,.15);color:#f9f7f4;}
+  .bubble pre{background:#1e1c1a;color:#e8e3dc;border-radius:var(--radius-sm);padding:10px 12px;overflow-x:auto;margin:6px 0;font-size:12px;line-height:1.5;}
+  .bubble pre code{background:none;color:inherit;padding:0;font-size:inherit;}
+  .bubble ul,.bubble ol{padding-left:18px;margin:.3em 0;}
+  .bubble li{margin:.2em 0;}
+  .bubble strong{font-weight:600;}.bubble em{font-style:italic;}
+  .bubble h1,.bubble h2,.bubble h3{font-weight:600;margin:.6em 0 .3em;line-height:1.3;}
+  .bubble h1{font-size:1.15em;}.bubble h2{font-size:1.05em;}.bubble h3{font-size:1em;}
+  .bubble blockquote{border-left:3px solid var(--border);padding-left:10px;color:var(--text-secondary);margin:.3em 0;}
+  .msg-time{font-size:10px;color:var(--text-muted);padding:0 4px;margin-top:2px;align-self:flex-end;}
+  .msg-row.user .msg-time{text-align:right;}
+  .cursor::after{content:'▋';animation:blink .9s step-end infinite;font-size:.85em;color:var(--accent);margin-left:1px;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* WELCOME */
+  #welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:32px 24px;text-align:center;gap:12px;}
+  #welcome-icon{width:56px;height:56px;background:var(--accent);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;}
+  #welcome-icon svg{width:28px;height:28px;fill:white;}
+  #welcome h2{font-size:20px;font-weight:700;letter-spacing:-.02em;}
+  #welcome p{font-size:13.5px;color:var(--text-secondary);line-height:1.6;max-width:280px;}
+  #welcome .hint{font-size:12px;color:var(--text-muted);background:var(--surface2);padding:8px 12px;border-radius:8px;}
+  #suggestions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 16px;margin-top:8px;}
+  .suggestion-chip{font-size:12.5px;padding:6px 12px;background:var(--surface);border:1px solid var(--border);border-radius:20px;cursor:pointer;color:var(--text-secondary);transition:all .15s;white-space:nowrap;}
+  .suggestion-chip:hover{background:var(--accent-light);border-color:#debb96;color:var(--accent);}
+
+  /* INPUT */
+  #input-area{flex-shrink:0;background:var(--surface);border-top:1px solid var(--border);padding:12px 16px;padding-bottom:calc(12px + var(--safe-bottom));}
+  #input-row{display:flex;align-items:flex-end;gap:8px;background:var(--surface2);border:1.5px solid var(--border);border-radius:22px;padding:8px 8px 8px 16px;transition:border-color .2s,box-shadow .2s;}
+  #input-row:focus-within{border-color:#c89a6a;box-shadow:0 0 0 3px rgba(193,124,58,.12);}
+  #user-input{flex:1;border:none;background:transparent;font-family:var(--font-sans);font-size:14.5px;line-height:1.5;color:var(--text-primary);resize:none;outline:none;max-height:120px;overflow-y:auto;}
+  #user-input::placeholder{color:var(--text-muted);}
+  #send-btn{width:36px;height:36px;border:none;background:var(--user-bubble);color:white;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .1s;flex-shrink:0;}
+  #send-btn:hover{background:#333;}#send-btn:active{transform:scale(.92);}
+  #send-btn:disabled{background:var(--border);cursor:not-allowed;}
+  #send-btn svg{width:16px;height:16px;}
+  #stop-btn{display:none;width:36px;height:36px;border:none;background:#e74c3c;color:white;border-radius:50%;cursor:pointer;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;}
+  #stop-btn.visible{display:flex;}#stop-btn:hover{background:#c0392b;}
+  #stop-btn svg{width:14px;height:14px;}
+
+  /* MODAL */
+  .modal-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:560px;max-height:88dvh;overflow-y:auto;animation:slideUp .25s ease;}
+  @keyframes slideUp{from{transform:translateY(40px);opacity:0;}}
+  .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+  .modal-header{display:flex;align-items:center;padding:16px 16px 12px;gap:10px;}
+  .modal-title{font-size:16px;font-weight:700;flex:1;letter-spacing:-.01em;}
+  .section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);padding:0 16px;margin-bottom:6px;}
+  .model-list{padding:0 8px 8px;}
+  .model-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:background .12s;border:1.5px solid transparent;}
+  .model-item:hover{background:var(--surface2);}
+  .model-item.selected{background:var(--accent-light);border-color:#debb96;}
+  .model-item-icon{width:36px;height:36px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .model-item.selected .model-item-icon{background:var(--accent);}
+  .model-info{flex:1;min-width:0;}
+  .model-name{font-size:13.5px;font-weight:600;}
+  .model-desc{font-size:11.5px;color:var(--text-secondary);margin-top:1px;}
+  .model-size{font-size:11px;font-weight:600;color:var(--text-muted);background:var(--surface2);padding:2px 7px;border-radius:10px;}
+  .model-item.selected .model-size{background:rgba(193,124,58,.15);color:var(--accent);}
+  .load-btn{display:block;width:calc(100% - 32px);margin:8px 16px 16px;padding:13px;background:var(--user-bubble);color:white;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s;}
+  .load-btn:hover{background:#333;}.load-btn:disabled{background:var(--border);color:var(--text-muted);cursor:not-allowed;}
+  .settings-section{padding:0 16px 12px;}
+  .settings-label{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text-secondary);}
+  .settings-textarea{width:100%;min-height:80px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-family:var(--font-sans);font-size:13px;color:var(--text-primary);resize:vertical;outline:none;transition:border-color .2s;}
+  .settings-textarea:focus{border-color:#c89a6a;}
+  .slider-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .slider-row label{font-size:13px;color:var(--text-secondary);flex:1;}
+  .slider-row input[type=range]{flex:2;accent-color:var(--accent);}
+  .slider-val{font-size:13px;font-weight:600;color:var(--accent);min-width:36px;text-align:right;}
+  .modal-footer{padding:8px 16px 16px;display:flex;gap:8px;}
+  .btn-secondary{flex:1;padding:11px;background:var(--surface2);color:var(--text-primary);border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;}
+  .btn-primary{flex:2;padding:11px;background:var(--user-bubble);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s;}
+  .btn-primary:hover{background:#333;}
+  .divider{border:none;border-top:1px solid var(--border);margin:4px 0;}
+
+  /* SCROLL BTN */
+  #scroll-btn{position:fixed;bottom:100px;right:16px;width:36px;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:50%;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-md);z-index:5;}
+  #scroll-btn.visible{display:flex;}
+  #scroll-btn svg{width:16px;height:16px;color:var(--text-secondary);}
+
+  /* THINKING */
+  .thinking-dots span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--text-muted);margin:0 2px;animation:bounce 1.2s ease-in-out infinite;}
+  .thinking-dots span:nth-child(2){animation-delay:.2s;}
+  .thinking-dots span:nth-child(3){animation-delay:.4s;}
+  @keyframes bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <div id="header-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+    </div>
+    <div id="header-title">Local AI Chat</div>
+    <button id="model-badge" onclick="openModelModal()">モデル選択</button>
+    <button class="icon-btn" onclick="openSettingsModal()" title="設定">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+    <button class="icon-btn" onclick="clearChat()" title="クリア">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+    </button>
+  </div>
+
+  <div id="status-bar" class="hidden">
+    <span id="status-text">準備中...</span>
+    <div id="status-progress"><div id="status-progress-fill"></div></div>
+    <span id="status-pct"></span>
+  </div>
+
+  <div id="messages">
+    <div id="welcome">
+      <div id="welcome-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
+      <h2>Local AI Chat</h2>
+      <p>デバイス上でLLMを完全ローカル実行。データは外部に送信されません。</p>
+      <div class="hint">⚠️ WebGPU対応ブラウザが必要 (Chrome 113+)</div>
+    </div>
+    <div id="suggestions">
+      <div class="suggestion-chip" onclick="sendSuggestion('Pythonで簡単なWebサーバーを書いて')">Pythonでサーバー</div>
+      <div class="suggestion-chip" onclick="sendSuggestion('素数を100個リストアップして')">素数リスト</div>
+      <div class="suggestion-chip" onclick="sendSuggestion('量子コンピュータを簡単に説明して')">量子コンピュータ</div>
+      <div class="suggestion-chip" onclick="sendSuggestion('日本語でハイクを書いて')">俳句を書く</div>
+    </div>
+  </div>
+
+  <button id="scroll-btn" onclick="scrollToBottom(true)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+
+  <div id="input-area">
+    <div id="input-row">
+      <textarea id="user-input" rows="1" placeholder="メッセージを入力..." disabled
+        oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+      <button id="stop-btn" onclick="stopGeneration()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+      </button>
+      <button id="send-btn" onclick="sendMessage()" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODEL MODAL -->
+<div class="modal-overlay" id="model-modal" onclick="closeModalOnBg(event,'model-modal')">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title">モデルを選択</div>
+      <button class="icon-btn" onclick="closeModal('model-modal')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="section-label">推奨 — モバイル向け</div>
+    <div class="model-list" id="model-list-mobile"></div>
+    <hr class="divider">
+    <div class="section-label" style="margin-top:8px">高性能 — PC向け</div>
+    <div class="model-list" id="model-list-pc"></div>
+    <button class="load-btn" id="load-model-btn" onclick="loadSelectedModel()">モデルをロード</button>
+    <p style="font-size:11px;color:var(--text-muted);text-align:center;padding:0 16px 16px;line-height:1.5">
+      初回はダウンロードします（数百MB〜数GB）。<br>2回目以降はキャッシュから読み込まれます。
+    </p>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settings-modal" onclick="closeModalOnBg(event,'settings-modal')">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title">設定</div>
+      <button class="icon-btn" onclick="closeModal('settings-modal')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="settings-section">
+      <div class="settings-label">システムプロンプト</div>
+      <textarea class="settings-textarea" id="system-prompt" rows="4">あなたは親切で有能なAIアシスタントです。日本語で回答してください。</textarea>
+    </div>
+    <div class="settings-section">
+      <div class="settings-label">生成パラメータ</div>
+      <div class="slider-row">
+        <label>Temperature</label>
+        <input type="range" id="sl-temp" min="0" max="2" step="0.05" value="0.7" oninput="updateSlider('temp',this.value)">
+        <span class="slider-val" id="val-temp">0.70</span>
+      </div>
+      <div class="slider-row">
+        <label>Top-P</label>
+        <input type="range" id="sl-topp" min="0" max="1" step="0.05" value="0.95" oninput="updateSlider('topp',this.value)">
+        <span class="slider-val" id="val-topp">0.95</span>
+      </div>
+      <div class="slider-row">
+        <label>最大トークン数</label>
+        <input type="range" id="sl-maxt" min="128" max="4096" step="128" value="1024" oninput="updateSlider('maxt',this.value)">
+        <span class="slider-val" id="val-maxt">1024</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('settings-modal')">キャンセル</button>
+      <button class="btn-primary" onclick="saveSettings()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as webllm from "https://esm.run/@mlc-ai/web-llm@0.2.79";
+
+const MODELS_MOBILE = [
+  { id: "gemma-3-1b-it-q4f32_1-MLC",            name: "Gemma 3 1B",     emoji: "💎", desc: "Google製、超軽量・高速",       size: "~900MB" },
+  { id: "Qwen2.5-0.5B-Instruct-q4f32_1-MLC",    name: "Qwen 2.5 0.5B",  emoji: "🐉", desc: "Alibaba製、最軽量",            size: "~450MB" },
+  { id: "Qwen2.5-1.5B-Instruct-q4f32_1-MLC",    name: "Qwen 2.5 1.5B",  emoji: "🐉", desc: "Alibaba製、バランス型",        size: "~1GB"   },
+  { id: "Llama-3.2-1B-Instruct-q4f32_1-MLC",    name: "Llama 3.2 1B",   emoji: "🦙", desc: "Meta製、汎用",                size: "~900MB" },
+  { id: "SmolLM2-1.7B-Instruct-q4f16_1-MLC",    name: "SmolLM2 1.7B",   emoji: "🤏", desc: "HuggingFace製軽量モデル",     size: "~1GB"   },
+];
+const MODELS_PC = [
+  { id: "gemma-3-4b-it-q4f32_1-MLC",            name: "Gemma 3 4B",     emoji: "💎", desc: "Google製、高品質・推奨",       size: "~2.5GB" },
+  { id: "Qwen2.5-7B-Instruct-q4f16_1-MLC",      name: "Qwen 2.5 7B",    emoji: "🐉", desc: "Alibaba製、高性能",           size: "~4.5GB" },
+  { id: "Llama-3.1-8B-Instruct-q4f32_1-MLC",    name: "Llama 3.1 8B",   emoji: "🦙", desc: "Meta製、強力",               size: "~5GB"   },
+  { id: "Mistral-7B-Instruct-v0.3-q4f16_1-MLC", name: "Mistral 7B",     emoji: "🌪",  desc: "高速推論、コーディング得意",  size: "~4.5GB" },
+  { id: "phi-3.5-mini-instruct-q4f16_1-MLC",    name: "Phi-3.5 Mini",   emoji: "🔬", desc: "Microsoft製、高効率",         size: "~2.3GB" },
+];
+
+let engine = null;
+let selectedModelId = "gemma-3-1b-it-q4f32_1-MLC";
+let loadedModelId = null;
+let chatHistory = [];
+let isGenerating = false;
+let abortController = null;
+let settings = {
+  systemPrompt: "あなたは親切で有能なAIアシスタントです。日本語で回答してください。",
+  temperature: 0.7, topP: 0.95, maxTokens: 1024,
+};
+
+// expose globals
+window.openModelModal = openModelModal;
+window.openSettingsModal = openSettingsModal;
+window.closeModal = closeModal;
+window.closeModalOnBg = closeModalOnBg;
+window.loadSelectedModel = loadSelectedModel;
+window.saveSettings = saveSettings;
+window.sendMessage = sendMessage;
+window.sendSuggestion = sendSuggestion;
+window.stopGeneration = stopGeneration;
+window.clearChat = clearChat;
+window.scrollToBottom = scrollToBottom;
+window.autoResize = autoResize;
+window.handleKey = handleKey;
+window.updateSlider = updateSlider;
+window.selectModel = selectModel;
+
+function buildModelList(containerId, models) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = "";
+  models.forEach(m => {
+    const item = document.createElement("div");
+    item.className = "model-item" + (m.id === selectedModelId ? " selected" : "");
+    item.id = "mitem-" + m.id;
+    item.onclick = () => selectModel(m.id);
+    const loaded = m.id === loadedModelId ? ' <span style="color:var(--accent);font-size:10px">●ロード済み</span>' : '';
+    item.innerHTML = `
+      <div class="model-item-icon">${m.emoji}</div>
+      <div class="model-info">
+        <div class="model-name">${m.name}${loaded}</div>
+        <div class="model-desc">${m.desc}</div>
+      </div>
+      <div class="model-size">${m.size}</div>`;
+    el.appendChild(item);
+  });
+}
+function rebuildModelLists() {
+  buildModelList("model-list-mobile", MODELS_MOBILE);
+  buildModelList("model-list-pc", MODELS_PC);
+}
+function selectModel(id) {
+  selectedModelId = id;
+  document.querySelectorAll(".model-item").forEach(el => el.classList.remove("selected"));
+  const item = document.getElementById("mitem-" + id);
+  if (item) item.classList.add("selected");
+}
+
+function openModelModal() { rebuildModelLists(); document.getElementById("model-modal").classList.add("open"); }
+function openSettingsModal() {
+  document.getElementById("system-prompt").value = settings.systemPrompt;
+  document.getElementById("sl-temp").value = settings.temperature;
+  document.getElementById("val-temp").textContent = settings.temperature.toFixed(2);
+  document.getElementById("sl-topp").value = settings.topP;
+  document.getElementById("val-topp").textContent = settings.topP.toFixed(2);
+  document.getElementById("sl-maxt").value = settings.maxTokens;
+  document.getElementById("val-maxt").textContent = settings.maxTokens;
+  document.getElementById("settings-modal").classList.add("open");
+}
+function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+function closeModalOnBg(e, id) { if (e.target.id === id) closeModal(id); }
+function updateSlider(key, val) {
+  const fmt = key === "maxt" ? parseInt(val) : parseFloat(val).toFixed(2);
+  document.getElementById("val-" + key).textContent = fmt;
+}
+function saveSettings() {
+  settings.systemPrompt = document.getElementById("system-prompt").value;
+  settings.temperature = parseFloat(document.getElementById("sl-temp").value);
+  settings.topP = parseFloat(document.getElementById("sl-topp").value);
+  settings.maxTokens = parseInt(document.getElementById("sl-maxt").value);
+  closeModal("settings-modal");
+  showToast("設定を保存しました");
+}
+
+function showStatus(text, pct, state) {
+  const bar = document.getElementById("status-bar");
+  bar.className = state || "";
+  document.getElementById("status-text").textContent = text;
+  document.getElementById("status-progress-fill").style.width = (pct || 0) + "%";
+  document.getElementById("status-pct").textContent = pct != null ? Math.round(pct) + "%" : "";
+}
+function hideStatus() { document.getElementById("status-bar").classList.add("hidden"); }
+
+async function loadSelectedModel() {
+  closeModal("model-modal");
+  const modelId = selectedModelId;
+  const allModels = [...MODELS_MOBILE, ...MODELS_PC];
+  const mInfo = allModels.find(m => m.id === modelId);
+  const name = mInfo ? mInfo.name : modelId;
+  document.getElementById("model-badge").textContent = name + " …";
+  showStatus(name + " をロード中...", 0);
+  try {
+    if (engine) { await engine.unload(); engine = null; }
+    engine = await webllm.CreateMLCEngine(modelId, {
+      initProgressCallback: (report) => {
+        const pct = report.progress * 100;
+        showStatus((report.text || "ロード中").slice(0, 55), pct);
+      }
+    });
+    loadedModelId = modelId;
+    document.getElementById("model-badge").textContent = name;
+    showStatus(name + " の準備完了 ✓", 100, "ready");
+    setTimeout(hideStatus, 2500);
+    document.getElementById("user-input").disabled = false;
+    document.getElementById("send-btn").disabled = false;
+    document.getElementById("user-input").focus();
+    rebuildModelLists();
+  } catch (err) {
+    console.error(err);
+    document.getElementById("model-badge").textContent = "モデル選択";
+    showStatus("エラー: " + (err.message || err), 0, "error");
+    engine = null; loadedModelId = null;
+  }
+}
+
+function sendSuggestion(text) {
+  if (!engine) { openModelModal(); return; }
+  document.getElementById("user-input").value = text;
+  sendMessage();
+}
+
+async function sendMessage() {
+  if (isGenerating) return;
+  const input = document.getElementById("user-input");
+  const text = input.value.trim();
+  if (!text) return;
+  if (!engine) { openModelModal(); return; }
+
+  input.value = ""; autoResize(input);
+
+  const welcome = document.getElementById("welcome");
+  if (welcome) welcome.remove();
+  const suggs = document.getElementById("suggestions");
+  if (suggs) suggs.remove();
+
+  appendMessage("user", text);
+  chatHistory.push({ role: "user", content: text });
+
+  const assistantId = "msg-" + Date.now();
+  appendMessage("assistant", "", assistantId);
+  const bubble = document.getElementById(assistantId);
+  bubble.innerHTML = '<span class="thinking-dots"><span></span><span></span><span></span></span>';
+
+  isGenerating = true;
+  abortController = new AbortController();
+  document.getElementById("send-btn").disabled = true;
+  document.getElementById("stop-btn").classList.add("visible");
+
+  const messages = [
+    { role: "system", content: settings.systemPrompt },
+    ...chatHistory.slice(-20),
+  ];
+
+  let fullText = "";
+  try {
+    const chunks = await engine.chat.completions.create({
+      messages,
+      temperature: settings.temperature,
+      top_p: settings.topP,
+      max_tokens: settings.maxTokens,
+      stream: true,
+    });
+    bubble.innerHTML = "";
+    bubble.classList.add("cursor");
+    for await (const chunk of chunks) {
+      if (abortController.signal.aborted) break;
+      const delta = (chunk.choices[0].delta.content) || "";
+      fullText += delta;
+      bubble.innerHTML = renderMarkdown(fullText);
+      scrollToBottom();
+    }
+    bubble.classList.remove("cursor");
+    chatHistory.push({ role: "assistant", content: fullText });
+  } catch (err) {
+    bubble.classList.remove("cursor");
+    if (!abortController.signal.aborted) {
+      bubble.innerHTML = '<span style="color:#c0392b">⚠️ エラー: ' + (err.message || err) + '</span>';
+    } else {
+      if (!fullText) {
+        bubble.innerHTML = '<span style="color:var(--text-muted)">生成を中断しました</span>';
+      } else {
+        bubble.innerHTML = renderMarkdown(fullText) + '<br><span style="color:var(--text-muted);font-size:12px">（中断）</span>';
+        chatHistory.push({ role: "assistant", content: fullText });
+      }
+    }
+  } finally {
+    isGenerating = false;
+    abortController = null;
+    document.getElementById("send-btn").disabled = false;
+    document.getElementById("stop-btn").classList.remove("visible");
+    scrollToBottom(true);
+  }
+}
+
+function stopGeneration() {
+  if (abortController) { abortController.abort(); }
+  if (engine && engine.interruptGenerate) { engine.interruptGenerate(); }
+}
+
+function appendMessage(role, text, id) {
+  const msgs = document.getElementById("messages");
+  const group = document.createElement("div");
+  group.className = "msg-group";
+  const row = document.createElement("div");
+  row.className = "msg-row " + role;
+  const avatar = document.createElement("div");
+  avatar.className = "avatar " + role;
+  avatar.textContent = role === "user" ? "You" : "AI";
+  const bubble = document.createElement("div");
+  bubble.className = "bubble " + role;
+  if (id) bubble.id = id;
+  bubble.innerHTML = text ? renderMarkdown(text) : "";
+  const time = document.createElement("div");
+  time.className = "msg-time";
+  time.textContent = new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" });
+  if (role === "user") { row.appendChild(bubble); row.appendChild(avatar); }
+  else { row.appendChild(avatar); row.appendChild(bubble); }
+  group.appendChild(row);
+  group.appendChild(time);
+  msgs.appendChild(group);
+  scrollToBottom();
+}
+
+function renderMarkdown(md) {
+  let h = md.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  h = h.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, _l, code) => '<pre><code>' + code.trimEnd() + '</code></pre>');
+  h = h.replace(/`([^`]+)`/g, "<code>$1</code>");
+  h = h.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+  h = h.replace(/^## (.+)$/gm,  "<h2>$1</h2>");
+  h = h.replace(/^# (.+)$/gm,   "<h1>$1</h1>");
+  h = h.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  h = h.replace(/\*(.+?)\*/g, "<em>$1</em>");
+  h = h.replace(/^&gt; (.+)$/gm, "<blockquote>$1</blockquote>");
+  h = h.replace(/^[\-\*] (.+)$/gm, "<li>$1</li>");
+  h = h.replace(/(<li>[\s\S]*?<\/li>\n?)+/g, m => "<ul>" + m + "</ul>");
+  h = h.replace(/^\d+\. (.+)$/gm, "<li>$1</li>");
+  h = h.split(/\n{2,}/).map(block => {
+    if (/^<(h[1-3]|ul|ol|pre|blockquote)/.test(block.trim())) return block;
+    return "<p>" + block.replace(/\n/g, "<br>") + "</p>";
+  }).join("\n");
+  return h;
+}
+
+function clearChat() {
+  if (!confirm("会話履歴を全て削除しますか？")) return;
+  chatHistory = [];
+  document.getElementById("messages").innerHTML = `
+    <div id="welcome">
+      <div id="welcome-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
+      <h2>Local AI Chat</h2>
+      <p>デバイス上でLLMを完全ローカル実行。データは外部に送信されません。</p>
+      <div class="hint">⚠️ WebGPU対応ブラウザが必要 (Chrome 113+)</div>
+    </div>
+    <div id="suggestions">
+      <div class="suggestion-chip" onclick="sendSuggestion('Pythonで簡単なWebサーバーを書いて')">Pythonでサーバー</div>
+      <div class="suggestion-chip" onclick="sendSuggestion('素数を100個リストアップして')">素数リスト</div>
+      <div class="suggestion-chip" onclick="sendSuggestion('量子コンピュータを簡単に説明して')">量子コンピュータ</div>
+      <div class="suggestion-chip" onclick="sendSuggestion('日本語でハイクを書いて')">俳句を書く</div>
+    </div>`;
+}
+
+function scrollToBottom(force) {
+  const msgs = document.getElementById("messages");
+  const atBottom = msgs.scrollHeight - msgs.scrollTop - msgs.clientHeight < 100;
+  if (force || atBottom) {
+    msgs.scrollTop = msgs.scrollHeight;
+    document.getElementById("scroll-btn").classList.remove("visible");
+  }
+}
+function handleKey(e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function autoResize(el) { el.style.height = "auto"; el.style.height = Math.min(el.scrollHeight, 120) + "px"; }
+function showToast(msg) {
+  const t = document.createElement("div");
+  t.style.cssText = "position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--user-bubble);color:white;padding:8px 16px;border-radius:20px;font-size:13px;z-index:200;";
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+document.getElementById("messages").addEventListener("scroll", () => {
+  const msgs = document.getElementById("messages");
+  const btn = document.getElementById("scroll-btn");
+  if (msgs.scrollHeight - msgs.scrollTop - msgs.clientHeight > 120) btn.classList.add("visible");
+  else btn.classList.remove("visible");
+});
+
+if (!navigator.gpu) {
+  showStatus("⚠️ このブラウザはWebGPU非対応です。Chrome 113+ をお使いください。", 0, "error");
+}
+rebuildModelLists();
+</script>
+</body>
+</html>
