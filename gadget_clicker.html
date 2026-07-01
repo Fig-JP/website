@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>端末クリッカー - ガジェット帝国放置記</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Share+Tech+Mono&display=swap');
+
+:root{
+  --bg-deep:#05070d;
+  --bg-panel:#0e1728;
+  --bg-panel-2:#141f36;
+  --cyan:#4dd8ff;
+  --cyan-light:#b9f1ff;
+  --magenta:#ff4dd8;
+  --green:#4dffa0;
+  --gold:#ffcf4d;
+  --red:#ff6a6a;
+  --text:#eaf4ff;
+  --text-dim:#7d93b8;
+  --line:rgba(77,216,255,0.18);
+  --glow: 0 0 26px rgba(77,216,255,0.4);
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
+html,body{
+  margin:0; padding:0; min-height:100%;
+  background:
+    radial-gradient(ellipse at 50% -10%, #10233f 0%, transparent 55%),
+    repeating-linear-gradient(0deg, rgba(77,216,255,0.035) 0px, rgba(77,216,255,0.035) 1px, transparent 1px, transparent 26px),
+    repeating-linear-gradient(90deg, rgba(77,216,255,0.035) 0px, rgba(77,216,255,0.035) 1px, transparent 1px, transparent 26px),
+    linear-gradient(180deg, var(--bg-deep), #030408 100%);
+  color:var(--text);
+  font-family:'Noto Sans JP', sans-serif;
+  overflow-x:hidden;
+  transition: filter 0.6s ease;
+}
+
+.numeral{ font-family:'Share Tech Mono', 'Orbitron', monospace; }
+
+.app{
+  max-width:520px;
+  margin:0 auto;
+  padding:14px 14px 96px;
+  position:relative;
+}
+
+.page{ display:none; }
+.page.active{ display:block; }
+
+/* ---------- header ---------- */
+header{ text-align:center; padding:10px 0 4px; }
+header h1{
+  font-family:'Orbitron', sans-serif;
+  font-weight:800;
+  font-size:24px;
+  margin:0;
+  letter-spacing:2px;
+  background:linear-gradient(90deg, var(--cyan-light), var(--cyan), var(--magenta));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 2px 20px rgba(77,216,255,0.25);
+}
+header .sub{
+  font-size:11px;
+  color:var(--text-dim);
+  letter-spacing:2px;
+  margin-top:4px;
+  font-family:'Share Tech Mono', monospace;
+}
+
+/* ---------- top stat bar ---------- */
+.statbar{
+  display:flex; justify-content:space-between; gap:8px;
+  margin:14px 0 6px;
+}
+.stat-chip{
+  flex:1;
+  background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:8px 10px;
+  text-align:center;
+}
+.stat-chip .label{ font-size:10px; color:var(--text-dim); }
+.stat-chip .val{ font-family:'Share Tech Mono'; font-weight:700; font-size:15px; color:var(--cyan-light); }
+
+/* ---------- click stage ---------- */
+.stage{
+  position:relative;
+  display:flex; flex-direction:column; align-items:center;
+  padding:20px 0 8px;
+}
+.stage .pp-per-sec{
+  font-size:12px; color:var(--text-dim); margin-bottom:2px; font-family:'Share Tech Mono';
+}
+.stage .pp-total{
+  font-family:'Orbitron'; font-weight:800; font-size:32px;
+  color:var(--text);
+  text-shadow: var(--glow);
+  margin-bottom:16px;
+  letter-spacing:1px;
+}
+
+.chip-wrap{
+  position:relative;
+  width:200px; height:200px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+.pinrow{ position:absolute; display:flex; gap:10px; }
+.pin{ background:linear-gradient(180deg,#9fb4d0,#5a6f8f); }
+.pinrow.top{ top:6px; left:50%; transform:translateX(-50%); }
+.pinrow.bottom{ bottom:6px; left:50%; transform:translateX(-50%); }
+.pinrow.top .pin, .pinrow.bottom .pin{ width:6px; height:12px; border-radius:2px; }
+.pinrow.left{ left:6px; top:50%; transform:translateY(-50%); flex-direction:column; }
+.pinrow.right{ right:6px; top:50%; transform:translateY(-50%); flex-direction:column; }
+.pinrow.left .pin, .pinrow.right .pin{ width:12px; height:6px; border-radius:2px; }
+
+.chip{
+  width:128px; height:128px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(77,216,255,0.35), transparent 55%),
+    linear-gradient(145deg, #1a2947, #0a1424);
+  clip-path: polygon(22% 0%, 78% 0%, 100% 22%, 100% 78%, 78% 100%, 22% 100%, 0% 78%, 0% 22%);
+  border:1px solid rgba(77,216,255,0.5);
+  box-shadow:
+    0 0 30px rgba(77,216,255,0.35),
+    inset 0 0 24px rgba(0,0,0,0.6);
+  cursor:pointer;
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+  animation: chipPulse 2.6s ease-in-out infinite;
+  touch-action: manipulation;
+  user-select:none;
+}
+.chip::before{
+  content:"";
+  position:absolute; inset:14px;
+  background:
+    linear-gradient(90deg, transparent 48%, rgba(77,216,255,0.35) 49%, rgba(77,216,255,0.35) 51%, transparent 52%),
+    linear-gradient(0deg, transparent 48%, rgba(77,216,255,0.35) 49%, rgba(77,216,255,0.35) 51%, transparent 52%);
+  opacity:0.6;
+}
+.chip .core{
+  width:34px; height:34px;
+  border-radius:6px;
+  background: radial-gradient(circle, var(--cyan-light), var(--cyan) 60%, var(--magenta) 130%);
+  box-shadow:0 0 22px rgba(77,216,255,0.9);
+  animation: coreGlow 1.8s ease-in-out infinite;
+  z-index:2;
+}
+@keyframes chipPulse{
+  0%,100%{ box-shadow:0 0 30px rgba(77,216,255,0.35), inset 0 0 24px rgba(0,0,0,0.6); transform:scale(1); }
+  50%{ box-shadow:0 0 44px rgba(77,216,255,0.55), inset 0 0 24px rgba(0,0,0,0.6); transform:scale(1.015); }
+}
+@keyframes coreGlow{
+  0%,100%{ opacity:0.85; }
+  50%{ opacity:1; }
+}
+.chip.tapped{ animation: chipTap 0.28s ease; }
+@keyframes chipTap{
+  0%{ transform:scale(1); }
+  40%{ transform:scale(0.9); }
+  100%{ transform:scale(1); }
+}
+
+.packet{
+  position:absolute;
+  width:8px; height:8px;
+  border-radius:2px;
+  pointer-events:none;
+  animation: packetFly 0.7s ease-out forwards;
+}
+@keyframes packetFly{
+  0%{ opacity:1; transform: translate(0,0) rotate(0deg) scale(1); }
+  100%{ opacity:0; transform: translate(var(--dx), var(--dy)) rotate(180deg) scale(0.4); }
+}
+
+.float-gain{
+  position:absolute;
+  top:6px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'Share Tech Mono'; font-weight:700; font-size:15px;
+  color:var(--gold);
+  pointer-events:none;
+  animation: floatUp 0.9s ease-out forwards;
+  white-space:nowrap;
+}
+@keyframes floatUp{
+  0%{ opacity:1; transform:translate(-50%, 0); }
+  100%{ opacity:0; transform:translate(-50%, -46px); }
+}
+
+.tap-hint{ font-size:11px; color:var(--text-dim); margin-top:14px; font-family:'Share Tech Mono'; }
+
+/* ---------- section title ---------- */
+.section-title{
+  display:flex; align-items:baseline; gap:8px;
+  margin:22px 2px 8px;
+  font-family:'Orbitron'; font-weight:700; font-size:13px;
+  color:var(--cyan-light);
+  letter-spacing:1px;
+}
+.section-title .line{ flex:1; height:1px; background:linear-gradient(90deg, rgba(77,216,255,0.4), transparent); }
+.section-title .count{ font-family:'Share Tech Mono'; font-size:11px; color:var(--text-dim); }
+
+/* ---------- shop ---------- */
+.shop-item{
+  display:flex; align-items:center; gap:12px;
+  background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 12px;
+  margin-bottom:8px;
+  transition: transform 0.12s ease, border-color 0.2s ease;
+}
+.shop-item:active{ transform: scale(0.98); }
+.shop-item.affordable{ border-color: rgba(77,216,255,0.55); }
+
+.shop-icon{
+  width:42px; height:42px; flex:0 0 auto;
+  border-radius:10px;
+  background: linear-gradient(145deg, #1c2c4a, #0a1424);
+  border:1px solid rgba(77,216,255,0.3);
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+}
+.shop-info{ flex:1; min-width:0; }
+.shop-info .name{ font-weight:700; font-size:13.5px; color:var(--text); }
+.shop-info .desc{ font-size:11px; color:var(--text-dim); margin-top:1px; }
+.shop-info .desc b{ color:var(--cyan-light); font-weight:700; }
+.shop-buy{
+  flex:0 0 auto;
+  text-align:right;
+  background:rgba(0,0,0,0.25); border:none; color:inherit;
+  padding:8px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  min-width:88px;
+}
+.shop-buy .own{ font-size:10px; color:var(--text-dim); }
+.shop-buy .cost{ font-family:'Share Tech Mono'; font-weight:700; font-size:13px; color:var(--gold); }
+.shop-buy:disabled{ opacity:0.4; cursor:default; }
+.shop-buy:not(:disabled):active{ transform: scale(0.94); }
+
+/* ---------- click upgrades ---------- */
+.upg-item{
+  display:flex; align-items:center; gap:12px;
+  background:linear-gradient(180deg, #2a1a3a, #170f24);
+  border:1px solid rgba(255,77,216,0.25);
+  border-radius:12px;
+  padding:10px 12px;
+  margin-bottom:8px;
+}
+.upg-item .shop-icon{ background: linear-gradient(145deg, #3a1c4a, #170a24); border-color:rgba(255,77,216,0.35); }
+.upg-item .cost{ color:#ffb3ec; }
+.upg-item.maxed{ opacity:0.5; }
+
+/* ---------- prestige ---------- */
+.prestige-box{
+  margin-top:22px;
+  background:linear-gradient(180deg, #12331f, #081a10);
+  border:1px solid rgba(77,255,160,0.35);
+  border-radius:16px;
+  padding:16px;
+  text-align:center;
+}
+.prestige-box h3{
+  font-family:'Orbitron'; margin:0 0 4px; color:var(--green); font-size:15px; letter-spacing:1px;
+}
+.prestige-box p{ font-size:12px; color:#bfe8cf; margin:4px 0 12px; line-height:1.5; }
+.prestige-btn{
+  font-family:'Orbitron'; font-weight:700; font-size:13px;
+  background:linear-gradient(180deg, #8affc0, var(--green));
+  color:#052b15;
+  border:none; border-radius:12px;
+  padding:12px 22px;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(77,255,160,0.25);
+  letter-spacing:0.5px;
+}
+.prestige-btn:disabled{ opacity:0.4; filter:grayscale(0.6); cursor:default; box-shadow:none; }
+.prestige-btn:not(:disabled):active{ transform: scale(0.96); }
+
+footer.note{
+  text-align:center; font-size:10.5px; color:var(--text-dim); opacity:0.7;
+  margin-top:26px; line-height:1.6;
+  font-family:'Share Tech Mono';
+}
+
+/* ---------- achievements page ---------- */
+.achv-summary{
+  text-align:center; font-family:'Share Tech Mono'; font-size:12px; color:var(--text-dim);
+  margin-bottom:14px;
+}
+.achv-item{
+  display:flex; align-items:center; gap:12px;
+  background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 12px;
+  margin-bottom:8px;
+}
+.achv-item.locked{ opacity:0.4; }
+.achv-item.unlocked{ border-color:rgba(77,255,160,0.5); box-shadow:0 0 14px rgba(77,255,160,0.15); }
+.achv-icon{
+  width:42px; height:42px; flex:0 0 auto; border-radius:10px;
+  background: linear-gradient(145deg, #1c2c4a, #0a1424);
+  border:1px solid rgba(77,216,255,0.3);
+  display:flex; align-items:center; justify-content:center; font-size:20px;
+}
+.achv-info{ flex:1; min-width:0; }
+.achv-info .name{ font-weight:700; font-size:13.5px; }
+.achv-info .desc{ font-size:11px; color:var(--text-dim); margin-top:1px; }
+.achv-status{ font-size:16px; flex:0 0 auto; }
+
+.achv-toast{
+  position:fixed; top:14px; left:50%; transform:translateX(-50%);
+  background:linear-gradient(180deg,#123322,#0a1f16);
+  border:1px solid rgba(77,255,160,0.5);
+  border-radius:12px; padding:10px 16px;
+  display:flex; align-items:center; gap:10px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.5);
+  z-index:300;
+  animation: toastIn 0.35s ease, toastOut 0.4s ease 2.6s forwards;
+  max-width:88vw;
+}
+.achv-toast .ic{ font-size:20px; }
+.achv-toast .tt{ font-size:10px; color:var(--green); letter-spacing:1px; font-family:'Orbitron'; }
+.achv-toast .nm{ font-size:13px; font-weight:700; color:var(--text); }
+@keyframes toastIn{ from{ opacity:0; transform:translate(-50%,-20px); } to{ opacity:1; transform:translate(-50%,0); } }
+@keyframes toastOut{ from{ opacity:1; } to{ opacity:0; transform:translate(-50%,-20px); } }
+
+/* ---------- settings page ---------- */
+.settings-block{
+  background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:14px;
+}
+.settings-block h4{
+  font-family:'Orbitron'; font-size:12px; color:var(--cyan-light);
+  margin:0 0 8px; letter-spacing:0.5px;
+}
+.settings-block .desc{ font-size:11.5px; color:var(--text-dim); line-height:1.6; margin-bottom:8px; }
+.toggle-row{ display:flex; align-items:center; justify-content:space-between; font-size:13px; }
+.toggle-row .save-info{ font-size:10.5px; color:var(--text-dim); font-family:'Share Tech Mono'; margin-top:4px; }
+.switch{ position:relative; width:40px; height:22px; flex:0 0 auto; }
+.switch input{ opacity:0; width:0; height:0; }
+.switch .track{
+  position:absolute; inset:0; background:#2a3a52; border-radius:22px; cursor:pointer; transition:0.2s;
+}
+.switch .track::before{
+  content:""; position:absolute; width:16px; height:16px; left:3px; top:3px;
+  background:#cdd8e8; border-radius:50%; transition:0.2s;
+}
+.switch input:checked + .track{ background:linear-gradient(90deg, var(--cyan), var(--green)); }
+.switch input:checked + .track::before{ transform:translateX(18px); background:#fff; }
+
+textarea.data-area{
+  width:100%; min-height:88px; margin-top:4px;
+  background:#0a1424; color:var(--cyan-light);
+  border:1px solid var(--line); border-radius:8px;
+  font-family:'Share Tech Mono'; font-size:10.5px; padding:8px; resize:vertical;
+}
+.btn-row{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+.btn{
+  background:linear-gradient(180deg,#1c2c4a,#0e1728);
+  border:1px solid rgba(77,216,255,0.4);
+  color:var(--cyan-light); border-radius:10px;
+  padding:9px 14px; font-size:12px; cursor:pointer;
+  font-family:'Noto Sans JP', sans-serif; flex:1; min-width:120px;
+}
+.btn:active{ transform:scale(0.96); }
+.btn.danger{ border-color:rgba(255,106,106,0.5); color:var(--red); }
+.btn.accent{ border-color:rgba(77,255,160,0.5); color:var(--green); }
+.settings-msg{ font-size:11px; margin-top:8px; min-height:14px; font-family:'Share Tech Mono'; }
+.settings-msg.ok{ color:var(--green); }
+.settings-msg.err{ color:var(--red); }
+
+/* ---------- tab bar ---------- */
+.tabbar{
+  position:fixed; bottom:0; left:0; right:0;
+  display:flex;
+  background:linear-gradient(180deg, var(--bg-panel-2), #0a1220);
+  border-top:1px solid var(--line);
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  z-index:100;
+}
+.tabbar button{
+  flex:1; background:none; border:none; color:var(--text-dim);
+  font-family:'Noto Sans JP'; font-size:10.5px;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:4px; cursor:pointer;
+}
+.tabbar button .icon{ font-size:19px; }
+.tabbar button.active{ color:var(--cyan-light); }
+.tabbar button.active .icon{ filter:drop-shadow(0 0 6px rgba(77,216,255,0.8)); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <h1>端末クリッカー</h1>
+    <div class="sub">-- GADGET EMPIRE PROTOCOL --</div>
+  </header>
+
+  <!-- ================= ゲームページ ================= -->
+  <div class="page active" data-page="game">
+
+    <div class="statbar">
+      <div class="stat-chip">
+        <div class="label">最適化コア</div>
+        <div class="val numeral" id="shardVal">0</div>
+      </div>
+      <div class="stat-chip">
+        <div class="label">生涯処理量</div>
+        <div class="val numeral" id="lifetimeVal">0</div>
+      </div>
+      <div class="stat-chip">
+        <div class="label">倍率</div>
+        <div class="val numeral" id="multVal">×1.00</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="pp-per-sec" id="ppPerSec">毎秒 0 PP</div>
+      <div class="pp-total numeral" id="ppTotal">0 PP</div>
+      <div class="chip-wrap" id="chipWrap">
+        <div class="pinrow top"><div class="pin"></div><div class="pin"></div><div class="pin"></div><div class="pin"></div></div>
+        <div class="pinrow bottom"><div class="pin"></div><div class="pin"></div><div class="pin"></div><div class="pin"></div></div>
+        <div class="pinrow left"><div class="pin"></div><div class="pin"></div><div class="pin"></div><div class="pin"></div></div>
+        <div class="pinrow right"><div class="pin"></div><div class="pin"></div><div class="pin"></div><div class="pin"></div></div>
+        <div class="chip" id="chip"><div class="core"></div></div>
+      </div>
+      <div class="tap-hint">CHIPをタップして処理ポイント(PP)を稼ぐ</div>
+    </div>
+
+    <div class="section-title"><span>⚡ タップ強化</span><span class="line"></span></div>
+    <div id="clickUpgrades"></div>
+
+    <div class="section-title"><span>💻 端末一覧</span><span class="line"></span></div>
+    <div id="shopList"></div>
+
+    <div class="prestige-box">
+      <h3>🔄 システムリセット</h3>
+      <p id="prestigeDesc">生涯処理量が一定量に達するとリセットできます。<br>リセットすると進行状況は初期化されますが、<b style="color:var(--green)">最適化コア</b>を獲得し、永続的にPP生産量が増加します。</p>
+      <button class="prestige-btn" id="prestigeBtn">システムリセット</button>
+    </div>
+
+    <footer class="note">// データはlocalStorageに自動保存されます //</footer>
+  </div>
+
+  <!-- ================= 実績ページ ================= -->
+  <div class="page" data-page="achievements">
+    <div class="section-title"><span>🏆 実績</span><span class="line"></span><span class="count" id="achvCount">0/0</span></div>
+    <div class="achv-summary" id="achvSummary">タップ回数: 0回</div>
+    <div id="achvList"></div>
+  </div>
+
+  <!-- ================= 設定ページ ================= -->
+  <div class="page" data-page="settings">
+
+    <div class="settings-block">
+      <h4>💾 セーブデータ</h4>
+      <div class="toggle-row">
+        <span>自動保存（10秒ごと）</span>
+        <label class="switch">
+          <input type="checkbox" id="autosaveToggle" checked>
+          <span class="track"></span>
+        </label>
+      </div>
+      <div class="save-info" id="saveInfo">まだ保存されていません</div>
+      <div class="btn-row">
+        <button class="btn accent" id="manualSaveBtn">今すぐ保存</button>
+        <button class="btn" id="manualLoadBtn">保存データを読込</button>
+      </div>
+    </div>
+
+    <div class="settings-block">
+      <h4>📤 エクスポート</h4>
+      <div class="desc">現在の進行状況をJSON形式で書き出します。ファイル保存またはコピーしてバックアップできます。</div>
+      <textarea class="data-area numeral" id="exportArea" readonly placeholder="「エクスポート実行」を押すとここに表示されます"></textarea>
+      <div class="btn-row">
+        <button class="btn" id="exportGenBtn">エクスポート実行</button>
+        <button class="btn" id="exportCopyBtn">コピー</button>
+        <button class="btn" id="exportFileBtn">ファイルに保存</button>
+      </div>
+    </div>
+
+    <div class="settings-block">
+      <h4>📥 インポート</h4>
+      <div class="desc">エクスポートしたJSONを貼り付けるか、ファイルを選択して読み込みます。現在の進行状況は上書きされます。</div>
+      <textarea class="data-area numeral" id="importArea" placeholder="ここにJSONを貼り付け"></textarea>
+      <input type="file" id="importFileInput" accept="application/json,.json" style="display:none">
+      <div class="btn-row">
+        <button class="btn" id="importFileBtn">ファイルを選択</button>
+        <button class="btn accent" id="importApplyBtn">インポート実行</button>
+      </div>
+      <div class="settings-msg" id="settingsMsg"></div>
+    </div>
+
+    <div class="settings-block">
+      <h4>⚠️ データ管理</h4>
+      <div class="desc">全ての進行状況（PP・端末・実績・最適化コア）を完全に削除して最初からやり直します。この操作は取り消せません。</div>
+      <div class="btn-row">
+        <button class="btn danger" id="hardResetBtn">全データを消去</button>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="tabbar">
+    <button class="tab-btn active" data-page="game"><span class="icon">🎮</span>ゲーム</button>
+    <button class="tab-btn" data-page="achievements"><span class="icon">🏆</span><span id="tabAchvLabel">実績</span></button>
+    <button class="tab-btn" data-page="settings"><span class="icon">⚙️</span>設定</button>
+  </nav>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STORAGE_KEY = 'gadgetClicker_save_v1';
+
+  /* ---------------- 大きな数値のフォーマット（和風単位） ---------------- */
+  var UNITS = [
+    {v:1e44, s:"極"}, {v:1e40, s:"載"}, {v:1e36, s:"正"}, {v:1e32, s:"澗"},
+    {v:1e28, s:"溝"}, {v:1e24, s:"穣"}, {v:1e20, s:"秭"}, {v:1e16, s:"京"},
+    {v:1e12, s:"兆"}, {v:1e8, s:"億"}, {v:1e4, s:"万"}
+  ];
+  function floorToDecimals(n, decimals){
+    var factor = Math.pow(10, decimals);
+    return Math.floor(n * factor) / factor;
+  }
+  function formatNumber(n){
+    if (n < 0 || isNaN(n)) n = 0;
+    if (!isFinite(n)) return '∞';
+    if (n < 10000) {
+      var floored = floorToDecimals(n, 2);
+      return floored.toLocaleString('ja-JP', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+    for (var i = 0; i < UNITS.length; i++) {
+      var u = UNITS[i];
+      if (n >= u.v) {
+        var val = floorToDecimals(n / u.v, 2);
+        return val.toFixed(2) + u.s;
+      }
+    }
+    return Math.floor(n).toString();
+  }
+  function formatTime(ts){
+    if(!ts) return 'まだ保存されていません';
+    var d = new Date(ts);
+    function p(x){ return (x<10?'0':'')+x; }
+    return d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+  }
+
+  /* ---------------- 保存領域（localStorage / フォールバック） ---------------- */
+  var memoryFallback = {};
+  var storageAvailable = (function(){
+    try{
+      var t = '__gc_test__';
+      window.localStorage.setItem(t, t);
+      window.localStorage.removeItem(t);
+      return true;
+    }catch(e){ return false; }
+  })();
+  function storageGet(key){
+    if (storageAvailable) { try{ return window.localStorage.getItem(key); }catch(e){ return memoryFallback[key] || null; } }
+    return memoryFallback[key] || null;
+  }
+  function storageSet(key, val){
+    if (storageAvailable) { try{ window.localStorage.setItem(key, val); return; }catch(e){ /* fall through */ } }
+    memoryFallback[key] = val;
+  }
+
+  /* ---------------- ゲームステート ---------------- */
+  var state = {
+    pp: 0,
+    lifetimePP: 0,
+    shards: 0,
+    totalTaps: 0,
+    prestigeCount: 0,
+    generators: [],
+    lastSavedAt: 0
+  };
+
+  var GEN_DEFS = [
+    { key:"calc",    name:"電卓",             icon:"🧮", baseCost:15,      baseProd:0.1,  desc:"コツコツ計算してPPを生む" },
+    { key:"phone",   name:"スマートフォン",   icon:"📱", baseCost:100,     baseProd:1,    desc:"手のひらの中の処理装置" },
+    { key:"laptop",  name:"ノートPC",         icon:"💻", baseCost:1100,    baseProd:8,    desc:"どこでも動くマイ端末" },
+    { key:"desktop", name:"デスクトップPC",   icon:"🖥️", baseCost:12000,   baseProd:47,   desc:"高性能パーツを積み込んだ自作機" },
+    { key:"work",    name:"ワークステーション", icon:"🖲️", baseCost:130000,  baseProd:260,  desc:"業務用マルチコアマシン" },
+    { key:"rack",    name:"サーバーラック",   icon:"🗄️", baseCost:1400000, baseProd:1400, desc:"端末が棚いっぱいに並ぶ" },
+    { key:"dc",      name:"データセンター",   icon:"🏢", baseCost:2e7,     baseProd:7800, desc:"街ひとつ分の処理能力" },
+    { key:"qpu",     name:"量子コンピュータ", icon:"🧊", baseCost:3.3e8,   baseProd:44000,desc:"重ね合わせでPPが際限なく湧く" },
+  ];
+  GEN_DEFS.forEach(function(def){ state.generators.push({ key:def.key, count:0 }); });
+
+  var CLICK_UPGRADE_DEFS = [
+    { key:"click1", name:"高速タッチパネル", icon:"🖐️", cost:50,     mult:2, desc:"タップ威力が<b>×2</b>になる" },
+    { key:"click2", name:"オーバークロックチップ", icon:"🔥", cost:5000,   mult:3, desc:"タップ威力が<b>×3</b>になる" },
+    { key:"click3", name:"量子タッチセンサー", icon:"✨", cost:250000, mult:5, desc:"タップ威力が<b>×5</b>になる" },
+  ];
+  var clickUpgradesOwned = {};
+
+  var ACHIEVEMENTS = [
+    { id:'tap1',     name:'はじめの一歩',       desc:'CHIPを1回タップする',            icon:'👆', cond:function(s){ return s.totalTaps >= 1; } },
+    { id:'tap100',   name:'タップの達人',       desc:'CHIPを100回タップする',          icon:'✋', cond:function(s){ return s.totalTaps >= 100; } },
+    { id:'tap1000',  name:'タップマスター',     desc:'CHIPを1000回タップする',         icon:'🖐️', cond:function(s){ return s.totalTaps >= 1000; } },
+    { id:'pp1k',     name:'駆け出しエンジニア', desc:'生涯処理量1,000PP到達',          icon:'🔧', cond:function(s){ return s.lifetimePP >= 1000; } },
+    { id:'pp1m',     name:'データの海',         desc:'生涯処理量100万PP到達',          icon:'🌊', cond:function(s){ return s.lifetimePP >= 1e6; } },
+    { id:'pp1b',     name:'ギガの向こう側',     desc:'生涯処理量10億PP到達',           icon:'🚀', cond:function(s){ return s.lifetimePP >= 1e9; } },
+    { id:'gen10',    name:'端末コレクター',     desc:'端末を合計10台導入',             icon:'📦', cond:function(s){ return s.totalGenerators >= 10; } },
+    { id:'gen100',   name:'ガジェット王国',     desc:'端末を合計100台導入',            icon:'👑', cond:function(s){ return s.totalGenerators >= 100; } },
+    { id:'allTypes', name:'フルラインナップ',   desc:'全種類の端末を1台以上導入',      icon:'🗂️', cond:function(s){ return s.allTypesOwned; } },
+    { id:'allClick', name:'強化オタク',         desc:'タップ強化を全て導入',           icon:'💥', cond:function(s){ return s.allClickUpgrades; } },
+    { id:'prestige1',name:'はじめての転生',     desc:'システムリセットを1回行う',      icon:'🔄', cond:function(s){ return s.prestigeCount >= 1; } },
+    { id:'prestige5',name:'転生マスター',       desc:'システムリセットを5回行う',      icon:'🌟', cond:function(s){ return s.prestigeCount >= 5; } },
+    { id:'core100',  name:'コア収集家',         desc:'最適化コアを100個所持',          icon:'🧿', cond:function(s){ return s.shards >= 100; } },
+  ];
+  var achievementsUnlocked = {};
+
+  /* ---------------- 計算系 ---------------- */
+  function prestigeMultiplier(){ return 1 + state.shards * 0.02; }
+  function genCost(def, count){ return def.baseCost * Math.pow(1.15, count); }
+  function genOutputPerUnit(def){ return def.baseProd * prestigeMultiplier(); }
+  function totalPPPerSec(){
+    var total = 0;
+    for (var i = 0; i < GEN_DEFS.length; i++){
+      total += genOutputPerUnit(GEN_DEFS[i]) * state.generators[i].count;
+    }
+    return total;
+  }
+  function clickPower(){
+    var base = 1;
+    CLICK_UPGRADE_DEFS.forEach(function(u){ if (clickUpgradesOwned[u.key]) base *= u.mult; });
+    return base * prestigeMultiplier();
+  }
+  function prestigeThreshold(){ return 1e6; }
+  function shardsIfPrestigeNow(){
+    if (state.lifetimePP < prestigeThreshold()) return 0;
+    return Math.floor(10 * Math.sqrt(state.lifetimePP / 1e7));
+  }
+
+  /* ---------------- 実績ロジック ---------------- */
+  function computeDerivedStats(){
+    var totalGenerators = state.generators.reduce(function(sum,g){ return sum + g.count; }, 0);
+    var allTypesOwned = state.generators.every(function(g){ return g.count >= 1; });
+    var allClickUpgrades = CLICK_UPGRADE_DEFS.every(function(u){ return !!clickUpgradesOwned[u.key]; });
+    return {
+      totalTaps: state.totalTaps,
+      lifetimePP: state.lifetimePP,
+      totalGenerators: totalGenerators,
+      allTypesOwned: allTypesOwned,
+      allClickUpgrades: allClickUpgrades,
+      prestigeCount: state.prestigeCount,
+      shards: state.shards
+    };
+  }
+
+  function checkAchievements(){
+    var stats = computeDerivedStats();
+    var newly = [];
+    ACHIEVEMENTS.forEach(function(a){
+      if (!achievementsUnlocked[a.id] && a.cond(stats)) {
+        achievementsUnlocked[a.id] = true;
+        newly.push(a);
+      }
+    });
+    if (newly.length){
+      newly.forEach(showAchievementToast);
+      renderAchievements();
+      updateTabBadge();
+      saveGame();
+    }
+  }
+
+  function showAchievementToast(a){
+    var el = document.createElement('div');
+    el.className = 'achv-toast';
+    el.innerHTML = '<span class="ic">' + a.icon + '</span><div><div class="tt">実績解除</div><div class="nm">' + a.name + '</div></div>';
+    document.body.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 3000);
+  }
+
+  /* ---------------- 描画：メイン ---------------- */
+  var shopListEl = document.getElementById('shopList');
+  var clickUpgListEl = document.getElementById('clickUpgrades');
+
+  function renderShop(){
+    shopListEl.innerHTML = "";
+    GEN_DEFS.forEach(function(def, i){
+      var g = state.generators[i];
+      var cost = genCost(def, g.count);
+      var affordable = state.pp >= cost;
+      var perSec = genOutputPerUnit(def) * g.count;
+      var item = document.createElement('div');
+      item.className = 'shop-item' + (affordable ? ' affordable' : '');
+      item.innerHTML =
+        '<div class="shop-icon">' + def.icon + '</div>' +
+        '<div class="shop-info">' +
+          '<div class="name">' + def.name + ' <span style="color:var(--text-dim);font-size:11px;">(所持 ' + g.count + ')</span></div>' +
+          '<div class="desc">' + def.desc + ' ・ <b>' + formatNumber(genOutputPerUnit(def)) + ' PP/秒</b>' +
+            (g.count > 0 ? ' ・ 現在 <b>' + formatNumber(perSec) + ' PP/秒</b>' : '') +
+          '</div>' +
+        '</div>' +
+        '<button class="shop-buy" data-idx="' + i + '" ' + (affordable ? '' : 'disabled') + '>' +
+          '<div class="own">導入</div><div class="cost numeral">' + formatNumber(cost) + '</div>' +
+        '</button>';
+      shopListEl.appendChild(item);
+    });
+    shopListEl.querySelectorAll('.shop-buy').forEach(function(btn){
+      btn.addEventListener('click', function(){ buyGenerator(parseInt(btn.getAttribute('data-idx'), 10)); });
+    });
+  }
+
+  function renderClickUpgrades(){
+    clickUpgListEl.innerHTML = "";
+    CLICK_UPGRADE_DEFS.forEach(function(u){
+      var owned = !!clickUpgradesOwned[u.key];
+      var affordable = state.pp >= u.cost;
+      var item = document.createElement('div');
+      item.className = 'upg-item' + (owned ? ' maxed' : '');
+      item.innerHTML =
+        '<div class="shop-icon">' + u.icon + '</div>' +
+        '<div class="shop-info"><div class="name">' + u.name + '</div><div class="desc">' + u.desc + '</div></div>' +
+        '<button class="shop-buy" data-key="' + u.key + '" ' + ((owned || !affordable) ? 'disabled' : '') + '>' +
+          '<div class="own">' + (owned ? '導入済み' : '導入') + '</div>' +
+          (owned ? '' : '<div class="cost numeral">' + formatNumber(u.cost) + '</div>') +
+        '</button>';
+      clickUpgListEl.appendChild(item);
+    });
+    clickUpgListEl.querySelectorAll('.shop-buy').forEach(function(btn){
+      if (btn.disabled) return;
+      btn.addEventListener('click', function(){ buyClickUpgrade(btn.getAttribute('data-key')); });
+    });
+  }
+
+  var ppTotalEl = document.getElementById('ppTotal');
+  var ppPerSecEl = document.getElementById('ppPerSec');
+  var shardValEl = document.getElementById('shardVal');
+  var lifetimeValEl = document.getElementById('lifetimeVal');
+  var multValEl = document.getElementById('multVal');
+  var prestigeBtn = document.getElementById('prestigeBtn');
+  var prestigeDesc = document.getElementById('prestigeDesc');
+
+  function renderStats(){
+    ppTotalEl.textContent = formatNumber(state.pp) + ' PP';
+    ppPerSecEl.textContent = '毎秒 ' + formatNumber(totalPPPerSec()) + ' PP';
+    shardValEl.textContent = formatNumber(state.shards);
+    lifetimeValEl.textContent = formatNumber(state.lifetimePP);
+    multValEl.textContent = '×' + prestigeMultiplier().toFixed(2);
+
+    var canPrestige = state.lifetimePP >= prestigeThreshold();
+    prestigeBtn.disabled = !canPrestige;
+    var gain = shardsIfPrestigeNow();
+    if (canPrestige) {
+      prestigeBtn.textContent = 'システムリセット（+' + gain + ' コア）';
+      prestigeDesc.innerHTML = '今リセットすると <b style="color:var(--green)">+' + gain + ' 最適化コア</b> を獲得できます。<br>（コア1個につき永続でPP生産量+2%）';
+    } else {
+      prestigeBtn.textContent = 'システムリセット';
+      prestigeDesc.innerHTML = '生涯処理量が <b style="color:var(--green)">' + formatNumber(prestigeThreshold()) + '</b> に達するとリセットできます。<br>（現在 ' + formatNumber(state.lifetimePP) + '）';
+    }
+  }
+
+  function renderAll(){
+    renderStats();
+    renderShop();
+    renderClickUpgrades();
+    renderAchievements();
+    updateTabBadge();
+    updateSaveInfo();
+  }
+
+  /* ---------------- 描画：実績ページ ---------------- */
+  var achvListEl = document.getElementById('achvList');
+  var achvCountEl = document.getElementById('achvCount');
+  var achvSummaryEl = document.getElementById('achvSummary');
+
+  function renderAchievements(){
+    var stats = computeDerivedStats();
+    var unlockedCount = 0;
+    achvListEl.innerHTML = "";
+    ACHIEVEMENTS.forEach(function(a){
+      var unlocked = !!achievementsUnlocked[a.id];
+      if (unlocked) unlockedCount++;
+      var item = document.createElement('div');
+      item.className = 'achv-item ' + (unlocked ? 'unlocked' : 'locked');
+      item.innerHTML =
+        '<div class="achv-icon">' + (unlocked ? a.icon : '🔒') + '</div>' +
+        '<div class="achv-info"><div class="name">' + a.name + '</div><div class="desc">' + a.desc + '</div></div>' +
+        '<div class="achv-status">' + (unlocked ? '✅' : '') + '</div>';
+      achvListEl.appendChild(item);
+    });
+    achvCountEl.textContent = unlockedCount + '/' + ACHIEVEMENTS.length;
+    achvSummaryEl.textContent = 'タップ回数: ' + formatNumber(stats.totalTaps) + '回　導入端末数: ' + formatNumber(stats.totalGenerators) + '台';
+  }
+
+  var tabAchvLabel = document.getElementById('tabAchvLabel');
+  function updateTabBadge(){
+    var unlockedCount = ACHIEVEMENTS.filter(function(a){ return achievementsUnlocked[a.id]; }).length;
+    tabAchvLabel.textContent = '実績 ' + unlockedCount + '/' + ACHIEVEMENTS.length;
+  }
+
+  /* ---------------- アクション ---------------- */
+  function buyGenerator(i){
+    var def = GEN_DEFS[i];
+    var g = state.generators[i];
+    var cost = genCost(def, g.count);
+    if (state.pp < cost) return;
+    state.pp -= cost;
+    g.count += 1;
+    renderAll();
+    checkAchievements();
+    saveGame();
+  }
+
+  function buyClickUpgrade(key){
+    var def = CLICK_UPGRADE_DEFS.filter(function(u){ return u.key === key; })[0];
+    if (!def || clickUpgradesOwned[key]) return;
+    if (state.pp < def.cost) return;
+    state.pp -= def.cost;
+    clickUpgradesOwned[key] = true;
+    renderAll();
+    checkAchievements();
+    saveGame();
+  }
+
+  function doPrestige(){
+    var gain = shardsIfPrestigeNow();
+    if (gain <= 0) return;
+    if (!confirm('システムをリセットすると現在の進行状況（PP・端末・強化）は初期化されます。\n+' + gain + ' 最適化コアを獲得してリセットしますか？')) return;
+    state.shards += gain;
+    state.pp = 0;
+    state.lifetimePP = 0;
+    state.prestigeCount += 1;
+    state.generators.forEach(function(g){ g.count = 0; });
+    clickUpgradesOwned = {};
+    renderAll();
+    checkAchievements();
+    saveGame();
+  }
+  prestigeBtn.addEventListener('click', doPrestige);
+
+  /* ---------------- タップ処理 ---------------- */
+  var chipEl = document.getElementById('chip');
+  var chipWrap = document.getElementById('chipWrap');
+  var PACKET_COLORS = ['#4dd8ff', '#ff4dd8', '#4dffa0', '#ffcf4d'];
+
+  function spawnPackets(x, y){
+    for (var i = 0; i < 6; i++){
+      var d = document.createElement('div');
+      d.className = 'packet';
+      d.style.background = PACKET_COLORS[i % PACKET_COLORS.length];
+      var angle = Math.random() * Math.PI * 2;
+      var dist = 34 + Math.random() * 34;
+      d.style.setProperty('--dx', (Math.cos(angle) * dist) + 'px');
+      d.style.setProperty('--dy', (Math.sin(angle) * dist - 10) + 'px');
+      d.style.left = x + 'px';
+      d.style.top = y + 'px';
+      chipWrap.appendChild(d);
+      (function(el){ setTimeout(function(){ el.remove(); }, 750); })(d);
+    }
+  }
+  function spawnFloatGain(amount){
+    var el = document.createElement('div');
+    el.className = 'float-gain numeral';
+    el.textContent = '+' + formatNumber(amount);
+    chipWrap.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 900);
+  }
+
+  function handleTap(){
+    var gain = clickPower();
+    state.pp += gain;
+    state.lifetimePP += gain;
+    state.totalTaps += 1;
+
+    chipEl.classList.remove('tapped');
+    void chipEl.offsetWidth;
+    chipEl.classList.add('tapped');
+
+    var rect = chipWrap.getBoundingClientRect();
+    spawnPackets(rect.width / 2, rect.height / 2);
+    spawnFloatGain(gain);
+
+    renderStats();
+    checkAchievements();
+  }
+  chipEl.addEventListener('click', handleTap);
+  chipEl.addEventListener('touchstart', function(e){ e.preventDefault(); handleTap(); }, {passive:false});
+
+  /* ---------------- インフレ演出 ---------------- */
+  function updateAtmosphere(){
+    var t = Math.min(1, Math.log10(state.lifetimePP + 1) / 20);
+    document.body.style.filter = 'saturate(' + (1 + t * 0.9) + ') brightness(' + (1 + t * 0.15) + ')';
+  }
+
+  /* ---------------- ゲームループ ---------------- */
+  var lastTime = Date.now();
+  function tick(){
+    var now = Date.now();
+    var dt = (now - lastTime) / 1000;
+    lastTime = now;
+    if (dt > 0 && dt < 5){
+      var gain = totalPPPerSec() * dt;
+      state.pp += gain;
+      state.lifetimePP += gain;
+    }
+    renderStats();
+    updateAtmosphere();
+  }
+
+  var frameCount = 0;
+  setInterval(function(){
+    tick();
+    frameCount++;
+    if (frameCount % 5 === 0){
+      renderShop();
+      renderClickUpgrades();
+    }
+    if (frameCount % 20 === 0){
+      checkAchievements();
+    }
+  }, 100);
+
+  /* ---------------- セーブ / ロード ---------------- */
+  function serializeState(){
+    return JSON.stringify({
+      version: 1,
+      savedAt: Date.now(),
+      pp: state.pp,
+      lifetimePP: state.lifetimePP,
+      shards: state.shards,
+      totalTaps: state.totalTaps,
+      prestigeCount: state.prestigeCount,
+      generators: state.generators.map(function(g){ return g.count; }),
+      clickUpgradesOwned: clickUpgradesOwned,
+      achievementsUnlocked: achievementsUnlocked
+    }, null, 0);
+  }
+
+  function applyImportedData(data){
+    if (!data || typeof data !== 'object') throw new Error('invalid data');
+    state.pp = Number(data.pp) || 0;
+    state.lifetimePP = Number(data.lifetimePP) || 0;
+    state.shards = Number(data.shards) || 0;
+    state.totalTaps = Number(data.totalTaps) || 0;
+    state.prestigeCount = Number(data.prestigeCount) || 0;
+    if (Array.isArray(data.generators)) {
+      data.generators.forEach(function(c, i){ if (state.generators[i]) state.generators[i].count = Number(c) || 0; });
+    }
+    clickUpgradesOwned = (data.clickUpgradesOwned && typeof data.clickUpgradesOwned === 'object') ? data.clickUpgradesOwned : {};
+    achievementsUnlocked = (data.achievementsUnlocked && typeof data.achievementsUnlocked === 'object') ? data.achievementsUnlocked : {};
+    state.lastSavedAt = Number(data.savedAt) || Date.now();
+  }
+
+  function saveGame(){
+    storageSet(STORAGE_KEY, serializeState());
+    state.lastSavedAt = Date.now();
+    updateSaveInfo();
+  }
+
+  function loadGame(){
+    var raw = storageGet(STORAGE_KEY);
+    if (!raw) return false;
+    try{
+      applyImportedData(JSON.parse(raw));
+      return true;
+    }catch(e){ return false; }
+  }
+
+  var saveInfoEl = document.getElementById('saveInfo');
+  function updateSaveInfo(){
+    saveInfoEl.textContent = state.lastSavedAt
+      ? ('最終保存: ' + formatTime(state.lastSavedAt) + (storageAvailable ? '' : '（このプレビューでは端末保存が使えないため一時保存中）'))
+      : 'まだ保存されていません';
+  }
+
+  var autosaveToggle = document.getElementById('autosaveToggle');
+  var autosaveEnabled = true;
+  autosaveToggle.addEventListener('change', function(){ autosaveEnabled = autosaveToggle.checked; });
+  setInterval(function(){ if (autosaveEnabled) saveGame(); }, 10000);
+  window.addEventListener('beforeunload', function(){ saveGame(); });
+  document.addEventListener('visibilitychange', function(){ if (document.hidden) saveGame(); });
+
+  /* ---------------- 設定ページ：手動保存/読込 ---------------- */
+  document.getElementById('manualSaveBtn').addEventListener('click', function(){
+    saveGame();
+    showSettingsMsg('保存しました', 'ok');
+  });
+  document.getElementById('manualLoadBtn').addEventListener('click', function(){
+    if (loadGame()) {
+      renderAll();
+      showSettingsMsg('保存データを読み込みました', 'ok');
+    } else {
+      showSettingsMsg('保存データが見つかりませんでした', 'err');
+    }
+  });
+
+  /* ---------------- 設定ページ：エクスポート ---------------- */
+  var exportArea = document.getElementById('exportArea');
+  document.getElementById('exportGenBtn').addEventListener('click', function(){
+    exportArea.value = serializeState();
+    showSettingsMsg('エクスポートしました。下のテキストをコピーするか、ファイル保存してください', 'ok');
+  });
+  document.getElementById('exportCopyBtn').addEventListener('click', function(){
+    if (!exportArea.value) exportArea.value = serializeState();
+    exportArea.select();
+    exportArea.setSelectionRange(0, exportArea.value.length);
+    var done = false;
+    try{
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(exportArea.value).then(function(){
+          showSettingsMsg('クリップボードにコピーしました', 'ok');
+        }).catch(function(){
+          showSettingsMsg('自動コピーできませんでした。テキストが選択されているので手動でコピーしてください', 'err');
+        });
+        done = true;
+      }
+    }catch(e){ /* fall through */ }
+    if (!done) {
+      try{
+        document.execCommand('copy');
+        showSettingsMsg('クリップボードにコピーしました', 'ok');
+      }catch(e){
+        showSettingsMsg('自動コピーできませんでした。テキストが選択されているので手動でコピーしてください', 'err');
+      }
+    }
+  });
+  document.getElementById('exportFileBtn').addEventListener('click', function(){
+    var data = exportArea.value || serializeState();
+    exportArea.value = data;
+    try{
+      var blob = new Blob([data], {type:'application/json'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'gadget_clicker_save.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      showSettingsMsg('ファイルを書き出しました（ダウンロードを確認してください）', 'ok');
+    }catch(e){
+      showSettingsMsg('ファイル保存に失敗しました。テキストを手動でコピーしてください', 'err');
+    }
+  });
+
+  /* ---------------- 設定ページ：インポート ---------------- */
+  var importArea = document.getElementById('importArea');
+  var importFileInput = document.getElementById('importFileInput');
+  document.getElementById('importFileBtn').addEventListener('click', function(){ importFileInput.click(); });
+  importFileInput.addEventListener('change', function(){
+    var file = importFileInput.files && importFileInput.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      importArea.value = String(reader.result || '');
+      showSettingsMsg('ファイルを読み込みました。「インポート実行」を押して反映してください', 'ok');
+    };
+    reader.onerror = function(){ showSettingsMsg('ファイルの読み込みに失敗しました', 'err'); };
+    reader.readAsText(file);
+  });
+  document.getElementById('importApplyBtn').addEventListener('click', function(){
+    if (!importArea.value.trim()) { showSettingsMsg('インポートするJSONを貼り付けるか、ファイルを選択してください', 'err'); return; }
+    try{
+      var data = JSON.parse(importArea.value);
+      applyImportedData(data);
+      renderAll();
+      saveGame();
+      showSettingsMsg('インポートが完了しました', 'ok');
+    }catch(e){
+      showSettingsMsg('インポートに失敗しました。JSON形式を確認してください', 'err');
+    }
+  });
+
+  var settingsMsgEl = document.getElementById('settingsMsg');
+  var settingsMsgTimer = null;
+  function showSettingsMsg(text, kind){
+    settingsMsgEl.textContent = text;
+    settingsMsgEl.className = 'settings-msg ' + (kind || '');
+    if (settingsMsgTimer) clearTimeout(settingsMsgTimer);
+    settingsMsgTimer = setTimeout(function(){ settingsMsgEl.textContent = ''; }, 4000);
+  }
+
+  /* ---------------- データ管理：全削除 ---------------- */
+  document.getElementById('hardResetBtn').addEventListener('click', function(){
+    if (!confirm('本当に全てのデータを消去しますか？この操作は取り消せません。')) return;
+    state.pp = 0;
+    state.lifetimePP = 0;
+    state.shards = 0;
+    state.totalTaps = 0;
+    state.prestigeCount = 0;
+    state.generators.forEach(function(g){ g.count = 0; });
+    clickUpgradesOwned = {};
+    achievementsUnlocked = {};
+    saveGame();
+    renderAll();
+    showSettingsMsg('全データを消去しました', 'ok');
+  });
+
+  /* ---------------- タブ切り替え ---------------- */
+  var pages = document.querySelectorAll('.page');
+  var tabButtons = document.querySelectorAll('.tab-btn');
+  tabButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-page');
+      pages.forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-page') === target); });
+      tabButtons.forEach(function(b){ b.classList.toggle('active', b === btn); });
+      if (target === 'achievements') renderAchievements();
+      if (target === 'settings') updateSaveInfo();
+    });
+  });
+
+  /* ---------------- デバッグ用コンソールAPI ---------------- */
+  // ブラウザのデベロッパーツール(コンソール)から GadgetClicker.setPP(1000) のように呼び出せる
+  window.GadgetClicker = {
+    // PPを指定した値に「上書き」する（生涯PPは増えない）
+    setPP: function(amount){
+      state.pp = Math.max(0, Number(amount) || 0);
+      renderAll();
+      return state.pp;
+    },
+    // PPを「加算」する（生涯PPにも加算され、実績判定される）
+    addPP: function(amount){
+      var a = Number(amount) || 0;
+      state.pp = Math.max(0, state.pp + a);
+      if (a > 0) state.lifetimePP += a;
+      renderAll();
+      checkAchievements();
+      return state.pp;
+    },
+    // 最適化コア（プレステージ通貨）を指定した値にする
+    setShards: function(amount){
+      state.shards = Math.max(0, Number(amount) || 0);
+      renderAll();
+      checkAchievements();
+      return state.shards;
+    },
+    // 端末の所持数を直接指定する。key は 'calc','phone','laptop','desktop','work','rack','dc','qpu'
+    setGenerator: function(key, count){
+      var idx = GEN_DEFS.findIndex(function(d){ return d.key === key; });
+      if (idx < 0) {
+        console.warn('GadgetClicker.setGenerator: 不明なkeyです。使えるkey一覧:', GEN_DEFS.map(function(d){ return d.key; }));
+        return null;
+      }
+      state.generators[idx].count = Math.max(0, Math.floor(Number(count) || 0));
+      renderAll();
+      checkAchievements();
+      return state.generators[idx].count;
+    },
+    // タップ強化を強制的にON/OFF。key は 'click1','click2','click3'
+    setClickUpgrade: function(key, owned){
+      if (!CLICK_UPGRADE_DEFS.some(function(u){ return u.key === key; })) {
+        console.warn('GadgetClicker.setClickUpgrade: 不明なkeyです。使えるkey一覧:', CLICK_UPGRADE_DEFS.map(function(u){ return u.key; }));
+        return null;
+      }
+      if (owned === false) delete clickUpgradesOwned[key]; else clickUpgradesOwned[key] = true;
+      renderAll();
+      return !!clickUpgradesOwned[key];
+    },
+    // 現在の内部ステートをまるごと取得（コピー）
+    getState: function(){
+      return JSON.parse(serializeState());
+    },
+    // 実績を全解除 / 全ロックに戻す
+    unlockAllAchievements: function(){
+      ACHIEVEMENTS.forEach(function(a){ achievementsUnlocked[a.id] = true; });
+      renderAll();
+      saveGame();
+    },
+    resetAchievements: function(){
+      achievementsUnlocked = {};
+      renderAll();
+      saveGame();
+    },
+    // 手動で保存 / 読込
+    save: function(){ saveGame(); return true; },
+    load: function(){ var ok = loadGame(); renderAll(); return ok; },
+    // 生産・タップ倍率など、現在の計算値を確認
+    stats: function(){
+      return {
+        pp: state.pp,
+        lifetimePP: state.lifetimePP,
+        shards: state.shards,
+        prestigeMultiplier: prestigeMultiplier(),
+        ppPerSec: totalPPPerSec(),
+        clickPower: clickPower(),
+        prestigeThreshold: prestigeThreshold(),
+        shardsIfPrestigeNow: shardsIfPrestigeNow()
+      };
+    }
+  };
+  console.log('%c[GadgetClicker] デバッグAPI利用可能: GadgetClicker.setPP(1000) など。詳しくは GadgetClicker を直接入力して確認してください。', 'color:#4dd8ff;');
+
+  /* ---------------- 起動 ---------------- */
+  var hadSave = loadGame();
+  renderAll();
+  checkAchievements();
+  if (!storageAvailable) {
+    // プレビュー環境などlocalStorageが使えない場合は一時保存にフォールバックしていることを伝える
+    console.warn('localStorage is unavailable in this environment; using in-memory fallback storage.');
+  }
+})();
+</script>
+</body>
+</html>
