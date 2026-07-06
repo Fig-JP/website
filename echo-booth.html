@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECHO BOOTH — カラオケエコー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#111217;
+    --panel:#1c1e26;
+    --panel-light:#262934;
+    --panel-inset:#15161c;
+    --line:#33364088;
+    --amber:#ffb454;
+    --amber-dim:#7a5a2e;
+    --teal:#4fd6c0;
+    --red:#ff5f5f;
+    --text-1:#eceef2;
+    --text-2:#8b8f9c;
+    --font-display:'Oswald', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-lcd:'Share Tech Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at top, #1a1c24 0%, var(--bg-deep) 60%);
+    color:var(--text-1);
+    font-family:var(--font-body);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+  }
+
+  .console{
+    width:100%;
+    max-width:760px;
+    background:linear-gradient(180deg, var(--panel) 0%, #191b22 100%);
+    border-radius:18px;
+    border:1px solid #34374280;
+    box-shadow:
+      0 40px 80px -30px rgba(0,0,0,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    padding:28px 28px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  .console::before{
+    content:"";
+    position:absolute; inset:0;
+    background:repeating-linear-gradient(
+      90deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px,
+      transparent 1px, transparent 3px
+    );
+    pointer-events:none;
+  }
+
+  header{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:22px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:16px;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:0.06em;
+    margin:0;
+    color:var(--text-1);
+  }
+  h1 span{color:var(--amber);}
+  .sub{
+    font-family:var(--font-lcd);
+    font-size:12px;
+    color:var(--text-2);
+    letter-spacing:0.05em;
+  }
+
+  .jacks{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-bottom:22px;
+  }
+  @media (max-width:560px){ .jacks{grid-template-columns:1fr;} }
+
+  .jack-slot{
+    background:var(--panel-inset);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+  }
+  .jack-label{
+    font-family:var(--font-display);
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--text-2);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:8px;
+  }
+  .jack-label .pin{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 6px var(--teal);
+  }
+  select{
+    width:100%;
+    background:var(--panel-light);
+    color:var(--text-1);
+    border:1px solid #40434f;
+    border-radius:6px;
+    padding:8px 10px;
+    font-family:var(--font-body);
+    font-size:13px;
+    appearance:none;
+  }
+  select:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:2px;
+  }
+
+  .meter-wrap{
+    background:var(--panel-inset);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:22px;
+  }
+  .meter-head{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:10px;
+  }
+  .meter-head .jack-label{margin-bottom:0;}
+  #dbLabel{font-family:var(--font-lcd); font-size:12px; color:var(--teal);}
+  canvas#vu{
+    width:100%; height:64px; display:block;
+    background:#0c0d11;
+    border-radius:6px;
+  }
+
+  .strip{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    margin-bottom:22px;
+  }
+  @media (max-width:560px){ .strip{grid-template-columns:1fr;} }
+
+  .channel{
+    background:var(--panel-inset);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 12px 16px;
+    text-align:center;
+  }
+  .channel .jack-label{justify-content:center; margin-bottom:10px;}
+  .readout{
+    font-family:var(--font-lcd);
+    font-size:15px;
+    color:var(--amber);
+    margin-bottom:10px;
+    text-shadow:0 0 8px rgba(255,180,84,0.35);
+  }
+  input[type="range"]{
+    -webkit-appearance:none;
+    width:100%;
+    height:4px;
+    background:#3a3d48;
+    border-radius:2px;
+    margin:8px 0;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--amber);
+    box-shadow:0 0 8px rgba(255,180,84,0.6);
+    cursor:pointer;
+    border:2px solid #2a2110;
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--amber);
+    border:2px solid #2a2110;
+    cursor:pointer;
+  }
+  .hint{
+    font-size:11px;
+    color:var(--text-2);
+    margin-top:6px;
+  }
+
+  .power-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  #powerBtn{
+    font-family:var(--font-display);
+    font-weight:600;
+    letter-spacing:0.08em;
+    font-size:15px;
+    padding:14px 28px;
+    border-radius:999px;
+    border:1px solid #4a3a20;
+    background:linear-gradient(180deg, #2b2d36, #1c1e26);
+    color:var(--text-2);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:all .15s ease;
+  }
+  #powerBtn .led{
+    width:10px;height:10px;border-radius:50%;
+    background:#4a4d58;
+    transition:all .15s ease;
+  }
+  #powerBtn.on{
+    color:var(--amber);
+    border-color:var(--amber-dim);
+    background:linear-gradient(180deg, #33291a, #1c1e26);
+  }
+  #powerBtn.on .led{
+    background:var(--amber);
+    box-shadow:0 0 10px var(--amber), 0 0 20px rgba(255,180,84,0.5);
+  }
+  #powerBtn:disabled{opacity:0.5; cursor:not-allowed;}
+
+  #status{
+    font-family:var(--font-lcd);
+    font-size:12px;
+    color:var(--text-2);
+    max-width:320px;
+    text-align:right;
+  }
+  #status.error{color:var(--red);}
+  #status.good{color:var(--teal);}
+
+  .note{
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-size:11.5px;
+    line-height:1.6;
+    color:var(--text-2);
+  }
+  .note b{color:var(--text-1);}
+</style>
+</head>
+<body>
+
+<div class="console">
+  <header>
+    <h1>ECHO <span>BOOTH</span></h1>
+    <div class="sub">MIC → DELAY/FB → OUTPUT</div>
+  </header>
+
+  <div class="jacks">
+    <div class="jack-slot">
+      <div class="jack-label"><span class="pin"></span>INPUT — マイク</div>
+      <select id="inputSelect"><option>デバイスを読み込み中…</option></select>
+    </div>
+    <div class="jack-slot">
+      <div class="jack-label"><span class="pin"></span>OUTPUT — スピーカー</div>
+      <select id="outputSelect"><option>デバイスを読み込み中…</option></select>
+    </div>
+  </div>
+
+  <div class="meter-wrap">
+    <div class="meter-head">
+      <div class="jack-label"><span class="pin"></span>LEVEL METER</div>
+      <span id="dbLabel">-∞ dB</span>
+    </div>
+    <canvas id="vu" width="700" height="64"></canvas>
+  </div>
+
+  <div class="strip">
+    <div class="channel">
+      <div class="jack-label">DELAY TIME</div>
+      <div class="readout"><span id="delayVal">280</span> ms</div>
+      <input type="range" id="delaySlider" min="20" max="1000" step="10" value="280">
+      <div class="hint">やまびこの間隔</div>
+    </div>
+    <div class="channel">
+      <div class="jack-label">FEEDBACK</div>
+      <div class="readout"><span id="fbVal">42</span> %</div>
+      <input type="range" id="fbSlider" min="0" max="85" step="1" value="42">
+      <div class="hint">エコーの繰り返し回数</div>
+    </div>
+    <div class="channel">
+      <div class="jack-label">WET / DRY</div>
+      <div class="readout"><span id="mixVal">45</span> %</div>
+      <input type="range" id="mixSlider" min="0" max="100" step="1" value="45">
+      <div class="hint">エコー成分の混ざり具合</div>
+    </div>
+  </div>
+
+  <div class="power-row">
+    <button id="powerBtn"><span class="led"></span>START</button>
+    <div id="status">マイクの使用許可が必要です</div>
+  </div>
+
+  <div class="note">
+    <b>3.5mm 2極(TS)マイクについて：</b> PC本体のマイク入力端子はふつう3極(TRS)以上のマイクバイアス付き規格を想定しているため、2極プラグのマイクを直挿しすると音量が極端に小さい／片チャンネルにしか入らないことがあります。認識しない場合はUSBオーディオインターフェースやTRRS変換アダプタの使用をお試しください。<br>
+    <b>ハウリング防止：</b> スピーカーとマイクが近いとハウリングします。ヘッドホン出力や、マイクとスピーカーを離す配置を推奨します。
+  </div>
+</div>
+
+<script>
+(() => {
+  let audioCtx, sourceNode, delayNode, feedbackGain, wetGain, dryGain, mergerGain,
+      analyser, mediaStreamDest, outputAudioEl, micStream, rafId;
+
+  const inputSelect = document.getElementById('inputSelect');
+  const outputSelect = document.getElementById('outputSelect');
+  const powerBtn = document.getElementById('powerBtn');
+  const statusEl = document.getElementById('status');
+  const vuCanvas = document.getElementById('vu');
+  const vuCtx = vuCanvas.getContext('2d');
+  const dbLabel = document.getElementById('dbLabel');
+
+  const delaySlider = document.getElementById('delaySlider');
+  const fbSlider = document.getElementById('fbSlider');
+  const mixSlider = document.getElementById('mixSlider');
+  const delayVal = document.getElementById('delayVal');
+  const fbVal = document.getElementById('fbVal');
+  const mixVal = document.getElementById('mixVal');
+
+  let isRunning = false;
+
+  function setStatus(msg, kind){
+    statusEl.textContent = msg;
+    statusEl.className = kind || '';
+  }
+
+  async function populateDevices(){
+    try{
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const inputs = devices.filter(d => d.kind === 'audioinput');
+      const outputs = devices.filter(d => d.kind === 'audiooutput');
+
+      inputSelect.innerHTML = '';
+      if(inputs.length === 0){
+        inputSelect.innerHTML = '<option value="">マイクが見つかりません</option>';
+      }
+      inputs.forEach((d, i) => {
+        const opt = document.createElement('option');
+        opt.value = d.deviceId;
+        opt.textContent = d.label || `マイク ${i+1}`;
+        inputSelect.appendChild(opt);
+      });
+
+      outputSelect.innerHTML = '';
+      if(outputs.length === 0){
+        outputSelect.innerHTML = '<option value="">既定のスピーカーのみ利用可能</option>';
+      } else {
+        outputs.forEach((d, i) => {
+          const opt = document.createElement('option');
+          opt.value = d.deviceId;
+          opt.textContent = d.label || `スピーカー ${i+1}`;
+          outputSelect.appendChild(opt);
+        });
+      }
+    }catch(err){
+      setStatus('デバイス一覧の取得に失敗: ' + err.message, 'error');
+    }
+  }
+
+  async function requestPermissionAndList(){
+    try{
+      const tempStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      tempStream.getTracks().forEach(t => t.stop());
+      await populateDevices();
+      setStatus('準備完了。START でエコー開始', 'good');
+    }catch(err){
+      setStatus('マイクへのアクセスが拒否されました', 'error');
+    }
+  }
+
+  function drawMeter(){
+    if(!analyser) return;
+    const bufferLength = analyser.fftSize;
+    const dataArray = new Uint8Array(bufferLength);
+    analyser.getByteTimeDomainData(dataArray);
+
+    let peak = 0;
+    for(let i=0;i<bufferLength;i++){
+      const v = Math.abs(dataArray[i] - 128) / 128;
+      if(v > peak) peak = v;
+    }
+    const db = peak > 0 ? 20*Math.log10(peak) : -Infinity;
+    dbLabel.textContent = (db === -Infinity ? '-∞' : db.toFixed(1)) + ' dB';
+
+    const w = vuCanvas.width, h = vuCanvas.height;
+    vuCtx.clearRect(0,0,w,h);
+
+    const bars = 40;
+    const gap = 3;
+    const barW = (w - gap*(bars-1)) / bars;
+    const litBars = Math.round(Math.min(peak * 1.8, 1) * bars);
+
+    for(let i=0;i<bars;i++){
+      const x = i * (barW + gap);
+      let color = '#2a2d36';
+      if(i < litBars){
+        const frac = i / bars;
+        color = frac < 0.65 ? '#4fd6c0' : (frac < 0.85 ? '#ffb454' : '#ff5f5f');
+      }
+      vuCtx.fillStyle = color;
+      vuCtx.fillRect(x, 4, barW, h-8);
+    }
+
+    rafId = requestAnimationFrame(drawMeter);
+  }
+
+  async function startEcho(){
+    powerBtn.disabled = true;
+    setStatus('起動中…');
+    try{
+      const inputId = inputSelect.value;
+      micStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          deviceId: inputId ? { exact: inputId } : undefined,
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false
+        }
+      });
+
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      sourceNode = audioCtx.createMediaStreamSource(micStream);
+
+      delayNode = audioCtx.createDelay(2.0);
+      delayNode.delayTime.value = delaySlider.value / 1000;
+
+      feedbackGain = audioCtx.createGain();
+      feedbackGain.gain.value = fbSlider.value / 100;
+
+      wetGain = audioCtx.createGain();
+      wetGain.gain.value = mixSlider.value / 100;
+
+      dryGain = audioCtx.createGain();
+      dryGain.gain.value = 1 - (mixSlider.value / 100);
+
+      mergerGain = audioCtx.createGain();
+      mergerGain.gain.value = 1;
+
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 1024;
+
+      // dry path
+      sourceNode.connect(dryGain);
+      dryGain.connect(mergerGain);
+
+      // wet (echo) path with feedback loop
+      sourceNode.connect(delayNode);
+      delayNode.connect(feedbackGain);
+      feedbackGain.connect(delayNode);
+      delayNode.connect(wetGain);
+      wetGain.connect(mergerGain);
+
+      mergerGain.connect(analyser);
+
+      mediaStreamDest = audioCtx.createMediaStreamDestination();
+      mergerGain.connect(mediaStreamDest);
+
+      outputAudioEl = new Audio();
+      outputAudioEl.srcObject = mediaStreamDest.stream;
+      outputAudioEl.autoplay = true;
+
+      const outputId = outputSelect.value;
+      if(outputId && typeof outputAudioEl.setSinkId === 'function'){
+        try{
+          await outputAudioEl.setSinkId(outputId);
+        }catch(e){
+          setStatus('出力デバイスの指定に失敗、既定を使用', 'error');
+        }
+      }
+      await outputAudioEl.play();
+
+      drawMeter();
+
+      isRunning = true;
+      powerBtn.classList.add('on');
+      powerBtn.textContent = '';
+      const led = document.createElement('span');
+      led.className = 'led';
+      powerBtn.appendChild(led);
+      powerBtn.appendChild(document.createTextNode('STOP'));
+      setStatus('エコー処理中', 'good');
+    }catch(err){
+      setStatus('開始に失敗: ' + err.message, 'error');
+    }finally{
+      powerBtn.disabled = false;
+    }
+  }
+
+  function stopEcho(){
+    if(rafId) cancelAnimationFrame(rafId);
+    if(micStream) micStream.getTracks().forEach(t => t.stop());
+    if(outputAudioEl){ outputAudioEl.pause(); outputAudioEl.srcObject = null; }
+    if(audioCtx) audioCtx.close();
+
+    audioCtx = null; sourceNode = null; delayNode = null; feedbackGain = null;
+    wetGain = null; dryGain = null; mergerGain = null; analyser = null;
+    mediaStreamDest = null; outputAudioEl = null; micStream = null;
+
+    vuCtx.clearRect(0,0,vuCanvas.width, vuCanvas.height);
+    dbLabel.textContent = '-∞ dB';
+
+    isRunning = false;
+    powerBtn.classList.remove('on');
+    powerBtn.textContent = '';
+    const led = document.createElement('span');
+    led.className = 'led';
+    powerBtn.appendChild(led);
+    powerBtn.appendChild(document.createTextNode('START'));
+    setStatus('停止しました');
+  }
+
+  powerBtn.addEventListener('click', () => {
+    if(isRunning) stopEcho();
+    else startEcho();
+  });
+
+  delaySlider.addEventListener('input', () => {
+    delayVal.textContent = delaySlider.value;
+    if(delayNode) delayNode.delayTime.value = delaySlider.value / 1000;
+  });
+  fbSlider.addEventListener('input', () => {
+    fbVal.textContent = fbSlider.value;
+    if(feedbackGain) feedbackGain.gain.value = fbSlider.value / 100;
+  });
+  mixSlider.addEventListener('input', () => {
+    mixVal.textContent = mixSlider.value;
+    if(wetGain) wetGain.gain.value = mixSlider.value / 100;
+    if(dryGain) dryGain.gain.value = 1 - (mixSlider.value / 100);
+  });
+
+  navigator.mediaDevices.addEventListener('devicechange', populateDevices);
+
+  requestPermissionAndList();
+})();
+</script>
+
+</body>
+</html>
