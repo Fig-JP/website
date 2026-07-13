@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gadget-clicker-pwa-v6';
+const CACHE_NAME = 'gadget-clicker-pwa-v7';
 const BASE_URL = new URL('./', self.registration.scope);
 const PRECACHE_URLS = [
   './',
