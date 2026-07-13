@@ -114,6 +114,7 @@ html,body{
   flex:1 1 auto;
   min-height:0;
   overflow-y:auto;
+  overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
   padding:14px 14px 20px;
   position:relative;
@@ -171,6 +172,52 @@ header .sub{
 .recommend-bar .recommend-text{ flex:1; min-width:0; color:var(--text-dim); font-size:11px; }
 .recommend-bar .recommend-text b{ color:var(--cyan-light); }
 .recommend-bar button{ flex:0 0 auto; min-width:88px; }
+.progress-guide{
+  margin:0 0 14px; overflow:hidden; border:1px solid var(--line); border-radius:14px;
+  background:linear-gradient(180deg,var(--bg-panel-2),var(--bg-panel));
+}
+.progress-guide-head{ display:flex; align-items:stretch; min-width:0; }
+.progress-guide-toggle{
+  flex:1; min-width:0; display:grid; grid-template-columns:auto minmax(0,1fr) auto auto;
+  align-items:center; gap:9px; padding:10px 11px; cursor:pointer; text-align:left;
+  color:var(--text); background:transparent; border:0;
+}
+.progress-guide-toggle:focus-visible{ outline:2px solid var(--cyan); outline-offset:-2px; }
+.progress-guide-icon{ font-size:20px; }
+.progress-guide-copy{ min-width:0; }
+.progress-guide-copy strong{ display:block; color:var(--cyan-light); font-size:11px; }
+.progress-guide-copy small{ display:block; margin-top:2px; color:var(--text-dim); font-size:9.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.progress-guide-count{ padding:4px 7px; border:1px solid var(--line); border-radius:999px; color:var(--green); font:9.5px 'Share Tech Mono',monospace; white-space:nowrap; }
+.progress-guide-chevron{ color:var(--cyan-light); font-size:15px; transition:transform .2s ease; }
+.progress-guide.is-open .progress-guide-chevron{ transform:rotate(180deg); }
+.progress-guide-help{ align-self:center; margin-right:9px; }
+.progress-guide-body{ padding:0 10px 10px; border-top:1px solid var(--line); }
+.guide-overall{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:7px; align-items:center; padding:9px 2px 5px; }
+.guide-progress-track{ height:6px; overflow:hidden; border-radius:999px; background:rgba(0,0,0,.28); }
+.guide-progress-fill{ height:100%; width:0; border-radius:inherit; background:linear-gradient(90deg,var(--cyan),var(--green)); transition:width .25s ease; }
+.guide-overall span{ color:var(--text-dim); font:9px 'Share Tech Mono',monospace; }
+.progress-guide-list{ max-height:350px; overflow-y:auto; overscroll-behavior:contain; padding-right:2px; scrollbar-width:thin; }
+.guide-phase{ margin:8px 2px 5px; color:var(--text-dim); font:700 8.5px 'Orbitron',sans-serif; letter-spacing:1px; }
+.guide-step{
+  width:100%; min-width:0; display:grid; grid-template-columns:25px minmax(0,1fr) auto 12px;
+  gap:8px; align-items:center; margin:0 0 6px; padding:8px; cursor:pointer; text-align:left;
+  color:var(--text); background:rgba(0,0,0,.12); border:1px solid var(--line); border-radius:10px;
+}
+.guide-step:hover,.guide-step:focus-visible{ border-color:var(--cyan); outline:none; }
+.guide-step-marker{
+  width:25px; height:25px; display:grid; place-items:center; border-radius:50%;
+  color:var(--text-dim); background:var(--bg-panel); border:1px solid var(--line); font:9px 'Share Tech Mono',monospace;
+}
+.guide-step-copy{ min-width:0; }
+.guide-step-copy strong{ display:block; color:var(--text); font-size:10.5px; overflow-wrap:anywhere; }
+.guide-step-copy small{ display:block; margin-top:2px; color:var(--text-dim); font-size:8.8px; line-height:1.4; }
+.guide-step-progress{ max-width:76px; color:var(--text-dim); font:8.5px 'Share Tech Mono',monospace; text-align:right; overflow-wrap:anywhere; }
+.guide-step-arrow{ color:var(--text-dim); }
+.guide-step.current{ border-color:var(--cyan); background:rgba(77,216,255,.08); box-shadow:inset 3px 0 0 var(--cyan); }
+.guide-step.current .guide-step-marker{ color:var(--cyan-light); border-color:var(--cyan); box-shadow:var(--glow); }
+.guide-step.done{ opacity:.68; }
+.guide-step.done .guide-step-marker{ color:#07140e; background:var(--green); border-color:var(--green); }
+.guide-step.future{ opacity:.76; }
 .pps-line{ display:flex; align-items:center; justify-content:center; gap:7px; }
 .mini-info-btn{ width:21px; height:21px; padding:0; border-radius:50%; cursor:pointer; color:var(--cyan-light); background:var(--bg-panel); border:1px solid var(--line); font:700 11px 'Share Tech Mono',monospace; }
 
@@ -602,8 +649,32 @@ header .sub{
   text-align:center;
 }
 .prestige-box h3{
-  font-family:'Orbitron'; margin:0 0 4px; color:var(--green); font-size:15px; letter-spacing:1px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  font-family:'Orbitron'; margin:0 0 6px; color:var(--green); font-size:15px; letter-spacing:1px;
 }
+.prestige-box h3 .help-btn{ border-color:rgba(77,255,160,.35); color:var(--green); }
+.prestige-balance-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin:10px 0; }
+.prestige-metric{ min-width:0; padding:8px 5px; border:1px solid rgba(77,255,160,.22); border-radius:10px; background:rgba(0,0,0,.18); }
+.prestige-metric span{ display:block; color:#8cbfa0; font-size:8.5px; }
+.prestige-metric b{ display:block; margin-top:3px; color:#d9ffe8; font:11px 'Share Tech Mono',monospace; overflow-wrap:anywhere; }
+.prestige-progress{ height:7px; overflow:hidden; border-radius:999px; background:rgba(0,0,0,.3); }
+.prestige-progress-fill{ height:100%; width:0; border-radius:inherit; background:linear-gradient(90deg,var(--green),var(--cyan)); transition:width .25s ease; }
+.prestige-next{ margin:5px 0 10px; color:#8cbfa0; font:9px 'Share Tech Mono',monospace; }
+.prestige-protocol-title{ margin:11px 0 7px; color:#d9ffe8; font-size:10px; font-weight:700; }
+.prestige-protocol-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+.prestige-protocol{
+  min-width:0; padding:8px 5px; cursor:pointer; text-align:center; color:#bfe8cf;
+  background:rgba(0,0,0,.18); border:1px solid rgba(77,255,160,.22); border-radius:10px;
+}
+.prestige-protocol strong{ display:block; font-size:10px; color:#d9ffe8; }
+.prestige-protocol small{ display:block; margin-top:3px; color:#8cbfa0; font-size:8px; line-height:1.35; }
+.prestige-protocol.active{ border-color:var(--green); background:rgba(77,255,160,.1); box-shadow:0 0 16px rgba(77,255,160,.16); }
+.prestige-protocol:disabled{ opacity:.42; cursor:not-allowed; }
+.prestige-scope{ margin:10px 0 12px; text-align:left; color:#8cbfa0; font-size:9px; }
+.prestige-scope summary{ cursor:pointer; color:#bfe8cf; text-align:center; }
+.prestige-scope-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; margin-top:8px; }
+.prestige-scope-grid div{ padding:7px; border:1px solid rgba(77,255,160,.18); border-radius:9px; line-height:1.5; }
+.prestige-scope-grid b{ display:block; margin-bottom:2px; color:#d9ffe8; font-size:9px; }
 .prestige-box p{ font-size:12px; color:#bfe8cf; margin:4px 0 12px; line-height:1.5; }
 .prestige-btn{
   font-family:'Orbitron'; font-weight:700; font-size:13px;
@@ -836,9 +907,10 @@ textarea.data-area{
 .settings-msg.err{ color:var(--red); }
 
 /* ---------- operations systems ---------- */
-.ops-grid{ display:grid; gap:14px; }
+.ops-grid{ display:grid; gap:14px; min-width:0; }
 .system-card{
   background:linear-gradient(180deg,var(--bg-panel-2),var(--bg-panel));
+  min-width:0; max-width:100%;
   border:1px solid var(--line); border-radius:16px; padding:14px;
 }
 .system-card h3{ margin:0 0 8px; color:var(--cyan-light); font:700 13px 'Orbitron',sans-serif; letter-spacing:.5px; }
@@ -1034,8 +1106,91 @@ textarea.data-area{
 }
 
 @media (max-width: 520px){
-  .ops-statusbar{ grid-template-columns:repeat(5,minmax(58px,1fr)); overflow-x:auto; }
-  .recommend-bar{ align-items:flex-start; }
+  .app{ padding:10px 10px 18px; }
+  .recommend-bar{ align-items:flex-start; gap:7px; padding:8px 9px; }
+  .recommend-bar button{ min-width:76px; padding-left:9px; padding-right:9px; }
+  .progress-guide{ margin-bottom:10px; }
+  .progress-guide-toggle{ grid-template-columns:auto minmax(0,1fr) auto auto; gap:6px; padding:8px; }
+  .progress-guide-icon{ font-size:17px; }
+  .progress-guide-copy strong{ font-size:10px; }
+  .progress-guide-copy small{ font-size:8.5px; }
+  .progress-guide-count{ padding:3px 5px; font-size:8.5px; }
+  .progress-guide-help{ margin-right:7px; }
+  .progress-guide-body{ padding:0 7px 7px; }
+  .progress-guide-list{ max-height:300px; }
+  .guide-step{ grid-template-columns:23px minmax(0,1fr) auto 10px; gap:6px; padding:7px 6px; }
+  .guide-step-marker{ width:23px; height:23px; }
+  .guide-step-progress{ max-width:58px; font-size:7.8px; }
+  .prestige-box{ padding:12px 10px; }
+  .prestige-balance-grid{ gap:5px; }
+  .prestige-metric{ padding:7px 3px; }
+  .prestige-metric span{ font-size:7.5px; }
+  .prestige-metric b{ font-size:9.5px; }
+  .prestige-protocol-grid{ grid-template-columns:1fr; }
+  .prestige-protocol{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:7px; text-align:left; padding:8px; }
+  .prestige-protocol small{ margin:0; }
+  .prestige-scope-grid{ grid-template-columns:1fr; }
+
+  /* Mobile operations dashboard: keep every control inside the viewport. */
+  .ops-statusbar{ grid-template-columns:repeat(6,minmax(0,1fr)); gap:5px; overflow:visible; }
+  .ops-status-item{ grid-column:span 2; min-height:48px; padding:6px 3px; }
+  .ops-status-item:nth-last-child(-n+2){ grid-column:span 3; }
+  .ops-status-item span{ font-size:8.5px; }
+  .ops-status-item b{ font-size:9.5px; }
+  .page[data-page="operations"]{ min-width:0; max-width:100%; }
+  .page[data-page="operations"] .section-title{ margin:13px 0 9px; }
+  .ops-category-nav{
+    display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px; overflow:visible; padding:0 0 10px;
+  }
+  .ops-category-btn{ min-width:0; width:100%; padding:7px 3px; font-size:9px; }
+  .ops-grid{ gap:10px; }
+  .system-card{ padding:11px; border-radius:14px; overflow:hidden; }
+  .system-card h3{ margin-bottom:6px; font-size:12px; line-height:1.45; overflow-wrap:anywhere; }
+  .system-card .system-desc{ margin-bottom:8px; font-size:10px; line-height:1.55; }
+  .help-btn{ width:24px; height:24px; }
+  .meter-row{ grid-template-columns:44px minmax(0,1fr); gap:5px 7px; margin:7px 0; font-size:10px; }
+  .meter-row > .numeral{
+    grid-column:2; justify-self:end; min-width:0; max-width:100%;
+    margin-top:-3px; font-size:9px; overflow-wrap:anywhere;
+  }
+  .system-statline{ gap:5px; margin:7px 0; }
+  .system-pill{ max-width:100%; padding:4px 7px; font-size:9.5px; overflow-wrap:anywhere; }
+  .choice-grid{ gap:6px; }
+  .choice-btn{ padding:8px; }
+  .choice-btn strong{ font-size:10.5px; overflow-wrap:anywhere; }
+  .choice-btn small{ font-size:8.8px; }
+  .btn-row{ gap:6px; margin-top:8px; }
+  .system-card .btn{ min-width:0; padding:8px 9px; font-size:10.5px; overflow-wrap:anywhere; }
+  .special-device{ grid-template-columns:28px minmax(0,1fr); gap:6px 8px; padding:8px; }
+  .special-device .device-icon{ grid-row:1 / span 2; font-size:19px; }
+  .special-device input{ grid-column:2; width:100%; max-width:100%; }
+  .rack-palette{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; overflow:visible; }
+  .rack-palette-btn{ min-width:0; width:100%; padding:6px 2px; font-size:8px; overflow-wrap:anywhere; }
+  .rack-grid{ gap:4px; }
+  .rack-slot{ min-width:0; min-height:46px; padding:3px 2px; border-radius:8px; font-size:7.5px; overflow:hidden; }
+  .rack-slot .rack-icon{ margin-bottom:1px; font-size:17px; }
+  .pipeline-flow{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; margin-bottom:7px; }
+  .pipeline-stage{ min-width:0; padding:8px 4px; }
+  .pipeline-stage:nth-child(2)::after{ display:none; }
+  .pipeline-stage .pipeline-icon{ font-size:18px; }
+  .pipeline-stage strong{ font-size:9px; }
+  .pipeline-stage b{ font-size:9.5px; overflow-wrap:anywhere; }
+  .pipeline-stage small{ display:block; font-size:7.8px; overflow-wrap:anywhere; }
+  .project-row{ min-width:0; padding:8px; }
+  .project-head{ align-items:flex-start; gap:6px; }
+  .project-head strong,.project-head span{ min-width:0; overflow-wrap:anywhere; }
+  .project-head span{ text-align:right; font-size:8.5px; }
+  .project-actions{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px; }
+  .project-actions .btn{ width:100%; }
+  .log-entry{ grid-template-columns:42px 44px minmax(0,1fr); gap:5px; padding:7px; font-size:8.5px; }
+  .log-entry > span:last-child{ min-width:0; overflow-wrap:anywhere; }
+  .incident-panel{ padding:9px; }
+}
+@media (max-width: 350px){
+  .choice-grid{ grid-template-columns:1fr; }
+  #packetRouteButtons{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .rack-palette{ grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; }
@@ -1065,7 +1220,7 @@ textarea.data-area{
         <div class="val numeral" id="shardVal">0</div>
       </div>
       <div class="stat-chip">
-        <div class="label">生涯処理量</div>
+        <div class="label">周回処理量</div>
         <div class="val numeral" id="lifetimeVal">0</div>
       </div>
       <div class="stat-chip">
@@ -1081,6 +1236,21 @@ textarea.data-area{
       <button class="ops-status-item" data-jump-card="aiCard"><span>🤖 AI</span><b id="statusAI">停止</b></button>
     </div>
     <div class="recommend-bar" id="recommendBar"><div class="recommend-text" id="recommendText"><b>NEXT</b> CHIPをタップしてPPを獲得しよう</div><button class="btn" id="recommendActionBtn">移動</button></div>
+    <section class="progress-guide" id="progressGuide">
+      <div class="progress-guide-head">
+        <button type="button" class="progress-guide-toggle" id="progressGuideToggle" aria-expanded="true" aria-controls="progressGuideBody">
+          <span class="progress-guide-icon">🧭</span>
+          <span class="progress-guide-copy"><strong>やることリスト</strong><small id="progressGuideCurrent">次の目標を確認中…</small></span>
+          <span class="progress-guide-count" id="progressGuideCount">0/16</span>
+          <span class="progress-guide-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <button type="button" class="help-btn progress-guide-help" id="progressGuideHelpBtn" aria-label="やることリストの説明を開く">?</button>
+      </div>
+      <div class="progress-guide-body" id="progressGuideBody">
+        <div class="guide-overall"><div class="guide-progress-track"><div class="guide-progress-fill" id="progressGuideFill"></div></div><span id="progressGuidePercent">0% COMPLETE</span></div>
+        <div class="progress-guide-list" id="progressGuideList"></div>
+      </div>
+    </section>
 
     <div class="desktop-game-grid">
     <div class="game-main-panel">
@@ -1188,9 +1358,29 @@ textarea.data-area{
       <div class="task-hint">コンピュータ関連のタスク（タイピング／配線接続）に制限時間内で成功すると整備パーツを獲得できる。整備パーツ5個で「オーバードライブ」を60秒間発動でき、生産量とタップ威力が+50%になる。</div>
     </div>
 
-    <div class="prestige-box">
-      <h3>🔄 システムリセット</h3>
-      <p id="prestigeDesc">生涯処理量が一定量に達するとリセットできます。<br>リセットすると進行状況は初期化されますが、<b style="color:var(--green)">最適化コア</b>を獲得し、永続的にPP生産量が増加します。</p>
+    <div class="prestige-box" id="prestigeBox">
+      <h3><span>🔄 システムリセット</span><button type="button" class="help-btn" id="prestigeHelpBtn" aria-label="システムリセットの説明を開く">?</button></h3>
+      <p id="prestigeDesc">周回処理量が一定値に達すると、最適化コアと永続強化を獲得して再起動できます。</p>
+      <div class="prestige-balance-grid">
+        <div class="prestige-metric"><span>永続生産倍率</span><b id="prestigeCurrentMult">×1.00</b></div>
+        <div class="prestige-metric"><span>今回の獲得</span><b id="prestigeGainPreview">+0 コア</b></div>
+        <div class="prestige-metric"><span>再起動資金</span><b id="prestigeBootstrapPreview">0 PP</b></div>
+      </div>
+      <div class="prestige-progress"><div class="prestige-progress-fill" id="prestigeProgressFill"></div></div>
+      <div class="prestige-next" id="prestigeNextCore">解除まで残り 100.00万 PP</div>
+      <div class="prestige-protocol-title">次の周回へ継承するプロトコルを選択</div>
+      <div class="prestige-protocol-grid" id="prestigeProtocolGrid">
+        <button type="button" class="prestige-protocol active" data-prestige-protocol="throughput"><strong>⚙️ 演算特化</strong><small>全生産 +8% / Lv</small><span class="numeral">Lv.0</span></button>
+        <button type="button" class="prestige-protocol" data-prestige-protocol="input"><strong>👆 入力特化</strong><small>タップ +12% / Lv</small><span class="numeral">Lv.0</span></button>
+        <button type="button" class="prestige-protocol" data-prestige-protocol="efficiency"><strong>📦 調達最適化</strong><small>端末価格 -4% / Lv（最大-36%）</small><span class="numeral">Lv.0</span></button>
+      </div>
+      <details class="prestige-scope">
+        <summary>リセットされるもの／継承されるもの</summary>
+        <div class="prestige-scope-grid">
+          <div><b>🔄 再構築</b>PP、周回処理量、端末台数、タップ強化、ネットワーク、実行中ジョブ、パイプライン、所属組織</div>
+          <div><b>🔒 永続継承</b>電源・冷却設備、端末レベル、研究、実績、コア、継承プロトコル、整備資源、自作PC、特別端末、世界プロジェクト、恒久ジョブ効果</div>
+        </div>
+      </details>
       <button class="prestige-btn" id="prestigeBtn">システムリセット</button>
     </div>
     </div>
@@ -1342,13 +1532,13 @@ textarea.data-area{
         </label>
       </div>
       <div class="toggle-row" style="margin-top:10px;">
-        <span>BGM（アンビエントループ）</span>
+        <span>BGM（シンセ・アンビエント）</span>
         <label class="switch">
           <input type="checkbox" id="bgmToggle">
           <span class="track"></span>
         </label>
       </div>
-      <div class="desc" style="margin-top:8px;">効果音はWeb Audio APIでその場合成しているので、追加ファイルの読み込みは発生しない。</div>
+      <div class="desc" style="margin-top:8px;">BGMはコード、アルペジオ、メロディを組み合わせた静かなシンセ曲。効果音とともにWeb Audio APIでその場で合成するため、追加ファイルの読み込みは発生しない。</div>
     </div>
 
     <div class="settings-block">
@@ -1507,6 +1697,9 @@ textarea.data-area{
     shards: 0,
     totalTaps: 0,
     prestigeCount: 0,
+    prestigeProtocols: {throughput:0,input:0,efficiency:0},
+    selectedPrestigeProtocol: 'throughput',
+    lastPrestigeGain: 0,
     generators: [],
     lastSavedAt: 0,
     crystalCount: 0,
@@ -1560,7 +1753,8 @@ textarea.data-area{
     pipelinePolicy: 'balanced',
     publishedResults: 0,
     organizationChoice: null,
-    organizationReputation: {}
+    organizationReputation: {},
+    guideCompleted: {}
   };
 
   var GOLDEN_MIN_INTERVAL_MS = 45000;   // 次のパケット出現までの最短時間
@@ -1624,6 +1818,59 @@ textarea.data-area{
   function playBugSound(){ playTone(140, 0.4, 'square', 0.07); }
   function playPrestigeSound(){ [392, 523, 659, 784, 1047].forEach(function(f, i){ setTimeout(function(){ playTone(f, 0.2, 'triangle', 0.12); }, i * 100); }); }
 
+  function scheduleBGMVoice(nodes, freq, start, duration, type, volume, attack){
+    if (!nodes || bgmNodes !== nodes) return;
+    var ctx = nodes.ctx;
+    try {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      var fadeIn = Math.min(attack || 0.025, duration * 0.35);
+      var fadeOutAt = start + Math.max(fadeIn + 0.01, duration * 0.68);
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(freq, start);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(Math.max(0.0002, volume), start + fadeIn);
+      gain.gain.setValueAtTime(Math.max(0.0002, volume * 0.82), fadeOutAt);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      osc.connect(gain); gain.connect(nodes.filter);
+      nodes.oscillators.push(osc);
+      osc.onended = function(){
+        var index = nodes.oscillators.indexOf(osc);
+        if (index >= 0) nodes.oscillators.splice(index, 1);
+        try { osc.disconnect(); gain.disconnect(); } catch (e) {}
+      };
+      osc.start(start); osc.stop(start + duration + 0.03);
+    } catch (e) { /* 個別ノートの失敗は曲全体を止めない */ }
+  }
+
+  function scheduleBGMLoop(nodes, requestedStart){
+    if (!nodes || bgmNodes !== nodes) return;
+    var ctx = nodes.ctx;
+    var start = Math.max(requestedStart, ctx.currentTime + 0.06);
+    var chordRoots = [220.00, 174.61, 261.63, 196.00]; // Am7 - Fmaj7 - Cmaj7 - Gsus2
+    var chordRatios = [[1,1.1892,1.4983,1.7818],[1,1.2599,1.4983,1.8877],[1,1.2599,1.4983,1.8877],[1,1.1225,1.4983,1.7818]];
+    var melody = [659.25,0,783.99,0,880.00,783.99,659.25,0,587.33,0,659.25,523.25,493.88,0,587.33,0];
+
+    chordRoots.forEach(function(root, chordIndex){
+      var chordStart = start + chordIndex * 2;
+      chordRatios[chordIndex].slice(0,3).forEach(function(ratio){
+        scheduleBGMVoice(nodes, root * ratio, chordStart, 1.9, 'sine', 0.022, 0.34);
+      });
+      scheduleBGMVoice(nodes, root / 2, chordStart, 0.42, 'triangle', 0.014, 0.045);
+      [0,1,2,1].forEach(function(noteIndex, step){
+        scheduleBGMVoice(nodes, root * chordRatios[chordIndex][noteIndex] * 2, chordStart + step * 0.5, 0.34, 'triangle', 0.018, 0.018);
+      });
+    });
+    melody.forEach(function(freq, step){
+      if (freq) scheduleBGMVoice(nodes, freq, start + step * 0.5, 0.28, 'sine', 0.012, 0.02);
+    });
+
+    clearTimeout(nodes.timer);
+    nodes.timer = setTimeout(function(){
+      if (bgmNodes === nodes) scheduleBGMLoop(nodes, start + 8);
+    }, Math.max(500, (start + 6.5 - ctx.currentTime) * 1000));
+  }
+
   function startBGM(){
     if (bgmNodes) return;
     var ctx = getAudioContext();
@@ -1631,33 +1878,32 @@ textarea.data-area{
     if (ctx.state === 'suspended') { ctx.resume().catch(function(){}); }
     try {
       var masterGain = ctx.createGain();
-      masterGain.gain.value = 0.045;
+      masterGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      masterGain.gain.exponentialRampToValueAtTime(0.32, ctx.currentTime + 0.8);
       masterGain.connect(ctx.destination);
-
       var filter = ctx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.value = 700;
+      filter.frequency.value = 2400;
+      filter.Q.value = 0.4;
       filter.connect(masterGain);
-
-      var osc1 = ctx.createOscillator(); osc1.type = 'sine'; osc1.frequency.value = 110;
-      var osc2 = ctx.createOscillator(); osc2.type = 'sine'; osc2.frequency.value = 110 * 1.5;
-      osc1.connect(filter); osc2.connect(filter);
-
-      var lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.06;
-      var lfoGain = ctx.createGain(); lfoGain.gain.value = 250;
-      lfo.connect(lfoGain); lfoGain.connect(filter.frequency);
-
-      osc1.start(); osc2.start(); lfo.start();
-      bgmNodes = { masterGain: masterGain, filter: filter, osc1: osc1, osc2: osc2, lfo: lfo, lfoGain: lfoGain };
+      bgmNodes = { ctx:ctx, masterGain:masterGain, filter:filter, oscillators:[], timer:null };
+      scheduleBGMLoop(bgmNodes, ctx.currentTime + 0.08);
     } catch (e) { bgmNodes = null; }
   }
 
   function stopBGM(){
     if (!bgmNodes) return;
-    try {
-      bgmNodes.osc1.stop(); bgmNodes.osc2.stop(); bgmNodes.lfo.stop();
-    } catch (e) { /* 既に停止済みの場合は無視 */ }
+    var nodes = bgmNodes;
     bgmNodes = null;
+    clearTimeout(nodes.timer);
+    try {
+      var now = nodes.ctx.currentTime;
+      nodes.masterGain.gain.cancelScheduledValues(now);
+      nodes.masterGain.gain.setValueAtTime(Math.max(0.0001, nodes.masterGain.gain.value), now);
+      nodes.masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+      nodes.oscillators.slice().forEach(function(osc){ try { osc.stop(now + 0.09); } catch (e) {} });
+      setTimeout(function(){ try { nodes.filter.disconnect(); nodes.masterGain.disconnect(); } catch (e) {} }, 130);
+    } catch (e) { /* 既に停止済みの場合は無視 */ }
   }
 
   var WIRE_COLORS = ['#4dd8ff', '#ff4dd8', '#4dffa0', '#ffcf4d'];
@@ -1845,7 +2091,18 @@ textarea.data-area{
   }
 
   /* ---------------- 計算系 ---------------- */
-  function prestigeMultiplier(){ return 1 + state.shards * 0.02; }
+  var PRESTIGE_PROTOCOLS=[
+    {id:'throughput',name:'演算特化',maxLevel:Infinity},{id:'input',name:'入力特化',maxLevel:Infinity},{id:'efficiency',name:'調達最適化',maxLevel:9}
+  ];
+  function prestigeProtocolDef(id){return PRESTIGE_PROTOCOLS.filter(function(p){return p.id===id;})[0]||PRESTIGE_PROTOCOLS[0];}
+  function prestigeProtocolLevel(id){return Math.max(0,Number(state.prestigeProtocols&&state.prestigeProtocols[id])||0);}
+  function selectedPrestigeProtocolDef(){var d=prestigeProtocolDef(state.selectedPrestigeProtocol);if(d.id!==state.selectedPrestigeProtocol)state.selectedPrestigeProtocol=d.id;if(prestigeProtocolLevel(d.id)>=d.maxLevel){state.selectedPrestigeProtocol='throughput';d=PRESTIGE_PROTOCOLS[0];}return d;}
+  function selectPrestigeProtocol(id,shouldSave){var d=prestigeProtocolDef(id);if(prestigeProtocolLevel(d.id)>=d.maxLevel)return false;state.selectedPrestigeProtocol=d.id;renderPrestigePanel();if(shouldSave!==false)saveGame();return true;}
+  function prestigeMultiplier(){return 1+.03*Math.pow(Math.max(0,state.shards),.9);}
+  function prestigeProtocolProdMult(){return 1+prestigeProtocolLevel('throughput')*.08;}
+  function prestigeProtocolClickMult(){return 1+prestigeProtocolLevel('input')*.12;}
+  function prestigeProtocolCostMult(){return Math.max(.64,1-prestigeProtocolLevel('efficiency')*.04);}
+  function permanentProductionMultiplier(){return prestigeMultiplier()*prestigeProtocolProdMult();}
   function researchBonusTotal(type){
     var sum = 0;
     RESEARCH_NODES.forEach(function(n){
@@ -1858,7 +2115,7 @@ textarea.data-area{
   function researchProdMult(){ return 1 + researchBonusTotal('prod'); }
   function researchClickMult(){ return 1 + researchBonusTotal('click'); }
   function researchCostMult(){ return Math.max(0.5, 1 + researchBonusTotal('cost')); }
-  function effectiveBaseCost(def){ return def.baseCost * researchCostMult(); }
+  function effectiveBaseCost(def){ return def.baseCost * researchCostMult() * prestigeProtocolCostMult(); }
   function genCost(def, count){ return effectiveBaseCost(def) * Math.pow(1.15, count); }
   function genOutputPerUnit(def, g){ return def.baseProd * prestigeMultiplier() * Math.pow(GENERATOR_LEVEL_MULT, (g && g.level) || 0); }
   function isOverdriveActive(){ return Date.now() < state.overdriveUntil; }
@@ -1983,16 +2240,17 @@ textarea.data-area{
     return topology;
   }
   function infrastructureUsage(){
-    var weights = [1,2,5,12,30,75,200,650];
+    var weights = [1,1.8,4,9,22,55,150,480];
     var raw = state.generators.reduce(function(sum,g,i){ return sum + g.count * weights[i]; },0);
-    raw += customPcOutput() > 0 ? 12 + Object.keys(state.customPcParts).reduce(function(sum,key){ return sum + state.customPcParts[key] * 3; },0) : 0;
+    raw += customPcOutput() > 0 ? 8 + Object.keys(state.customPcParts).reduce(function(sum,key){ return sum + state.customPcParts[key] * 2; },0) : 0;
     var topology = currentTopology();
     var os = currentOS();
     var rack=rackBonuses();
     return { power:raw * topology.power * os.power * specialPowerMult(), heat:raw * .72 * topology.heat * os.heat * incidentHeatMult() * specialHeatMult() * rack.heat };
   }
-  function powerCapacity(){ return (30 + state.powerLevel * 120) * (globalProjectDone('openNet') ? 1.2 : 1); }
-  function coolingCapacity(){ return (24 + state.coolingLevel * 95) * (globalProjectDone('climate') ? 1.15 : 1); }
+  function infrastructureFoundationMult(){ return 1 + Math.min(.5,state.prestigeCount * .05); }
+  function powerCapacity(){ return (60 + state.powerLevel * 180) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1); }
+  function coolingCapacity(){ return (48 + state.coolingLevel * 145) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1); }
   function infrastructureEfficiency(){
     var usage = infrastructureUsage();
     var powerEff = usage.power <= powerCapacity() ? 1 : Math.max(.4,powerCapacity() / Math.max(1,usage.power));
@@ -2002,7 +2260,7 @@ textarea.data-area{
   }
   function infrastructureUpgradeCost(type){
     var level = type === 'power' ? state.powerLevel : state.coolingLevel;
-    return 2500 * Math.pow(4,level);
+    return 1800 * Math.pow(3.2,level);
   }
   function baseTotalPPPerSec(){
     var total = customPcOutput();
@@ -2011,7 +2269,7 @@ textarea.data-area{
       if (state.buggedGeneratorIdx === i) perUnit *= bugPenaltyMult();
       total += perUnit * state.generators[i].count;
     }
-    return total * researchProdMult() * synergyBonusMult() * currentTopology().prod * currentOS().prod * legacyProdMult() * globalProdMult() * specialProdMult() * rackBonuses().prod * organizationProdMult() * (1 + state.jobProdBonus) * infrastructureEfficiency() * incidentProductionMult();
+    return total * prestigeProtocolProdMult() * researchProdMult() * synergyBonusMult() * currentTopology().prod * currentOS().prod * legacyProdMult() * globalProdMult() * specialProdMult() * rackBonuses().prod * organizationProdMult() * (1 + state.jobProdBonus) * infrastructureEfficiency() * incidentProductionMult();
   }
   function totalPPPerSec(){
     return baseTotalPPPerSec() * overdriveMult() * goldenBoostMult();
@@ -2026,13 +2284,13 @@ textarea.data-area{
     CLICK_UPGRADE_DEFS.forEach(function(u){ if (clickUpgradesOwned[u.key]) base *= u.mult; });
     var flatPart = base * prestigeMultiplier();
     var percentPart = baseTotalPPPerSec() * clickPercentBonus();
-    return (flatPart + percentPart) * researchClickMult() * currentTopology().click * currentOS().click * legacyClickMult() * globalClickMult() * specialClickMult() * organizationClickMult() * (1 + state.jobClickBonus) * overdriveMult() * goldenBoostMult();
+    return (flatPart + percentPart) * prestigeProtocolClickMult() * researchClickMult() * currentTopology().click * currentOS().click * legacyClickMult() * globalClickMult() * specialClickMult() * organizationClickMult() * (1 + state.jobClickBonus) * overdriveMult() * goldenBoostMult();
   }
-  function prestigeThreshold(){ return 1e6; }
-  function shardsIfPrestigeNow(){
-    if (state.lifetimePP < prestigeThreshold()) return 0;
-    return Math.floor(10 * Math.sqrt(state.lifetimePP / 1e7));
-  }
+  function prestigeThreshold(){return 1e6;}
+  function shardsIfPrestigeNow(){if(state.lifetimePP<prestigeThreshold())return 0;return Math.max(5,Math.floor(5*Math.pow(state.lifetimePP/prestigeThreshold(),.4)));}
+  function prestigeCoreTarget(n){if(n<=5)return prestigeThreshold();return Math.ceil(prestigeThreshold()*Math.pow(n/5,2.5));}
+  function prestigeBootstrapPP(n){if(n<=0)return 0;return Math.min(5000,Math.round(25*Math.pow(1.8,n-1)));}
+  function prestigeBootstrapDevices(n){return Math.min(5,Math.floor(n/3));}
 
   /* ---------------- まとめ買い計算 ---------------- */
   var BUY_RATIO = 1.15;
@@ -2696,6 +2954,9 @@ textarea.data-area{
   var multValEl = document.getElementById('multVal');
   var prestigeBtn = document.getElementById('prestigeBtn');
   var prestigeDesc = document.getElementById('prestigeDesc');
+  var prestigeCurrentMultEl=document.getElementById('prestigeCurrentMult'),prestigeGainPreviewEl=document.getElementById('prestigeGainPreview'),prestigeBootstrapPreviewEl=document.getElementById('prestigeBootstrapPreview'),prestigeProgressFillEl=document.getElementById('prestigeProgressFill'),prestigeNextCoreEl=document.getElementById('prestigeNextCore');
+  var prestigeProtocolButtons=document.querySelectorAll('.prestige-protocol');
+  prestigeProtocolButtons.forEach(function(btn){btn.addEventListener('click',function(){selectPrestigeProtocol(btn.getAttribute('data-prestige-protocol'));});});
 
   var odBadgeEl = document.getElementById('odBadge');
   var odTimerEl = document.getElementById('odTimer');
@@ -2709,6 +2970,77 @@ textarea.data-area{
   var recommendTextEl = document.getElementById('recommendText');
   var recommendActionBtn = document.getElementById('recommendActionBtn');
   var currentRecommendation = null;
+  var progressGuideEl = document.getElementById('progressGuide');
+  var progressGuideToggleEl = document.getElementById('progressGuideToggle');
+  var progressGuideBodyEl = document.getElementById('progressGuideBody');
+  var progressGuideCurrentEl = document.getElementById('progressGuideCurrent');
+  var progressGuideCountEl = document.getElementById('progressGuideCount');
+  var progressGuideFillEl = document.getElementById('progressGuideFill');
+  var progressGuidePercentEl = document.getElementById('progressGuidePercent');
+  var progressGuideListEl = document.getElementById('progressGuideList');
+  var guideExpanded = storageGet('gadgetClicker_guide_open') !== '0';
+  var lastGuideSignature = '';
+
+  function guideGeneratorCount(){ return state.generators.reduce(function(sum,g){ return sum + g.count; },0); }
+  var GUIDE_STEPS = [
+    {id:'tap10',phase:'PHASE 1 / 起動',title:'CHIPを10回タップ',desc:'まずは手動でPPを作る',page:'game',target:'chip',done:function(){return state.totalTaps>=10||!!achievementsUnlocked.tap100;},progress:function(){return Math.min(10,state.totalTaps)+'/10 TAP';}},
+    {id:'firstDevice',phase:'PHASE 1 / 起動',title:'最初の端末を導入',desc:'端末一覧から電卓を購入する',page:'game',target:'shopList',done:function(){return guideGeneratorCount()>=1||state.prestigeCount>0;},progress:function(){return guideGeneratorCount()?'導入済み':'0/1';}},
+    {id:'deviceFleet',phase:'PHASE 1 / 起動',title:'端末を合計10台にする',desc:'自動生産の土台を作る',page:'game',target:'shopList',done:function(){return guideGeneratorCount()>=10||!!achievementsUnlocked.gen10;},progress:function(){return Math.min(10,guideGeneratorCount())+'/10 台';}},
+    {id:'maintenance',phase:'PHASE 2 / 基盤整備',title:'メンテナンスに成功',desc:'タイピングか配線を1回完了する',page:'game',target:'taskStartBtn',done:function(){return state.taskSuccessCount>=1||!!achievementsUnlocked.task1;},progress:function(){return state.taskSuccessCount+' 回';}},
+    {id:'research',phase:'PHASE 2 / 基盤整備',title:'研究を1つ解放',desc:'整備パーツで恒久効果を獲得する',page:'research',target:'researchList',done:function(){return Object.keys(researchUnlocked).length>=1||!!achievementsUnlocked.research100;},progress:function(){return Object.keys(researchUnlocked).length+'/6';}},
+    {id:'infrastructure',phase:'PHASE 2 / 基盤整備',title:'電源と冷却を増強',desc:'両方をLv.1以上にする',page:'operations',target:'infrastructureCard',done:function(){return state.powerLevel>=1&&state.coolingLevel>=1;},progress:function(){return '電'+state.powerLevel+' / 冷'+state.coolingLevel;}},
+    {id:'job',phase:'PHASE 2 / 基盤整備',title:'ジョブを1件完了',desc:'計算資源を成果へ変える',page:'operations',target:'jobCard',done:function(){return state.completedJobs>=1||!!achievementsUnlocked.job1;},progress:function(){return state.completedJobs+' 件';}},
+    {id:'lifecycle',phase:'PHASE 3 / 高度運用',title:'端末を再利用',desc:'旧式端末から回路部品を回収する',page:'operations',target:'lifecycleCard',done:function(){return state.retiredDevices>=1||!!achievementsUnlocked.retire10;},progress:function(){return state.retiredDevices+' 台';}},
+    {id:'customPc',phase:'PHASE 3 / 高度運用',title:'自作PCを完成',desc:'4種類のパーツをLv.1にする',page:'operations',target:'customPcCard',done:function(){return customPcOutput()>0||!!achievementsUnlocked.customPc;},progress:function(){return Object.keys(state.customPcParts).filter(function(k){return state.customPcParts[k]>=1;}).length+'/4';}},
+    {id:'specialDevice',phase:'PHASE 3 / 高度運用',title:'特別端末を獲得',desc:'同じ端末を10台まで増やす',page:'operations',target:'specialDevicesCard',done:function(){return state.specialDevices.length>=1||!!achievementsUnlocked.special1;},progress:function(){return state.specialDevices.length+' 台';}},
+    {id:'rack',phase:'PHASE 3 / 高度運用',title:'ラックへ6枠配置',desc:'設備の隣接ボーナスを作る',page:'operations',target:'rackEditorCard',done:function(){return state.rackSlots.filter(Boolean).length>=6||!!achievementsUnlocked.rack6;},progress:function(){return state.rackSlots.filter(Boolean).length+'/6 枠';}},
+    {id:'organization',phase:'PHASE 4 / ネットワーク',title:'運営組織を選択',desc:'今回の運用方針を決める',page:'operations',target:'organizationCard',done:function(){return !!state.organizationChoice||!!achievementsUnlocked.org1;},progress:function(){return state.organizationChoice?'選択済み':'未所属';}},
+    {id:'pipeline',phase:'PHASE 4 / ネットワーク',title:'計算成果を公開',desc:'パイプラインを最後まで流す',page:'operations',target:'dataPipelineCard',done:function(){return state.publishedResults>0||!!achievementsUnlocked.publish1;},progress:function(){return formatNumber(state.publishedResults)+' 成果';}},
+    {id:'cyber',phase:'PHASE 4 / ネットワーク',title:'サイバー攻撃を防御',desc:'ログ解析で脅威を0にする',page:'operations',target:'cyberCard',done:function(){return state.cyberAttacksBlocked>=1||!!achievementsUnlocked.cyber5;},progress:function(){return state.cyberAttacksBlocked+' 回';}},
+    {id:'globalProject',phase:'PHASE 5 / 長期目標',title:'世界プロジェクトを完成',desc:'PPを長期研究へ提供する',page:'operations',target:'globalProjectsCard',done:function(){return Object.keys(state.globalCompleted).some(function(k){return state.globalCompleted[k];})||!!achievementsUnlocked.global1;},progress:function(){return Object.keys(state.globalCompleted).filter(function(k){return state.globalCompleted[k];}).length+'/4';}},
+    {id:'prestige',phase:'PHASE 5 / 長期目標',title:'最初のシステムリセット',desc:'最適化コアを獲得して次の周回へ進む',page:'game',target:'prestigeBtn',done:function(){return state.prestigeCount>=1||!!achievementsUnlocked.prestige1;},progress:function(){return state.prestigeCount+' 回';}}
+  ];
+
+  function renderProgressGuide(){
+    if (!state.guideCompleted) state.guideCompleted = {};
+    var statuses = GUIDE_STEPS.map(function(step){
+      var completed = !!state.guideCompleted[step.id] || !!step.done();
+      if (completed) state.guideCompleted[step.id] = true;
+      return {step:step,done:completed,progress:step.progress()};
+    });
+    var completedCount = statuses.filter(function(item){return item.done;}).length;
+    var currentIndex = statuses.findIndex(function(item){return !item.done;});
+    var current = currentIndex>=0?statuses[currentIndex]:null;
+    var signature = guideExpanded+'|'+statuses.map(function(item){return (item.done?'1':'0')+':'+item.progress;}).join('|');
+    progressGuideEl.classList.toggle('is-open',guideExpanded);
+    progressGuideToggleEl.setAttribute('aria-expanded',guideExpanded?'true':'false');
+    progressGuideBodyEl.hidden = !guideExpanded;
+    progressGuideCountEl.textContent = completedCount+'/'+GUIDE_STEPS.length;
+    progressGuideCurrentEl.textContent = current?'次：'+current.step.title:'全工程完了。好きな構成を追求しよう';
+    progressGuideFillEl.style.width = (completedCount/GUIDE_STEPS.length*100).toFixed(1)+'%';
+    progressGuidePercentEl.textContent = Math.round(completedCount/GUIDE_STEPS.length*100)+'% COMPLETE';
+    if (signature===lastGuideSignature) return;
+    lastGuideSignature=signature;
+    progressGuideListEl.innerHTML='';
+    var lastPhase='';
+    statuses.forEach(function(item,index){
+      if(item.step.phase!==lastPhase){var phase=document.createElement('div');phase.className='guide-phase';phase.textContent=item.step.phase;progressGuideListEl.appendChild(phase);lastPhase=item.step.phase;}
+      var button=document.createElement('button');button.type='button';button.className='guide-step '+(item.done?'done':index===currentIndex?'current':'future');button.setAttribute('data-guide-id',item.step.id);
+      var marker=document.createElement('span');marker.className='guide-step-marker';marker.textContent=item.done?'✓':String(index+1);
+      var copy=document.createElement('span');copy.className='guide-step-copy';var title=document.createElement('strong');title.textContent=item.step.title;var desc=document.createElement('small');desc.textContent=item.step.desc;copy.appendChild(title);copy.appendChild(desc);
+      var progress=document.createElement('span');progress.className='guide-step-progress';progress.textContent=item.done?'完了':item.progress;
+      var arrow=document.createElement('span');arrow.className='guide-step-arrow';arrow.textContent='›';
+      button.appendChild(marker);button.appendChild(copy);button.appendChild(progress);button.appendChild(arrow);progressGuideListEl.appendChild(button);
+    });
+  }
+
+  progressGuideToggleEl.addEventListener('click',function(){
+    guideExpanded=!guideExpanded;storageSet('gadgetClicker_guide_open',guideExpanded?'1':'0');lastGuideSignature='';renderProgressGuide();
+    if(guideExpanded)setTimeout(function(){var current=progressGuideListEl.querySelector('.guide-step.current');if(current&&current.scrollIntoView)current.scrollIntoView({block:'nearest'});},0);
+  });
+  progressGuideListEl.addEventListener('click',function(event){
+    var button=event.target.closest('.guide-step');if(!button)return;var id=button.getAttribute('data-guide-id');var step=GUIDE_STEPS.filter(function(item){return item.id===id;})[0];if(step)navigateToFeature(step.page,step.target);
+  });
 
   function productionBreakdown(){
     var generatorBase = 0;
@@ -2722,7 +3054,7 @@ textarea.data-area{
       generatorBase:generatorBase, customPc:custom,
       research:researchProdMult(), synergy:synergyBonusMult(), topology:currentTopology().prod,
       os:currentOS().prod, legacy:legacyProdMult(), global:globalProdMult(), jobs:1+state.jobProdBonus,
-      special:specialProdMult(),rack:rackBonuses().prod,organization:organizationProdMult(),
+      special:specialProdMult(),rack:rackBonuses().prod,organization:organizationProdMult(),protocol:prestigeProtocolProdMult(),
       infrastructure:infrastructureEfficiency(), overdrive:overdriveMult(), golden:goldenBoostMult(), final:totalPPPerSec()
     };
   }
@@ -2732,6 +3064,7 @@ textarea.data-area{
     helpModalBodyEl.innerHTML=
       '<div class="project-row"><div class="project-head"><strong>端末基礎生産</strong><span>'+formatNumber(b.generatorBase)+' PP/秒</span></div></div>'+
       '<div class="project-row"><div class="project-head"><strong>自作PC</strong><span>'+formatNumber(b.customPc)+' PP/秒</span></div></div>'+
+      '<div class="project-row"><div class="project-head"><strong>継承プロトコル</strong><span>×'+b.protocol.toFixed(2)+'</span></div></div>'+
       '<ul><li>研究 ×'+b.research.toFixed(2)+'</li><li>シナジー ×'+b.synergy.toFixed(2)+'</li><li>ネットワーク ×'+b.topology.toFixed(2)+'</li><li>OS ×'+b.os.toFixed(2)+'</li><li>世代交代 ×'+b.legacy.toFixed(2)+'</li><li>特別端末 ×'+b.special.toFixed(2)+'</li><li>ラック配置 ×'+b.rack.toFixed(2)+'</li><li>組織方針 ×'+b.organization.toFixed(2)+'</li><li>世界プロジェクト ×'+b.global.toFixed(2)+'</li><li>ジョブ恒久効果 ×'+b.jobs.toFixed(2)+'</li><li>電力・冷却効率 ×'+b.infrastructure.toFixed(2)+'</li><li>オーバードライブ ×'+b.overdrive.toFixed(2)+'</li><li>ゴールデン効果 ×'+b.golden.toFixed(2)+'</li></ul><div class="project-row"><div class="project-head"><strong>最終生産</strong><span>'+formatNumber(b.final)+' PP/秒</span></div></div>';
     lastHelpTrigger=document.getElementById('productionBreakdownBtn'); helpOverlayEl.style.display='flex'; helpModalCloseBtn.focus();
   }
@@ -2763,6 +3096,7 @@ textarea.data-area{
     else if(state.pp<15)rec={text:'CHIPをタップして最初の端末資金を貯めよう',page:'game',target:'chip'};
     else rec={text:'端末構成と運用効率を確認し、次の投資を決めよう',page:'operations',target:'infrastructureCard'};
     currentRecommendation=rec; recommendTextEl.innerHTML='<b>NEXT</b> '+rec.text;
+    renderProgressGuide();
   }
 
   function renderStats(){
@@ -2770,7 +3104,7 @@ textarea.data-area{
     ppPerSecEl.textContent = '毎秒 ' + formatNumber(totalPPPerSec()) + ' PP';
     shardValEl.textContent = formatNumber(state.shards);
     lifetimeValEl.textContent = formatNumber(state.lifetimePP);
-    multValEl.textContent = '×' + prestigeMultiplier().toFixed(2);
+    multValEl.textContent = '×' + permanentProductionMultiplier().toFixed(2);
     renderOperationalSummary();
 
     if (isOverdriveActive()) {
@@ -2791,16 +3125,15 @@ textarea.data-area{
       goldenBadgeEl.style.display = 'none';
     }
 
-    var canPrestige = state.lifetimePP >= prestigeThreshold();
-    prestigeBtn.disabled = !canPrestige;
-    var gain = shardsIfPrestigeNow();
-    if (canPrestige) {
-      prestigeBtn.textContent = 'システムリセット（+' + gain + ' コア）';
-      prestigeDesc.innerHTML = '今リセットすると <b style="color:var(--green)">+' + gain + ' 最適化コア</b> を獲得できます。<br>（コア1個につき永続でPP生産量+2%）';
-    } else {
-      prestigeBtn.textContent = 'システムリセット';
-      prestigeDesc.innerHTML = '生涯処理量が <b style="color:var(--green)">' + formatNumber(prestigeThreshold()) + '</b> に達するとリセットできます。<br>（現在 ' + formatNumber(state.lifetimePP) + '）';
-    }
+    renderPrestigePanel();
+  }
+  function renderPrestigePanel(){
+    var gain=shardsIfPrestigeNow(),can=state.lifetimePP>=prestigeThreshold(),selected=selectedPrestigeProtocolDef(),nextRun=state.prestigeCount+1,bootPP=prestigeBootstrapPP(nextRun),bootDevices=prestigeBootstrapDevices(nextRun);
+    prestigeCurrentMultEl.textContent='×'+permanentProductionMultiplier().toFixed(2);prestigeGainPreviewEl.textContent='+'+gain+' コア';prestigeBootstrapPreviewEl.textContent=formatNumber(bootPP)+' PP'+(bootDevices?' + 電卓'+bootDevices+'台':'');
+    prestigeProtocolButtons.forEach(function(btn){var id=btn.getAttribute('data-prestige-protocol'),d=prestigeProtocolDef(id),lv=prestigeProtocolLevel(id);btn.classList.toggle('active',id===selected.id);btn.disabled=lv>=d.maxLevel;btn.querySelector('.numeral').textContent='Lv.'+lv+(lv>=d.maxLevel?' MAX':'');});
+    var progress=0,target,lower;if(can){lower=prestigeCoreTarget(gain);target=prestigeCoreTarget(gain+1);progress=Math.max(0,Math.min(1,(state.lifetimePP-lower)/Math.max(1,target-lower)));prestigeNextCoreEl.textContent='次の+1コアまで残り '+formatNumber(Math.max(0,target-state.lifetimePP))+' PP';}else{progress=Math.max(0,Math.min(1,state.lifetimePP/prestigeThreshold()));prestigeNextCoreEl.textContent='リセット解除まで残り '+formatNumber(Math.max(0,prestigeThreshold()-state.lifetimePP))+' PP';}
+    prestigeProgressFillEl.style.width=(progress*100).toFixed(1)+'%';prestigeBtn.disabled=!can;
+    if(can){var prev=state.lastPrestigeGain||0,advice=!prev?'初回は到達時点で十分な加速を得られます':gain>=Math.ceil(prev*1.5)?'前回より高効率。リセット好機です':'さらに処理量を伸ばすと獲得コアが増えます';prestigeBtn.textContent='再起動（+'+gain+' コア / '+selected.name+' Lv.+1）';prestigeDesc.innerHTML='今リセットすると <b style="color:var(--green)">+'+gain+' 最適化コア</b> と <b style="color:var(--green)">'+selected.name+' Lv.+1</b>。<br>'+advice;}else{prestigeBtn.textContent='システムリセット';prestigeDesc.innerHTML='周回処理量 <b style="color:var(--green)">'+formatNumber(prestigeThreshold())+' PP</b> で再起動可能。<br>初回報酬は5コア＋選択プロトコルLv.1です。';}
   }
 
   function renderAll(){
@@ -2878,7 +3211,9 @@ textarea.data-area{
   var helpModalCloseBtn = document.getElementById('helpModalCloseBtn');
   var lastHelpTrigger = null;
   var OPERATION_HELP = {
-    infrastructureCard:{ title:'電力・発熱・冷却', body:'端末が増えるほど電力消費と発熱が増えます。<ul><li><strong>電力または冷却が容量を超える</strong>とPP生産効率が低下します。</li><li>効率は最低40%までで、完全停止はしません。</li><li>PPを使って電源設備と冷却設備を恒久的に増強できます。</li></ul>' },
+    prestigeSystem:{title:'システムリセット',body:'周回処理量100万PPから実行できる中期成長システムです。<ul><li>最適化コアは逓減式の永続生産倍率になり、高額域では伸びが緩やかになります。</li><li>リセットごとに生産・タップ・価格の継承プロトコルを1段階強化できます。</li><li>周回数に応じたPPと電卓を持って再開するため、序盤操作が短縮されます。</li></ul>'},
+    progressGuide:{ title:'やることリスト（進行ガイド）', body:'ゲーム内の主要機能をおすすめ順に並べた案内です。<ul><li><strong>現在の目標</strong>は青く強調され、達成すると自動で次へ進みます。</li><li>項目を押すと対応するタブや機能まで移動できます。</li><li>将来の項目も先に確認・実行でき、達成状況はシステムリセット後も保持されます。</li></ul>' },
+    infrastructureCard:{ title:'電力・発熱・冷却', body:'端末が増えるほど電力消費と発熱が増えます。<ul><li><strong>電力または冷却が容量を超える</strong>とPP生産効率が低下します。</li><li>設備レベルはシステムリセット後も継承され、周回ごとに基礎容量も5%ずつ増えます（最大+50%）。</li><li>増設価格は端末の成長に合わせた緩やかなカーブになっています。</li></ul>' },
     networkCard:{ title:'ネットワーク構成', body:'端末群の接続方法を1つ選びます。<ul><li>所持端末の種類やサーバーラックによって構成が解放されます。</li><li>生産、タップ、電力、発熱の倍率が構成ごとに異なります。</li><li>条件を失った構成は自動的に標準構成へ戻ります。</li></ul>' },
     jobCard:{ title:'ジョブ／プログラム実行', body:'PPを消費して時間のかかる計算を1件実行します。<ul><li>同時に実行できるジョブは1件です。</li><li>完了するとPP、恒久倍率、クリスタル成長、最適化コアなどを獲得します。</li><li>画面を閉じている間も終了時刻は進みます。</li></ul>' },
     osCard:{ title:'OSチャンネル', body:'端末群へ配信するOSを選びます。<ul><li><strong>安定版</strong>は発熱を抑えます。</li><li><strong>高速版</strong>は生産を伸ばす代わりに電力と発熱が増えます。</li><li><strong>実験版</strong>は最大性能ですが、設備負荷も最大です。</li></ul>' },
@@ -2932,6 +3267,8 @@ textarea.data-area{
     btn.addEventListener('click',function(){ openOperationHelp(cardId,btn); });
     heading.appendChild(btn);
   });
+  document.getElementById('progressGuideHelpBtn').addEventListener('click',function(){openOperationHelp('progressGuide',this);});
+  document.getElementById('prestigeHelpBtn').addEventListener('click',function(){openOperationHelp('prestigeSystem',this);});
   helpModalCloseBtn.addEventListener('click',closeOperationHelp);
   helpOverlayEl.addEventListener('click',function(e){ if (e.target === helpOverlayEl) closeOperationHelp(); });
   document.addEventListener('keydown',function(e){ if (e.key === 'Escape' && helpOverlayEl.style.display !== 'none') closeOperationHelp(); });
@@ -3769,25 +4106,16 @@ textarea.data-area{
   }
 
   function doPrestige(){
-    var gain = shardsIfPrestigeNow();
-    if (gain <= 0) return;
-    if (!confirm('システムをリセットすると現在の進行状況（PP・端末・強化）は初期化されます。\n+' + gain + ' 最適化コアを獲得してリセットしますか？')) return;
-    state.shards += gain;
-    state.pp = 0;
-    state.lifetimePP = 0;
-    state.prestigeCount += 1;
-    state.generators.forEach(function(g){ g.count = 0; });
-    state.powerLevel = 0;
-    state.coolingLevel = 0;
-    state.networkTopology = 'balanced';
-    state.activeJob = null;
-    state.pipelineData = {raw:0,clean:0,model:0,result:0};
-    state.organizationChoice = null;
-    clickUpgradesOwned = {};
-    playPrestigeSound();
-    renderAll();
-    checkAchievements();
-    saveGame();
+    var gain=shardsIfPrestigeNow();if(gain<=0)return;
+    var protocol=selectedPrestigeProtocolDef(),nextCount=state.prestigeCount+1,bootPP=prestigeBootstrapPP(nextCount),bootDevices=prestigeBootstrapDevices(nextCount);
+    var message='現在の周回を再構築します。\n\n獲得: +'+gain+' 最適化コア / '+protocol.name+' Lv.+1\n再起動: '+formatNumber(bootPP)+' PP'+(bootDevices?' / 電卓'+bootDevices+'台':'')+'\n\n実行中ジョブと未公開パイプラインデータは失われます。実行しますか？';
+    if(!confirm(message))return;
+    state.lastPrestigeGain=gain;state.shards+=gain;state.prestigeProtocols[protocol.id]=prestigeProtocolLevel(protocol.id)+1;state.prestigeCount=nextCount;
+    if(prestigeProtocolLevel(protocol.id)>=protocol.maxLevel)state.selectedPrestigeProtocol='throughput';
+    state.pp=bootPP;state.lifetimePP=0;state.generators.forEach(function(g){g.count=0;});state.generators[0].count=bootDevices;
+    state.networkTopology='balanced';state.activeJob=null;state.pipelineData={raw:0,clean:0,model:0,result:0};state.organizationChoice=null;clickUpgradesOwned={};
+    addOperationalLog('RESET','周回'+nextCount+'を開始：コア+'+gain+' / '+protocol.name+' Lv.'+prestigeProtocolLevel(protocol.id),'success');
+    playPrestigeSound();renderAll();checkAchievements();saveGame();
   }
   prestigeBtn.addEventListener('click', doPrestige);
 
@@ -3916,13 +4244,16 @@ textarea.data-area{
   /* ---------------- セーブ / ロード ---------------- */
   function serializeState(){
     return JSON.stringify({
-      version: 7,
+      version: 9,
       savedAt: Date.now(),
       pp: state.pp,
       lifetimePP: state.lifetimePP,
       shards: state.shards,
       totalTaps: state.totalTaps,
       prestigeCount: state.prestigeCount,
+      prestigeProtocols: state.prestigeProtocols,
+      selectedPrestigeProtocol: state.selectedPrestigeProtocol,
+      lastPrestigeGain: state.lastPrestigeGain,
       generators: state.generators.map(function(g){ return { count: g.count, level: g.level || 0 }; }),
       clickUpgradesOwned: clickUpgradesOwned,
       achievementsUnlocked: achievementsUnlocked,
@@ -3983,6 +4314,7 @@ textarea.data-area{
       publishedResults: state.publishedResults,
       organizationChoice: state.organizationChoice,
       organizationReputation: state.organizationReputation,
+      guideCompleted: state.guideCompleted,
       soundEnabled: soundEnabled,
       bgmEnabled: bgmEnabled
     }, null, 0);
@@ -3995,6 +4327,10 @@ textarea.data-area{
     state.shards = Number(data.shards) || 0;
     state.totalTaps = Number(data.totalTaps) || 0;
     state.prestigeCount = Number(data.prestigeCount) || 0;
+    var importedProtocols=data.prestigeProtocols&&typeof data.prestigeProtocols==='object'?data.prestigeProtocols:{};
+    state.prestigeProtocols={throughput:Number(importedProtocols.throughput)||0,input:Number(importedProtocols.input)||0,efficiency:Math.min(9,Number(importedProtocols.efficiency)||0)};
+    state.selectedPrestigeProtocol=typeof data.selectedPrestigeProtocol==='string'?data.selectedPrestigeProtocol:'throughput';
+    state.lastPrestigeGain=Number(data.lastPrestigeGain)||0;
     if (Array.isArray(data.generators)) {
       data.generators.forEach(function(entry, i){
         if (!state.generators[i]) return;
@@ -4070,6 +4406,7 @@ textarea.data-area{
     state.publishedResults=Number(data.publishedResults)||0;
     state.organizationChoice=typeof data.organizationChoice==='string'?data.organizationChoice:null;
     state.organizationReputation=data.organizationReputation&&typeof data.organizationReputation==='object'?data.organizationReputation:{};
+    state.guideCompleted=data.guideCompleted&&typeof data.guideCompleted==='object'?data.guideCompleted:{};
     if (data.buyMode === 'max' || [1,10,100].indexOf(Number(data.buyMode)) >= 0) {
       buyMode = data.buyMode === 'max' ? 'max' : Number(data.buyMode);
       buyModeButtons.forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-mode') == String(buyMode)); });
@@ -4306,6 +4643,9 @@ textarea.data-area{
     state.shards = 0;
     state.totalTaps = 0;
     state.prestigeCount = 0;
+    state.prestigeProtocols = {throughput:0,input:0,efficiency:0};
+    state.selectedPrestigeProtocol = 'throughput';
+    state.lastPrestigeGain = 0;
     state.generators.forEach(function(g){ g.count = 0; g.level = 0; });
     state.crystalCount = 0;
     state.crystalGrowthStart = Date.now();
@@ -4359,6 +4699,7 @@ textarea.data-area{
     state.publishedResults = 0;
     state.organizationChoice = null;
     state.organizationReputation = {};
+    state.guideCompleted = {};
     taskState.active = false;
     wireState.active = false;
     clickUpgradesOwned = {};
@@ -4417,6 +4758,7 @@ textarea.data-area{
       checkAchievements();
       return state.shards;
     },
+    setPrestigeProtocol: function(id){ return selectPrestigeProtocol(id); },
     // 端末の所持数を直接指定する。key は 'calc','phone','laptop','desktop','work','rack','dc','qpu'
     setGenerator: function(key, count){
       var idx = GEN_DEFS.findIndex(function(d){ return d.key === key; });
@@ -4640,6 +4982,14 @@ textarea.data-area{
         lifetimePP: state.lifetimePP,
         shards: state.shards,
         prestigeMultiplier: prestigeMultiplier(),
+        permanentProductionMultiplier: permanentProductionMultiplier(),
+        prestigeProtocolProdMult: prestigeProtocolProdMult(),
+        prestigeProtocolClickMult: prestigeProtocolClickMult(),
+        prestigeProtocolCostMult: prestigeProtocolCostMult(),
+        prestigeProtocols: JSON.parse(JSON.stringify(state.prestigeProtocols)),
+        selectedPrestigeProtocol: state.selectedPrestigeProtocol,
+        lastPrestigeGain: state.lastPrestigeGain,
+        prestigeBootstrapPP: prestigeBootstrapPP(state.prestigeCount+1),
         ppPerSec: totalPPPerSec(),
         clickPower: clickPower(),
         clickPercentBonus: clickPercentBonus(),
@@ -4717,10 +5067,26 @@ textarea.data-area{
 </script>
 <script>
 if ('serviceWorker' in navigator) {
+  var gadgetPwaHadController = !!navigator.serviceWorker.controller;
+  var gadgetPwaRefreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if (gadgetPwaHadController && !gadgetPwaRefreshing) {
+      gadgetPwaRefreshing = true;
+      window.location.reload();
+      return;
+    }
+    gadgetPwaHadController = true;
+  });
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('./service-worker.js').catch(function(error){
-      console.warn('[GadgetClicker PWA] Service Worker registration failed:', error);
-    });
+    navigator.serviceWorker.register('./service-worker.js', { updateViaCache:'none' })
+      .then(function(registration){
+        if (registration.waiting) registration.waiting.postMessage({ type:'SKIP_WAITING' });
+        registration.update().catch(function(){});
+        setInterval(function(){ registration.update().catch(function(){}); }, 30 * 60 * 1000);
+      })
+      .catch(function(error){
+        console.warn('[GadgetClicker PWA] Service Worker registration failed:', error);
+      });
   });
 }
 </script>
