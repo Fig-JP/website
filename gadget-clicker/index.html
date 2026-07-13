@@ -145,6 +145,13 @@ header .sub{
   margin-top:4px;
   font-family:'Share Tech Mono', monospace;
 }
+.full-guide-link{
+  display:inline-flex; align-items:center; gap:5px; margin-top:7px; padding:5px 10px;
+  border:1px solid var(--line); border-radius:999px; color:var(--cyan-light);
+  background:var(--bg-panel); font-size:10px; text-decoration:none;
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.full-guide-link:hover,.full-guide-link:focus-visible{ border-color:var(--cyan); box-shadow:var(--glow); outline:none; transform:translateY(-1px); }
 
 /* ---------- top stat bar ---------- */
 .statbar{
@@ -1209,6 +1216,7 @@ textarea.data-area{
   <header>
     <h1>端末クリッカー</h1>
     <div class="sub">-- GADGET EMPIRE PROTOCOL --</div>
+    <a class="full-guide-link" href="https://github.com/Fig-JP/website/blob/main/gadget-clicker/README.md" target="_blank" rel="noopener noreferrer">📘 詳しい遊び方はこちら <span aria-hidden="true">↗</span></a>
   </header>
 
   <!-- ================= ゲームページ ================= -->
@@ -3212,7 +3220,7 @@ textarea.data-area{
   var lastHelpTrigger = null;
   var OPERATION_HELP = {
     prestigeSystem:{title:'システムリセット',body:'周回処理量100万PPから実行できる中期成長システムです。<ul><li>最適化コアは逓減式の永続生産倍率になり、高額域では伸びが緩やかになります。</li><li>リセットごとに生産・タップ・価格の継承プロトコルを1段階強化できます。</li><li>周回数に応じたPPと電卓を持って再開するため、序盤操作が短縮されます。</li></ul>'},
-    progressGuide:{ title:'やることリスト（進行ガイド）', body:'ゲーム内の主要機能をおすすめ順に並べた案内です。<ul><li><strong>現在の目標</strong>は青く強調され、達成すると自動で次へ進みます。</li><li>項目を押すと対応するタブや機能まで移動できます。</li><li>将来の項目も先に確認・実行でき、達成状況はシステムリセット後も保持されます。</li></ul>' },
+    progressGuide:{ title:'やることリスト（進行ガイド）', body:'ゲーム内の主要機能をおすすめ順に並べた案内です。<ul><li><strong>現在の目標</strong>は青く強調され、達成すると自動で次へ進みます。</li><li>項目を押すと対応するタブや機能まで移動できます。</li><li>将来の項目も先に確認・実行でき、達成状況はシステムリセット後も保持されます。</li></ul><p><a class="full-guide-link" href="https://github.com/Fig-JP/website/blob/main/gadget-clicker/README.md" target="_blank" rel="noopener noreferrer">📘 詳しい遊び方はこちら ↗</a></p>' },
     infrastructureCard:{ title:'電力・発熱・冷却', body:'端末が増えるほど電力消費と発熱が増えます。<ul><li><strong>電力または冷却が容量を超える</strong>とPP生産効率が低下します。</li><li>設備レベルはシステムリセット後も継承され、周回ごとに基礎容量も5%ずつ増えます（最大+50%）。</li><li>増設価格は端末の成長に合わせた緩やかなカーブになっています。</li></ul>' },
     networkCard:{ title:'ネットワーク構成', body:'端末群の接続方法を1つ選びます。<ul><li>所持端末の種類やサーバーラックによって構成が解放されます。</li><li>生産、タップ、電力、発熱の倍率が構成ごとに異なります。</li><li>条件を失った構成は自動的に標準構成へ戻ります。</li></ul>' },
     jobCard:{ title:'ジョブ／プログラム実行', body:'PPを消費して時間のかかる計算を1件実行します。<ul><li>同時に実行できるジョブは1件です。</li><li>完了するとPP、恒久倍率、クリスタル成長、最適化コアなどを獲得します。</li><li>画面を閉じている間も終了時刻は進みます。</li></ul>' },
