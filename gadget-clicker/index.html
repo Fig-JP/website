@@ -225,6 +225,46 @@ header .sub{
 .guide-step.done{ opacity:.68; }
 .guide-step.done .guide-step-marker{ color:#07140e; background:var(--green); border-color:var(--green); }
 .guide-step.future{ opacity:.76; }
+.mission-control{
+  margin:18px 0 8px; padding:14px; overflow:hidden; position:relative;
+  border:1px solid rgba(77,216,255,.42); border-radius:16px;
+  background:linear-gradient(145deg,rgba(77,216,255,.09),var(--bg-panel) 48%,rgba(255,77,216,.06));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.mission-control::before{ content:''; position:absolute; inset:0 auto 0 0; width:3px; background:linear-gradient(var(--cyan),var(--green),var(--magenta)); }
+.mission-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:11px; }
+.mission-kicker{ color:var(--cyan); font:700 8px 'Orbitron',sans-serif; letter-spacing:1.5px; }
+.mission-title{ margin-top:3px; color:var(--text); font-size:14px; font-weight:800; }
+.mission-sub{ margin-top:3px; color:var(--text-dim); font-size:9.5px; line-height:1.5; }
+.campaign-card{ padding:11px; border:1px solid var(--line); border-radius:12px; background:rgba(0,0,0,.13); }
+.campaign-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+.campaign-top strong{ color:var(--cyan-light); font-size:11px; }
+.campaign-top span{ color:var(--green); font:8.5px 'Share Tech Mono',monospace; white-space:nowrap; }
+.campaign-story{ margin:6px 0 9px; color:var(--text-dim); font-size:9.5px; line-height:1.55; }
+.campaign-objectives{ display:grid; gap:5px; margin-bottom:9px; }
+.campaign-objective{ display:grid; grid-template-columns:18px minmax(0,1fr); gap:6px; align-items:center; color:var(--text-dim); font-size:9px; }
+.campaign-objective i{ width:18px; height:18px; display:grid; place-items:center; border-radius:50%; border:1px solid var(--line); font-style:normal; font-size:8px; }
+.campaign-objective.done{ color:var(--text); }
+.campaign-objective.done i{ color:#06130d; border-color:var(--green); background:var(--green); }
+.campaign-reward{ margin-bottom:8px; color:var(--gold); font-size:9px; }
+.campaign-complete{ padding:16px 10px; text-align:center; border:1px solid rgba(77,255,160,.35); border-radius:12px; background:rgba(77,255,160,.07); }
+.campaign-complete strong{ display:block; color:var(--green); font:700 12px 'Orbitron',sans-serif; }
+.campaign-complete small{ display:block; margin-top:5px; color:var(--text-dim); font-size:9.5px; }
+.contract-heading{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin:12px 1px 7px; }
+.contract-heading strong{ color:var(--text); font-size:10px; }
+.contract-heading span{ color:var(--text-dim); font:8px 'Share Tech Mono',monospace; }
+.contract-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+.contract-card{ min-width:0; padding:8px; border:1px solid var(--line); border-radius:10px; background:var(--bg-panel-2); }
+.contract-card.done{ border-color:rgba(77,255,160,.45); }
+.contract-card.claimed{ opacity:.62; }
+.contract-icon{ font-size:16px; }
+.contract-card strong{ display:block; margin-top:3px; color:var(--text); font-size:8.8px; overflow-wrap:anywhere; }
+.contract-progress{ height:4px; margin:6px 0 4px; overflow:hidden; border-radius:8px; background:rgba(0,0,0,.3); }
+.contract-progress span{ display:block; height:100%; background:linear-gradient(90deg,var(--cyan),var(--green)); }
+.contract-meta{ color:var(--text-dim); font:7.8px 'Share Tech Mono',monospace; overflow-wrap:anywhere; }
+.contract-reward{ min-height:23px; margin:5px 0; color:var(--gold); font-size:7.8px; line-height:1.35; }
+.contract-card .btn{ width:100%; min-width:0; padding:6px 3px; font-size:8px; }
+.contract-next{ width:100%; margin-top:8px; }
 .pps-line{ display:flex; align-items:center; justify-content:center; gap:7px; }
 .mini-info-btn{ width:21px; height:21px; padding:0; border-radius:50%; cursor:pointer; color:var(--cyan-light); background:var(--bg-panel); border:1px solid var(--line); font:700 11px 'Share Tech Mono',monospace; }
 
@@ -1128,6 +1168,14 @@ textarea.data-area{
   .guide-step{ grid-template-columns:23px minmax(0,1fr) auto 10px; gap:6px; padding:7px 6px; }
   .guide-step-marker{ width:23px; height:23px; }
   .guide-step-progress{ max-width:58px; font-size:7.8px; }
+  .mission-control{ margin-top:12px; padding:11px 9px; }
+  .contract-grid{ grid-template-columns:1fr; }
+  .contract-card{ display:grid; grid-template-columns:24px minmax(0,1fr) 86px; gap:4px 7px; align-items:center; }
+  .contract-icon{ grid-row:1 / span 3; }
+  .contract-card strong{ margin-top:0; }
+  .contract-progress,.contract-meta{ grid-column:2; }
+  .contract-reward{ grid-column:3; grid-row:1 / span 2; min-height:0; margin:0; text-align:right; }
+  .contract-card .btn{ grid-column:3; grid-row:3; }
   .prestige-box{ padding:12px 10px; }
   .prestige-balance-grid{ gap:5px; }
   .prestige-metric{ padding:7px 3px; }
@@ -1307,6 +1355,16 @@ textarea.data-area{
 
     </div>
     <div class="game-side-panel">
+    <section class="mission-control" id="missionControl">
+      <div class="mission-head">
+        <div><div class="mission-kicker">MISSION CONTROL</div><div class="mission-title">🚀 帝国キャンペーン</div><div class="mission-sub">物語を進めながら、短い運用契約で次の一手と報酬を獲得する。</div></div>
+        <button type="button" class="help-btn" id="missionHelpBtn" aria-label="ミッションコントロールの説明を開く">?</button>
+      </div>
+      <div id="campaignPanel"></div>
+      <div class="contract-heading"><strong>📋 運用契約</strong><span id="contractSetLabel">SET 01</span></div>
+      <div class="contract-grid" id="contractList"></div>
+      <button type="button" class="btn accent contract-next" id="contractNextBtn" style="display:none;">次の契約セットを受注</button>
+    </section>
     <div class="section-title"><span>🔗 シナジーボーナス</span><span class="line"></span></div>
     <div class="synergy-summary" id="synergySummary">現在の合計ボーナス: ×1.00</div>
     <div id="synergyList"></div>
@@ -1762,7 +1820,12 @@ textarea.data-area{
     publishedResults: 0,
     organizationChoice: null,
     organizationReputation: {},
-    guideCompleted: {}
+    guideCompleted: {},
+    campaignChapter: 0,
+    campaignProdBonus: 0,
+    contractCycle: 0,
+    contractProgress: {taps:0,devices:0,maintenance:0},
+    contractClaims: {taps:false,devices:false,maintenance:false}
   };
 
   var GOLDEN_MIN_INTERVAL_MS = 45000;   // 次のパケット出現までの最短時間
@@ -2110,7 +2173,7 @@ textarea.data-area{
   function prestigeProtocolProdMult(){return 1+prestigeProtocolLevel('throughput')*.08;}
   function prestigeProtocolClickMult(){return 1+prestigeProtocolLevel('input')*.12;}
   function prestigeProtocolCostMult(){return Math.max(.64,1-prestigeProtocolLevel('efficiency')*.04);}
-  function permanentProductionMultiplier(){return prestigeMultiplier()*prestigeProtocolProdMult();}
+  function permanentProductionMultiplier(){return prestigeMultiplier()*prestigeProtocolProdMult()*(1+state.campaignProdBonus);}
   function researchBonusTotal(type){
     var sum = 0;
     RESEARCH_NODES.forEach(function(n){
@@ -2277,7 +2340,7 @@ textarea.data-area{
       if (state.buggedGeneratorIdx === i) perUnit *= bugPenaltyMult();
       total += perUnit * state.generators[i].count;
     }
-    return total * prestigeProtocolProdMult() * researchProdMult() * synergyBonusMult() * currentTopology().prod * currentOS().prod * legacyProdMult() * globalProdMult() * specialProdMult() * rackBonuses().prod * organizationProdMult() * (1 + state.jobProdBonus) * infrastructureEfficiency() * incidentProductionMult();
+    return total * prestigeProtocolProdMult() * researchProdMult() * synergyBonusMult() * currentTopology().prod * currentOS().prod * legacyProdMult() * globalProdMult() * specialProdMult() * rackBonuses().prod * organizationProdMult() * (1 + state.jobProdBonus) * (1 + state.campaignProdBonus) * infrastructureEfficiency() * incidentProductionMult();
   }
   function totalPPPerSec(){
     return baseTotalPPPerSec() * overdriveMult() * goldenBoostMult();
@@ -2641,6 +2704,7 @@ textarea.data-area{
     var reward = 1 + Math.floor(Math.random() * 3); // 1〜3個
     state.maintParts += reward;
     state.taskSuccessCount += 1;
+    state.contractProgress.maintenance += 1;
     state.taskCooldownUntil = Date.now() + TASK_COOLDOWN_MS;
     playSuccessSound();
     renderAll();
@@ -2706,6 +2770,7 @@ textarea.data-area{
     state.maintParts += reward;
     state.taskSuccessCount += 1;
     state.wireSuccessCount += 1;
+    state.contractProgress.maintenance += 1;
     state.wireCooldownUntil = Date.now() + WIRE_COOLDOWN_MS;
     playSuccessSound();
     renderAll();
@@ -2828,13 +2893,14 @@ textarea.data-area{
     }
   }
 
-  function showAchievementToast(a){
+  function showRewardToast(label,name,icon){
     var el = document.createElement('div');
     el.className = 'achv-toast';
-    el.innerHTML = '<span class="ic">' + a.icon + '</span><div><div class="tt">実績解除</div><div class="nm">' + a.name + '</div></div>';
+    el.innerHTML = '<span class="ic">' + icon + '</span><div><div class="tt">' + label + '</div><div class="nm">' + name + '</div></div>';
     document.body.appendChild(el);
     setTimeout(function(){ el.remove(); }, 3000);
   }
+  function showAchievementToast(a){ showRewardToast('実績解除',a.name,a.icon); }
 
   /* ---------------- 描画：メイン ---------------- */
   var shopListEl = document.getElementById('shopList');
@@ -3050,6 +3116,75 @@ textarea.data-area{
     var button=event.target.closest('.guide-step');if(!button)return;var id=button.getAttribute('data-guide-id');var step=GUIDE_STEPS.filter(function(item){return item.id===id;})[0];if(step)navigateToFeature(step.page,step.target);
   });
 
+  /* ---------------- ミッションコントロール：章立て / 反復契約 ---------------- */
+  var campaignPanelEl=document.getElementById('campaignPanel');
+  var contractListEl=document.getElementById('contractList');
+  var contractSetLabelEl=document.getElementById('contractSetLabel');
+  var contractNextBtn=document.getElementById('contractNextBtn');
+  var CAMPAIGN_CHAPTERS=[
+    {icon:'🔌',code:'CHAPTER 01',title:'起動する帝国',story:'眠っていた演算コアを再起動し、最初の端末群を接続する。',objectives:[
+      {text:'CHIPを10回タップ',done:function(){return state.totalTaps>=10;}},
+      {text:'端末を合計10台導入',done:function(){return guideGeneratorCount()>=10;}}
+    ],reward:'500 PP・整備パーツ3個',grant:function(){state.pp+=500;state.lifetimePP+=500;state.maintParts+=3;}},
+    {icon:'⚡',code:'CHAPTER 02',title:'安定稼働への挑戦',story:'発熱と停電を制御し、研究成果を実運用へ投入する。',objectives:[
+      {text:'研究を1つ解放',done:function(){return Object.keys(researchUnlocked).length>=1;}},
+      {text:'電源と冷却をLv.1へ強化',done:function(){return state.powerLevel>=1&&state.coolingLevel>=1;}},
+      {text:'ジョブを1件完了',done:function(){return state.completedJobs>=1;}}
+    ],reward:'5万PP・整備パーツ6個',grant:function(){state.pp+=50000;state.lifetimePP+=50000;state.maintParts+=6;}},
+    {icon:'🧰',code:'CHAPTER 03',title:'自分だけの計算機',story:'古い端末を解体し、名前を持つ愛機と自作PCを生み出す。',objectives:[
+      {text:'端末を1台再利用',done:function(){return state.retiredDevices>=1;}},
+      {text:'自作PCを完成',done:function(){return customPcOutput()>0;}},
+      {text:'特別端末を1台獲得',done:function(){return state.specialDevices.length>=1;}}
+    ],reward:'回路部品15個・クリスタル2個',grant:function(){state.circuitParts+=15;state.crystalCount+=2;}},
+    {icon:'🌐',code:'CHAPTER 04',title:'つながる計算世界',story:'組織を選び、データを価値へ変え、ネットワークを守り抜く。',objectives:[
+      {text:'運営組織へ所属',done:function(){return !!state.organizationChoice;}},
+      {text:'パイプライン成果を公開',done:function(){return state.publishedResults>0;}},
+      {text:'サイバー攻撃を1回防御',done:function(){return state.cyberAttacksBlocked>=1;}}
+    ],reward:'最適化コア3個・回路部品5個',grant:function(){state.shards+=3;state.circuitParts+=5;}},
+    {icon:'🛰️',code:'FINAL CHAPTER',title:'境界の向こうへ',story:'世界規模の計算を完成させ、帝国を再構築して次の時代へ進む。',objectives:[
+      {text:'世界プロジェクトを1件完成',done:function(){return Object.keys(state.globalCompleted).some(function(k){return state.globalCompleted[k];});}},
+      {text:'システムリセットを1回実行',done:function(){return state.prestigeCount>=1;}}
+    ],reward:'コア10個・クリスタル5個・全生産+15%',grant:function(){state.shards+=10;state.crystalCount+=5;state.campaignProdBonus=Math.max(.15,state.campaignProdBonus);}}
+  ];
+  function campaignReady(chapter){return chapter.objectives.every(function(o){return o.done();});}
+  function claimCampaignChapter(){
+    var chapter=CAMPAIGN_CHAPTERS[state.campaignChapter];if(!chapter||!campaignReady(chapter))return false;
+    chapter.grant();state.campaignChapter++;showRewardToast('CHAPTER COMPLETE',chapter.title+' / '+chapter.reward,chapter.icon);playAchievementSound();renderAll();saveGame();return true;
+  }
+  function contractDefinitions(){
+    var cycle=Math.max(0,state.contractCycle),p=state.contractProgress;
+    return [
+      {id:'taps',icon:'👆',title:'入力テスト',target:25+cycle*25,value:p.taps,reward:'PP補給',grant:function(){var amount=Math.max(100,Math.round(totalPPPerSec()*60*(cycle+1)));state.pp+=amount;state.lifetimePP+=amount;return formatNumber(amount)+' PP';}},
+      {id:'devices',icon:'📦',title:'端末調達',target:5+cycle*5,value:p.devices,reward:'整備パーツ',grant:function(){var amount=2+cycle;state.maintParts+=amount;return '整備パーツ '+amount+'個';}},
+      {id:'maintenance',icon:'🔧',title:'現場整備',target:1+Math.floor(cycle/2),value:p.maintenance,reward:'回路部品',grant:function(){var amount=2+cycle;state.circuitParts+=amount;return '回路部品 '+amount+'個';}}
+    ];
+  }
+  function claimContract(id){
+    var def=contractDefinitions().filter(function(c){return c.id===id;})[0];
+    if(!def||state.contractClaims[id]||def.value<def.target)return false;
+    state.contractClaims[id]=true;var reward=def.grant();showRewardToast('CONTRACT COMPLETE',def.title+' / '+reward,def.icon);playSuccessSound();renderAll();saveGame();return true;
+  }
+  function allContractsClaimed(){return ['taps','devices','maintenance'].every(function(id){return !!state.contractClaims[id];});}
+  function advanceContracts(){
+    if(!allContractsClaimed())return false;
+    state.contractCycle++;state.contractProgress={taps:0,devices:0,maintenance:0};state.contractClaims={taps:false,devices:false,maintenance:false};
+    showRewardToast('NEW CONTRACTS','契約セット '+String(state.contractCycle+1).padStart(2,'0')+' を受注','📡');renderMissionControl();saveGame();return true;
+  }
+  function renderMissionControl(){
+    var chapter=CAMPAIGN_CHAPTERS[state.campaignChapter];
+    if(!chapter){campaignPanelEl.innerHTML='<div class="campaign-complete"><strong>CAMPAIGN COMPLETE</strong><small>帝国の物語を完遂。契約と自由な構成で最高記録を更新しよう。<br>恒久生産ボーナス +15%</small></div>';}
+    else{
+      var doneCount=chapter.objectives.filter(function(o){return o.done();}).length;
+      campaignPanelEl.innerHTML='<div class="campaign-card"><div class="campaign-top"><strong>'+chapter.icon+' '+chapter.code+' — '+chapter.title+'</strong><span>'+doneCount+'/'+chapter.objectives.length+'</span></div><div class="campaign-story">'+chapter.story+'</div><div class="campaign-objectives">'+chapter.objectives.map(function(o){var done=o.done();return '<div class="campaign-objective '+(done?'done':'')+'"><i>'+(done?'✓':'○')+'</i><span>'+o.text+'</span></div>';}).join('')+'</div><div class="campaign-reward">報酬：'+chapter.reward+'</div><button type="button" class="btn accent" id="campaignClaimBtn" '+(campaignReady(chapter)?'':'disabled')+'>'+(campaignReady(chapter)?'章を完了して報酬を受け取る':'目標を達成すると受取可能')+'</button></div>';
+      var claimBtn=document.getElementById('campaignClaimBtn');if(claimBtn)claimBtn.addEventListener('click',claimCampaignChapter);
+    }
+    contractSetLabelEl.textContent='SET '+String(state.contractCycle+1).padStart(2,'0');contractListEl.innerHTML='';
+    contractDefinitions().forEach(function(def){var claimed=!!state.contractClaims[def.id],done=def.value>=def.target,ratio=Math.min(1,def.value/def.target),card=document.createElement('div');card.className='contract-card '+(done?'done ':'')+(claimed?'claimed':'');card.innerHTML='<div class="contract-icon">'+def.icon+'</div><strong>'+def.title+'</strong><div class="contract-progress"><span style="width:'+(ratio*100).toFixed(1)+'%"></span></div><div class="contract-meta">'+Math.min(def.value,def.target)+' / '+def.target+'</div><div class="contract-reward">報酬：'+def.reward+'</div><button type="button" class="btn '+(done&&!claimed?'accent':'')+'" data-contract="'+def.id+'" '+(!done||claimed?'disabled':'')+'>'+(claimed?'受取済み':done?'受け取る':'進行中')+'</button>';contractListEl.appendChild(card);});
+    contractListEl.querySelectorAll('[data-contract]').forEach(function(btn){btn.addEventListener('click',function(){claimContract(btn.getAttribute('data-contract'));});});
+    contractNextBtn.style.display=allContractsClaimed()?'':'none';
+  }
+  contractNextBtn.addEventListener('click',advanceContracts);
+
   function productionBreakdown(){
     var generatorBase = 0;
     for (var i=0;i<GEN_DEFS.length;i++){
@@ -3062,7 +3197,7 @@ textarea.data-area{
       generatorBase:generatorBase, customPc:custom,
       research:researchProdMult(), synergy:synergyBonusMult(), topology:currentTopology().prod,
       os:currentOS().prod, legacy:legacyProdMult(), global:globalProdMult(), jobs:1+state.jobProdBonus,
-      special:specialProdMult(),rack:rackBonuses().prod,organization:organizationProdMult(),protocol:prestigeProtocolProdMult(),
+      special:specialProdMult(),rack:rackBonuses().prod,organization:organizationProdMult(),protocol:prestigeProtocolProdMult(),campaign:1+state.campaignProdBonus,
       infrastructure:infrastructureEfficiency(), overdrive:overdriveMult(), golden:goldenBoostMult(), final:totalPPPerSec()
     };
   }
@@ -3073,7 +3208,7 @@ textarea.data-area{
       '<div class="project-row"><div class="project-head"><strong>端末基礎生産</strong><span>'+formatNumber(b.generatorBase)+' PP/秒</span></div></div>'+
       '<div class="project-row"><div class="project-head"><strong>自作PC</strong><span>'+formatNumber(b.customPc)+' PP/秒</span></div></div>'+
       '<div class="project-row"><div class="project-head"><strong>継承プロトコル</strong><span>×'+b.protocol.toFixed(2)+'</span></div></div>'+
-      '<ul><li>研究 ×'+b.research.toFixed(2)+'</li><li>シナジー ×'+b.synergy.toFixed(2)+'</li><li>ネットワーク ×'+b.topology.toFixed(2)+'</li><li>OS ×'+b.os.toFixed(2)+'</li><li>世代交代 ×'+b.legacy.toFixed(2)+'</li><li>特別端末 ×'+b.special.toFixed(2)+'</li><li>ラック配置 ×'+b.rack.toFixed(2)+'</li><li>組織方針 ×'+b.organization.toFixed(2)+'</li><li>世界プロジェクト ×'+b.global.toFixed(2)+'</li><li>ジョブ恒久効果 ×'+b.jobs.toFixed(2)+'</li><li>電力・冷却効率 ×'+b.infrastructure.toFixed(2)+'</li><li>オーバードライブ ×'+b.overdrive.toFixed(2)+'</li><li>ゴールデン効果 ×'+b.golden.toFixed(2)+'</li></ul><div class="project-row"><div class="project-head"><strong>最終生産</strong><span>'+formatNumber(b.final)+' PP/秒</span></div></div>';
+      '<ul><li>研究 ×'+b.research.toFixed(2)+'</li><li>シナジー ×'+b.synergy.toFixed(2)+'</li><li>ネットワーク ×'+b.topology.toFixed(2)+'</li><li>OS ×'+b.os.toFixed(2)+'</li><li>世代交代 ×'+b.legacy.toFixed(2)+'</li><li>特別端末 ×'+b.special.toFixed(2)+'</li><li>ラック配置 ×'+b.rack.toFixed(2)+'</li><li>組織方針 ×'+b.organization.toFixed(2)+'</li><li>世界プロジェクト ×'+b.global.toFixed(2)+'</li><li>キャンペーン ×'+b.campaign.toFixed(2)+'</li><li>ジョブ恒久効果 ×'+b.jobs.toFixed(2)+'</li><li>電力・冷却効率 ×'+b.infrastructure.toFixed(2)+'</li><li>オーバードライブ ×'+b.overdrive.toFixed(2)+'</li><li>ゴールデン効果 ×'+b.golden.toFixed(2)+'</li></ul><div class="project-row"><div class="project-head"><strong>最終生産</strong><span>'+formatNumber(b.final)+' PP/秒</span></div></div>';
     lastHelpTrigger=document.getElementById('productionBreakdownBtn'); helpOverlayEl.style.display='flex'; helpModalCloseBtn.focus();
   }
   document.getElementById('productionBreakdownBtn').addEventListener('click',showProductionBreakdown);
@@ -3159,6 +3294,7 @@ textarea.data-area{
     renderOperations();
     renderAppearanceControls();
     renderThemeList();
+    renderMissionControl();
     updateTabBadge();
     updateSaveInfo();
   }
@@ -3220,6 +3356,7 @@ textarea.data-area{
   var lastHelpTrigger = null;
   var OPERATION_HELP = {
     prestigeSystem:{title:'システムリセット',body:'周回処理量100万PPから実行できる中期成長システムです。<ul><li>最適化コアは逓減式の永続生産倍率になり、高額域では伸びが緩やかになります。</li><li>リセットごとに生産・タップ・価格の継承プロトコルを1段階強化できます。</li><li>周回数に応じたPPと電卓を持って再開するため、序盤操作が短縮されます。</li></ul>'},
+    missionControl:{title:'ミッションコントロール',body:'遊ぶ目的と短期報酬をまとめた司令画面です。<ul><li><strong>帝国キャンペーン</strong>は5章の大きな到達目標。達成したら自分で報酬を受け取るため、成長の節目が明確になります。</li><li><strong>運用契約</strong>は時間制限のない短い目標です。3件を完了すると、次の少し難しいセットを受注できます。</li><li>広告視聴やログイン必須の要素はありません。好きなペースで進めてください。</li></ul>'},
     progressGuide:{ title:'やることリスト（進行ガイド）', body:'ゲーム内の主要機能をおすすめ順に並べた案内です。<ul><li><strong>現在の目標</strong>は青く強調され、達成すると自動で次へ進みます。</li><li>項目を押すと対応するタブや機能まで移動できます。</li><li>将来の項目も先に確認・実行でき、達成状況はシステムリセット後も保持されます。</li></ul><p><a class="full-guide-link" href="https://github.com/Fig-JP/website/blob/main/gadget-clicker/README.md" target="_blank" rel="noopener noreferrer">📘 詳しい遊び方はこちら ↗</a></p>' },
     infrastructureCard:{ title:'電力・発熱・冷却', body:'端末が増えるほど電力消費と発熱が増えます。<ul><li><strong>電力または冷却が容量を超える</strong>とPP生産効率が低下します。</li><li>設備レベルはシステムリセット後も継承され、周回ごとに基礎容量も5%ずつ増えます（最大+50%）。</li><li>増設価格は端末の成長に合わせた緩やかなカーブになっています。</li></ul>' },
     networkCard:{ title:'ネットワーク構成', body:'端末群の接続方法を1つ選びます。<ul><li>所持端末の種類やサーバーラックによって構成が解放されます。</li><li>生産、タップ、電力、発熱の倍率が構成ごとに異なります。</li><li>条件を失った構成は自動的に標準構成へ戻ります。</li></ul>' },
@@ -3276,6 +3413,7 @@ textarea.data-area{
     heading.appendChild(btn);
   });
   document.getElementById('progressGuideHelpBtn').addEventListener('click',function(){openOperationHelp('progressGuide',this);});
+  document.getElementById('missionHelpBtn').addEventListener('click',function(){openOperationHelp('missionControl',this);});
   document.getElementById('prestigeHelpBtn').addEventListener('click',function(){openOperationHelp('prestigeSystem',this);});
   helpModalCloseBtn.addEventListener('click',closeOperationHelp);
   helpOverlayEl.addEventListener('click',function(e){ if (e.target === helpOverlayEl) closeOperationHelp(); });
@@ -4057,6 +4195,7 @@ textarea.data-area{
     if (state.pp < cost) return;
     state.pp -= cost;
     g.count += qty;
+    state.contractProgress.devices += qty;
     playBuySound();
     renderAll();
     checkAchievements();
@@ -4076,6 +4215,7 @@ textarea.data-area{
         if (state.pp >= cost) {
           state.pp -= cost;
           g.count += 1;
+          state.contractProgress.devices += 1;
           boughtAny = true;
           safety++;
           break;
@@ -4176,6 +4316,7 @@ textarea.data-area{
     state.pp += gain;
     state.lifetimePP += gain;
     state.totalTaps += 1;
+    state.contractProgress.taps += 1;
 
     chipEl.classList.remove('tapped');
     void chipEl.offsetWidth;
@@ -4187,6 +4328,7 @@ textarea.data-area{
     playTapSound();
 
     renderStats();
+    renderMissionControl();
     checkAchievements();
   }
   chipEl.addEventListener('click', handleTap);
@@ -4252,7 +4394,7 @@ textarea.data-area{
   /* ---------------- セーブ / ロード ---------------- */
   function serializeState(){
     return JSON.stringify({
-      version: 9,
+      version: 10,
       savedAt: Date.now(),
       pp: state.pp,
       lifetimePP: state.lifetimePP,
@@ -4323,6 +4465,11 @@ textarea.data-area{
       organizationChoice: state.organizationChoice,
       organizationReputation: state.organizationReputation,
       guideCompleted: state.guideCompleted,
+      campaignChapter: state.campaignChapter,
+      campaignProdBonus: state.campaignProdBonus,
+      contractCycle: state.contractCycle,
+      contractProgress: state.contractProgress,
+      contractClaims: state.contractClaims,
       soundEnabled: soundEnabled,
       bgmEnabled: bgmEnabled
     }, null, 0);
@@ -4415,6 +4562,13 @@ textarea.data-area{
     state.organizationChoice=typeof data.organizationChoice==='string'?data.organizationChoice:null;
     state.organizationReputation=data.organizationReputation&&typeof data.organizationReputation==='object'?data.organizationReputation:{};
     state.guideCompleted=data.guideCompleted&&typeof data.guideCompleted==='object'?data.guideCompleted:{};
+    state.campaignChapter=Math.max(0,Math.min(CAMPAIGN_CHAPTERS.length,Math.floor(Number(data.campaignChapter)||0)));
+    state.campaignProdBonus=Math.max(0,Number(data.campaignProdBonus)||0);
+    state.contractCycle=Math.max(0,Math.floor(Number(data.contractCycle)||0));
+    var importedContractProgress=data.contractProgress&&typeof data.contractProgress==='object'?data.contractProgress:{};
+    state.contractProgress={taps:Math.max(0,Math.floor(Number(importedContractProgress.taps)||0)),devices:Math.max(0,Math.floor(Number(importedContractProgress.devices)||0)),maintenance:Math.max(0,Math.floor(Number(importedContractProgress.maintenance)||0))};
+    var importedContractClaims=data.contractClaims&&typeof data.contractClaims==='object'?data.contractClaims:{};
+    state.contractClaims={taps:!!importedContractClaims.taps,devices:!!importedContractClaims.devices,maintenance:!!importedContractClaims.maintenance};
     if (data.buyMode === 'max' || [1,10,100].indexOf(Number(data.buyMode)) >= 0) {
       buyMode = data.buyMode === 'max' ? 'max' : Number(data.buyMode);
       buyModeButtons.forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-mode') == String(buyMode)); });
@@ -4708,6 +4862,11 @@ textarea.data-area{
     state.organizationChoice = null;
     state.organizationReputation = {};
     state.guideCompleted = {};
+    state.campaignChapter = 0;
+    state.campaignProdBonus = 0;
+    state.contractCycle = 0;
+    state.contractProgress = {taps:0,devices:0,maintenance:0};
+    state.contractClaims = {taps:false,devices:false,maintenance:false};
     taskState.active = false;
     wireState.active = false;
     clickUpgradesOwned = {};
