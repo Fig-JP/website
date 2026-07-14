@@ -956,6 +956,8 @@ textarea.data-area{
 .settings-msg{ font-size:11px; margin-top:8px; min-height:14px; font-family:'Share Tech Mono'; }
 .settings-msg.ok{ color:var(--green); }
 .settings-msg.err{ color:var(--red); }
+.settings-footer{ margin:20px 0 8px; padding:16px 10px 2px; border-top:1px solid var(--line); text-align:center; color:var(--text-dim); font:10px 'Share Tech Mono',monospace; letter-spacing:.08em; }
+.settings-footer strong{ color:var(--cyan-light); font-weight:400; }
 
 /* ---------- operations systems ---------- */
 .ops-grid{ display:grid; gap:14px; min-width:0; }
@@ -1348,7 +1350,7 @@ textarea.data-area{
       <button class="mode-btn" data-mode="max">MAX</button>
     </div>
     <div class="autobuy-row">
-      <span>🤖 自動購入（安い端末から自動で導入）</span>
+      <span>🤖 自動購入（投資回収の早い端末を自動導入）</span>
       <label class="switch">
         <input type="checkbox" id="autoBuyToggle">
         <span class="track"></span>
@@ -1671,6 +1673,8 @@ textarea.data-area{
       <div class="settings-msg" id="dataMsg"></div>
     </div>
 
+    <footer class="settings-footer"><strong>Created by Fig</strong><br><span id="gameVersionLabel">VERSION</span></footer>
+
   </div>
 </div>
 
@@ -1707,6 +1711,9 @@ textarea.data-area{
   "use strict";
 
   var STORAGE_KEY = 'gadgetClicker_save_v1';
+  var GAME_VERSION = '1.3.0';
+  var gameVersionLabel = document.getElementById('gameVersionLabel');
+  if (gameVersionLabel) gameVersionLabel.textContent = 'VERSION ' + GAME_VERSION;
 
   /* ---------------- 大きな数値のフォーマット（和風単位） ---------------- */
   var UNITS = [
@@ -1792,6 +1799,7 @@ textarea.data-area{
     coolingLevel: 0,
     networkTopology: 'balanced',
     activeJob: null,
+    signalJobsThisCycle: 0,
     completedJobs: 0,
     jobProdBonus: 0,
     jobClickBonus: 0,
@@ -1998,11 +2006,11 @@ textarea.data-area{
     { key:"calc",    name:"電卓",             icon:"🧮", baseCost:15,      baseProd:0.1,  desc:"コツコツ計算してPPを生む" },
     { key:"phone",   name:"スマートフォン",   icon:"📱", baseCost:100,     baseProd:1,    desc:"手のひらの中の処理装置" },
     { key:"laptop",  name:"ノートPC",         icon:"💻", baseCost:1100,    baseProd:8,    desc:"どこでも動くマイ端末" },
-    { key:"desktop", name:"デスクトップPC",   icon:"🖥️", baseCost:12000,   baseProd:47,   desc:"高性能パーツを積み込んだ自作機" },
-    { key:"work",    name:"ワークステーション", icon:"🖲️", baseCost:130000,  baseProd:260,  desc:"業務用マルチコアマシン" },
-    { key:"rack",    name:"サーバーラック",   icon:"🗄️", baseCost:1400000, baseProd:1400, desc:"端末が棚いっぱいに並ぶ" },
-    { key:"dc",      name:"データセンター",   icon:"🏢", baseCost:2e7,     baseProd:7800, desc:"街ひとつ分の処理能力" },
-    { key:"qpu",     name:"量子コンピュータ", icon:"🧊", baseCost:3.3e8,   baseProd:44000,desc:"重ね合わせでPPが際限なく湧く" },
+    { key:"desktop", name:"デスクトップPC",   icon:"🖥️", baseCost:12000,   baseProd:75,   desc:"高性能パーツを積み込んだ自作機" },
+    { key:"work",    name:"ワークステーション", icon:"🖲️", baseCost:130000,  baseProd:800,  desc:"業務用マルチコアマシン" },
+    { key:"rack",    name:"サーバーラック",   icon:"🗄️", baseCost:1400000, baseProd:10000, desc:"端末が棚いっぱいに並ぶ" },
+    { key:"dc",      name:"データセンター",   icon:"🏢", baseCost:2e7,     baseProd:160000, desc:"街ひとつ分の処理能力" },
+    { key:"qpu",     name:"量子コンピュータ", icon:"🧊", baseCost:3.3e8,   baseProd:2800000,desc:"重ね合わせでPPが際限なく湧く" },
   ];
   GEN_DEFS.forEach(function(def){ state.generators.push({ key:def.key, count:0, level:0 }); });
 
@@ -2227,6 +2235,20 @@ textarea.data-area{
   function effectiveBaseCost(def){ return def.baseCost * researchCostMult() * prestigeProtocolCostMult(); }
   function genCost(def, count){ return effectiveBaseCost(def) * Math.pow(1.15, count); }
   function genOutputPerUnit(def, g){ return def.baseProd * prestigeMultiplier() * Math.pow(GENERATOR_LEVEL_MULT, (g && g.level) || 0); }
+  function generatorPaybackSeconds(index){
+    var def=GEN_DEFS[index],g=state.generators[index];
+    return genCost(def,g.count) / Math.max(.000001,genOutputPerUnit(def,g) * Math.max(.7,infrastructureEfficiency()));
+  }
+  function bestAffordableGeneratorIndex(){
+    var best=-1,bestPayback=Infinity,bestCost=Infinity;
+    GEN_DEFS.forEach(function(def,index){
+      var cost=genCost(def,state.generators[index].count);
+      if(cost>state.pp)return;
+      var payback=generatorPaybackSeconds(index);
+      if(payback<bestPayback || (payback===bestPayback && cost<bestCost)){best=index;bestPayback=payback;bestCost=cost;}
+    });
+    return best;
+  }
   function isOverdriveActive(){ return Date.now() < state.overdriveUntil; }
   function overdriveMult(){ return isOverdriveActive() ? OVERDRIVE_MULT : 1; }
   function isGoldenBoostActive(){ return Date.now() < state.goldenBoostUntil; }
@@ -2239,14 +2261,14 @@ textarea.data-area{
   var AI_MODES = [
     { id:'off', name:'停止', icon:'⏸️', desc:'自動判断を行わない' },
     { id:'saver', name:'インフラ優先', icon:'🔋', desc:'効率低下時に電源・冷却を増強' },
-    { id:'expand', name:'拡張優先', icon:'📈', desc:'最も安く買える端末を1台導入' },
+    { id:'expand', name:'拡張優先', icon:'📈', desc:'投資回収が最も早い端末を1台導入' },
     { id:'balance', name:'均等化', icon:'⚖️', desc:'所持数が少ない端末を優先導入' }
   ];
   var JOBS = [
     { id:'password', name:'パスワード解析', icon:'🔐', cost:10000, duration:60, desc:'完了報酬 50,000 PP' },
     { id:'aiTrain', name:'AIモデル学習', icon:'🧠', cost:250000, duration:180, desc:'恒久生産 +2%' },
     { id:'weather', name:'気候シミュレーション', icon:'🌦️', cost:2000000, duration:300, desc:'クリスタル成長を10分短縮' },
-    { id:'signal', name:'宇宙信号解析', icon:'📡', cost:25000000, duration:600, desc:'最適化コア+2、恒久タップ+3%' }
+    { id:'signal', name:'宇宙信号解析', icon:'📡', cost:25000000, duration:600, desc:'1周につき1回：最適化コア+2、恒久タップ+3%' }
   ];
   function totalGeneratorCount(){ return state.generators.reduce(function(sum,g){ return sum + g.count; },0); }
   function currentOS(){
@@ -2371,9 +2393,12 @@ textarea.data-area{
     if (level <= 6) return level;
     return Math.min(12,6 + Math.ceil(Math.log2(level - 5) / 2));
   }
-  // 設備レベルごとに容量を指数的に伸ばし、端末数が増える中盤以降にも対応する。
-  function powerCapacity(){ return Math.round((120 * Math.pow(1.85,state.powerLevel) + infrastructureFleetLoad()*.8) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1)); }
-  function coolingCapacity(){ return Math.round((88 * Math.pow(1.82,state.coolingLevel) + infrastructureFleetLoad()*.46) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1)); }
+  // 設備レベルは固定容量だけでなく、端末群を支える基盤比率も上げる。
+  // 終盤で設備が置物にならず、OSやネットワーク構成を選ぶ理由を残す。
+  function powerFleetCapacityFactor(){ return Math.min(1.25,.55 + state.powerLevel*.07); }
+  function coolingFleetCapacityFactor(){ return Math.min(.8,.30 + state.coolingLevel*.05); }
+  function powerCapacity(){ return Math.round((120 * Math.pow(1.75,state.powerLevel) + infrastructureFleetLoad()*powerFleetCapacityFactor()) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1)); }
+  function coolingCapacity(){ return Math.round((88 * Math.pow(1.7,state.coolingLevel) + infrastructureFleetLoad()*coolingFleetCapacityFactor()) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1)); }
   function infrastructureEfficiency(){
     var usage = infrastructureUsage();
     var powerEff = usage.power <= powerCapacity() ? 1 : Math.max(.7,Math.sqrt(powerCapacity() / Math.max(1,usage.power)));
@@ -3452,7 +3477,7 @@ textarea.data-area{
     networkCard:{ title:'ネットワーク構成', body:'端末群の接続方法を1つ選びます。<ul><li>所持端末の種類やサーバーラックによって構成が解放されます。</li><li>生産、タップ、電力、発熱の倍率が構成ごとに異なります。</li><li>条件を失った構成は自動的に標準構成へ戻ります。</li></ul>' },
     jobCard:{ title:'ジョブ／プログラム実行', body:'PPを消費して時間のかかる計算を1件実行します。<ul><li>同時に実行できるジョブは1件です。</li><li>完了するとPP、恒久倍率、クリスタル成長、最適化コアなどを獲得します。</li><li>画面を閉じている間も終了時刻は進みます。</li></ul>' },
     osCard:{ title:'OSチャンネル', body:'端末群へ配信するOSを選びます。<ul><li><strong>安定版</strong>は発熱を抑えます。</li><li><strong>高速版</strong>は生産を伸ばす代わりに電力と発熱が増えます。</li><li><strong>実験版</strong>は最大性能ですが、設備負荷も最大です。</li></ul>' },
-    aiCard:{ title:'AIオペレーター', body:'選択した方針で1秒ごとに自動判断します。<ul><li>インフラ優先は効率低下時に電源・冷却を増強します。</li><li>拡張優先は最も安い端末を購入します。</li><li>均等化は所持数の少ない端末を優先します。</li></ul>' },
+    aiCard:{ title:'AIオペレーター', body:'選択した方針で1秒ごとに自動判断します。<ul><li>インフラ優先は効率低下時に電源・冷却を増強します。</li><li>拡張優先は投資回収が最も早い端末を購入します。</li><li>均等化は所持数の少ない端末を優先します。</li></ul>' },
     lifecycleCard:{ title:'端末の世代交代', body:'最も安い世代の所持端末を1台ずつ引退させます。<ul><li>引退端末から自作PC用の回路部品を回収します。</li><li>博物館保存はタップ、分散処理は生産に恒久効果があります。</li><li>部品回収を選ぶと回路部品の獲得量が2倍になります。</li></ul>' },
     customPcCard:{ title:'自作PC設計', body:'回路部品を使って4種類のパーツを強化します。<ul><li>CPU、GPU、メモリ、冷却がすべてLv.1になると完成します。</li><li>完成後は通常端末とは別枠でPPを自動生産します。</li><li>各パーツをさらに強化すると出力が伸びます。</li></ul>' },
     packetRouteCard:{ title:'パケットルーティング', body:'15秒以内に表示されたポート順を入力するミニゲームです。<ul><li>A〜Dの順番を確認し、同じ順にボタンを押します。</li><li>押し間違いまたは時間切れで失敗します。</li><li>成功するとPPと回路部品を獲得します。</li></ul>' },
@@ -3577,9 +3602,10 @@ textarea.data-area{
     jobListEl.innerHTML = '';
     JOBS.forEach(function(job){
       var btn = document.createElement('button');
+      var signalUsed = job.id === 'signal' && state.signalJobsThisCycle >= 1;
       btn.className = 'choice-btn';
-      btn.disabled = !!state.activeJob || state.pp < job.cost;
-      btn.innerHTML = '<strong>' + job.icon + ' ' + job.name + '</strong><small>' + job.desc + '<br>' + formatNumber(job.cost) + ' PP / ' + formatShortDuration(job.duration) + '</small>';
+      btn.disabled = !!state.activeJob || state.pp < job.cost || signalUsed;
+      btn.innerHTML = '<strong>' + job.icon + ' ' + job.name + '</strong><small>' + (signalUsed ? 'この周回では解析済み。次のシステムリセット後に再開可能' : job.desc) + '<br>' + formatNumber(job.cost) + ' PP / ' + formatShortDuration(job.duration) + '</small>';
       btn.addEventListener('click',function(){ startJob(job.id); });
       jobListEl.appendChild(btn);
     });
@@ -3587,7 +3613,7 @@ textarea.data-area{
   function startJob(id){
     if (state.activeJob) return false;
     var job = JOBS.filter(function(j){ return j.id === id; })[0];
-    if (!job || state.pp < job.cost) return false;
+    if (!job || state.pp < job.cost || (id === 'signal' && state.signalJobsThisCycle >= 1)) return false;
     state.pp -= job.cost;
     var actualDuration=job.duration*(state.organizationChoice==='research'?.8:1);
     state.activeJob = { id:job.id, endsAt:Date.now() + actualDuration * 1000 };
@@ -3600,7 +3626,7 @@ textarea.data-area{
     if (id === 'password') { state.pp += 50000; state.lifetimePP += 50000; }
     if (id === 'aiTrain') state.jobProdBonus += .02;
     if (id === 'weather') state.crystalGrowthStart -= 10 * 60 * 1000;
-    if (id === 'signal') { state.shards += 2; state.jobClickBonus += .03; }
+    if (id === 'signal') { state.shards += 2; state.jobClickBonus += .03; state.signalJobsThisCycle++; }
     state.activeJob = null; state.completedJobs++;
     addOperationalLog('JOB','ジョブ完了：'+id,'success');
     playSuccessSound(); renderAll(); saveGame(); return true;
@@ -3641,10 +3667,14 @@ textarea.data-area{
       if (state.pp >= cost) { state.pp -= cost; if (type === 'power') state.powerLevel++; else state.coolingLevel++; saveGame(); }
       return;
     }
+    if (state.aiMode === 'expand') {
+      var bestIndex=bestAffordableGeneratorIndex();
+      if (bestIndex >= 0 && aiBuyOne(bestIndex)) saveGame();
+      return;
+    }
     var candidates = GEN_DEFS.map(function(def,i){ return { idx:i, cost:genCost(def,state.generators[i].count), count:state.generators[i].count }; }).filter(function(x){ return x.cost <= state.pp; });
     if (!candidates.length) return;
-    if (state.aiMode === 'balance') candidates.sort(function(a,b){ return a.count - b.count || a.cost - b.cost; });
-    else candidates.sort(function(a,b){ return a.cost - b.cost; });
+    candidates.sort(function(a,b){ return a.count - b.count || a.cost - b.cost; });
     if (aiBuyOne(candidates[0].idx)) saveGame();
   }
 
@@ -4295,22 +4325,15 @@ textarea.data-area{
   var autoBuyEnabled = false;
   function autoBuyTick(){
     if (!autoBuyEnabled) return;
-    var boughtAny = true;
     var safety = 0;
-    while (boughtAny && safety < 200) {
-      boughtAny = false;
-      for (var i = 0; i < GEN_DEFS.length; i++){
-        var def = GEN_DEFS[i], g = state.generators[i];
-        var cost = genCost(def, g.count);
-        if (state.pp >= cost) {
-          state.pp -= cost;
-          g.count += 1;
-          state.contractProgress.devices += 1;
-          boughtAny = true;
-          safety++;
-          break;
-        }
-      }
+    while (safety < 200) {
+      var index = bestAffordableGeneratorIndex();
+      if (index < 0) break;
+      var def = GEN_DEFS[index], g = state.generators[index], cost = genCost(def,g.count);
+      state.pp -= cost;
+      g.count += 1;
+      state.contractProgress.devices += 1;
+      safety++;
     }
     if (safety > 0) {
       renderAll();
@@ -4351,7 +4374,7 @@ textarea.data-area{
     state.lastPrestigeGain=gain;state.shards+=gain;state.prestigeProtocols[protocol.id]=prestigeProtocolLevel(protocol.id)+1;state.prestigeCount=nextCount;
     if(prestigeProtocolLevel(protocol.id)>=protocol.maxLevel)state.selectedPrestigeProtocol='throughput';
     state.pp=bootPP;state.lifetimePP=0;state.generators.forEach(function(g){g.count=0;});state.generators[0].count=bootDevices;
-    state.networkTopology='balanced';state.activeJob=null;state.pipelineData={raw:0,clean:0,model:0,result:0};state.organizationChoice=null;clickUpgradesOwned={};
+    state.networkTopology='balanced';state.activeJob=null;state.signalJobsThisCycle=0;state.pipelineData={raw:0,clean:0,model:0,result:0};state.organizationChoice=null;clickUpgradesOwned={};
     addOperationalLog('RESET','周回'+nextCount+'を開始：コア+'+gain+' / '+protocol.name+' Lv.'+prestigeProtocolLevel(protocol.id),'success');
     playPrestigeSound();renderAll();checkAchievements();saveGame();
   }
@@ -4484,7 +4507,7 @@ textarea.data-area{
   /* ---------------- セーブ / ロード ---------------- */
   function serializeState(){
     return JSON.stringify({
-      version: 11,
+      version: 12,
       savedAt: Date.now(),
       pp: state.pp,
       lifetimePP: state.lifetimePP,
@@ -4520,6 +4543,7 @@ textarea.data-area{
       coolingLevel: state.coolingLevel,
       networkTopology: state.networkTopology,
       activeJob: state.activeJob,
+      signalJobsThisCycle: state.signalJobsThisCycle,
       completedJobs: state.completedJobs,
       jobProdBonus: state.jobProdBonus,
       jobClickBonus: state.jobClickBonus,
@@ -4626,6 +4650,7 @@ textarea.data-area{
     }
     state.networkTopology = typeof data.networkTopology === 'string' ? data.networkTopology : 'balanced';
     state.activeJob = data.activeJob && typeof data.activeJob.id === 'string' ? { id:data.activeJob.id, endsAt:Number(data.activeJob.endsAt) || Date.now() } : null;
+    state.signalJobsThisCycle = Math.max(0,Math.floor(Number(data.signalJobsThisCycle) || 0));
     state.completedJobs = Number(data.completedJobs) || 0;
     state.jobProdBonus = Number(data.jobProdBonus) || 0;
     state.jobClickBonus = Number(data.jobClickBonus) || 0;
@@ -4935,6 +4960,7 @@ textarea.data-area{
     state.coolingLevel = 0;
     state.networkTopology = 'balanced';
     state.activeJob = null;
+    state.signalJobsThisCycle = 0;
     state.completedJobs = 0;
     state.jobProdBonus = 0;
     state.jobClickBonus = 0;
