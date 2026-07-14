@@ -2363,6 +2363,14 @@ textarea.data-area{
     return { power:raw * topology.power * os.power * specialPowerMult(), heat:raw * .58 * topology.heat * os.heat * incidentHeatMult() * specialHeatMult() * rack.heat };
   }
   function infrastructureFoundationMult(){ return 1 + Math.min(.5,state.prestigeCount * .05); }
+  function normalizeLegacyInfrastructureLevel(level){
+    // v9以前は設備容量の伸びが不足していたため、終盤セーブではLv.数十まで
+    // 上げる必要があった。現行の指数式へそのまま渡すと、逆に容量が天文学的に
+    // なって運用判断が消えるため、旧レベルだけを段階的な現行レベルへ換算する。
+    level = Math.max(0,Math.floor(Number(level) || 0));
+    if (level <= 6) return level;
+    return Math.min(12,6 + Math.ceil(Math.log2(level - 5) / 2));
+  }
   // 設備レベルごとに容量を指数的に伸ばし、端末数が増える中盤以降にも対応する。
   function powerCapacity(){ return Math.round((120 * Math.pow(1.85,state.powerLevel) + infrastructureFleetLoad()*.8) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1)); }
   function coolingCapacity(){ return Math.round((88 * Math.pow(1.82,state.coolingLevel) + infrastructureFleetLoad()*.46) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1)); }
@@ -4476,7 +4484,7 @@ textarea.data-area{
   /* ---------------- セーブ / ロード ---------------- */
   function serializeState(){
     return JSON.stringify({
-      version: 10,
+      version: 11,
       savedAt: Date.now(),
       pp: state.pp,
       lifetimePP: state.lifetimePP,
@@ -4559,6 +4567,8 @@ textarea.data-area{
 
   function applyImportedData(data){
     if (!data || typeof data !== 'object') throw new Error('invalid data');
+    var saveVersion = Math.floor(Number(data.version) || 0);
+    var legacyInfrastructureAdjustment = null;
     state.pp = Number(data.pp) || 0;
     state.lifetimePP = Number(data.lifetimePP) || 0;
     state.shards = Number(data.shards) || 0;
@@ -4605,6 +4615,15 @@ textarea.data-area{
     state.bugsFixedCount = Number(data.bugsFixedCount) || 0;
     state.powerLevel = Number(data.powerLevel) || 0;
     state.coolingLevel = Number(data.coolingLevel) || 0;
+    if (saveVersion > 0 && saveVersion < 10) {
+      var previousPowerLevel = state.powerLevel;
+      var previousCoolingLevel = state.coolingLevel;
+      state.powerLevel = normalizeLegacyInfrastructureLevel(previousPowerLevel);
+      state.coolingLevel = normalizeLegacyInfrastructureLevel(previousCoolingLevel);
+      if (previousPowerLevel !== state.powerLevel || previousCoolingLevel !== state.coolingLevel) {
+        legacyInfrastructureAdjustment = { power:previousPowerLevel, cooling:previousCoolingLevel };
+      }
+    }
     state.networkTopology = typeof data.networkTopology === 'string' ? data.networkTopology : 'balanced';
     state.activeJob = data.activeJob && typeof data.activeJob.id === 'string' ? { id:data.activeJob.id, endsAt:Number(data.activeJob.endsAt) || Date.now() } : null;
     state.completedJobs = Number(data.completedJobs) || 0;
@@ -4628,6 +4647,13 @@ textarea.data-area{
     state.globalContributions = data.globalContributions && typeof data.globalContributions === 'object' ? data.globalContributions : {};
     state.globalCompleted = data.globalCompleted && typeof data.globalCompleted === 'object' ? data.globalCompleted : {};
     state.operationsLog = Array.isArray(data.operationsLog) ? data.operationsLog.slice(0,50) : [];
+    if (legacyInfrastructureAdjustment) {
+      state.operationsLog.unshift({
+        time:Date.now(), kind:'INFRA', severity:'success',
+        text:'旧設備を現行基準へ最適化（電源Lv.' + legacyInfrastructureAdjustment.power + '→' + state.powerLevel + ' / 冷却Lv.' + legacyInfrastructureAdjustment.cooling + '→' + state.coolingLevel + '）'
+      });
+      state.operationsLog = state.operationsLog.slice(0,50);
+    }
     state.activeIncident = data.activeIncident && typeof data.activeIncident.type === 'string' ? data.activeIncident : null;
     state.nextIncidentAt = Number(data.nextIncidentAt) || (Date.now()+120000);
     state.incidentProdUntil = Number(data.incidentProdUntil) || 0;
