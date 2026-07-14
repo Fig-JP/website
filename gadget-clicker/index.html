@@ -2311,27 +2311,30 @@ textarea.data-area{
     return topology;
   }
   function infrastructureUsage(){
-    var weights = [1,1.8,4,9,22,55,150,480];
+    // 端末価格・生産量の伸びに対して、後半の設備が追いつくよう負荷を再調整。
+    // 高性能端末は重いが、1台導入だけで即座に運用不能にならない水準にする。
+    var weights = [.4,.8,1.8,4,9,20,48,120];
     var raw = state.generators.reduce(function(sum,g,i){ return sum + g.count * weights[i]; },0);
     raw += customPcOutput() > 0 ? 8 + Object.keys(state.customPcParts).reduce(function(sum,key){ return sum + state.customPcParts[key] * 2; },0) : 0;
     var topology = currentTopology();
     var os = currentOS();
     var rack=rackBonuses();
-    return { power:raw * topology.power * os.power * specialPowerMult(), heat:raw * .72 * topology.heat * os.heat * incidentHeatMult() * specialHeatMult() * rack.heat };
+    return { power:raw * topology.power * os.power * specialPowerMult(), heat:raw * .58 * topology.heat * os.heat * incidentHeatMult() * specialHeatMult() * rack.heat };
   }
   function infrastructureFoundationMult(){ return 1 + Math.min(.5,state.prestigeCount * .05); }
-  function powerCapacity(){ return (60 + state.powerLevel * 180) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1); }
-  function coolingCapacity(){ return (48 + state.coolingLevel * 145) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1); }
+  // 設備レベルごとに容量を指数的に伸ばし、端末数が増える中盤以降にも対応する。
+  function powerCapacity(){ return Math.round(120 * Math.pow(1.85,state.powerLevel) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1)); }
+  function coolingCapacity(){ return Math.round(88 * Math.pow(1.82,state.coolingLevel) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1)); }
   function infrastructureEfficiency(){
     var usage = infrastructureUsage();
-    var powerEff = usage.power <= powerCapacity() ? 1 : Math.max(.4,powerCapacity() / Math.max(1,usage.power));
+    var powerEff = usage.power <= powerCapacity() ? 1 : Math.max(.7,Math.sqrt(powerCapacity() / Math.max(1,usage.power)));
     var heatRatio = usage.heat / coolingCapacity();
-    var heatEff = heatRatio <= 1 ? 1 : Math.max(.4,1 - (heatRatio - 1) * .3);
+    var heatEff = heatRatio <= 1 ? 1 : Math.max(.7,1 - (heatRatio - 1) * .18);
     return Math.min(powerEff,heatEff);
   }
   function infrastructureUpgradeCost(type){
     var level = type === 'power' ? state.powerLevel : state.coolingLevel;
-    return 1800 * Math.pow(3.2,level);
+    return Math.round(900 * Math.pow(2.05,level));
   }
   function baseTotalPPPerSec(){
     var total = customPcOutput();
@@ -3358,7 +3361,7 @@ textarea.data-area{
     prestigeSystem:{title:'システムリセット',body:'周回処理量100万PPから実行できる中期成長システムです。<ul><li>最適化コアは逓減式の永続生産倍率になり、高額域では伸びが緩やかになります。</li><li>リセットごとに生産・タップ・価格の継承プロトコルを1段階強化できます。</li><li>周回数に応じたPPと電卓を持って再開するため、序盤操作が短縮されます。</li></ul>'},
     missionControl:{title:'ミッションコントロール',body:'遊ぶ目的と短期報酬をまとめた司令画面です。<ul><li><strong>帝国キャンペーン</strong>は5章の大きな到達目標。達成したら自分で報酬を受け取るため、成長の節目が明確になります。</li><li><strong>運用契約</strong>は時間制限のない短い目標です。3件を完了すると、次の少し難しいセットを受注できます。</li><li>広告視聴やログイン必須の要素はありません。好きなペースで進めてください。</li></ul>'},
     progressGuide:{ title:'やることリスト（進行ガイド）', body:'ゲーム内の主要機能をおすすめ順に並べた案内です。<ul><li><strong>現在の目標</strong>は青く強調され、達成すると自動で次へ進みます。</li><li>項目を押すと対応するタブや機能まで移動できます。</li><li>将来の項目も先に確認・実行でき、達成状況はシステムリセット後も保持されます。</li></ul><p><a class="full-guide-link" href="https://github.com/Fig-JP/website/blob/main/gadget-clicker/README.md" target="_blank" rel="noopener noreferrer">📘 詳しい遊び方はこちら ↗</a></p>' },
-    infrastructureCard:{ title:'電力・発熱・冷却', body:'端末が増えるほど電力消費と発熱が増えます。<ul><li><strong>電力または冷却が容量を超える</strong>とPP生産効率が低下します。</li><li>設備レベルはシステムリセット後も継承され、周回ごとに基礎容量も5%ずつ増えます（最大+50%）。</li><li>増設価格は端末の成長に合わせた緩やかなカーブになっています。</li></ul>' },
+    infrastructureCard:{ title:'電力・発熱・冷却', body:'端末が増えるほど電力消費と発熱が増えます。<ul><li><strong>電力または冷却が容量を超える</strong>とPP生産効率が低下しますが、最低70%は維持されます。</li><li>設備レベルはシステムリセット後も継承され、周回ごとに基礎容量も5%ずつ増えます（最大+50%）。</li><li>設備容量はレベルごとに大きく伸びるため、後半の端末群にも追従できます。</li></ul>' },
     networkCard:{ title:'ネットワーク構成', body:'端末群の接続方法を1つ選びます。<ul><li>所持端末の種類やサーバーラックによって構成が解放されます。</li><li>生産、タップ、電力、発熱の倍率が構成ごとに異なります。</li><li>条件を失った構成は自動的に標準構成へ戻ります。</li></ul>' },
     jobCard:{ title:'ジョブ／プログラム実行', body:'PPを消費して時間のかかる計算を1件実行します。<ul><li>同時に実行できるジョブは1件です。</li><li>完了するとPP、恒久倍率、クリスタル成長、最適化コアなどを獲得します。</li><li>画面を閉じている間も終了時刻は進みます。</li></ul>' },
     osCard:{ title:'OSチャンネル', body:'端末群へ配信するOSを選びます。<ul><li><strong>安定版</strong>は発熱を抑えます。</li><li><strong>高速版</strong>は生産を伸ばす代わりに電力と発熱が増えます。</li><li><strong>実験版</strong>は最大性能ですが、設備負荷も最大です。</li></ul>' },
