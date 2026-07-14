@@ -5344,6 +5344,13 @@ textarea.data-area{
 if ('serviceWorker' in navigator) {
   var gadgetPwaHadController = !!navigator.serviceWorker.controller;
   var gadgetPwaRefreshing = false;
+  var gadgetPwaRegistration = null;
+  function checkGadgetPwaUpdate(){
+    if (!gadgetPwaRegistration) return;
+    gadgetPwaRegistration.update().then(function(){
+      if (gadgetPwaRegistration.waiting) gadgetPwaRegistration.waiting.postMessage({ type:'SKIP_WAITING' });
+    }).catch(function(){});
+  }
   navigator.serviceWorker.addEventListener('controllerchange', function(){
     if (gadgetPwaHadController && !gadgetPwaRefreshing) {
       gadgetPwaRefreshing = true;
@@ -5355,14 +5362,16 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', function(){
     navigator.serviceWorker.register('./service-worker.js', { updateViaCache:'none' })
       .then(function(registration){
+        gadgetPwaRegistration = registration;
         if (registration.waiting) registration.waiting.postMessage({ type:'SKIP_WAITING' });
-        registration.update().catch(function(){});
-        setInterval(function(){ registration.update().catch(function(){}); }, 30 * 60 * 1000);
+        checkGadgetPwaUpdate();
+        setInterval(checkGadgetPwaUpdate, 30 * 60 * 1000);
       })
       .catch(function(error){
         console.warn('[GadgetClicker PWA] Service Worker registration failed:', error);
       });
   });
+  window.addEventListener('pageshow', checkGadgetPwaUpdate);
 }
 </script>
 </body>
