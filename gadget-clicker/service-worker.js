@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gadget-clicker-pwa-v10';
+const CACHE_NAME = 'gadget-clicker-pwa-v13';
 const BASE_URL = new URL('./', self.registration.scope);
 const PRECACHE_URLS = [
   './',
@@ -38,28 +38,20 @@ self.addEventListener('fetch', (event) => {
   const requestUrl = new URL(event.request.url);
   if (requestUrl.origin !== self.location.origin) return;
 
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request, { cache: 'no-store' })
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          return response;
-        })
-        .catch(() => caches.match(event.request).then((cached) => cached || caches.match(new URL('./index.html', BASE_URL).href)))
-    );
-    return;
-  }
-
+  // 常にネットワークを先に確認する。PWAでも起動のたびに配信中の最新版を
+  // 使用し、キャッシュは通信できないときだけのフォールバックとして扱う。
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((response) => {
+    fetch(event.request, { cache: 'no-store' })
+      .then((response) => {
         if (!response || response.status !== 200) return response;
         const copy = response.clone();
         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
         return response;
-      });
-    })
+      })
+      .catch(() => caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        if (event.request.mode === 'navigate') return caches.match(new URL('./index.html', BASE_URL).href);
+        return Response.error();
+      }))
   );
 });

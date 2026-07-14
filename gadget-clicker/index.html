@@ -284,6 +284,10 @@ header .sub{
   margin-bottom:16px;
   letter-spacing:1px;
 }
+.stage .pp-total{ max-width:100%; overflow:hidden; text-overflow:ellipsis; font-size:clamp(30px,9vw,60px); }
+.progression-locked{ display:none !important; }
+.tab-btn.locked{ opacity:.42; filter:saturate(.25); }
+.tab-btn.locked::after{ content:'🔒'; display:block; margin-top:2px; font-size:9px; }
 
 .chip-wrap{
   position:relative;
@@ -1354,7 +1358,7 @@ textarea.data-area{
     <div id="shopList"></div>
 
     </div>
-    <div class="game-side-panel">
+    <div class="game-side-panel" id="gameSidePanel">
     <section class="mission-control" id="missionControl">
       <div class="mission-head">
         <div><div class="mission-kicker">MISSION CONTROL</div><div class="mission-title">🚀 帝国キャンペーン</div><div class="mission-sub">物語を進めながら、短い運用契約で次の一手と報酬を獲得する。</div></div>
@@ -1365,17 +1369,17 @@ textarea.data-area{
       <div class="contract-grid" id="contractList"></div>
       <button type="button" class="btn accent contract-next" id="contractNextBtn" style="display:none;">次の契約セットを受注</button>
     </section>
-    <div class="section-title"><span>🔗 シナジーボーナス</span><span class="line"></span></div>
+    <div id="synergySection"><div class="section-title"><span>🔗 シナジーボーナス</span><span class="line"></span></div>
     <div class="synergy-summary" id="synergySummary">現在の合計ボーナス: ×1.00</div>
-    <div id="synergyList"></div>
+    <div id="synergyList"></div></div>
 
-    <div class="section-title"><span>📊 生産量の推移</span><span class="line"></span></div>
+    <div id="graphSection"><div class="section-title"><span>📊 生産量の推移</span><span class="line"></span></div>
     <div class="graph-box">
       <canvas id="ppGraph" width="600" height="160"></canvas>
       <div class="graph-caption" id="graphCaption">データを収集中…</div>
-    </div>
+    </div></div>
 
-    <div class="section-title"><span>💎 シリコンクリスタル</span><span class="line"></span></div>
+    <div id="crystalSection"><div class="section-title"><span>💎 シリコンクリスタル</span><span class="line"></span></div>
     <div class="crystal-box">
       <div class="crystal-top">
         <div class="crystal-icon">💎</div>
@@ -1390,9 +1394,9 @@ textarea.data-area{
         <button class="btn" id="crystalBoostBtn">培養促進</button>
       </div>
       <div class="crystal-hint">培養槽の中でゆっくり育つ結晶。収穫すると端末一覧の「⬆️ 強化」でその端末の生産量を永続的に+15%できる。培養促進はPPを消費して成長を早める（1サイクルごとにコストが倍増）。</div>
-    </div>
+    </div></div>
 
-    <div class="section-title"><span>🔧 メンテナンス作業</span><span class="line"></span></div>
+    <div id="maintenanceSection"><div class="section-title"><span>🔧 メンテナンス作業</span><span class="line"></span></div>
     <div class="task-box">
       <div class="task-top">
         <div class="task-icon">🔧</div>
@@ -1422,7 +1426,7 @@ textarea.data-area{
         <button class="btn" id="overdriveBtn">⚡ オーバードライブ発動（🔧×5）</button>
       </div>
       <div class="task-hint">コンピュータ関連のタスク（タイピング／配線接続）に制限時間内で成功すると整備パーツを獲得できる。整備パーツ5個で「オーバードライブ」を60秒間発動でき、生産量とタップ威力が+50%になる。</div>
-    </div>
+    </div></div>
 
     <div class="prestige-box" id="prestigeBox">
       <h3><span>🔄 システムリセット</span><button type="button" class="help-btn" id="prestigeHelpBtn" aria-label="システムリセットの説明を開く">?</button></h3>
@@ -1706,6 +1710,7 @@ textarea.data-area{
 
   /* ---------------- 大きな数値のフォーマット（和風単位） ---------------- */
   var UNITS = [
+    {v:1e68, s:"無量大数"}, {v:1e64, s:"不可思議"}, {v:1e60, s:"那由他"}, {v:1e56, s:"阿僧祇"}, {v:1e52, s:"恒河沙"}, {v:1e48, s:"垓"},
     {v:1e44, s:"極"}, {v:1e40, s:"載"}, {v:1e36, s:"正"}, {v:1e32, s:"澗"},
     {v:1e28, s:"溝"}, {v:1e24, s:"穣"}, {v:1e20, s:"秭"}, {v:1e16, s:"京"},
     {v:1e12, s:"兆"}, {v:1e8, s:"億"}, {v:1e4, s:"万"}
@@ -1717,6 +1722,7 @@ textarea.data-area{
   function formatNumber(n){
     if (n < 0 || isNaN(n)) n = 0;
     if (!isFinite(n)) return '∞';
+    if (n >= 1e72) return n.toExponential(2);
     if (n < 10000) {
       var floored = floorToDecimals(n, 2);
       return floored.toLocaleString('ja-JP', {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -2342,11 +2348,14 @@ textarea.data-area{
     if (!topology.available()) { state.networkTopology = 'balanced'; return TOPOLOGIES[0]; }
     return topology;
   }
-  function infrastructureUsage(){
+  function infrastructureFleetLoad(){
     // 端末価格・生産量の伸びに対して、後半の設備が追いつくよう負荷を再調整。
     // 高性能端末は重いが、1台導入だけで即座に運用不能にならない水準にする。
     var weights = [.4,.8,1.8,4,9,20,48,120];
-    var raw = state.generators.reduce(function(sum,g,i){ return sum + g.count * weights[i]; },0);
+    return state.generators.reduce(function(sum,g,i){ return sum + g.count * weights[i]; },0);
+  }
+  function infrastructureUsage(){
+    var raw = infrastructureFleetLoad();
     raw += customPcOutput() > 0 ? 8 + Object.keys(state.customPcParts).reduce(function(sum,key){ return sum + state.customPcParts[key] * 2; },0) : 0;
     var topology = currentTopology();
     var os = currentOS();
@@ -2354,9 +2363,17 @@ textarea.data-area{
     return { power:raw * topology.power * os.power * specialPowerMult(), heat:raw * .58 * topology.heat * os.heat * incidentHeatMult() * specialHeatMult() * rack.heat };
   }
   function infrastructureFoundationMult(){ return 1 + Math.min(.5,state.prestigeCount * .05); }
+  function normalizeLegacyInfrastructureLevel(level){
+    // v9以前は設備容量の伸びが不足していたため、終盤セーブではLv.数十まで
+    // 上げる必要があった。現行の指数式へそのまま渡すと、逆に容量が天文学的に
+    // なって運用判断が消えるため、旧レベルだけを段階的な現行レベルへ換算する。
+    level = Math.max(0,Math.floor(Number(level) || 0));
+    if (level <= 6) return level;
+    return Math.min(12,6 + Math.ceil(Math.log2(level - 5) / 2));
+  }
   // 設備レベルごとに容量を指数的に伸ばし、端末数が増える中盤以降にも対応する。
-  function powerCapacity(){ return Math.round(120 * Math.pow(1.85,state.powerLevel) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1)); }
-  function coolingCapacity(){ return Math.round(88 * Math.pow(1.82,state.coolingLevel) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1)); }
+  function powerCapacity(){ return Math.round((120 * Math.pow(1.85,state.powerLevel) + infrastructureFleetLoad()*.8) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1)); }
+  function coolingCapacity(){ return Math.round((88 * Math.pow(1.82,state.coolingLevel) + infrastructureFleetLoad()*.46) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1)); }
   function infrastructureEfficiency(){
     var usage = infrastructureUsage();
     var powerEff = usage.power <= powerCapacity() ? 1 : Math.max(.7,Math.sqrt(powerCapacity() / Math.max(1,usage.power)));
@@ -3092,7 +3109,7 @@ textarea.data-area{
   var progressGuideFillEl = document.getElementById('progressGuideFill');
   var progressGuidePercentEl = document.getElementById('progressGuidePercent');
   var progressGuideListEl = document.getElementById('progressGuideList');
-  var guideExpanded = storageGet('gadgetClicker_guide_open') !== '0';
+  var guideExpanded = storageGet('gadgetClicker_guide_open') === '1';
   var lastGuideSignature = '';
 
   function guideGeneratorCount(){ return state.generators.reduce(function(sum,g){ return sum + g.count; },0); }
@@ -3282,6 +3299,37 @@ textarea.data-area{
     renderProgressGuide();
   }
 
+  /* ---------------- 段階解放：最初の画面を軽く保つ ---------------- */
+  function setProgressionLocked(id, locked){
+    var el=document.getElementById(id);if(el)el.classList.toggle('progression-locked',locked);
+  }
+  function renderProgression(){
+    var total=guideGeneratorCount();
+    var maintenance=total>=5||state.taskSuccessCount>0||state.prestigeCount>0;
+    var operations=total>=10||state.prestigeCount>0;
+    var research=state.taskSuccessCount>0||Object.keys(researchUnlocked).length>0||state.prestigeCount>0;
+    var advanced=total>=25||state.lifetimePP>=5000||state.crystalCount>0||state.prestigeCount>0;
+    var prestige=state.lifetimePP>=100000||state.prestigeCount>0;
+    setProgressionLocked('gameSidePanel',!maintenance);
+    setProgressionLocked('opsStatusbar',!operations);
+    setProgressionLocked('progressGuide',total<1&&state.prestigeCount===0);
+    setProgressionLocked('missionControl',!operations);
+    setProgressionLocked('synergySection',!operations);
+    setProgressionLocked('graphSection',!operations);
+    setProgressionLocked('crystalSection',!advanced);
+    setProgressionLocked('maintenanceSection',!maintenance);
+    setProgressionLocked('prestigeBox',!prestige);
+    [['research',research],['operations',operations]].forEach(function(entry){
+      var btn=document.querySelector('.tab-btn[data-page="'+entry[0]+'"]');
+      if(!btn)return;btn.disabled=!entry[1];btn.classList.toggle('locked',!entry[1]);
+      if(!entry[1]&&document.querySelector('.page[data-page="'+entry[0]+'"]').classList.contains('active')){
+        document.querySelector('.page[data-page="'+entry[0]+'"]').classList.remove('active');
+        document.querySelector('.page[data-page="game"]').classList.add('active');
+        document.querySelector('.tab-btn[data-page="game"]').classList.add('active');
+      }
+    });
+  }
+
   function renderStats(){
     ppTotalEl.textContent = formatNumber(state.pp) + ' PP';
     ppPerSecEl.textContent = '毎秒 ' + formatNumber(totalPPPerSec()) + ' PP';
@@ -3309,6 +3357,7 @@ textarea.data-area{
     }
 
     renderPrestigePanel();
+    renderProgression();
   }
   function renderPrestigePanel(){
     var gain=shardsIfPrestigeNow(),can=state.lifetimePP>=prestigeThreshold(),selected=selectedPrestigeProtocolDef(),nextRun=state.prestigeCount+1,bootPP=prestigeBootstrapPP(nextRun),bootDevices=prestigeBootstrapDevices(nextRun);
@@ -3337,6 +3386,7 @@ textarea.data-area{
     renderMissionControl();
     updateTabBadge();
     updateSaveInfo();
+    renderProgression();
   }
 
   /* ---------------- 運用センター：インフラ / ネットワーク ---------------- */
@@ -4434,7 +4484,7 @@ textarea.data-area{
   /* ---------------- セーブ / ロード ---------------- */
   function serializeState(){
     return JSON.stringify({
-      version: 10,
+      version: 11,
       savedAt: Date.now(),
       pp: state.pp,
       lifetimePP: state.lifetimePP,
@@ -4517,6 +4567,8 @@ textarea.data-area{
 
   function applyImportedData(data){
     if (!data || typeof data !== 'object') throw new Error('invalid data');
+    var saveVersion = Math.floor(Number(data.version) || 0);
+    var legacyInfrastructureAdjustment = null;
     state.pp = Number(data.pp) || 0;
     state.lifetimePP = Number(data.lifetimePP) || 0;
     state.shards = Number(data.shards) || 0;
@@ -4563,6 +4615,15 @@ textarea.data-area{
     state.bugsFixedCount = Number(data.bugsFixedCount) || 0;
     state.powerLevel = Number(data.powerLevel) || 0;
     state.coolingLevel = Number(data.coolingLevel) || 0;
+    if (saveVersion > 0 && saveVersion < 10) {
+      var previousPowerLevel = state.powerLevel;
+      var previousCoolingLevel = state.coolingLevel;
+      state.powerLevel = normalizeLegacyInfrastructureLevel(previousPowerLevel);
+      state.coolingLevel = normalizeLegacyInfrastructureLevel(previousCoolingLevel);
+      if (previousPowerLevel !== state.powerLevel || previousCoolingLevel !== state.coolingLevel) {
+        legacyInfrastructureAdjustment = { power:previousPowerLevel, cooling:previousCoolingLevel };
+      }
+    }
     state.networkTopology = typeof data.networkTopology === 'string' ? data.networkTopology : 'balanced';
     state.activeJob = data.activeJob && typeof data.activeJob.id === 'string' ? { id:data.activeJob.id, endsAt:Number(data.activeJob.endsAt) || Date.now() } : null;
     state.completedJobs = Number(data.completedJobs) || 0;
@@ -4586,6 +4647,13 @@ textarea.data-area{
     state.globalContributions = data.globalContributions && typeof data.globalContributions === 'object' ? data.globalContributions : {};
     state.globalCompleted = data.globalCompleted && typeof data.globalCompleted === 'object' ? data.globalCompleted : {};
     state.operationsLog = Array.isArray(data.operationsLog) ? data.operationsLog.slice(0,50) : [];
+    if (legacyInfrastructureAdjustment) {
+      state.operationsLog.unshift({
+        time:Date.now(), kind:'INFRA', severity:'success',
+        text:'旧設備を現行基準へ最適化（電源Lv.' + legacyInfrastructureAdjustment.power + '→' + state.powerLevel + ' / 冷却Lv.' + legacyInfrastructureAdjustment.cooling + '→' + state.coolingLevel + '）'
+      });
+      state.operationsLog = state.operationsLog.slice(0,50);
+    }
     state.activeIncident = data.activeIncident && typeof data.activeIncident.type === 'string' ? data.activeIncident : null;
     state.nextIncidentAt = Number(data.nextIncidentAt) || (Date.now()+120000);
     state.incidentProdUntil = Number(data.incidentProdUntil) || 0;
@@ -5276,6 +5344,13 @@ textarea.data-area{
 if ('serviceWorker' in navigator) {
   var gadgetPwaHadController = !!navigator.serviceWorker.controller;
   var gadgetPwaRefreshing = false;
+  var gadgetPwaRegistration = null;
+  function checkGadgetPwaUpdate(){
+    if (!gadgetPwaRegistration) return;
+    gadgetPwaRegistration.update().then(function(){
+      if (gadgetPwaRegistration.waiting) gadgetPwaRegistration.waiting.postMessage({ type:'SKIP_WAITING' });
+    }).catch(function(){});
+  }
   navigator.serviceWorker.addEventListener('controllerchange', function(){
     if (gadgetPwaHadController && !gadgetPwaRefreshing) {
       gadgetPwaRefreshing = true;
@@ -5287,14 +5362,16 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', function(){
     navigator.serviceWorker.register('./service-worker.js', { updateViaCache:'none' })
       .then(function(registration){
+        gadgetPwaRegistration = registration;
         if (registration.waiting) registration.waiting.postMessage({ type:'SKIP_WAITING' });
-        registration.update().catch(function(){});
-        setInterval(function(){ registration.update().catch(function(){}); }, 30 * 60 * 1000);
+        checkGadgetPwaUpdate();
+        setInterval(checkGadgetPwaUpdate, 30 * 60 * 1000);
       })
       .catch(function(error){
         console.warn('[GadgetClicker PWA] Service Worker registration failed:', error);
       });
   });
+  window.addEventListener('pageshow', checkGadgetPwaUpdate);
 }
 </script>
 </body>
