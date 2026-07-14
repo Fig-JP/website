@@ -2023,6 +2023,14 @@ textarea.data-area{
     { id:'click2',    tier:2, name:'集中力',               icon:'🎯', cost:8,  requires:['click1'],         effect:{ type:'click', value:0.20 }, desc:'タップ威力 +20%' },
     { id:'discount1', tier:2, name:'割引契約',             icon:'💰', cost:10, requires:['eff1'],           effect:{ type:'cost',  value:-0.08 }, desc:'端末購入コスト -8%' },
     { id:'fusion1',   tier:3, name:'オーバークロック永続化', icon:'🚀', cost:25, requires:['eff2','click2'], effect:{ type:'both',  value:0.15 }, desc:'全端末の生産量 +15%、タップ威力 +15%' },
+    { id:'network1',  tier:3, name:'分散演算網',           icon:'🌐', cost:18, requires:['eff2'],           effect:{ type:'prod',  value:0.12 }, desc:'全端末の生産量 +12%' },
+    { id:'input3',    tier:3, name:'入力予測器',           icon:'🧠', cost:18, requires:['click2'],         effect:{ type:'click', value:0.25 }, desc:'タップ威力 +25%' },
+    { id:'discount2', tier:3, name:'共同調達',             icon:'📦', cost:22, requires:['discount1'],      effect:{ type:'cost',  value:-0.08 }, desc:'端末購入コスト -8%' },
+    { id:'fusion2',   tier:4, name:'自律最適化',           icon:'🤖', cost:45, requires:['fusion1'],        effect:{ type:'both',  value:0.22 }, desc:'全端末の生産量 +22%、タップ威力 +22%' },
+    { id:'scale1',    tier:4, name:'ハイパースケール',     icon:'🏗️', cost:55, requires:['network1'],        effect:{ type:'prod',  value:0.25 }, desc:'全端末の生産量 +25%' },
+    { id:'precision1',tier:4, name:'精密入力系',           icon:'🎯', cost:55, requires:['input3'],          effect:{ type:'click', value:0.35 }, desc:'タップ威力 +35%' },
+    { id:'manufacture',tier:4,name:'自動量産契約',         icon:'🏭', cost:70, requires:['discount2'],       effect:{ type:'cost',  value:-0.10 }, desc:'端末購入コスト -10%' },
+    { id:'singularity',tier:5,name:'演算特異点',           icon:'🌀', cost:130,requires:['fusion2','scale1','precision1'],effect:{ type:'both',value:0.35 },desc:'全端末の生産量 +35%、タップ威力 +35%' },
   ];
   var researchUnlocked = {};
 
@@ -2126,6 +2134,30 @@ textarea.data-area{
     { id:'rack6',        name:'ラック設計者', desc:'ラックへ6スロット以上配置する', icon:'🗄️', cond:function(s){ return s.rackPlaced >= 6; } },
     { id:'publish1',     name:'オープンデータ', desc:'パイプライン成果を公開する', icon:'🧬', cond:function(s){ return s.publishedResults > 0; } },
     { id:'org1',         name:'進む道を選ぶ', desc:'運営組織へ所属する', icon:'🏢', cond:function(s){ return s.organizationChosen; } },
+    { id:'tap10k',       name:'指先の超新星', desc:'CHIPを10,000回タップする', icon:'🌠', cond:function(s){ return s.totalTaps >= 10000; } },
+    { id:'pp10m',        name:'メガストリーム', desc:'生涯処理量1,000万PP到達', icon:'🌊', cond:function(s){ return s.lifetimePP >= 1e7; } },
+    { id:'pp100m',       name:'都市級演算', desc:'生涯処理量1億PP到達', icon:'🏙️', cond:function(s){ return s.lifetimePP >= 1e8; } },
+    { id:'pp1t',         name:'天文学的な処理', desc:'生涯処理量1兆PP到達', icon:'🌌', cond:function(s){ return s.lifetimePP >= 1e12; } },
+    { id:'gen500',       name:'艦隊司令', desc:'端末を合計500台導入', icon:'🚢', cond:function(s){ return s.totalGenerators >= 500; } },
+    { id:'gen1000',      name:'銀河の端末庫', desc:'端末を合計1,000台導入', icon:'🌌', cond:function(s){ return s.totalGenerators >= 1000; } },
+    { id:'crystal25',    name:'結晶工房', desc:'シリコンクリスタルを25個集める', icon:'💠', cond:function(s){ return s.crystalCount >= 25; } },
+    { id:'genLv10',      name:'極限チューナー', desc:'いずれかの端末をLv.10まで強化する', icon:'⚡', cond:function(s){ return s.maxGeneratorLevel >= 10; } },
+    { id:'task20',       name:'保守班長', desc:'メンテナンスタスクに20回成功する', icon:'🧰', cond:function(s){ return s.taskSuccessCount >= 20; } },
+    { id:'wire20',       name:'配線神', desc:'配線接続パズルに20回成功する', icon:'🔌', cond:function(s){ return s.wireSuccessCount >= 20; } },
+    { id:'golden50',     name:'パケット採掘王', desc:'ゴールデンパケットを50回回収する', icon:'✨', cond:function(s){ return s.goldenPacketsCollected >= 50; } },
+    { id:'job10',        name:'バッチ工場', desc:'ジョブを10件完了する', icon:'🧪', cond:function(s){ return s.completedJobs >= 10; } },
+    { id:'retire50',     name:'循環経済圏', desc:'端末を50台再利用する', icon:'♻️', cond:function(s){ return s.retiredDevices >= 50; } },
+    { id:'cyber25',      name:'要塞ネットワーク', desc:'サイバー攻撃を25回防ぐ', icon:'🛡️', cond:function(s){ return s.cyberAttacksBlocked >= 25; } },
+    { id:'global4',      name:'世界を動かす計算', desc:'世界プロジェクトをすべて完成する', icon:'🌍', cond:function(s){ return s.globalProjectsCompleted >= 4; } },
+    { id:'special8',     name:'端末博物館', desc:'特別端末を8台獲得する', icon:'🏛️', cond:function(s){ return s.specialDeviceCount >= 8; } },
+    { id:'rack12',       name:'満床ラック', desc:'ラックの12枠すべてに配置する', icon:'🗄️', cond:function(s){ return s.rackPlaced >= 12; } },
+    { id:'publish1k',    name:'オープンコンピュート', desc:'計算成果を1,000件公開する', icon:'📡', cond:function(s){ return s.publishedResults >= 1000; } },
+    { id:'reputation100',name:'業界の顔役', desc:'組織の合計評判を100獲得する', icon:'🤝', cond:function(s){ return s.totalReputation >= 100; } },
+    { id:'prestige20',   name:'永久機関', desc:'システムリセットを20回行う', icon:'♾️', cond:function(s){ return s.prestigeCount >= 20; } },
+    { id:'bareMetal',    name:'裸のまま走る', desc:'電源・冷却を未強化のまま端末100台を導入する', icon:'🪨', hidden:true, cond:function(s){ return s.totalGenerators >= 100 && state.powerLevel === 0 && state.coolingLevel === 0; } },
+    { id:'fullHouse',    name:'完全接続', desc:'全種類の端末を10台以上ずつ所有する', icon:'🌉', hidden:true, cond:function(s){ return s.allTypesAtTen; } },
+    { id:'contract10',   name:'契約の鬼', desc:'運用契約を10セット完了する', icon:'📋', hidden:true, cond:function(s){ return s.contractCycle >= 10; } },
+    { id:'campaignEnd',  name:'帝国の夜明け', desc:'帝国キャンペーンを完遂する', icon:'🚀', hidden:true, cond:function(s){ return s.campaignChapter >= 5; } },
   ];
   var achievementsUnlocked = {};
 
@@ -2311,27 +2343,30 @@ textarea.data-area{
     return topology;
   }
   function infrastructureUsage(){
-    var weights = [1,1.8,4,9,22,55,150,480];
+    // 端末価格・生産量の伸びに対して、後半の設備が追いつくよう負荷を再調整。
+    // 高性能端末は重いが、1台導入だけで即座に運用不能にならない水準にする。
+    var weights = [.4,.8,1.8,4,9,20,48,120];
     var raw = state.generators.reduce(function(sum,g,i){ return sum + g.count * weights[i]; },0);
     raw += customPcOutput() > 0 ? 8 + Object.keys(state.customPcParts).reduce(function(sum,key){ return sum + state.customPcParts[key] * 2; },0) : 0;
     var topology = currentTopology();
     var os = currentOS();
     var rack=rackBonuses();
-    return { power:raw * topology.power * os.power * specialPowerMult(), heat:raw * .72 * topology.heat * os.heat * incidentHeatMult() * specialHeatMult() * rack.heat };
+    return { power:raw * topology.power * os.power * specialPowerMult(), heat:raw * .58 * topology.heat * os.heat * incidentHeatMult() * specialHeatMult() * rack.heat };
   }
   function infrastructureFoundationMult(){ return 1 + Math.min(.5,state.prestigeCount * .05); }
-  function powerCapacity(){ return (60 + state.powerLevel * 180) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1); }
-  function coolingCapacity(){ return (48 + state.coolingLevel * 145) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1); }
+  // 設備レベルごとに容量を指数的に伸ばし、端末数が増える中盤以降にも対応する。
+  function powerCapacity(){ return Math.round(120 * Math.pow(1.85,state.powerLevel) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1)); }
+  function coolingCapacity(){ return Math.round(88 * Math.pow(1.82,state.coolingLevel) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1)); }
   function infrastructureEfficiency(){
     var usage = infrastructureUsage();
-    var powerEff = usage.power <= powerCapacity() ? 1 : Math.max(.4,powerCapacity() / Math.max(1,usage.power));
+    var powerEff = usage.power <= powerCapacity() ? 1 : Math.max(.7,Math.sqrt(powerCapacity() / Math.max(1,usage.power)));
     var heatRatio = usage.heat / coolingCapacity();
-    var heatEff = heatRatio <= 1 ? 1 : Math.max(.4,1 - (heatRatio - 1) * .3);
+    var heatEff = heatRatio <= 1 ? 1 : Math.max(.7,1 - (heatRatio - 1) * .18);
     return Math.min(powerEff,heatEff);
   }
   function infrastructureUpgradeCost(type){
     var level = type === 'power' ? state.powerLevel : state.coolingLevel;
-    return 1800 * Math.pow(3.2,level);
+    return Math.round(900 * Math.pow(2.05,level));
   }
   function baseTotalPPPerSec(){
     var total = customPcOutput();
@@ -2841,6 +2876,7 @@ textarea.data-area{
     var hour = new Date().getHours();
     var isNightOwlHour = hour >= 2 && hour < 4;
     var maxGeneratorLevel = state.generators.reduce(function(m,g){ return Math.max(m, g.level||0); }, 0);
+    var totalReputation = Object.keys(state.organizationReputation).reduce(function(sum,key){ return sum + (Number(state.organizationReputation[key]) || 0); },0);
 
     return {
       totalTaps: state.totalTaps,
@@ -2872,6 +2908,10 @@ textarea.data-area{
       rackPlaced: state.rackSlots.filter(Boolean).length,
       publishedResults: state.publishedResults,
       organizationChosen: !!state.organizationChoice
+      ,totalReputation:totalReputation,
+      allTypesAtTen:state.generators.every(function(g){return g.count>=10;}),
+      contractCycle:state.contractCycle,
+      campaignChapter:state.campaignChapter
     };
   }
 
@@ -3358,7 +3398,7 @@ textarea.data-area{
     prestigeSystem:{title:'システムリセット',body:'周回処理量100万PPから実行できる中期成長システムです。<ul><li>最適化コアは逓減式の永続生産倍率になり、高額域では伸びが緩やかになります。</li><li>リセットごとに生産・タップ・価格の継承プロトコルを1段階強化できます。</li><li>周回数に応じたPPと電卓を持って再開するため、序盤操作が短縮されます。</li></ul>'},
     missionControl:{title:'ミッションコントロール',body:'遊ぶ目的と短期報酬をまとめた司令画面です。<ul><li><strong>帝国キャンペーン</strong>は5章の大きな到達目標。達成したら自分で報酬を受け取るため、成長の節目が明確になります。</li><li><strong>運用契約</strong>は時間制限のない短い目標です。3件を完了すると、次の少し難しいセットを受注できます。</li><li>広告視聴やログイン必須の要素はありません。好きなペースで進めてください。</li></ul>'},
     progressGuide:{ title:'やることリスト（進行ガイド）', body:'ゲーム内の主要機能をおすすめ順に並べた案内です。<ul><li><strong>現在の目標</strong>は青く強調され、達成すると自動で次へ進みます。</li><li>項目を押すと対応するタブや機能まで移動できます。</li><li>将来の項目も先に確認・実行でき、達成状況はシステムリセット後も保持されます。</li></ul><p><a class="full-guide-link" href="https://github.com/Fig-JP/website/blob/main/gadget-clicker/README.md" target="_blank" rel="noopener noreferrer">📘 詳しい遊び方はこちら ↗</a></p>' },
-    infrastructureCard:{ title:'電力・発熱・冷却', body:'端末が増えるほど電力消費と発熱が増えます。<ul><li><strong>電力または冷却が容量を超える</strong>とPP生産効率が低下します。</li><li>設備レベルはシステムリセット後も継承され、周回ごとに基礎容量も5%ずつ増えます（最大+50%）。</li><li>増設価格は端末の成長に合わせた緩やかなカーブになっています。</li></ul>' },
+    infrastructureCard:{ title:'電力・発熱・冷却', body:'端末が増えるほど電力消費と発熱が増えます。<ul><li><strong>電力または冷却が容量を超える</strong>とPP生産効率が低下しますが、最低70%は維持されます。</li><li>設備レベルはシステムリセット後も継承され、周回ごとに基礎容量も5%ずつ増えます（最大+50%）。</li><li>設備容量はレベルごとに大きく伸びるため、後半の端末群にも追従できます。</li></ul>' },
     networkCard:{ title:'ネットワーク構成', body:'端末群の接続方法を1つ選びます。<ul><li>所持端末の種類やサーバーラックによって構成が解放されます。</li><li>生産、タップ、電力、発熱の倍率が構成ごとに異なります。</li><li>条件を失った構成は自動的に標準構成へ戻ります。</li></ul>' },
     jobCard:{ title:'ジョブ／プログラム実行', body:'PPを消費して時間のかかる計算を1件実行します。<ul><li>同時に実行できるジョブは1件です。</li><li>完了するとPP、恒久倍率、クリスタル成長、最適化コアなどを獲得します。</li><li>画面を閉じている間も終了時刻は進みます。</li></ul>' },
     osCard:{ title:'OSチャンネル', body:'端末群へ配信するOSを選びます。<ul><li><strong>安定版</strong>は発熱を抑えます。</li><li><strong>高速版</strong>は生産を伸ばす代わりに電力と発熱が増えます。</li><li><strong>実験版</strong>は最大性能ですが、設備負荷も最大です。</li></ul>' },
