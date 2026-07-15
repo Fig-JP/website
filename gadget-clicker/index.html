@@ -1711,7 +1711,8 @@ textarea.data-area{
   "use strict";
 
   var STORAGE_KEY = 'gadgetClicker_save_v1';
-  var GAME_VERSION = '1.4.0';
+  var GAME_VERSION = '1.5.0';
+  var INFRASTRUCTURE_BALANCE_VERSION = 2;
   var gameVersionLabel = document.getElementById('gameVersionLabel');
   if (gameVersionLabel) gameVersionLabel.textContent = 'VERSION ' + GAME_VERSION;
 
@@ -1798,6 +1799,8 @@ textarea.data-area{
     bugsFixedCount: 0,
     powerLevel: 0,
     coolingLevel: 0,
+    infrastructureBalanceVersion: INFRASTRUCTURE_BALANCE_VERSION,
+    infrastructureEconomicPeak: 0,
     networkTopology: 'balanced',
     activeJob: null,
     signalJobsThisCycle: 0,
@@ -2161,7 +2164,7 @@ textarea.data-area{
     { id:'publish1k',    name:'オープンコンピュート', desc:'計算成果を1,000件公開する', icon:'📡', cond:function(s){ return s.publishedResults >= 1000; } },
     { id:'reputation100',name:'業界の顔役', desc:'組織の合計評判を100獲得する', icon:'🤝', cond:function(s){ return s.totalReputation >= 100; } },
     { id:'prestige20',   name:'永久機関', desc:'システムリセットを20回行う', icon:'♾️', cond:function(s){ return s.prestigeCount >= 20; } },
-    { id:'bareMetal',    name:'裸のまま走る', desc:'電源・冷却を未強化のまま端末100台を導入する', icon:'🪨', hidden:true, cond:function(s){ return s.totalGenerators >= 100 && state.powerLevel === 0 && state.coolingLevel === 0; } },
+    { id:'bareMetal',    name:'限界運転', desc:'端末100台以上で実験版OSとメッシュ型ネットワークを同時運用する', icon:'🪨', hidden:true, cond:function(s){ return s.totalGenerators >= 100 && state.osMode === 'experimental' && state.networkTopology === 'mesh'; } },
     { id:'fullHouse',    name:'完全接続', desc:'全種類の端末を10台以上ずつ所有する', icon:'🌉', hidden:true, cond:function(s){ return s.allTypesAtTen; } },
     { id:'contract10',   name:'契約の鬼', desc:'運用契約を10セット完了する', icon:'📋', hidden:true, cond:function(s){ return s.contractCycle >= 10; } },
     { id:'campaignEnd',  name:'帝国の夜明け', desc:'帝国キャンペーンを完遂する', icon:'🚀', hidden:true, cond:function(s){ return s.campaignChapter >= 5; } },
@@ -2386,12 +2389,22 @@ textarea.data-area{
     if (level <= 6) return level;
     return Math.min(12,6 + Math.ceil(Math.log2(level - 5) / 2));
   }
-  // 設備レベルは固定容量だけでなく、端末群を支える基盤比率も上げる。
-  // 終盤で設備が置物にならず、OSやネットワーク構成を選ぶ理由を残す。
-  function powerFleetCapacityFactor(){ return Math.min(1.25,.55 + state.powerLevel*.07); }
-  function coolingFleetCapacityFactor(){ return Math.min(.8,.30 + state.coolingLevel*.05); }
-  function powerCapacity(){ return Math.round((120 * Math.pow(1.75,state.powerLevel) + infrastructureFleetLoad()*powerFleetCapacityFactor()) * infrastructureFoundationMult() * (globalProjectDone('openNet') ? 1.2 : 1)); }
-  function coolingCapacity(){ return Math.round((88 * Math.pow(1.7,state.coolingLevel) + infrastructureFleetLoad()*coolingFleetCapacityFactor()) * infrastructureFoundationMult() * (globalProjectDone('climate') ? 1.15 : 1)); }
+  function effectiveInfrastructureLevel(level){
+    level=Math.max(0,Number(level)||0);
+    return level<=8?level:8+Math.log2(level-7)*.75;
+  }
+  // 高Lvは緩やかに伸び、周回ボーナスは設備本体にだけ作用する。
+  // 端末群由来の容量まで無制限に増幅しないため、終盤でも負荷率が残る。
+  function powerFleetCapacityFactor(){ return Math.min(1.2,.45 + effectiveInfrastructureLevel(state.powerLevel)*.06); }
+  function coolingFleetCapacityFactor(){ return Math.min(.78,.28 + effectiveInfrastructureLevel(state.coolingLevel)*.045); }
+  function powerCapacity(){
+    var level=effectiveInfrastructureLevel(state.powerLevel),project=globalProjectDone('openNet')?1.2:1;
+    return Math.round((120*Math.pow(1.65,level)*infrastructureFoundationMult()+infrastructureFleetLoad()*powerFleetCapacityFactor())*project);
+  }
+  function coolingCapacity(){
+    var level=effectiveInfrastructureLevel(state.coolingLevel),project=globalProjectDone('climate')?1.15:1;
+    return Math.round((88*Math.pow(1.6,level)*infrastructureFoundationMult()+infrastructureFleetLoad()*coolingFleetCapacityFactor())*project);
+  }
   function infrastructureEfficiency(){
     var usage = infrastructureUsage();
     var powerEff = usage.power <= powerCapacity() ? 1 : Math.max(.7,Math.sqrt(powerCapacity() / Math.max(1,usage.power)));
@@ -2401,7 +2414,16 @@ textarea.data-area{
   }
   function infrastructureUpgradeCost(type){
     var level = type === 'power' ? state.powerLevel : state.coolingLevel;
-    return Math.round(900 * Math.pow(2.05,level));
+    var effectiveLevel=effectiveInfrastructureLevel(level);
+    var curveCost=900*Math.pow(2.35,effectiveLevel);
+    var currentScale=Math.max(state.pp,state.lifetimePP,totalPPPerSec()*600);
+    if(isFinite(currentScale)&&currentScale>state.infrastructureEconomicPeak)state.infrastructureEconomicPeak=currentScale;
+    var anchor=Math.max(0,state.infrastructureEconomicPeak);
+    var magnitude=anchor>0?Math.log10(anchor):0;
+    var endgameWeight=Math.max(0,Math.min(1,(magnitude-20)/20));
+    var economyShare=Math.min(.18,.015+effectiveLevel*.006);
+    var economyCost=anchor*economyShare*endgameWeight;
+    return Math.round(Math.max(curveCost,economyCost));
   }
   function baseTotalPPPerSec(){
     var total = customPcOutput();
@@ -3545,7 +3567,8 @@ textarea.data-area{
     powerMeterTextEl.textContent = formatNumber(usage.power) + '/' + formatNumber(pCap);
     heatMeterTextEl.textContent = formatNumber(usage.heat) + '/' + formatNumber(cCap);
     infraEfficiencyEl.textContent = '稼働効率 ×' + infrastructureEfficiency().toFixed(2);
-    infraLevelsEl.textContent = '電源Lv.' + state.powerLevel + ' / 冷却Lv.' + state.coolingLevel;
+    var pEffective=effectiveInfrastructureLevel(state.powerLevel),cEffective=effectiveInfrastructureLevel(state.coolingLevel);
+    infraLevelsEl.textContent = '電源Lv.' + state.powerLevel + (pEffective!==state.powerLevel?'（実効'+pEffective.toFixed(1)+'）':'') + ' / 冷却Lv.' + state.coolingLevel + (cEffective!==state.coolingLevel?'（実効'+cEffective.toFixed(1)+'）':'');
     var pCost = infrastructureUpgradeCost('power'), cCost = infrastructureUpgradeCost('cooling');
     powerUpgradeBtn.textContent = '⚡ 電源増強 ' + formatNumber(pCost) + ' PP';
     coolingUpgradeBtn.textContent = '❄️ 冷却増強 ' + formatNumber(cCost) + ' PP';
@@ -4509,7 +4532,7 @@ textarea.data-area{
   /* ---------------- セーブ / ロード ---------------- */
   function serializeState(){
     return JSON.stringify({
-      version: 13,
+      version: 14,
       savedAt: Date.now(),
       pp: state.pp,
       lifetimePP: state.lifetimePP,
@@ -4544,6 +4567,8 @@ textarea.data-area{
       bugsFixedCount: state.bugsFixedCount,
       powerLevel: state.powerLevel,
       coolingLevel: state.coolingLevel,
+      infrastructureBalanceVersion: state.infrastructureBalanceVersion,
+      infrastructureEconomicPeak: state.infrastructureEconomicPeak,
       networkTopology: state.networkTopology,
       activeJob: state.activeJob,
       signalJobsThisCycle: state.signalJobsThisCycle,
@@ -4595,6 +4620,7 @@ textarea.data-area{
   function applyImportedData(data){
     if (!data || typeof data !== 'object') throw new Error('invalid data');
     var saveVersion = Math.floor(Number(data.version) || 0);
+    var importedInfrastructureBalanceVersion = Math.floor(Number(data.infrastructureBalanceVersion) || 0);
     var legacyInfrastructureAdjustment = null;
     state.pp = Number(data.pp) || 0;
     state.lifetimePP = Number(data.lifetimePP) || 0;
@@ -4643,7 +4669,8 @@ textarea.data-area{
     state.bugsFixedCount = Number(data.bugsFixedCount) || 0;
     state.powerLevel = Number(data.powerLevel) || 0;
     state.coolingLevel = Number(data.coolingLevel) || 0;
-    if (saveVersion > 0 && saveVersion < 10) {
+    state.infrastructureEconomicPeak = Math.max(0,Number(data.infrastructureEconomicPeak) || state.pp || state.lifetimePP || 0);
+    if ((saveVersion > 0 && saveVersion < 10) || (importedInfrastructureBalanceVersion < INFRASTRUCTURE_BALANCE_VERSION && (state.powerLevel > 12 || state.coolingLevel > 12))) {
       var previousPowerLevel = state.powerLevel;
       var previousCoolingLevel = state.coolingLevel;
       state.powerLevel = normalizeLegacyInfrastructureLevel(previousPowerLevel);
@@ -4652,6 +4679,7 @@ textarea.data-area{
         legacyInfrastructureAdjustment = { power:previousPowerLevel, cooling:previousCoolingLevel };
       }
     }
+    state.infrastructureBalanceVersion = INFRASTRUCTURE_BALANCE_VERSION;
     state.networkTopology = typeof data.networkTopology === 'string' ? data.networkTopology : 'balanced';
     state.activeJob = data.activeJob && typeof data.activeJob.id === 'string' ? { id:data.activeJob.id, endsAt:Number(data.activeJob.endsAt) || Date.now() } : null;
     state.signalJobsThisCycle = Math.max(0,Math.floor(Number(data.signalJobsThisCycle) || 0));
@@ -4963,6 +4991,8 @@ textarea.data-area{
     state.bugsFixedCount = 0;
     state.powerLevel = 0;
     state.coolingLevel = 0;
+    state.infrastructureBalanceVersion = INFRASTRUCTURE_BALANCE_VERSION;
+    state.infrastructureEconomicPeak = 0;
     state.networkTopology = 'balanced';
     state.activeJob = null;
     state.signalJobsThisCycle = 0;
@@ -5323,8 +5353,13 @@ textarea.data-area{
         infrastructureEfficiency: infrastructureEfficiency(),
         powerUsage: infrastructureUsage().power,
         powerCapacity: powerCapacity(),
+        powerEffectiveLevel: effectiveInfrastructureLevel(state.powerLevel),
+        powerUpgradeCost: infrastructureUpgradeCost('power'),
         heat: infrastructureUsage().heat,
         coolingCapacity: coolingCapacity(),
+        coolingEffectiveLevel: effectiveInfrastructureLevel(state.coolingLevel),
+        coolingUpgradeCost: infrastructureUpgradeCost('cooling'),
+        infrastructureEconomicPeak: state.infrastructureEconomicPeak,
         networkTopology: state.networkTopology,
         osMode: state.osMode,
         aiMode: state.aiMode,
