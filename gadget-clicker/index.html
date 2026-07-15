@@ -1395,7 +1395,7 @@ textarea.data-area{
         <button class="btn accent" id="crystalHarvestBtn" disabled>収穫する</button>
         <button class="btn" id="crystalBoostBtn">培養促進</button>
       </div>
-      <div class="crystal-hint">培養槽の中でゆっくり育つ結晶。収穫すると端末一覧の「⬆️ 強化」でその端末の生産量を永続的に+15%できる。培養促進はPPを消費して成長を早める（1サイクルごとにコストが倍増）。</div>
+      <div class="crystal-hint">培養槽の中でゆっくり育つ結晶。収穫すると端末一覧の「⬆️ 強化」でその端末の生産量を永続的に+15%できる。培養促進は1サイクル合計60%まで。最低8分の培養時間は必ず必要。</div>
     </div></div>
 
     <div id="maintenanceSection"><div class="section-title"><span>🔧 メンテナンス作業</span><span class="line"></span></div>
@@ -1404,13 +1404,13 @@ textarea.data-area{
         <div class="task-icon">🔧</div>
         <div class="task-info">
           <div class="task-count numeral" id="maintPartsCount">整備パーツ 0 個</div>
-          <div class="task-sub" id="taskStatus">タイピングチャレンジに成功すると整備パーツがもらえる</div>
+          <div class="task-sub" id="taskStatus">運用判断か配線接続に成功すると整備パーツがもらえる</div>
         </div>
       </div>
       <div class="task-prompt-wrap" id="taskPromptWrap" style="display:none;">
         <div class="task-prompt numeral" id="taskPrompt"></div>
         <div class="task-timerbar"><div class="task-timerfill" id="taskTimerFill"></div></div>
-        <input type="text" id="taskInput" class="task-input numeral" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="表示された文字列を正確に入力…">
+        <div class="choice-grid" id="taskChoices"></div>
       </div>
       <div class="wire-puzzle-wrap" id="wirePuzzleWrap" style="display:none;">
         <div class="task-timerbar"><div class="task-timerfill" id="wireTimerFill"></div></div>
@@ -1421,13 +1421,13 @@ textarea.data-area{
         <div class="wire-hint-sub">同じ色の端子同士をタップしてつなごう</div>
       </div>
       <div class="btn-row">
-        <button class="btn accent" id="taskStartBtn">⌨️ タイピング開始</button>
+        <button class="btn accent" id="taskStartBtn">🧭 運用判断開始</button>
         <button class="btn accent" id="wireStartBtn">🔌 配線接続開始</button>
       </div>
       <div class="btn-row">
         <button class="btn" id="overdriveBtn">⚡ オーバードライブ発動（🔧×5）</button>
       </div>
-      <div class="task-hint">コンピュータ関連のタスク（タイピング／配線接続）に制限時間内で成功すると整備パーツを獲得できる。整備パーツ5個で「オーバードライブ」を60秒間発動でき、生産量とタップ威力が+50%になる。</div>
+      <div class="task-hint">運用判断または配線接続に制限時間内で成功すると整備パーツを獲得できる。機種や入力方式による差はない。整備パーツ5個で「オーバードライブ」を60秒間発動でき、生産量とタップ威力が+50%になる。</div>
     </div></div>
 
     <div class="prestige-box" id="prestigeBox">
@@ -1711,7 +1711,7 @@ textarea.data-area{
   "use strict";
 
   var STORAGE_KEY = 'gadgetClicker_save_v1';
-  var GAME_VERSION = '1.3.0';
+  var GAME_VERSION = '1.4.0';
   var gameVersionLabel = document.getElementById('gameVersionLabel');
   if (gameVersionLabel) gameVersionLabel.textContent = 'VERSION ' + GAME_VERSION;
 
@@ -1784,6 +1784,7 @@ textarea.data-area{
     crystalCount: 0,
     crystalGrowthStart: Date.now(),
     crystalBoostsThisCycle: 0,
+    crystalBoostProgress: 0,
     maintParts: 0,
     taskSuccessCount: 0,
     wireSuccessCount: 0,
@@ -1996,6 +1997,8 @@ textarea.data-area{
   var WIRE_COOLDOWN_MS = 15000;
 
   var CRYSTAL_GROW_MS = 20 * 60 * 1000; // 20分で1個成熟
+  var CRYSTAL_BOOST_STEP = .10;          // 促進1回につき10%
+  var CRYSTAL_BOOST_CAP = .60;           // 1サイクル合計60%まで（最低8分は必要）
   var GENERATOR_LEVEL_MULT = 1.15; // 端末レベルアップ1回につき+15%
   var OVERDRIVE_COST = 5;           // オーバードライブ発動に必要な整備パーツ
   var OVERDRIVE_DURATION_MS = 60000; // 発動時間(60秒)
@@ -2090,24 +2093,14 @@ textarea.data-area{
     return mult;
   }
 
-  // メンテナンスタスク（タイピングチャレンジ）のお題プール
-  // スマホでも入力しやすいよう、記号を使わない短い日本語の単語だけにしてある
-  var TASK_PROMPTS = [
-    "スマートフォン",
-    "データセンター",
-    "オーバードライブ",
-    "クラウド接続",
-    "バッテリー残量",
-    "セキュリティ強化",
-    "メモリ増設",
-    "キャッシュ削除",
-    "更新完了",
-    "再起動中",
-    "接続確認",
-    "電源投入",
-    "回路基板",
-    "冷却ファン",
-    "無線接続"
+  // メンテナンス：端末や日本語入力の差が出ない、3択の運用判断チャレンジ
+  var MAINTENANCE_SCENARIOS = [
+    { prompt:'⚡ 電力使用率 112%\n最初に行うべき対応は？', choices:['電源設備を増強する','端末を追加する','実験OSへ切り替える'], answer:0 },
+    { prompt:'🌡️ 温度が上昇中\n安定運用に向く選択は？', choices:['冷却を増強する','オーバークロックする','処理をさらに集約する'], answer:0 },
+    { prompt:'🛡️ 不審な通信を検知\n優先する対応は？', choices:['ログを解析する','成果を公開する','端末を増設する'], answer:0 },
+    { prompt:'📦 学習工程が停滞\n不足を確認すべき工程は？', choices:['整形・学習用端末','表示テーマ','タップ回数'], answer:0 },
+    { prompt:'🔋 高速OSで効率が低下\nまず確認するものは？', choices:['電力と冷却の余裕','実績の解除数','端末の名前'], answer:0 },
+    { prompt:'🌐 新しい構成を試す前\n安全な準備は？', choices:['現在の負荷を確認する','すべての端末を売却する','セーブを消去する'], answer:0 }
   ];
 
   var ACHIEVEMENTS = [
@@ -2520,7 +2513,7 @@ textarea.data-area{
   /* ---------------- シリコンクリスタル（培養） ---------------- */
   function crystalProgress(){
     var elapsed = Date.now() - state.crystalGrowthStart;
-    return Math.max(0, Math.min(1, elapsed / CRYSTAL_GROW_MS));
+    return Math.max(0, Math.min(1, elapsed / CRYSTAL_GROW_MS + state.crystalBoostProgress));
   }
   function crystalReady(){ return crystalProgress() >= 1; }
   function harvestCrystal(){
@@ -2528,21 +2521,28 @@ textarea.data-area{
     state.crystalCount += 1;
     state.crystalGrowthStart = Date.now();
     state.crystalBoostsThisCycle = 0;
+    state.crystalBoostProgress = 0;
     renderAll();
     checkAchievements();
     saveGame();
     return true;
   }
   function crystalBoostCost(){
-    var base = Math.max(500, Math.round(totalPPPerSec() * 60));
-    return Math.round(base * Math.pow(2, state.crystalBoostsThisCycle));
+    var base = Math.max(2500, Math.round(totalPPPerSec() * 300));
+    return Math.round(base * Math.pow(3, state.crystalBoostsThisCycle));
+  }
+  function advanceCrystalProgress(amount){
+    var available = Math.max(0,CRYSTAL_BOOST_CAP - state.crystalBoostProgress);
+    var applied = Math.min(Math.max(0,amount || 0),available);
+    state.crystalBoostProgress += applied;
+    return applied;
   }
   function boostCrystal(){
-    if (crystalReady()) return false;
+    if (crystalReady() || state.crystalBoostProgress >= CRYSTAL_BOOST_CAP) return false;
     var cost = crystalBoostCost();
     if (state.pp < cost) return false;
     state.pp -= cost;
-    state.crystalGrowthStart -= CRYSTAL_GROW_MS * 0.25;
+    advanceCrystalProgress(CRYSTAL_BOOST_STEP);
     state.crystalBoostsThisCycle += 1;
     renderStats();
     renderCrystal();
@@ -2623,9 +2623,8 @@ textarea.data-area{
       state.maintParts += partsBonus;
       message = '整備パーツ +' + partsBonus + ' を発見！';
     } else {
-      var bonusMs = 5 * 60 * 1000;
-      state.crystalGrowthStart -= bonusMs;
-      message = 'クリスタルの成長が5分進んだ！';
+      var progressBonus = advanceCrystalProgress(.10);
+      message = progressBonus > 0 ? 'クリスタルの成長が10%進んだ！' : 'クリスタル培養は今サイクルの促進上限に到達中';
     }
     state.goldenPacketsCollected += 1;
 
@@ -2756,20 +2755,20 @@ textarea.data-area{
     offlineOverlayEl.style.display = 'none';
   });
 
-  /* ---------------- メンテナンスタスク（タイピングチャレンジ） ---------------- */
+  /* ---------------- メンテナンス（3択の運用判断） ---------------- */
   var taskState = {
     active: false,
-    prompt: '',
+    scenario: null,
     deadline: 0,
     timeLimitMs: 0
   };
   function taskOnCooldown(){ return Date.now() < state.taskCooldownUntil; }
   function startTask(){
     if (taskState.active || taskOnCooldown()) return false;
-    var prompt = TASK_PROMPTS[Math.floor(Math.random() * TASK_PROMPTS.length)];
-    var timeLimitMs = Math.max(9000, prompt.length * 700);
+    var scenario = MAINTENANCE_SCENARIOS[Math.floor(Math.random() * MAINTENANCE_SCENARIOS.length)];
+    var timeLimitMs = 12000;
     taskState.active = true;
-    taskState.prompt = prompt;
+    taskState.scenario = scenario;
     taskState.timeLimitMs = timeLimitMs;
     taskState.deadline = Date.now() + timeLimitMs;
     renderTask();
@@ -2778,6 +2777,7 @@ textarea.data-area{
   function taskSuccess(){
     if (!taskState.active) return;
     taskState.active = false;
+    taskState.scenario = null;
     var reward = 1 + Math.floor(Math.random() * 3); // 1〜3個
     state.maintParts += reward;
     state.taskSuccessCount += 1;
@@ -2792,16 +2792,17 @@ textarea.data-area{
   function taskFail(){
     if (!taskState.active) return;
     taskState.active = false;
+    taskState.scenario = null;
     state.taskCooldownUntil = Date.now() + TASK_COOLDOWN_MS;
     playFailSound();
     renderTask();
     showTaskResult(false, 0);
   }
-  function checkTaskInput(value){
+  function chooseMaintenanceAction(index){
     if (!taskState.active) return;
     if (Date.now() > taskState.deadline) { taskFail(); return; }
-    var normalized = String(value).replace(/\s+/g, '');
-    if (normalized === taskState.prompt) { taskSuccess(); }
+    if (taskState.scenario && Number(index) === taskState.scenario.answer) taskSuccess();
+    else taskFail();
   }
   function tickTask(){
     if (taskState.active && Date.now() > taskState.deadline) {
@@ -3142,7 +3143,7 @@ textarea.data-area{
     {id:'tap10',phase:'PHASE 1 / 起動',title:'CHIPを10回タップ',desc:'まずは手動でPPを作る',page:'game',target:'chip',done:function(){return state.totalTaps>=10||!!achievementsUnlocked.tap100;},progress:function(){return Math.min(10,state.totalTaps)+'/10 TAP';}},
     {id:'firstDevice',phase:'PHASE 1 / 起動',title:'最初の端末を導入',desc:'端末一覧から電卓を購入する',page:'game',target:'shopList',done:function(){return guideGeneratorCount()>=1||state.prestigeCount>0;},progress:function(){return guideGeneratorCount()?'導入済み':'0/1';}},
     {id:'deviceFleet',phase:'PHASE 1 / 起動',title:'端末を合計10台にする',desc:'自動生産の土台を作る',page:'game',target:'shopList',done:function(){return guideGeneratorCount()>=10||!!achievementsUnlocked.gen10;},progress:function(){return Math.min(10,guideGeneratorCount())+'/10 台';}},
-    {id:'maintenance',phase:'PHASE 2 / 基盤整備',title:'メンテナンスに成功',desc:'タイピングか配線を1回完了する',page:'game',target:'taskStartBtn',done:function(){return state.taskSuccessCount>=1||!!achievementsUnlocked.task1;},progress:function(){return state.taskSuccessCount+' 回';}},
+    {id:'maintenance',phase:'PHASE 2 / 基盤整備',title:'メンテナンスに成功',desc:'運用判断か配線を1回完了する',page:'game',target:'taskStartBtn',done:function(){return state.taskSuccessCount>=1||!!achievementsUnlocked.task1;},progress:function(){return state.taskSuccessCount+' 回';}},
     {id:'research',phase:'PHASE 2 / 基盤整備',title:'研究を1つ解放',desc:'整備パーツで恒久効果を獲得する',page:'research',target:'researchList',done:function(){return Object.keys(researchUnlocked).length>=1||!!achievementsUnlocked.research100;},progress:function(){return Object.keys(researchUnlocked).length+'/6';}},
     {id:'infrastructure',phase:'PHASE 2 / 基盤整備',title:'電源と冷却を増強',desc:'両方をLv.1以上にする',page:'operations',target:'infrastructureCard',done:function(){return state.powerLevel>=1&&state.coolingLevel>=1;},progress:function(){return '電'+state.powerLevel+' / 冷'+state.coolingLevel;}},
     {id:'job',phase:'PHASE 2 / 基盤整備',title:'ジョブを1件完了',desc:'計算資源を成果へ変える',page:'operations',target:'jobCard',done:function(){return state.completedJobs>=1||!!achievementsUnlocked.job1;},progress:function(){return state.completedJobs+' 件';}},
@@ -3983,7 +3984,7 @@ textarea.data-area{
     crystalCountEl.textContent = formatNumber(state.crystalCount) + ' 個';
     crystalProgressFillEl.style.width = (progress * 100).toFixed(1) + '%';
     crystalHarvestBtn.disabled = !ready;
-    crystalBoostBtn.disabled = ready;
+    crystalBoostBtn.disabled = ready || state.crystalBoostProgress >= CRYSTAL_BOOST_CAP;
     if (ready) {
       crystalStatusEl.textContent = '✅ 収穫可能！';
       crystalBoostBtn.textContent = '培養促進（収穫可能）';
@@ -3993,7 +3994,8 @@ textarea.data-area{
       var mm = Math.floor(remainSec / 60);
       var ss = remainSec % 60;
       crystalStatusEl.textContent = '成長中… 残り ' + mm + ':' + (ss < 10 ? '0' : '') + ss;
-      crystalBoostBtn.textContent = '培養促進（' + formatNumber(crystalBoostCost()) + ' PP）';
+      if (state.crystalBoostProgress >= CRYSTAL_BOOST_CAP) crystalBoostBtn.textContent = '培養促進（今サイクルは上限）';
+      else crystalBoostBtn.textContent = '培養促進（' + formatNumber(crystalBoostCost()) + ' PP / 促進' + Math.round(state.crystalBoostProgress * 100) + '%）';
     }
   }
 
@@ -4003,7 +4005,7 @@ textarea.data-area{
   var taskPromptWrapEl = document.getElementById('taskPromptWrap');
   var taskPromptEl = document.getElementById('taskPrompt');
   var taskTimerFillEl = document.getElementById('taskTimerFill');
-  var taskInputEl = document.getElementById('taskInput');
+  var taskChoicesEl = document.getElementById('taskChoices');
   var taskStartBtn = document.getElementById('taskStartBtn');
   var overdriveBtn = document.getElementById('overdriveBtn');
   var wirePuzzleWrapEl = document.getElementById('wirePuzzleWrap');
@@ -4017,23 +4019,31 @@ textarea.data-area{
 
     if (taskState.active) {
       taskPromptWrapEl.style.display = '';
-      taskPromptEl.textContent = taskState.prompt;
+      taskPromptEl.textContent = taskState.scenario ? taskState.scenario.prompt : '';
       var remain = Math.max(0, taskState.deadline - Date.now());
       var pct = Math.max(0, Math.min(100, (remain / taskState.timeLimitMs) * 100));
       taskTimerFillEl.style.width = pct + '%';
-      taskStatusEl.textContent = '⌨️ 表示された文字列を正確に入力しよう！';
+      taskStatusEl.textContent = '🧭 状況に合う対応を1つ選ぼう！';
+      taskChoicesEl.innerHTML = '';
+      if (taskState.scenario) taskState.scenario.choices.forEach(function(choice,index){
+        var btn=document.createElement('button');
+        btn.type='button';btn.className='choice-btn';btn.innerHTML='<strong>' + (index + 1) + '. ' + choice + '</strong><small>この対応を選択</small>';
+        btn.addEventListener('click',function(){ chooseMaintenanceAction(index); });
+        taskChoicesEl.appendChild(btn);
+      });
     } else {
       taskPromptWrapEl.style.display = 'none';
+      taskChoicesEl.innerHTML = '';
     }
 
     if (!taskState.active && !wireState.active) {
       if (taskOnCooldown()) {
         var cd = Math.max(0, Math.ceil((state.taskCooldownUntil - Date.now()) / 1000));
         taskStartBtn.disabled = true;
-        taskStartBtn.textContent = '⌨️ タイピング（あと' + cd + '秒）';
+        taskStartBtn.textContent = '🧭 運用判断（あと' + cd + '秒）';
       } else {
         taskStartBtn.disabled = false;
-        taskStartBtn.textContent = '⌨️ タイピング開始';
+        taskStartBtn.textContent = '🧭 運用判断開始';
       }
       if (wireOnCooldown()) {
         var cdw = Math.max(0, Math.ceil((state.wireCooldownUntil - Date.now()) / 1000));
@@ -4043,7 +4053,7 @@ textarea.data-area{
         wireStartBtn.disabled = false;
         wireStartBtn.textContent = '🔌 配線接続開始';
       }
-      taskStatusEl.textContent = 'タイピング／配線接続に成功すると整備パーツがもらえる';
+      taskStatusEl.textContent = '運用判断／配線接続に成功すると整備パーツがもらえる';
     } else {
       taskStartBtn.disabled = true;
       wireStartBtn.disabled = true;
@@ -4101,15 +4111,7 @@ textarea.data-area{
   }
 
   taskStartBtn.addEventListener('click', function(){
-    if (startTask()) {
-      taskInputEl.value = '';
-      renderTask();
-      setTimeout(function(){ taskInputEl.focus(); }, 30);
-    }
-  });
-  taskInputEl.addEventListener('input', function(){
-    checkTaskInput(taskInputEl.value);
-    if (!taskState.active) { taskInputEl.value = ''; }
+    if (startTask()) renderTask();
   });
   wireStartBtn.addEventListener('click', function(){
     if (startWire()) { renderTask(); renderWire(); }
@@ -4507,7 +4509,7 @@ textarea.data-area{
   /* ---------------- セーブ / ロード ---------------- */
   function serializeState(){
     return JSON.stringify({
-      version: 12,
+      version: 13,
       savedAt: Date.now(),
       pp: state.pp,
       lifetimePP: state.lifetimePP,
@@ -4523,6 +4525,7 @@ textarea.data-area{
       crystalCount: state.crystalCount,
       crystalGrowthStart: state.crystalGrowthStart,
       crystalBoostsThisCycle: state.crystalBoostsThisCycle,
+      crystalBoostProgress: state.crystalBoostProgress,
       buyMode: buyMode,
       autoBuyEnabled: autoBuyEnabled,
       maintParts: state.maintParts,
@@ -4620,6 +4623,7 @@ textarea.data-area{
     state.crystalCount = Number(data.crystalCount) || 0;
     state.crystalGrowthStart = Number(data.crystalGrowthStart) || Date.now();
     state.crystalBoostsThisCycle = Number(data.crystalBoostsThisCycle) || 0;
+    state.crystalBoostProgress = Math.max(0,Math.min(CRYSTAL_BOOST_CAP,Number(data.crystalBoostProgress) || 0));
     state.maintParts = Number(data.maintParts) || 0;
     state.taskSuccessCount = Number(data.taskSuccessCount) || 0;
     state.wireSuccessCount = Number(data.wireSuccessCount) || 0;
@@ -4945,6 +4949,7 @@ textarea.data-area{
     state.crystalCount = 0;
     state.crystalGrowthStart = Date.now();
     state.crystalBoostsThisCycle = 0;
+    state.crystalBoostProgress = 0;
     state.maintParts = 0;
     state.taskSuccessCount = 0;
     state.wireSuccessCount = 0;
