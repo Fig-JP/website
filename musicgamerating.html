@@ -208,7 +208,8 @@
         }
 
         .best-view-switch {
-            display: inline-flex;
+            display: flex;
+            flex-wrap: wrap;
             padding: 2px;
             border: 1px solid var(--card-border);
             border-radius: 9px;
@@ -247,6 +248,8 @@
             font-weight: 600;
             transition: all 0.2s;
         }
+
+        .small-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
         .small-btn-primary { background: var(--accent); color: white; }
         .small-btn-primary:hover { opacity: 0.85; }
@@ -460,10 +463,31 @@
             display: none;
         }
 
-        .image-preview-section canvas {
+        .image-preview-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .image-preview-image {
+            display: block;
             max-width: 100%;
+            height: auto;
             border-radius: 10px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            -webkit-touch-callout: default;
+            user-select: auto;
+        }
+
+        .image-preview-help {
+            margin: 10px 0 0;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.5;
         }
 
         /* ランク色 */
@@ -808,20 +832,25 @@
                 </div>
             </div>
 
-            <!-- ベスト枠 TOP30 / TOP50 -->
+            <!-- ベスト枠／全登録曲一覧 -->
             <div class="best-section">
                 <div class="best-header">
                     <div class="best-title-group">
                         <span class="best-title" id="arc-best-title">📊 ベスト枠 (TOP30)</span>
-                        <div class="best-view-switch" role="group" aria-label="Arcaeaベスト枠の表示件数">
+                        <div class="best-view-switch" role="group" aria-label="Arcaea登録曲の表示方法">
                             <button class="best-view-button active" id="arc-top30" type="button"
                                 aria-pressed="true" onclick="setArcaeaTopLimit(30)">TOP30</button>
                             <button class="best-view-button" id="arc-top50" type="button"
                                 aria-pressed="false" onclick="setArcaeaTopLimit(50)">TOP50</button>
+                            <button class="best-view-button" id="arc-all-rate" type="button"
+                                aria-pressed="false" onclick="setArcaeaAllView('rate')">全曲 レート順</button>
+                            <button class="best-view-button" id="arc-all-constant" type="button"
+                                aria-pressed="false" onclick="setArcaeaAllView('constant')">全曲 定数順</button>
                         </div>
                     </div>
                     <div class="best-actions">
-                        <button class="small-btn small-btn-secondary" onclick="generateImage('arcaea')">🖼️ 画像生成</button>
+                        <button class="small-btn small-btn-secondary" id="arc-generate-image"
+                            onclick="generateImage('arcaea')">🖼️ 画像生成</button>
                         <button class="small-btn small-btn-csv" onclick="exportCSV('arcaea')">📥 CSV保存</button>
                         <button class="small-btn small-btn-csv" onclick="importCSV('arcaea')">📤 CSV読込</button>
                         <button class="small-btn small-btn-danger" onclick="clearBest('arcaea')">🗑️ クリア</button>
@@ -837,9 +866,14 @@
             </div>
 
             <div class="image-preview-section" id="imagePreviewSection-arcaea">
-                <div style="margin-bottom:8px;font-weight:600;color:var(--text-primary);">生成画像プレビュー</div>
-                <canvas id="canvas-arcaea"></canvas><br>
-                <button class="small-btn small-btn-primary" style="margin-top:10px;" onclick="downloadImage('arcaea')">⬇️ ダウンロード</button>
+                <div class="image-preview-heading">
+                    <span>生成画像プレビュー</span>
+                    <button class="small-btn small-btn-primary" type="button"
+                        onclick="shareOrDownloadImage('arcaea')">📤 共有／保存</button>
+                </div>
+                <canvas id="canvas-arcaea" hidden></canvas>
+                <img class="image-preview-image" id="preview-image-arcaea" alt="Arcaeaベスト枠の生成画像">
+                <p class="image-preview-help">画像を長押しすると、コピーや画像保存のメニューを開けます。</p>
             </div>
         </div>
 
@@ -919,9 +953,14 @@
             </div>
 
             <div class="image-preview-section" id="imagePreviewSection-phigros">
-                <div style="margin-bottom:8px;font-weight:600;color:var(--text-primary);">生成画像プレビュー</div>
-                <canvas id="canvas-phigros"></canvas><br>
-                <button class="small-btn small-btn-primary" style="margin-top:10px;" onclick="downloadImage('phigros')">⬇️ ダウンロード</button>
+                <div class="image-preview-heading">
+                    <span>生成画像プレビュー</span>
+                    <button class="small-btn small-btn-primary" type="button"
+                        onclick="shareOrDownloadImage('phigros')">📤 共有／保存</button>
+                </div>
+                <canvas id="canvas-phigros" hidden></canvas>
+                <img class="image-preview-image" id="preview-image-phigros" alt="Phigrosベスト枠の生成画像">
+                <p class="image-preview-help">画像を長押しすると、コピーや画像保存のメニューを開けます。</p>
             </div>
         </div>
 
@@ -994,9 +1033,14 @@
             </div>
 
             <div class="image-preview-section" id="imagePreviewSection-takumi3">
-                <div style="margin-bottom:8px;font-weight:600;color:var(--text-primary);">生成画像プレビュー</div>
-                <canvas id="canvas-takumi3"></canvas><br>
-                <button class="small-btn small-btn-primary" style="margin-top:10px;" onclick="downloadImage('takumi3')">⬇️ ダウンロード</button>
+                <div class="image-preview-heading">
+                    <span>生成画像プレビュー</span>
+                    <button class="small-btn small-btn-primary" type="button"
+                        onclick="shareOrDownloadImage('takumi3')">📤 共有／保存</button>
+                </div>
+                <canvas id="canvas-takumi3" hidden></canvas>
+                <img class="image-preview-image" id="preview-image-takumi3" alt="TAKUMI³ベスト枠の生成画像">
+                <p class="image-preview-help">画像を長押しすると、コピーや画像保存のメニューを開けます。</p>
             </div>
         </div>
     </div>
@@ -1226,7 +1270,7 @@
         });
         if (!changed) return;
         refreshed.sort((a, b) => b.rate - a.rate);
-        saveBest('arcaea', refreshed.slice(0, BEST_STORAGE_LIMITS.arcaea));
+        saveBest('arcaea', enforceBestStorageLimit('arcaea', refreshed));
         renderBest('arcaea');
     }
 
@@ -1402,12 +1446,13 @@
 
     // =============================================
     //  ベスト枠管理
-    //  Arcaea : TOP30 / TOP50 表示（保存は上位50曲）
+    //  Arcaea : TOP30 / TOP50と全登録曲表示（全件保存）
     //  Phigros: B27合計 + φ枠数×3
     //  TAKUMI3: B40 合計
     // =============================================
-    const BEST_STORAGE_LIMITS = { arcaea: 50, phigros: 27, takumi3: 40 };
+    const BEST_STORAGE_LIMITS = { arcaea: null, phigros: 27, takumi3: 40 };
     let arcaeaTopLimit = 30;
+    let arcaeaListMode = 'best';
 
     function escapeHtml(value) {
         return String(value ?? '')
@@ -1438,8 +1483,30 @@
         return calculateArcaeaTopAverage(list, 30);
     }
 
+    function enforceBestStorageLimit(game, list) {
+        const limit = BEST_STORAGE_LIMITS[game];
+        return Number.isInteger(limit) && list.length > limit ? list.slice(0, limit) : list;
+    }
+
+    function getArcaeaDisplayItems(list) {
+        const items = list.map((entry, storageIndex) => ({ entry, storageIndex }));
+        if (arcaeaListMode === 'all-constant') {
+            return items.sort((a, b) => {
+                const aConstant = Number.isFinite(Number(a.entry.constant)) ? Number(a.entry.constant) : -Infinity;
+                const bConstant = Number.isFinite(Number(b.entry.constant)) ? Number(b.entry.constant) : -Infinity;
+                return bConstant - aConstant || b.entry.rate - a.entry.rate ||
+                    String(a.entry.name).localeCompare(String(b.entry.name), 'ja');
+            });
+        }
+        items.sort((a, b) => b.entry.rate - a.entry.rate ||
+            String(a.entry.name).localeCompare(String(b.entry.name), 'ja'));
+        return arcaeaListMode === 'best' ? items.slice(0, arcaeaTopLimit) : items;
+    }
+
     function loadArcaeaTopLimit() {
         arcaeaTopLimit = localStorage.getItem('fig_arcaea_top_limit') === '50' ? 50 : 30;
+        const savedMode = localStorage.getItem('fig_arcaea_list_mode');
+        arcaeaListMode = ['all-rate', 'all-constant'].includes(savedMode) ? savedMode : 'best';
     }
 
     function getBestDisplayLimit(game) {
@@ -1449,10 +1516,32 @@
     function updateArcaeaTopControls(itemCount = 0) {
         [30, 50].forEach(limit => {
             const button = document.getElementById(`arc-top${limit}`);
-            const active = arcaeaTopLimit === limit;
+            const active = arcaeaListMode === 'best' && arcaeaTopLimit === limit;
             button.classList.toggle('active', active);
             button.setAttribute('aria-pressed', String(active));
         });
+        ['rate', 'constant'].forEach(sort => {
+            const button = document.getElementById(`arc-all-${sort}`);
+            const active = arcaeaListMode === `all-${sort}`;
+            button.classList.toggle('active', active);
+            button.setAttribute('aria-pressed', String(active));
+        });
+
+        const imageButton = document.getElementById('arc-generate-image');
+        imageButton.disabled = arcaeaListMode !== 'best';
+        imageButton.title = arcaeaListMode === 'best' ? '' : '画像生成はTOP30／TOP50表示で利用できます';
+
+        if (arcaeaListMode === 'all-rate') {
+            document.getElementById('arc-best-title').textContent = '📊 全登録曲（単曲レート順）';
+            document.getElementById('arc-avg-label').textContent = '登録済み譜面数';
+            return;
+        }
+        if (arcaeaListMode === 'all-constant') {
+            document.getElementById('arc-best-title').textContent = '📊 全登録曲（譜面定数順）';
+            document.getElementById('arc-avg-label').textContent = '登録済み譜面数';
+            return;
+        }
+
         document.getElementById('arc-best-title').textContent = `📊 ベスト枠 (TOP${arcaeaTopLimit})`;
         document.getElementById('arc-avg-label').textContent = arcaeaTopLimit === 30
             ? `TOP30 平均レート（${itemCount}/30曲・現行PTT参考値）`
@@ -1461,7 +1550,16 @@
 
     function setArcaeaTopLimit(limit) {
         arcaeaTopLimit = Number(limit) === 50 ? 50 : 30;
+        arcaeaListMode = 'best';
         localStorage.setItem('fig_arcaea_top_limit', String(arcaeaTopLimit));
+        localStorage.setItem('fig_arcaea_list_mode', arcaeaListMode);
+        renderBest('arcaea');
+        document.getElementById('imagePreviewSection-arcaea').style.display = 'none';
+    }
+
+    function setArcaeaAllView(sort) {
+        arcaeaListMode = sort === 'constant' ? 'all-constant' : 'all-rate';
+        localStorage.setItem('fig_arcaea_list_mode', arcaeaListMode);
         renderBest('arcaea');
         document.getElementById('imagePreviewSection-arcaea').style.display = 'none';
     }
@@ -1579,7 +1677,7 @@
 
         list.push(entry);
         list.sort((a, b) => b.rate - a.rate);
-        if (list.length > BEST_STORAGE_LIMITS[game]) list = list.slice(0, BEST_STORAGE_LIMITS[game]);
+        list = enforceBestStorageLimit(game, list);
 
         saveBest(game, list);
         renderBest(game);
@@ -1739,7 +1837,7 @@
                 }
 
                 list.sort((a, b) => b.rate - a.rate);
-                if (list.length > BEST_STORAGE_LIMITS[game]) list = list.slice(0, BEST_STORAGE_LIMITS[game]);
+                list = enforceBestStorageLimit(game, list);
                 saveBest(game, list);
                 renderBest(game);
                 showToast(`✅ ${count}曲 読み込みました`);
@@ -1762,17 +1860,22 @@
         if (game === 'arcaea') {
             const avgEl = document.getElementById('arc-avg');
             const listEl = document.getElementById('arc-best-list');
-            updateArcaeaTopControls(topList.length);
-            if (topList.length === 0) {
-                avgEl.textContent = '--.-—';
+            const displayItems = getArcaeaDisplayItems(list);
+            updateArcaeaTopControls(displayItems.length);
+            if (displayItems.length === 0) {
+                avgEl.textContent = arcaeaListMode === 'best' ? '--.-—' : '0曲';
                 listEl.innerHTML = '<div class="empty-best">曲を追加するとここに表示されます</div>';
                 return;
             }
-            const displayedAverage = arcaeaTopLimit === 30
-                ? calculateArcaeaPlayerPotential(topList)
-                : calculateArcaeaTopAverage(topList, 50);
-            avgEl.textContent = displayedAverage.toFixed(2);
-            listEl.innerHTML = topList.map((e, i) => `
+            if (arcaeaListMode === 'best') {
+                const displayedAverage = arcaeaTopLimit === 30
+                    ? calculateArcaeaPlayerPotential(list)
+                    : calculateArcaeaTopAverage(list, 50);
+                avgEl.textContent = displayedAverage.toFixed(2);
+            } else {
+                avgEl.textContent = `${list.length}曲`;
+            }
+            listEl.innerHTML = displayItems.map(({ entry: e, storageIndex }, i) => `
                 <div class="best-item">
                     <span class="best-rank ${i < 3 ? 'top3' : ''}">#${String(i+1).padStart(2,'0')}</span>
                     ${e.diff ? `<span class="diff-badge diff-${e.diff}">${e.diff}</span>` : ''}
@@ -1781,8 +1884,8 @@
                     <span class="best-song-name" title="${escapeHtml(e.name)}">${escapeHtml(e.name)}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
                     <span class="best-rate">${e.rate.toFixed(2)}</span>
-                    <button class="best-edit"   onclick="editBestItem('arcaea',${i})">✎</button>
-                    <button class="best-delete" onclick="removeBestItem('arcaea',${i})">✕</button>
+                    <button class="best-edit"   onclick="editBestItem('arcaea',${storageIndex})">✎</button>
+                    <button class="best-delete" onclick="removeBestItem('arcaea',${storageIndex})">✕</button>
                 </div>`).join('');
         }
 
@@ -2079,19 +2182,93 @@
         ctx.fillText("Generated by Fig's ToolBox · musicgamerating", PAD_X, H - 10);
         ctx.globalAlpha = 1;
 
+        updateGeneratedImagePreview(game, canvas.toDataURL('image/png'));
         const sec = document.getElementById('imagePreviewSection-' + game);
         sec.style.display = 'block';
         sec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         showToast('✅ 画像を生成しました');
     }
 
-    function downloadImage(game) {
-        const canvas = document.getElementById('canvas-' + game);
-        const a = document.createElement('a');
+    function updateGeneratedImagePreview(game, dataUrl) {
+        const preview = document.getElementById('preview-image-' + game);
+        preview.src = dataUrl;
+        return preview;
+    }
+
+    function getGeneratedImageFileName(game) {
         const player = localStorage.getItem('fig_player_' + game) || game;
-        a.download = `best_${game}_${player}_${new Date().toISOString().slice(0,10)}.png`;
-        a.href = canvas.toDataURL('image/png');
-        a.click();
+        const safePlayer = String(player)
+            .replace(/[\\/:*?"<>|\u0000-\u001F]/g, '_')
+            .trim() || game;
+        return `best_${game}_${safePlayer}_${new Date().toISOString().slice(0,10)}.png`;
+    }
+
+    function dataUrlToBlob(dataUrl) {
+        const parts = dataUrl.split(',');
+        const mimeMatch = parts[0].match(/^data:([^;]+)/);
+        const binary = atob(parts[1]);
+        const bytes = new Uint8Array(binary.length);
+        for (let index = 0; index < binary.length; index++) bytes[index] = binary.charCodeAt(index);
+        return new Blob([bytes], { type: mimeMatch ? mimeMatch[1] : 'image/png' });
+    }
+
+    function downloadImage(game, suppliedDataUrl) {
+        const canvas = document.getElementById('canvas-' + game);
+        if (!canvas.width || !canvas.height) {
+            showToast('⚠️ 先に画像を生成してください', true);
+            return;
+        }
+        try {
+            const link = document.createElement('a');
+            link.download = getGeneratedImageFileName(game);
+            link.href = suppliedDataUrl || canvas.toDataURL('image/png');
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            showToast('✅ PNGのダウンロードを開始しました');
+        } catch (error) {
+            showToast(`⚠️ 画像をダウンロードできませんでした: ${error.message}`, true);
+        }
+    }
+
+    async function shareOrDownloadImage(game) {
+        const canvas = document.getElementById('canvas-' + game);
+        if (!canvas.width || !canvas.height) {
+            showToast('⚠️ 先に画像を生成してください', true);
+            return;
+        }
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const fileName = getGeneratedImageFileName(game);
+        try {
+            const file = typeof File === 'function'
+                ? new File([dataUrlToBlob(dataUrl)], fileName, { type: 'image/png' })
+                : null;
+            const canShareFile = file
+                && typeof navigator !== 'undefined'
+                && typeof navigator.share === 'function'
+                && typeof navigator.canShare === 'function'
+                && navigator.canShare({ files: [file] });
+
+            if (canShareFile) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: '音ゲーレート計算結果',
+                        text: "Fig's ToolBoxで生成したベスト枠画像"
+                    });
+                    showToast('✅ 画像を共有しました');
+                    return;
+                } catch (error) {
+                    if (error && error.name === 'AbortError') return;
+                }
+            }
+        } catch (error) {
+            // 共有用ファイルを作れない環境では、下の通常ダウンロードへ切り替える。
+        }
+
+        downloadImage(game, dataUrl);
     }
 
     // =============================================
@@ -2234,7 +2411,7 @@
 
         list[index] = updated;
         list.sort((a, b) => b.rate - a.rate);
-        if (list.length > BEST_STORAGE_LIMITS[game]) list = list.slice(0, BEST_STORAGE_LIMITS[game]);
+        list = enforceBestStorageLimit(game, list);
         saveBest(game, list);
         renderBest(game);
         closeEditModal();
