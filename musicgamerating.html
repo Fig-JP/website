@@ -1171,6 +1171,28 @@
         calcArcaea();
     }
 
+    function resetArcaeaCalculator() {
+        selectedArcaeaSong = null;
+        selectedArcaeaChart = null;
+
+        document.getElementById('arc-song-search').value = '';
+        document.getElementById('arc-song-results').replaceChildren();
+        document.getElementById('arc-song-results').hidden = true;
+        document.getElementById('arc-selection').hidden = true;
+        document.getElementById('arc-selected-title').textContent = '';
+        document.getElementById('arc-selected-reading').textContent = '';
+        document.getElementById('arc-selected-reading').hidden = true;
+        document.getElementById('arc-chart-buttons').replaceChildren();
+
+        document.getElementById('arc-constant').value = '';
+        document.getElementById('arc-score').value = '';
+        document.getElementById('arc-song-name').value = '';
+        document.getElementById('arc-diff').value = 'FTR';
+        document.getElementById('arc-fr').checked = false;
+        document.getElementById('arc-pm').checked = false;
+        calcArcaea();
+    }
+
     function getCurrentArcaeaChartId() {
         if (arcaeaInputMode !== 'database' || !selectedArcaeaSong || !selectedArcaeaChart) return null;
         const name = document.getElementById('arc-song-name').value.trim();
@@ -1561,14 +1583,19 @@
 
         saveBest(game, list);
         renderBest(game);
-        document.getElementById(nameId).value = game === 'arcaea' &&
-            arcaeaInputMode === 'database' && selectedArcaeaSong
-            ? selectedArcaeaSong.title
-            : '';
-        // チェックボックスリセット
-        if (game === 'arcaea')  { document.getElementById('arc-fr').checked = false; document.getElementById('arc-pm').checked = false; }
-        if (game === 'phigros') { document.getElementById('phi-fc').checked = false; document.getElementById('phi-is-phi').checked = false; }
-        if (game === 'takumi3') { document.getElementById('tak-fc').checked = false; document.getElementById('tak-aj').checked = false; }
+        if (game === 'arcaea') {
+            resetArcaeaCalculator();
+        } else {
+            document.getElementById(nameId).value = '';
+            if (game === 'phigros') {
+                document.getElementById('phi-fc').checked = false;
+                document.getElementById('phi-is-phi').checked = false;
+            }
+            if (game === 'takumi3') {
+                document.getElementById('tak-fc').checked = false;
+                document.getElementById('tak-aj').checked = false;
+            }
+        }
         showToast(`✅ 「${name} [${diff}]」を追加しました`);
     }
 
