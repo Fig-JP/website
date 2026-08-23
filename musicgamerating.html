@@ -2166,6 +2166,15 @@
                 ctx.fillText(`定数 ${entry.constant}`, x + 9, y + 55);
             }
 
+            // 保存済みスコア（旧データなどスコアがない場合は非表示）
+            const scoreStr = formatImageScore(entry.score);
+            if (scoreStr) {
+                ctx.font = `11px ${FONT_B}`;
+                ctx.fillStyle = t.sub;
+                ctx.textAlign = 'right';
+                ctx.fillText(`Score ${scoreStr}`, x + CARD_W - 10, y + 55);
+            }
+
             // レート（右寄せ）
             const rateStr = entry.rate.toFixed(dec);
             ctx.font = `bold 18px "SF Mono",Monaco,monospace`;
@@ -2187,6 +2196,12 @@
         sec.style.display = 'block';
         sec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         showToast('✅ 画像を生成しました');
+    }
+
+    function formatImageScore(score) {
+        const numericScore = Number(score);
+        if (!Number.isFinite(numericScore)) return '';
+        return Math.round(numericScore).toLocaleString('en-US');
     }
 
     function updateGeneratedImagePreview(game, dataUrl) {
