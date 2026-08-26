@@ -1,1361 +1,1361 @@
-song_id	title	reading	difficulty	level	constant
-sayonara_hatsukoi	Sayonara Hatsukoi		PST	1	1.5
-sayonara_hatsukoi	Sayonara Hatsukoi		PRS	4	4.5
-sayonara_hatsukoi	Sayonara Hatsukoi		FTR	7	7
-sayonara_hatsukoi	Sayonara Hatsukoi		ETR	8	8.5
-fairytale	Fairytale		PST	1	1
-fairytale	Fairytale		PRS	3	3.5
-fairytale	Fairytale		FTR	7	7
-fairytale	Fairytale		BYD	9	9.5
-vexaria	Vexaria		PST	2	2.5
-vexaria	Vexaria		PRS	5	5
-vexaria	Vexaria		FTR	7	7
-vexaria	Vexaria		BYD	9	9
-rise	Rise		PST	2	2.5
-rise	Rise		PRS	4	4
-rise	Rise		FTR	7	7.8
-lucifer	Lucifer		PST	3	3.5
-lucifer	Lucifer		PRS	5	5.5
-lucifer	Lucifer		FTR	8	8.2
-snow_white	Snow White		PST	2	2.5
-snow_white	Snow White		PRS	5	5
-snow_white	Snow White		FTR	8	8.4
-snow_white	Snow White		BYD	9	9.7
-shades_of_light_in_a_transcendent_realm	Shades of Light in a Transcendent Realm		PST	3	3
-shades_of_light_in_a_transcendent_realm	Shades of Light in a Transcendent Realm		PRS	6	6
-shades_of_light_in_a_transcendent_realm	Shades of Light in a Transcendent Realm		ETR	8	8.3
-shades_of_light_in_a_transcendent_realm	Shades of Light in a Transcendent Realm		BYD	9	9.1
-babaroque	Babaroque		PST	3	3
-babaroque	Babaroque		PRS	6	6.5
-babaroque	Babaroque		FTR	8	8.5
-lost_civilization	Lost Civilization		PST	4	4
-lost_civilization	Lost Civilization		PRS	7	7
-lost_civilization	Lost Civilization		FTR	9	9.2
-lost_civilization	Lost Civilization		BYD	9	9.8
-goodtek_arcaea_edit	GOODTEK(Arcaea Edit)		PST	4	4
-goodtek_arcaea_edit	GOODTEK(Arcaea Edit)		PRS	6	6.5
-goodtek_arcaea_edit	GOODTEK(Arcaea Edit)		FTR	9	9.3
-goodtek_arcaea_edit	GOODTEK(Arcaea Edit)		BYD	9	9.8
-qualia_ideaesthesia	qualia -ideaesthesia-		PST	4	4.5
-qualia_ideaesthesia	qualia -ideaesthesia-		PRS	7	7
-qualia_ideaesthesia	qualia -ideaesthesia-		FTR	9	9.1
-qualia_ideaesthesia	qualia -ideaesthesia-		BYD	9	9.8
-dement_after_legend	Dement ~after legend~		PST	3	3.5
-dement_after_legend	Dement ~after legend~		PRS	6	6
-dement_after_legend	Dement ~after legend~		FTR	7	7.8
-dement_after_legend	Dement ~after legend~		BYD	9	9.9
-dandelion	Dandelion		PST	2	2.5
-dandelion	Dandelion		PRS	6	6
-dandelion	Dandelion		FTR	8	8.5
-infinity_heaven	Infinity Heaven		PST	1	1.5
-infinity_heaven	Infinity Heaven		PRS	5	5.5
-infinity_heaven	Infinity Heaven		FTR	7	7.8
-infinity_heaven	Infinity Heaven		BYD	9	9.6
-anokumene	Anökumene		PST	2	2.5
-anokumene	Anökumene		PRS	6	6.5
-anokumene	Anökumene		FTR	9	9.2
-anokumene	Anökumene		BYD	9	9.9
-brand_new_world	Brand new world		PST	2	2
-brand_new_world	Brand new world		PRS	4	4
-brand_new_world	Brand new world		FTR	7	7.8
-chronostasis	Chronostasis		PST	3	3.5
-chronostasis	Chronostasis		PRS	7	7.5
-chronostasis	Chronostasis		FTR	8	8.9
-song_1hkk81z	神奈川電脳暗渠		PST	1	1
-song_1hkk81z	神奈川電脳暗渠		PRS	5	5.5
-song_1hkk81z	神奈川電脳暗渠		FTR	9	9
-song_1hkk81z	神奈川電脳暗渠		BYD	9	9.8
-song_17mlbui	クロートーと星の観測者		PST	2	2
-song_17mlbui	クロートーと星の観測者		PRS	5	5
-song_17mlbui	クロートーと星の観測者		FTR	7	7.8
-song_17mlbui	クロートーと星の観測者		ETR	8	8.8
-utopia_of_spring	ハルトピア ~Utopia of Spring~		PST	1	1
-utopia_of_spring	ハルトピア ~Utopia of Spring~		PRS	4	4.5
-utopia_of_spring	ハルトピア ~Utopia of Spring~		FTR	8	8.5
-rabbit_in_the_black_room	Rabbit In The Black Room		PST	2	2.5
-rabbit_in_the_black_room	Rabbit In The Black Room		PRS	5	5.5
-rabbit_in_the_black_room	Rabbit In The Black Room		FTR	8	8.4
-one_last_drive	One Last Drive		PST	2	2.5
-one_last_drive	One Last Drive		PRS	5	5.5
-one_last_drive	One Last Drive		FTR	8	8.2
-dreamin_attraction	Dreamin' Attraction!!		PST	4	4.5
-dreamin_attraction	Dreamin' Attraction!!		PRS	7	7
-dreamin_attraction	Dreamin' Attraction!!		FTR	9	9.4
-reinvent	Reinvent		PST	2	2.5
-reinvent	Reinvent		PRS	6	6.5
-reinvent	Reinvent		FTR	8	8.5
-purgatorium	Purgatorium		PST	2	2.5
-purgatorium	Purgatorium		PRS	6	6
-purgatorium	Purgatorium		FTR	8	8.4
-purgatorium	Purgatorium		BYD	9	9.6
-monochrome_princess	Monochrome Princess		PST	4	4.5
-monochrome_princess	Monochrome Princess		PRS	7	7.8
-monochrome_princess	Monochrome Princess		FTR	9	9.7
-senkyou	Senkyou		PST	3	3
-senkyou	Senkyou		PRS	5	5.5
-senkyou	Senkyou		FTR	8	8.7
-world_execute_me	world.execute(me);		PST	3	3.5
-world_execute_me	world.execute(me);		PRS	5	5
-world_execute_me	world.execute(me);		FTR	8	8
-rugie	Rugie		PST	3	3
-rugie	Rugie		PRS	6	6
-rugie	Rugie		FTR	9	9.2
-grimheart	Grimheart		PST	2	2.5
-grimheart	Grimheart		PRS	5	5
-grimheart	Grimheart		FTR	8	8.7
-blaster	Blaster		PST	4	4
-blaster	Blaster		PRS	7	7
-blaster	Blaster		FTR	9	9.3
-cybernecia_catharsis	Cybernecia Catharsis		PST	4	4
-cybernecia_catharsis	Cybernecia Catharsis		PRS	7	7
-cybernecia_catharsis	Cybernecia Catharsis		FTR	9	9.5
-cybernecia_catharsis	Cybernecia Catharsis		BYD	9	9.8
-inkar_usi	inkar-usi		PST	2	2
-inkar_usi	inkar-usi		PRS	4	4
-inkar_usi	inkar-usi		FTR	7	7.8
-inkar_usi	inkar-usi		BYD	9	9.4
-suomi	Suomi		PST	2	2
-suomi	Suomi		PRS	5	5
-suomi	Suomi		FTR	7	7.8
-suomi	Suomi		ETR	8	8.9
-bookmaker_2d_version	Bookmaker (2D Version)		PST	4	4.5
-bookmaker_2d_version	Bookmaker (2D Version)		PRS	6	6.5
-bookmaker_2d_version	Bookmaker (2D Version)		FTR	8	8.3
-bookmaker_2d_version	Bookmaker (2D Version)		BYD	10	10
-song_uz6r57	堕楽の園		PST	2	2
-song_uz6r57	堕楽の園		PRS	7	7
-song_uz6r57	堕楽の園		FTR	9	9.5
-nhelv	Nhelv		PST	3	3
-nhelv	Nhelv		PRS	6	6.5
-nhelv	Nhelv		FTR	9	9.9
-nhelv	Nhelv		BYD	10	10.9
-song_h6tugl	白道、多希望羊と信じありく。		PST	3	3.5
-song_h6tugl	白道、多希望羊と信じありく。		PRS	6	6
-song_h6tugl	白道、多希望羊と信じありく。		FTR	9	9.6
-revixy	ReviXy		PST	3	3
-revixy	ReviXy		PRS	7	7
-revixy	ReviXy		FTR	9	9.1
-vecto	VECTOЯ		PST	3	3
-vecto	VECTOЯ		PRS	7	7
-vecto	VECTOЯ		FTR	9	9.4
-supernova	SUPERNOVA		PST	3	3
-supernova	SUPERNOVA		PRS	6	6
-supernova	SUPERNOVA		FTR	9	9.7
-diode	Diode		PST	2	2.5
-diode	Diode		PRS	5	5.5
-diode	Diode		FTR	8	8.1
-freef4ll	FREEF4LL		PST	4	4
-freef4ll	FREEF4LL		PRS	7	7
-freef4ll	FREEF4LL		FTR	8	8.6
-freef4ll	FREEF4LL		BYD	9	9.8
-oblivia	Oblivia		PST	3	3.5
-oblivia	Oblivia		PRS	5	5
-oblivia	Oblivia		FTR	8	8.3
-oblivia	Oblivia		BYD	9	9.7
-avril_flicka_i_krans	Ävril -Flicka i krans-		PST	3	3
-avril_flicka_i_krans	Ävril -Flicka i krans-		PRS	6	6
-avril_flicka_i_krans	Ävril -Flicka i krans-		FTR	8	8.3
-sakura_fubuki	Sakura Fubuki		PST	3	3.5
-sakura_fubuki	Sakura Fubuki		PRS	6	6.5
-sakura_fubuki	Sakura Fubuki		FTR	9	9.4
-nulctrl	NULCTRL		PST	3	3
-nulctrl	NULCTRL		PRS	7	7.5
-nulctrl	NULCTRL		FTR	9	9.5
-ddd	DDD		PST	2	2.5
-ddd	DDD		PRS	6	6.5
-ddd	DDD		FTR	8	8.5
-song_lrozjt	ネコノテ・カリタガール		PST	3	3
-song_lrozjt	ネコノテ・カリタガール		PRS	6	6
-song_lrozjt	ネコノテ・カリタガール		FTR	9	9.2
-san_skia	san skia		PST	3	3.5
-san_skia	san skia		PRS	6	6
-san_skia	san skia		FTR	8	8.3
-altair_feat_spila	Altair (feat. *spiLa*)		PST	2	2.5
-altair_feat_spila	Altair (feat. *spiLa*)		PRS	6	6
-altair_feat_spila	Altair (feat. *spiLa*)		FTR	8	8.5
-song_1lomedf	無機質世界に彩を		PST	4	4
-song_1lomedf	無機質世界に彩を		PRS	6	6.5
-song_1lomedf	無機質世界に彩を		FTR	9	9.4
-trap_crow	Trap Crow		PST	4	4.5
-trap_crow	Trap Crow		PRS	7	7.8
-trap_crow	Trap Crow		FTR	9	9.9
-song_h5n058	だいあるのーと		PST	3	3
-song_h5n058	だいあるのーと		PRS	6	6
-song_h5n058	だいあるのーと		FTR	8	8.8
-remind_the_souls_short_version	Remind the Souls (Short Version)		PST	3	3.5
-remind_the_souls_short_version	Remind the Souls (Short Version)		PRS	7	7
-remind_the_souls_short_version	Remind the Souls (Short Version)		FTR	9	9.6
-the_formula	The Formula		PST	3	3
-the_formula	The Formula		PRS	6	6
-the_formula	The Formula		FTR	9	9.3
-jingle	Jingle		PST	2	2.5
-jingle	Jingle		PRS	5	5.5
-jingle	Jingle		FTR	7	7.8
-jingle	Jingle		ETR	9	9.5
-song_ca134r	エピクロスの虹はもう見えない		PST	2	2.5
-song_ca134r	エピクロスの虹はもう見えない		PRS	5	5.5
-song_ca134r	エピクロスの虹はもう見えない		FTR	7	7.5
-song_ca134r	エピクロスの虹はもう見えない		ETR	8	8.8
-satisfaction	SATISFACTION		PST	3	3.5
-satisfaction	SATISFACTION		PRS	6	6.5
-satisfaction	SATISFACTION		FTR	8	8.5
-satisfaction	SATISFACTION		ETR	9	9.5
-dematerialized	Dematerialized		PST	1	1.5
-dematerialized	Dematerialized		PRS	4	4.5
-dematerialized	Dematerialized		FTR	7	7.5
-dematerialized	Dematerialized		ETR	8	8.3
-song_8opy3m	キャラメルポップコーンたべたいよ～		PST	2	2.5
-song_8opy3m	キャラメルポップコーンたべたいよ～		PRS	5	5.5
-song_8opy3m	キャラメルポップコーンたべたいよ～		FTR	8	8.1
-song_8opy3m	キャラメルポップコーンたべたいよ～		ETR	9	9.1
-syro	Syro		PST	3	3.5
-syro	Syro		PRS	6	6.5
-syro	Syro		FTR	9	9.3
-testify	Testify		PST	7	7.8
-testify	Testify		PRS	9	9.4
-testify	Testify		FTR	10	10.9
-testify	Testify		BYD	12	12
-designant	Designant.		PST	7	7.5
-designant	Designant.		PRS	9	9.6
-designant	Designant.		FTR	10	10.9
-designant	Designant.		BYD	11	11.9
-song_spf6xk	魔王		PST	4	4
-song_spf6xk	魔王		PRS	7	7.8
-song_spf6xk	魔王		FTR	10	10
-song_spf6xk	魔王		BYD	11	11.1
-tempestissimo	Tempestissimo		PST	7	7
-tempestissimo	Tempestissimo		PRS	9	9.5
-tempestissimo	Tempestissimo		FTR	10	10.7
-tempestissimo	Tempestissimo		BYD	11	11.7
-pentiment	Pentiment		PST	7	7
-pentiment	Pentiment		PRS	8	8.7
-pentiment	Pentiment		FTR	10	10.4
-pentiment	Pentiment		BYD	11	11.5
-lament_rain	Lament Rain		PST	6	6.5
-lament_rain	Lament Rain		PRS	8	8.8
-lament_rain	Lament Rain		FTR	10	10.6
-lament_rain	Lament Rain		BYD	11	11.4
-arcana_eden	Arcana Eden		PST	5	5.5
-arcana_eden	Arcana Eden		PRS	8	8.7
-arcana_eden	Arcana Eden		FTR	10	10.5
-arcana_eden	Arcana Eden		BYD	11	11.6
-undying_macula	Undying Macula		PST	5	5.5
-undying_macula	Undying Macula		PRS	8	8.7
-undying_macula	Undying Macula		FTR	10	10.1
-undying_macula	Undying Macula		ETR	11	11
-song_1o895ey	多次元宇宙融合論		PST	6	6.5
-song_1o895ey	多次元宇宙融合論		PRS	8	8.8
-song_1o895ey	多次元宇宙融合論		FTR	10	10.6
-song_1o895ey	多次元宇宙融合論		ETR	11	11.3
-alter_ego	ALTER EGO		PST	6	6.5
-alter_ego	ALTER EGO		PRS	9	9.2
-alter_ego	ALTER EGO		FTR	10	10.5
-alter_ego	ALTER EGO		ETR	11	11.3
-aether_crest_astral	Aether Crest: Astral		PST	6	6
-aether_crest_astral	Aether Crest: Astral		PRS	8	8.9
-aether_crest_astral	Aether Crest: Astral		FTR	10	10.6
-aether_crest_astral	Aether Crest: Astral		ETR	11	11.5
-stronger	最強STRONGER		PST	5	5.5
-stronger	最強STRONGER		PRS	9	9.4
-stronger	最強STRONGER		FTR	11	11
-lamia	LAMIA		PST	5	5
-lamia	LAMIA		PRS	8	8.5
-lamia	LAMIA		FTR	11	11
-grievous_lady	Grievous Lady		PST	6	6.5
-grievous_lady	Grievous Lady		PRS	9	9.3
-grievous_lady	Grievous Lady		FTR	11	11.1
-fracture_ray	Fracture Ray		PST	6	6
-fracture_ray	Fracture Ray		PRS	9	9.5
-fracture_ray	Fracture Ray		FTR	11	11.1
-arghena	Arghena		PST	7	7.5
-arghena	Arghena		PRS	9	9.6
-arghena	Arghena		FTR	11	11.3
-aegleseeker	Aegleseeker		PST	5	5.5
-aegleseeker	Aegleseeker		PRS	9	9.1
-aegleseeker	Aegleseeker		FTR	11	11.2
-abstruse_dilemma	Abstruse Dilemma		PST	5	5.5
-abstruse_dilemma	Abstruse Dilemma		PRS	8	8.9
-abstruse_dilemma	Abstruse Dilemma		FTR	11	11.3
-1f1e33	#1f1e33		PST	5	5.5
-1f1e33	#1f1e33		PRS	9	9.2
-1f1e33	#1f1e33		FTR	11	11.1
-infinite_strife	Infinite Strife,		PST	4	4
-infinite_strife	Infinite Strife,		PRS	7	7.5
-infinite_strife	Infinite Strife,		FTR	9	9.9
-infinite_strife	Infinite Strife,		BYD	10	10.9
-heavensdoor	Heavensdoor		PST	4	4.5
-heavensdoor	Heavensdoor		PRS	7	7.5
-heavensdoor	Heavensdoor		FTR	9	9.9
-heavensdoor	Heavensdoor		BYD	10	10.8
-heavenly_caress	Heavenly caress		PST	3	3.5
-heavenly_caress	Heavenly caress		PRS	7	7.5
-heavenly_caress	Heavenly caress		FTR	9	9.8
-heavenly_caress	Heavenly caress		BYD	10	10.9
-einherjar_joker	Einherjar Joker		PST	4	4
-einherjar_joker	Einherjar Joker		PRS	7	7
-einherjar_joker	Einherjar Joker		FTR	9	9.8
-einherjar_joker	Einherjar Joker		BYD	10	10.9
-breach_of_faith	Breach of Faith		PST	5	5.5
-breach_of_faith	Breach of Faith		PRS	8	8.4
-breach_of_faith	Breach of Faith		FTR	10	10.3
-breach_of_faith	Breach of Faith		BYD	10	10.9
-xterfusion	Xterfusion		PST	4	4.5
-xterfusion	Xterfusion		PRS	8	8.3
-xterfusion	Xterfusion		FTR	9	9.8
-xterfusion	Xterfusion		ETR	10	10.7
-welcome_queen_of_fiction	Welcome, Queen of Fiction.		PST	5	5
-welcome_queen_of_fiction	Welcome, Queen of Fiction.		PRS	8	8.5
-welcome_queen_of_fiction	Welcome, Queen of Fiction.		FTR	10	10.1
-welcome_queen_of_fiction	Welcome, Queen of Fiction.		ETR	10	10.9
-we_re_all_gonna_die	We're All Gonna Die		PST	5	5.5
-we_re_all_gonna_die	We're All Gonna Die		PRS	8	8
-we_re_all_gonna_die	We're All Gonna Die		FTR	10	10.1
-we_re_all_gonna_die	We're All Gonna Die		ETR	10	10.9
-virtus	ViRTUS		PST	5	5.5
-virtus	ViRTUS		PRS	8	8.6
-virtus	ViRTUS		FTR	9	9.9
-virtus	ViRTUS		ETR	10	10.9
-signal	Signal		PST	4	4
-signal	Signal		PRS	7	7.8
-signal	Signal		FTR	9	9.8
-signal	Signal		ETR	10	10.7
-nightmare	Nightmare		PST	4	4.5
-nightmare	Nightmare		PRS	7	7.8
-nightmare	Nightmare		FTR	9	9.8
-nightmare	Nightmare		ETR	10	10.8
-megalovania_camellia_remix	MEGALOVANIA (Camellia Remix)		PST	5	5.5
-megalovania_camellia_remix	MEGALOVANIA (Camellia Remix)		PRS	8	8.4
-megalovania_camellia_remix	MEGALOVANIA (Camellia Remix)		FTR	9	9.8
-megalovania_camellia_remix	MEGALOVANIA (Camellia Remix)		ETR	10	10.9
-marenyx	MARENYX		PST	4	4.5
-marenyx	MARENYX		PRS	7	7.8
-marenyx	MARENYX		FTR	9	9.5
-marenyx	MARENYX		ETR	10	10.8
-lilly	Lilly		PST	5	5
-lilly	Lilly		PRS	8	8.4
-lilly	Lilly		FTR	9	9.9
-lilly	Lilly		ETR	10	10.8
-inverted_world	Inverted World		PST	3	3
-inverted_world	Inverted World		PRS	7	7
-inverted_world	Inverted World		FTR	9	9.5
-inverted_world	Inverted World		ETR	10	10.7
-desive	Désive		PST	5	5
-desive	Désive		PRS	8	8
-desive	Désive		FTR	9	9.9
-desive	Désive		ETR	10	10.8
-don_t_fight_the_music	Don't Fight The Music		PST	4	4.5
-don_t_fight_the_music	Don't Fight The Music		PRS	7	7.8
-don_t_fight_the_music	Don't Fight The Music		FTR	9	9.3
-don_t_fight_the_music	Don't Fight The Music		ETR	10	10.7
-distorted_fate	Distorted Fate		PST	4	4.5
-distorted_fate	Distorted Fate		PRS	7	7.8
-distorted_fate	Distorted Fate		FTR	9	9.6
-distorted_fate	Distorted Fate		ETR	10	10.8
-code_oblivion	Code: Oblivion		PST	5	5.5
-code_oblivion	Code: Oblivion		PRS	8	8.3
-code_oblivion	Code: Oblivion		FTR	9	9.9
-code_oblivion	Code: Oblivion		ETR	10	10.9
-chronologia	chronologia		PST	4	4.5
-chronologia	chronologia		PRS	7	7.8
-chronologia	chronologia		FTR	9	9.8
-chronologia	chronologia		ETR	10	10.8
-andorxor	ANDORXOR		PST	4	4.5
-andorxor	ANDORXOR		PRS	7	7.8
-andorxor	ANDORXOR		FTR	9	9.9
-andorxor	ANDORXOR		ETR	10	10.8
-acid_god	Acid God		PST	4	4.5
-acid_god	Acid God		PRS	7	7.8
-acid_god	Acid God		FTR	9	9.9
-acid_god	Acid God		ETR	10	10.9
-4	ω4		PST	3	3.5
-4	ω4		PRS	7	7.8
-4	ω4		FTR	10	10.8
-world_vanquisher	World Vanquisher		PST	2	2.5
-world_vanquisher	World Vanquisher		PRS	5	5.5
-world_vanquisher	World Vanquisher		FTR	10	10.7
-vulcanus	Vulcānus		PST	5	5.5
-vulcanus	Vulcānus		PRS	8	8.5
-vulcanus	Vulcānus		FTR	10	10.9
-teravolt	TeraVolt		PST	5	5
-teravolt	TeraVolt		PRS	8	8.9
-teravolt	TeraVolt		FTR	10	10.8
-temptation	TEmPTaTiON		PST	5	5
-temptation	TEmPTaTiON		PRS	8	8.2
-temptation	TEmPTaTiON		FTR	10	10.9
-stasis	Stasis		PST	4	4.5
-stasis	Stasis		PRS	7	7
-stasis	Stasis		FTR	10	10.8
-song_gtzuea	蜘蛛の糸		PST	4	4.5
-song_gtzuea	蜘蛛の糸		PRS	7	7.8
-song_gtzuea	蜘蛛の糸		FTR	10	10.8
-ringed_genesis	Ringed Genesis		PST	5	5.5
-ringed_genesis	Ringed Genesis		PRS	8	8.4
-ringed_genesis	Ringed Genesis		FTR	10	10.8
-resonance	烈華RESONANCE		PST	5	5
-resonance	烈華RESONANCE		PRS	8	8.9
-resonance	烈華RESONANCE		FTR	10	10.7
-primitive_lights	PRIMITIVE LIGHTS		PST	5	5.5
-primitive_lights	PRIMITIVE LIGHTS		PRS	8	8.8
-primitive_lights	PRIMITIVE LIGHTS		FTR	10	10.8
-ouroboros_twin_stroke_of_the_end	ouroboros -twin stroke of the end-		PST	4	4.5
-ouroboros_twin_stroke_of_the_end	ouroboros -twin stroke of the end-		PRS	7	7.5
-ouroboros_twin_stroke_of_the_end	ouroboros -twin stroke of the end-		FTR	10	10.7
-null_apophenia	NULL APOPHENIA		PST	4	4.5
-null_apophenia	NULL APOPHENIA		PRS	8	8.8
-null_apophenia	NULL APOPHENIA		FTR	10	10.7
-song_1fg22iz	業 -善なる神とこの世の悪について-		PST	5	5.5
-song_1fg22iz	業 -善なる神とこの世の悪について-		PRS	8	8.5
-song_1fg22iz	業 -善なる神とこの世の悪について-		FTR	10	10.9
-meta_mysteria	Meta-Mysteria		PST	5	5
-meta_mysteria	Meta-Mysteria		PRS	7	7.8
-meta_mysteria	Meta-Mysteria		FTR	10	10.8
-romance	狂恋ROMANCE		PST	4	4
-romance	狂恋ROMANCE		PRS	7	7.8
-romance	狂恋ROMANCE		FTR	10	10.7
-genocider	GENOCIDER		PST	4	4.5
-genocider	GENOCIDER		PRS	8	8.9
-genocider	GENOCIDER		FTR	10	10.8
-divine_light_of_myriad	光速神授説 - Divine Light of Myriad -		PST	4	4.5
-divine_light_of_myriad	光速神授説 - Divine Light of Myriad -		PRS	7	7.8
-divine_light_of_myriad	光速神授説 - Divine Light of Myriad -		FTR	10	10.8
-dantalion	Dantalion		PST	5	5
-dantalion	Dantalion		PRS	8	8.2
-dantalion	Dantalion		FTR	10	10.8
-da_at_the_first_seeker_of_souls	DA'AT -The First Seeker of Souls-		PST	5	5.5
-da_at_the_first_seeker_of_souls	DA'AT -The First Seeker of Souls-		PRS	8	8.4
-da_at_the_first_seeker_of_souls	DA'AT -The First Seeker of Souls-		FTR	10	10.9
-cyaegha	Cyaegha		PST	5	5.5
-cyaegha	Cyaegha		PRS	8	8.4
-cyaegha	Cyaegha		FTR	10	10.7
-chaos	CHAOS		PST	5	5.5
-chaos	CHAOS		PRS	7	7.5
-chaos	CHAOS		FTR	10	10.9
-buchigire_berserker	BUCHiGiRE Berserker		PST	5	5
-buchigire_berserker	BUCHiGiRE Berserker		PRS	8	8.6
-buchigire_berserker	BUCHiGiRE Berserker		FTR	10	10.8
-black_mind	Black MInD		PST	5	5
-black_mind	Black MInD		PRS	8	8
-black_mind	Black MInD		FTR	10	10.8
-and_revive_the_melody	And Revive The Melody		PST	5	5.5
-and_revive_the_melody	And Revive The Melody		PRS	8	8.5
-and_revive_the_melody	And Revive The Melody		FTR	10	10.9
-amazing_mightyyyy	AMAZING MIGHTYYYY!!!!		PST	4	4.5
-amazing_mightyyyy	AMAZING MIGHTYYYY!!!!		PRS	7	7.8
-amazing_mightyyyy	AMAZING MIGHTYYYY!!!!		FTR	10	10.7
-altergate	AlterGate		PST	5	5.5
-altergate	AlterGate		PRS	8	8.7
-altergate	AlterGate		FTR	10	10.7
-ii	͟͝͞Ⅱ́̕		PST	5	5
-ii	͟͝͞Ⅱ́̕		PRS	8	8.9
-ii	͟͝͞Ⅱ́̕		FTR	10	10.8
-song_80lswp	最高の悪夢		PST	3	3.5
-song_80lswp	最高の悪夢		PRS	6	6.5
-song_80lswp	最高の悪夢		FTR	8	8.9
-song_80lswp	最高の悪夢		BYD	10	10.2
-trappola_bewitching	妖艶魔女 -trappola bewitching-		PST	3	3
-trappola_bewitching	妖艶魔女 -trappola bewitching-		PRS	6	6
-trappola_bewitching	妖艶魔女 -trappola bewitching-		FTR	9	9.9
-trappola_bewitching	妖艶魔女 -trappola bewitching-		BYD	10	10.6
-small_cloud_sugar_candy	Small Cloud Sugar Candy		PST	3	3
-small_cloud_sugar_candy	Small Cloud Sugar Candy		PRS	6	6.5
-small_cloud_sugar_candy	Small Cloud Sugar Candy		FTR	9	9.3
-small_cloud_sugar_candy	Small Cloud Sugar Candy		BYD	10	10.3
-saint_or_sinner	Saint or Sinner		PST	3	3
-saint_or_sinner	Saint or Sinner		PRS	6	6
-saint_or_sinner	Saint or Sinner		FTR	8	8.8
-saint_or_sinner	Saint or Sinner		BYD	10	10.4
-renegade	Renegade		PST	4	4.5
-renegade	Renegade		PRS	7	7.8
-renegade	Renegade		FTR	9	9.6
-renegade	Renegade		BYD	10	10.2
-rays_of_remnant	Rays of Remnant		PST	4	4.5
-rays_of_remnant	Rays of Remnant		PRS	7	7.5
-rays_of_remnant	Rays of Remnant		FTR	9	9.7
-rays_of_remnant	Rays of Remnant		BYD	10	10.4
-quon	Quon		PST	2	2.5
-quon	Quon		PRS	6	6
-quon	Quon		FTR	8	8.7
-quon	Quon		BYD	10	10.2
-purple_verse	Purple Verse		PST	4	4
-purple_verse	Purple Verse		PRS	7	7.5
-purple_verse	Purple Verse		FTR	9	9.6
-purple_verse	Purple Verse		BYD	10	10.6
-party_vinyl	Party Vinyl		PST	4	4
-party_vinyl	Party Vinyl		PRS	7	7.8
-party_vinyl	Party Vinyl		FTR	9	9.4
-party_vinyl	Party Vinyl		BYD	10	10.3
-omakeno_stroke	OMAKENO Stroke		PST	3	3
-omakeno_stroke	OMAKENO Stroke		PRS	6	6.5
-omakeno_stroke	OMAKENO Stroke		FTR	9	9.5
-omakeno_stroke	OMAKENO Stroke		BYD	10	10.3
-libertas	Libertas		PST	3	3.5
-libertas	Libertas		PRS	5	5.5
-libertas	Libertas		FTR	9	9.2
-libertas	Libertas		BYD	10	10.5
-lastendconductor	lastendconductor		PST	3	3.5
-lastendconductor	lastendconductor		PRS	7	7.5
-lastendconductor	lastendconductor		FTR	9	9.4
-lastendconductor	lastendconductor		BYD	10	10.2
-la_qryma_of_the_wasteland	La'qryma of the Wasteland		PST	3	3.5
-la_qryma_of_the_wasteland	La'qryma of the Wasteland		PRS	6	6.5
-la_qryma_of_the_wasteland	La'qryma of the Wasteland		FTR	9	9.1
-la_qryma_of_the_wasteland	La'qryma of the Wasteland		BYD	10	10
-impact	IMPACT		PST	3	3.5
-impact	IMPACT		PRS	7	7.8
-impact	IMPACT		FTR	9	9.6
-impact	IMPACT		BYD	10	10.4
-energy_synergy_matrix	ENERGY SYNERGY MATRIX		PST	3	3.5
-energy_synergy_matrix	ENERGY SYNERGY MATRIX		PRS	7	7
-energy_synergy_matrix	ENERGY SYNERGY MATRIX		FTR	9	9.6
-energy_synergy_matrix	ENERGY SYNERGY MATRIX		BYD	10	10.3
-be_there	Be There		PST	4	4
-be_there	Be There		PRS	7	7.5
-be_there	Be There		FTR	9	9.4
-be_there	Be There		BYD	10	10.5
-altale	Altale		PST	2	2.5
-altale	Altale		PRS	5	5.5
-altale	Altale		FTR	9	9.8
-altale	Altale		BYD	10	10
-z_le	ΛZΛLEΛ		PST	4	4
-z_le	ΛZΛLEΛ		PRS	7	7
-z_le	ΛZΛLEΛ		FTR	9	9.4
-z_le	ΛZΛLEΛ		ETR	10	10
-zephyrlasting	zephyrlasting		PST	3	3.5
-zephyrlasting	zephyrlasting		PRS	7	7.5
-zephyrlasting	zephyrlasting		FTR	9	9.5
-zephyrlasting	zephyrlasting		ETR	10	10.3
-xxium_and_purple_haze	Xxium and Purple haze		PST	2	2.5
-xxium_and_purple_haze	Xxium and Purple haze		PRS	7	7.8
-xxium_and_purple_haze	Xxium and Purple haze		FTR	9	9.9
-xxium_and_purple_haze	Xxium and Purple haze		ETR	10	10.5
-song_169eyxf	黄昏の協奏曲		PST	4	4.5
-song_169eyxf	黄昏の協奏曲		PRS	7	7.8
-song_169eyxf	黄昏の協奏曲		FTR	9	9.5
-song_169eyxf	黄昏の協奏曲		ETR	10	10.5
-third_sun	Third Sun		PST	3	3.5
-third_sun	Third Sun		PRS	7	7
-third_sun	Third Sun		FTR	9	9.4
-third_sun	Third Sun		ETR	10	10
-song_1xnvruw	［筏］は云う。幾ら漂流すれど不撓の心さえ有れば軈て行到ると。		PST	4	4.5
-song_1xnvruw	［筏］は云う。幾ら漂流すれど不撓の心さえ有れば軈て行到ると。		PRS	7	7.5
-song_1xnvruw	［筏］は云う。幾ら漂流すれど不撓の心さえ有れば軈て行到ると。		FTR	9	9.5
-song_1xnvruw	［筏］は云う。幾ら漂流すれど不撓の心さえ有れば軈て行到ると。		ETR	10	10.4
-song_1fz4hkn	テレパシ		PST	4	4.5
-song_1fz4hkn	テレパシ		PRS	7	7.8
-song_1fz4hkn	テレパシ		FTR	9	9.6
-song_1fz4hkn	テレパシ		ETR	10	10.4
-synthesis	Synthesis.		PST	4	4
-synthesis	Synthesis.		PRS	8	8.2
-synthesis	Synthesis.		FTR	9	9.7
-synthesis	Synthesis.		ETR	10	10.5
-song_1w9pm50	ザラメノキワミ		PST	3	3
-song_1w9pm50	ザラメノキワミ		PRS	6	6.5
-song_1w9pm50	ザラメノキワミ		FTR	9	9.1
-song_1w9pm50	ザラメノキワミ		ETR	10	10.1
-song_1f4so7w	羽化する亜球体		PST	5	5
-song_1f4so7w	羽化する亜球体		PRS	8	8.1
-song_1f4so7w	羽化する亜球体		FTR	9	9.6
-song_1f4so7w	羽化する亜球体		ETR	10	10.6
-straight_into_the_lights	Straight into the lights		PST	4	4
-straight_into_the_lights	Straight into the lights		PRS	7	7.5
-straight_into_the_lights	Straight into the lights		FTR	9	9.5
-straight_into_the_lights	Straight into the lights		ETR	10	10.5
-riot_in_the_system	Riot in the System		PST	4	4.5
-riot_in_the_system	Riot in the System		PRS	7	7.5
-riot_in_the_system	Riot in the System		FTR	9	9.5
-riot_in_the_system	Riot in the System		ETR	10	10.1
-rain_of_conflict_in_a_radiant_abyss	Rain of Conflict in a Radiant Abyss		PST	5	5
-rain_of_conflict_in_a_radiant_abyss	Rain of Conflict in a Radiant Abyss		PRS	7	7.8
-rain_of_conflict_in_a_radiant_abyss	Rain of Conflict in a Radiant Abyss		FTR	9	9.5
-rain_of_conflict_in_a_radiant_abyss	Rain of Conflict in a Radiant Abyss		ETR	10	10.5
-paranoid_arc	Paranoid Arc		PST	4	4.5
-paranoid_arc	Paranoid Arc		PRS	7	7.8
-paranoid_arc	Paranoid Arc		FTR	9	9.6
-paranoid_arc	Paranoid Arc		ETR	10	10.5
-song_h0m2p	オーバーライド		PST	4	4
-song_h0m2p	オーバーライド		PRS	7	7.5
-song_h0m2p	オーバーライド		FTR	9	9.5
-song_h0m2p	オーバーライド		ETR	10	10.2
-oblivion	OBLIVION		PST	4	4
-oblivion	OBLIVION		PRS	7	7
-oblivion	OBLIVION		FTR	9	9.5
-oblivion	OBLIVION		ETR	10	10.1
-no_way_back	No Way Back		PST	4	4.5
-no_way_back	No Way Back		PRS	7	7.5
-no_way_back	No Way Back		FTR	8	8.9
-no_way_back	No Way Back		ETR	10	10.4
-my_life_is_mine_alone	My life is mine alone!		PST	2	2.5
-my_life_is_mine_alone	My life is mine alone!		PRS	5	5.5
-my_life_is_mine_alone	My life is mine alone!		FTR	8	8.8
-my_life_is_mine_alone	My life is mine alone!		ETR	10	10.1
-song_1gsxsr9	メルティーラプソディー		PST	3	3.5
-song_1gsxsr9	メルティーラプソディー		PRS	7	7.5
-song_1gsxsr9	メルティーラプソディー		FTR	9	9.6
-song_1gsxsr9	メルティーラプソディー		ETR	10	10.4
-megalovania	MEGALOVANIA		PST	4	4.5
-megalovania	MEGALOVANIA		PRS	7	7.5
-megalovania	MEGALOVANIA		FTR	9	9.5
-megalovania	MEGALOVANIA		ETR	10	10.5
-song_tgow7r	愛して愛して愛して		PST	3	3.5
-song_tgow7r	愛して愛して愛して		PRS	7	6.5
-song_tgow7r	愛して愛して愛して		FTR	8	8.7
-song_tgow7r	愛して愛して愛して		ETR	10	10.5
-infinite_dimension	INFINITE DIMENSION		PST	2	2.5
-infinite_dimension	INFINITE DIMENSION		PRS	6	6
-infinite_dimension	INFINITE DIMENSION		FTR	8	8.6
-infinite_dimension	INFINITE DIMENSION		ETR	10	10.1
-incarnator00	INCARNATOR₀₀		PST	3	3.5
-incarnator00	INCARNATOR₀₀		PRS	6	6.5
-incarnator00	INCARNATOR₀₀		FTR	8	8.9
-incarnator00	INCARNATOR₀₀		ETR	10	10.4
-goodrage	GOODRAGE		PST	4	4.5
-goodrage	GOODRAGE		PRS	7	7.8
-goodrage	GOODRAGE		FTR	9	9.3
-goodrage	GOODRAGE		ETR	10	10.2
-song_4b30wf	神っぽいな		PST	4	3.5
-song_4b30wf	神っぽいな		PRS	7	7
-song_4b30wf	神っぽいな		FTR	9	9.3
-song_4b30wf	神っぽいな		ETR	10	10
-song_f05b3b	幻想のサテライト		PST	2	2.5
-song_f05b3b	幻想のサテライト		PRS	6	6.5
-song_f05b3b	幻想のサテライト		FTR	8	8.7
-song_f05b3b	幻想のサテライト		ETR	10	10.1
-eternity_break	Eternity Break		PST	3	3.5
-eternity_break	Eternity Break		PRS	7	7.5
-eternity_break	Eternity Break		FTR	9	9.6
-eternity_break	Eternity Break		ETR	10	10.4
-dual_doom_deathmatch	Dual Doom Deathmatch		PST	3	3.5
-dual_doom_deathmatch	Dual Doom Deathmatch		PRS	6	6.5
-dual_doom_deathmatch	Dual Doom Deathmatch		FTR	8	8.9
-dual_doom_deathmatch	Dual Doom Deathmatch		ETR	10	10.3
-dual_dependency	Dual Dependency		PST	4	4.5
-dual_dependency	Dual Dependency		PRS	7	7.8
-dual_dependency	Dual Dependency		FTR	9	9.5
-dual_dependency	Dual Dependency		ETR	10	10.4
-don_t_die	Don't Die		PST	3	3.5
-don_t_die	Don't Die		PRS	7	7
-don_t_die	Don't Die		FTR	9	9.4
-don_t_die	Don't Die		ETR	10	10.1
-dies_irae	Dies irae		PST	4	4.5
-dies_irae	Dies irae		PRS	7	7.5
-dies_irae	Dies irae		FTR	9	9.5
-dies_irae	Dies irae		ETR	10	10.6
-cryogenic	Cryogenic		PST	5	5
-cryogenic	Cryogenic		PRS	7	7.5
-cryogenic	Cryogenic		FTR	9	9.2
-cryogenic	Cryogenic		ETR	10	10.1
-chaosblast	CHAOSBLAST		PST	4	4.5
-chaosblast	CHAOSBLAST		PRS	7	7.8
-chaosblast	CHAOSBLAST		FTR	9	9.6
-chaosblast	CHAOSBLAST		ETR	10	10.5
-c_s_q_n	c.s.q.n.		PST	4	4
-c_s_q_n	c.s.q.n.		PRS	7	7.5
-c_s_q_n	c.s.q.n.		FTR	9	9.6
-c_s_q_n	c.s.q.n.		ETR	10	10.3
-break_break_break	BREaK! BREaK! BREaK!		PST	3	3.5
-break_break_break	BREaK! BREaK! BREaK!		PRS	6	6.5
-break_break_break	BREaK! BREaK! BREaK!		FTR	8	8.8
-break_break_break	BREaK! BREaK! BREaK!		ETR	10	10.3
-blythe	BlythE		PST	3	3
-blythe	BlythE		PRS	7	7.5
-blythe	BlythE		FTR	9	9.4
-blythe	BlythE		ETR	10	10.5
-blazing_air	BlazinG AIR		PST	3	3.5
-blazing_air	BlazinG AIR		PRS	6	6.5
-blazing_air	BlazinG AIR		FTR	8	8.9
-blazing_air	BlazinG AIR		ETR	10	10.1
-song_6kvvob	アズゴア		PST	4	4.5
-song_6kvvob	アズゴア		PRS	7	7.5
-song_6kvvob	アズゴア		FTR	8	8.8
-song_6kvvob	アズゴア		ETR	10	10.2
-8_em	8-EM		PST	4	4.5
-8_em	8-EM		PRS	7	7.8
-8_em	8-EM		FTR	9	9.5
-8_em	8-EM		ETR	10	10.3
-10pt8ion	10pt8ion		PST	4	4
-10pt8ion	10pt8ion		PRS	7	7.8
-10pt8ion	10pt8ion		FTR	9	9.8
-10pt8ion	10pt8ion		ETR	10	10.5
-uar_ina	γuarδina		PST	4	4
-uar_ina	γuarδina		PRS	8	8
-uar_ina	γuarδina		FTR	10	10.4
-terl_us	αterlβus		PST	4	4
-terl_us	αterlβus		PRS	7	7.5
-terl_us	αterlβus		FTR	10	10.2
-xtreme	XTREME		PST	4	4.5
-xtreme	XTREME		PRS	7	7.8
-xtreme	XTREME		FTR	10	10.5
-xanatos	Xanatos		PST	4	4
-xanatos	Xanatos		PRS	7	7.5
-xanatos	Xanatos		FTR	10	10
-wish_upon_a_snow	Wish Upon a Snow		PST	4	4.5
-wish_upon_a_snow	Wish Upon a Snow		PRS	7	7.5
-wish_upon_a_snow	Wish Upon a Snow		FTR	10	10.5
-viyella_s_tears	Viyella's Tears		PST	4	4
-viyella_s_tears	Viyella's Tears		PRS	7	7.8
-viyella_s_tears	Viyella's Tears		FTR	10	10.3
-valhalla_0	Valhalla:0		PST	4	4.5
-valhalla_0	Valhalla:0		PRS	7	7.5
-valhalla_0	Valhalla:0		FTR	10	10.2
-unknown_levels	UNKNOWN LEVELS		PST	4	4
-unknown_levels	UNKNOWN LEVELS		PRS	8	8.1
-unknown_levels	UNKNOWN LEVELS		FTR	10	10.6
-ultradiaxon_n3	ultradiaxon-N3		PST	4	4.5
-ultradiaxon_n3	ultradiaxon-N3		PRS	8	8.5
-ultradiaxon_n3	ultradiaxon-N3		FTR	10	10.3
-trrricksters	Trrricksters!!		PST	4	4.5
-trrricksters	Trrricksters!!		PRS	7	7.5
-trrricksters	Trrricksters!!		FTR	10	10.1
-trpno	TRPNO		PST	4	4.5
-trpno	TRPNO		PRS	7	7.8
-trpno	TRPNO		FTR	10	10
-song_1y6w6xf	アリス・リデルに捧ぐ		PST	4	4
-song_1y6w6xf	アリス・リデルに捧ぐ		PRS	7	7.5
-song_1y6w6xf	アリス・リデルに捧ぐ		FTR	10	10.3
-to_the_milky_way	To the Milky Way		PST	5	5
-to_the_milky_way	To the Milky Way		PRS	8	8.9
-to_the_milky_way	To the Milky Way		FTR	10	10.4
-tiferet	Tiferet		PST	4	4.5
-tiferet	Tiferet		PRS	7	7.8
-tiferet	Tiferet		FTR	10	10.3
-super_ambulance	SUPER AMBULANCE		PST	4	4.5
-super_ambulance	SUPER AMBULANCE		PRS	7	7.5
-super_ambulance	SUPER AMBULANCE		FTR	10	10.3
-spirit_of_the_dauntless	Spirit of the Dauntless		PST	4	4.5
-spirit_of_the_dauntless	Spirit of the Dauntless		PRS	7	7.8
-spirit_of_the_dauntless	Spirit of the Dauntless		FTR	10	10.5
-sheriruth_laur_remix	Sheriruth (Laur Remix)		PST	4	4
-sheriruth_laur_remix	Sheriruth (Laur Remix)		PRS	7	7.8
-sheriruth_laur_remix	Sheriruth (Laur Remix)		FTR	10	10.5
-sheriruth	Sheriruth		PST	5	5.5
-sheriruth	Sheriruth		PRS	7	7.5
-sheriruth	Sheriruth		FTR	10	10
-seclusion	Seclusion		PST	4	4
-seclusion	Seclusion		PRS	7	7.5
-seclusion	Seclusion		FTR	10	10.6
-scarlet_lance	Scarlet Lance		PST	4	4
-scarlet_lance	Scarlet Lance		PRS	7	7
-scarlet_lance	Scarlet Lance		FTR	10	10
-rost_page_gene	ROST PAGE GENE		PST	5	5
-rost_page_gene	ROST PAGE GENE		PRS	8	8.2
-rost_page_gene	ROST PAGE GENE		FTR	10	10.3
-rise_of_the_world	Rise of the World		PST	4	4.5
-rise_of_the_world	Rise of the World		PRS	8	8.1
-rise_of_the_world	Rise of the World		FTR	10	10.5
-redolent_shape	Redolent Shape		PST	4	4.5
-redolent_shape	Redolent Shape		PRS	7	7.5
-redolent_shape	Redolent Shape		FTR	10	10.2
-qovat	Qovat		PST	4	4.5
-qovat	Qovat		PRS	8	8.2
-qovat	Qovat		FTR	10	10.4
-pupa	PUPA		PST	4	4
-pupa	PUPA		PRS	7	7.8
-pupa	PUPA		FTR	10	10.4
-song_qmah0	プラシイボ♥バトラー		PST	5	5.5
-song_qmah0	プラシイボ♥バトラー		PRS	8	8.3
-song_qmah0	プラシイボ♥バトラー		FTR	10	10.4
-overwhelm	Overwhelm		PST	5	5
-overwhelm	Overwhelm		PRS	8	8.5
-overwhelm	Overwhelm		FTR	10	10.6
-oshama_scramble	Oshama Scramble!		PST	3	3.5
-oshama_scramble	Oshama Scramble!		PRS	6	6.5
-oshama_scramble	Oshama Scramble!		FTR	10	10
-nirv_luce	Nirv lucE		PST	2	2.5
-nirv_luce	Nirv lucE		PRS	7	7
-nirv_luce	Nirv lucE		FTR	10	10.2
-neo_wings	NEO WINGS		PST	4	4
-neo_wings	NEO WINGS		PRS	7	7.5
-neo_wings	NEO WINGS		FTR	10	10.2
-mvurbd	MVURBD		PST	4	4.5
-mvurbd	MVURBD		PRS	7	7.8
-mvurbd	MVURBD		FTR	10	10.6
-mirinae	MIRINAE		PST	4	4.5
-mirinae	MIRINAE		PRS	8	8.3
-mirinae	MIRINAE		FTR	10	10.4
-metallic_punisher	Metallic Punisher		PST	3	3
-metallic_punisher	Metallic Punisher		PRS	7	7
-metallic_punisher	Metallic Punisher		FTR	10	10.3
-medusa	Medusa		PST	4	4.5
-medusa	Medusa		PRS	7	7
-medusa	Medusa		FTR	10	10.1
-masquerade_legion	Masquerade Legion		PST	3	3.5
-masquerade_legion	Masquerade Legion		PRS	6	6.5
-masquerade_legion	Masquerade Legion		FTR	10	10
-manic_jeer	Manic Jeer		PST	4	4
-manic_jeer	Manic Jeer		PRS	7	7.8
-manic_jeer	Manic Jeer		FTR	10	10.6
-malicious_mischance	Malicious Mischance		PST	4	4
-malicious_mischance	Malicious Mischance		PRS	7	7.8
-malicious_mischance	Malicious Mischance		FTR	10	10.2
-magnolia	Magnolia		PST	4	4.5
-magnolia	Magnolia		PRS	7	7.8
-magnolia	Magnolia		FTR	10	10.2
-loschen	Löschen		PST	3	3.5
-loschen	Löschen		PRS	7	7
-loschen	Löschen		FTR	10	10.2
-lucid_traveler	Lucid Traveler		PST	4	4.5
-lucid_traveler	Lucid Traveler		PRS	8	8.9
-lucid_traveler	Lucid Traveler		FTR	10	10.5
-logos	Logos		PST	4	4
-logos	Logos		PRS	7	7.8
-logos	Logos		FTR	10	10.2
-live_fast_die_young	Live Fast Die Young		PST	4	4.5
-live_fast_die_young	Live Fast Die Young		PRS	8	8.5
-live_fast_die_young	Live Fast Die Young		FTR	10	10.6
-lightning_screw	Lightning Screw		PST	4	4.5
-lightning_screw	Lightning Screw		PRS	7	7.8
-lightning_screw	Lightning Screw		FTR	10	10.5
-liar	Liar		PST	4	4.5
-liar	Liar		PRS	7	7.8
-liar	Liar		FTR	10	10
-lethal_voltage	Lethal Voltage		PST	4	4.5
-lethal_voltage	Lethal Voltage		PRS	7	7.8
-lethal_voltage	Lethal Voltage		FTR	10	10.4
-last_celebration	Last Celebration		PST	3	3.5
-last_celebration	Last Celebration		PRS	6	6.5
-last_celebration	Last Celebration		FTR	10	10.4
-kissing_lucifer	Kissing Lucifer		PST	4	4.5
-kissing_lucifer	Kissing Lucifer		PRS	7	7.8
-kissing_lucifer	Kissing Lucifer		FTR	10	10.4
-song_1qyirc0	患部で止まってすぐ溶ける ～ 狂気の優曇華院		PST	4	4
-song_1qyirc0	患部で止まってすぐ溶ける ～ 狂気の優曇華院		PRS	7	7.5
-song_1qyirc0	患部で止まってすぐ溶ける ～ 狂気の優曇華院		FTR	10	10.1
-judgement	Judgement		PST	5	5.5
-judgement	Judgement		PRS	8	8.6
-judgement	Judgement		FTR	10	10.5
-izana	IZANA		PST	5	5
-izana	IZANA		PRS	8	8.3
-izana	IZANA		FTR	10	10.3
-internet_yamero	INTERNET YAMERO		PST	4	4.5
-internet_yamero	INTERNET YAMERO		PRS	7	7.8
-internet_yamero	INTERNET YAMERO		FTR	10	9.9
-song_1um2kor	怒槌		PST	3	3.5
-song_1um2kor	怒槌		PRS	7	7.5
-song_1um2kor	怒槌		FTR	10	10.3
-hivemind	HIVEMIND		PST	4	4
-hivemind	HIVEMIND		PRS	8	8.6
-hivemind	HIVEMIND		FTR	10	10
-nayuta_2017_ver	緋色月下、狂咲ノ絶 (nayuta 2017 ver.)		PST	3	3.5
-nayuta_2017_ver	緋色月下、狂咲ノ絶 (nayuta 2017 ver.)		PRS	6	6.5
-nayuta_2017_ver	緋色月下、狂咲ノ絶 (nayuta 2017 ver.)		FTR	10	10.3
-halcyon	Halcyon		PST	5	5.5
-halcyon	Halcyon		PRS	8	8.2
-halcyon	Halcyon		FTR	10	10.5
-grandspell	Grandspell		PST	4	4.5
-grandspell	Grandspell		PRS	8	8.4
-grandspell	Grandspell		FTR	10	10.2
-good_bye_merry_go_round	Good bye, Merry-Go-Round.		PST	4	4.5
-good_bye_merry_go_round	Good bye, Merry-Go-Round.		PRS	7	7.5
-good_bye_merry_go_round	Good bye, Merry-Go-Round.		FTR	10	10.6
-glory_road	GLORY：ROAD		PST	4	4.5
-glory_road	GLORY：ROAD		PRS	7	7
-glory_road	GLORY：ROAD		FTR	10	10.5
-gimme_da_blood	GIMME DA BLOOD		PST	3	3.5
-gimme_da_blood	GIMME DA BLOOD		PRS	7	7.5
-gimme_da_blood	GIMME DA BLOOD		FTR	10	10.5
-garakuta_doll_play	Garakuta Doll Play		PST	4	4.5
-garakuta_doll_play	Garakuta Doll Play		PRS	6	6.5
-garakuta_doll_play	Garakuta Doll Play		FTR	10	10.4
-g_e_n_g_a_o_z_o	G e n g a o z o		PST	4	4
-g_e_n_g_a_o_z_o	G e n g a o z o		PRS	8	8.1
-g_e_n_g_a_o_z_o	G e n g a o z o		FTR	10	10.1
-free_myself	Free Myself		PST	4	4.5
-free_myself	Free Myself		PRS	7	7.5
-free_myself	Free Myself		FTR	10	10
-felis	Felis		PST	4	4
-felis	Felis		PRS	7	7.5
-felis	Felis		FTR	10	10.4
-ether_strike	Ether Strike		PST	5	5.5
-ether_strike	Ether Strike		PRS	8	8.3
-ether_strike	Ether Strike		FTR	10	10.3
-ego_eimi	Ego Eimi		PST	5	5.5
-ego_eimi	Ego Eimi		PRS	8	8.6
-ego_eimi	Ego Eimi		FTR	10	10.5
-eden	eden		PST	4	4.5
-eden	eden		PRS	8	8.2
-eden	eden		FTR	10	10.5
-dull_blade	Dull Blade		PST	4	4.5
-dull_blade	Dull Blade		PRS	8	8
-dull_blade	Dull Blade		FTR	10	10.5
-desertrealm	Desertrealm		PST	4	4.5
-desertrealm	Desertrealm		PRS	8	8.5
-desertrealm	Desertrealm		FTR	10	10.6
-cyanine	cyanine		PST	4	4
-cyanine	cyanine		PRS	7	7.8
-cyanine	cyanine		FTR	10	10.6
-crimson_throne	Crimson Throne		PST	4	4
-crimson_throne	Crimson Throne		PRS	8	8
-crimson_throne	Crimson Throne		FTR	10	10.6
-corps_sans_organes	corps-sans-organes		PST	4	4.5
-corps_sans_organes	corps-sans-organes		PRS	7	7.8
-corps_sans_organes	corps-sans-organes		FTR	10	10.6
-conflict	conflict		PST	4	4.5
-conflict	conflict		PRS	7	7.5
-conflict	conflict		FTR	10	10.2
-climax	Climax		PST	4	4.5
-climax	Climax		PRS	7	7.8
-climax	Climax		FTR	10	10.4
-chronicle	Chronicle		PST	5	5
-chronicle	Chronicle		PRS	8	8.9
-chronicle	Chronicle		FTR	10	10.5
-chromafill	Chromafill		PST	4	4
-chromafill	Chromafill		PRS	7	7
-chromafill	Chromafill		FTR	10	10
-capella	Capella		PST	4	4.5
-capella	Capella		PRS	7	7.8
-capella	Capella		FTR	10	10.2
-song_yjlgtw	竹		PST	3	3
-song_yjlgtw	竹		PRS	6	6.5
-song_yjlgtw	竹		FTR	10	10
-back_to_basics	Back to Basics		PST	5	5
-back_to_basics	Back to Basics		PRS	8	8.7
-back_to_basics	Back to Basics		FTR	10	10.6
-aurgelmir	Aurgelmir		PST	4	4.5
-aurgelmir	Aurgelmir		PRS	8	8.5
-aurgelmir	Aurgelmir		FTR	10	10.5
-attraqtia	AttraqtiA		PST	4	4
-attraqtia	AttraqtiA		PRS	8	8.3
-attraqtia	AttraqtiA		FTR	10	10.6
-astral_quantization	Astral Quantization		PST	5	5
-astral_quantization	Astral Quantization		PRS	8	8.1
-astral_quantization	Astral Quantization		FTR	10	10.6
-angel_s_boundary	Angel's Boundary		PST	5	5
-angel_s_boundary	Angel's Boundary		PRS	8	8.5
-angel_s_boundary	Angel's Boundary		FTR	10	10.2
-alexandrite	Alexandrite		PST	4	4.5
-alexandrite	Alexandrite		PRS	7	7.5
-alexandrite	Alexandrite		FTR	10	10
-aleph_0	Aleph-0		PST	5	5.5
-aleph_0	Aleph-0		PRS	8	8.8
-aleph_0	Aleph-0		FTR	10	10.5
-x	[X]		PST	4	4.5
-x	[X]		PRS	7	7.8
-x	[X]		FTR	10	10.6
-99_glooms	99 Glooms		PST	4	4
-99_glooms	99 Glooms		PRS	7	7.8
-99_glooms	99 Glooms		FTR	10	10.3
-teriqma	Teriqma		PST	3	3
-teriqma	Teriqma		PRS	6	6.5
-teriqma	Teriqma		FTR	9	9.4
-teriqma	Teriqma		BYD	9	9.7
-moonheart	Moonheart		PST	2	2.5
-moonheart	Moonheart		PRS	5	5.5
-moonheart	Moonheart		FTR	8	8.4
-moonheart	Moonheart		BYD	9	9.7
-song_je3qur	狂言綺語		PST	3	3.5
-song_je3qur	狂言綺語		PRS	6	6.5
-song_je3qur	狂言綺語		FTR	9	9.3
-song_je3qur	狂言綺語		BYD	9	9.9
-eccentric_tale	Eccentric Tale		PST	2	2
-eccentric_tale	Eccentric Tale		PRS	5	5.5
-eccentric_tale	Eccentric Tale		FTR	8	8.4
-eccentric_tale	Eccentric Tale		BYD	9	9.9
-waltz_for_lorelei	Waltz for Lorelei		PST	2	2.5
-waltz_for_lorelei	Waltz for Lorelei		PRS	5	5.5
-waltz_for_lorelei	Waltz for Lorelei		FTR	8	8.8
-waltz_for_lorelei	Waltz for Lorelei		ETR	9	9.8
-vainspire	Vainspire		PST	3	3.5
-vainspire	Vainspire		PRS	7	7
-vainspire	Vainspire		FTR	8	8.4
-vainspire	Vainspire		ETR	9	9.9
-u_a_d	U.A.D		PST	3	3.5
-u_a_d	U.A.D		PRS	6	6.5
-u_a_d	U.A.D		FTR	8	8.7
-u_a_d	U.A.D		ETR	9	9.8
-tic_tac_toe	Tic! Tac! Toe!		PST	3	3.5
-tic_tac_toe	Tic! Tac! Toe!		PRS	7	7.5
-tic_tac_toe	Tic! Tac! Toe!		FTR	8	8.8
-tic_tac_toe	Tic! Tac! Toe!		ETR	9	9.9
-taboo_tears_you_up_2017	taboo tears you up 2017		PST	3	3
-taboo_tears_you_up_2017	taboo tears you up 2017		PRS	6	6.5
-taboo_tears_you_up_2017	taboo tears you up 2017		FTR	8	8.4
-taboo_tears_you_up_2017	taboo tears you up 2017		ETR	9	9.8
-stargate_extreme	STARGATE EXTREME		PST	4	4
-stargate_extreme	STARGATE EXTREME		PRS	6	6
-stargate_extreme	STARGATE EXTREME		FTR	9	9.3
-stargate_extreme	STARGATE EXTREME		ETR	9	9.9
-song_12h8ofk	正義の槍		PST	3	3.5
-song_12h8ofk	正義の槍		PRS	6	6.5
-song_12h8ofk	正義の槍		FTR	8	8.8
-song_12h8ofk	正義の槍		ETR	9	9.9
-song_1ozseyr	進捗どうですか?		PST	3	3.5
-song_1ozseyr	進捗どうですか?		PRS	7	7.5
-song_1ozseyr	進捗どうですか?		FTR	8	8.8
-song_1ozseyr	進捗どうですか?		ETR	9	9.9
-particle	Particle		PST	3	3.5
-particle	Particle		PRS	6	6
-particle	Particle		FTR	9	9.5
-particle	Particle		ETR	9	9.7
-paradox_palette	Paradox Palette		PST	4	4
-paradox_palette	Paradox Palette		PRS	7	7.5
-paradox_palette	Paradox Palette		FTR	8	8.8
-paradox_palette	Paradox Palette		ETR	9	9.9
-morningloom	MORNINGLOOM		PST	3	3
-morningloom	MORNINGLOOM		PRS	6	6.5
-morningloom	MORNINGLOOM		FTR	8	8.8
-morningloom	MORNINGLOOM		ETR	9	9.8
-miles	Miles		PST	3	3.5
-miles	Miles		PRS	6	6.5
-miles	Miles		FTR	8	8.2
-miles	Miles		ETR	9	9.8
-liftoff	LiftOff		PST	3	3
-liftoff	LiftOff		PRS	6	6.5
-liftoff	LiftOff		FTR	8	8.2
-liftoff	LiftOff		ETR	9	9.8
-song_1v3fkjt	ラヴィ		PST	3	3.5
-song_1v3fkjt	ラヴィ		PRS	6	6
-song_1v3fkjt	ラヴィ		FTR	8	8.8
-song_1v3fkjt	ラヴィ		ETR	9	9.9
-song_d6pdp4	これでホントにサヨナラ		PST	2	2.5
-song_d6pdp4	これでホントにサヨナラ		PRS	6	6.5
-song_d6pdp4	これでホントにサヨナラ		FTR	8	8.2
-song_d6pdp4	これでホントにサヨナラ		ETR	9	9.7
-ionostream	IONOSTREAM		PST	3	3.5
-ionostream	IONOSTREAM		PRS	6	6
-ionostream	IONOSTREAM		FTR	8	8.7
-ionostream	IONOSTREAM		ETR	9	9.7
-innocence	Innocence		PST	3	3
-innocence	Innocence		PRS	6	6.5
-innocence	Innocence		FTR	8	8.5
-innocence	Innocence		ETR	9	9.7
-incomplete_the_one	incomplete the one		PST	3	3.5
-incomplete_the_one	incomplete the one		PRS	7	7.5
-incomplete_the_one	incomplete the one		FTR	8	8.8
-incomplete_the_one	incomplete the one		ETR	9	9.9
-hypnotize	Hypnotize		PST	3	3.5
-hypnotize	Hypnotize		PRS	7	7
-hypnotize	Hypnotize		FTR	8	8.9
-hypnotize	Hypnotize		ETR	9	9.9
-disintegration	disintegration		PST	4	4
-disintegration	disintegration		PRS	6	6.5
-disintegration	disintegration		FTR	8	8.3
-disintegration	disintegration		ETR	9	9.8
-crimson_quartz	Crimson Quartz		PST	3	3
-crimson_quartz	Crimson Quartz		PRS	6	6
-crimson_quartz	Crimson Quartz		FTR	8	8.8
-crimson_quartz	Crimson Quartz		ETR	9	9.8
-cosmogyral	Cosmogyral		PST	2	2.5
-cosmogyral	Cosmogyral		PRS	5	5.5
-cosmogyral	Cosmogyral		FTR	8	8.6
-cosmogyral	Cosmogyral		ETR	9	9.8
-chain2nite	CHAIN2NITE		PST	4	4
-chain2nite	CHAIN2NITE		PRS	6	6.5
-chain2nite	CHAIN2NITE		FTR	8	8.6
-chain2nite	CHAIN2NITE		ETR	9	9.9
-black_mirror_on_the_wall	Black Mirror on the Wall		PST	3	3.5
-black_mirror_on_the_wall	Black Mirror on the Wall		PRS	6	6.5
-black_mirror_on_the_wall	Black Mirror on the Wall		FTR	8	8.6
-black_mirror_on_the_wall	Black Mirror on the Wall		ETR	9	9.7
-altersist	Altersist		PST	2	2.5
-altersist	Altersist		PRS	6	6
-altersist	Altersist		FTR	8	8.4
-altersist	Altersist		ETR	9	9.8
-tau	τ (tau)		PST	4	4.5
-tau	τ (tau)		PRS	7	7.8
-tau	τ (tau)		FTR	9	9.7
-song_1fcfszf	μ		PST	3	3.5
-song_1fcfszf	μ		PRS	7	7.5
-song_1fcfszf	μ		FTR	9	9.7
-song_1fpb7ab	~_+		PST	4	4.5
-song_1fpb7ab	~_+		PRS	8	8
-song_1fpb7ab	~_+		FTR	9	9.9
-song_oxdk47	ヨミビトシラズ		PST	4	4.5
-song_oxdk47	ヨミビトシラズ		PRS	8	8
-song_oxdk47	ヨミビトシラズ		FTR	9	9.8
-xeraphinite	Xeraphinite		PST	3	3
-xeraphinite	Xeraphinite		PRS	7	7.5
-xeraphinite	Xeraphinite		FTR	9	9.8
-world_fragments_iii_radio_edit	World Fragments III(radio edit)		PST	3	3.5
-world_fragments_iii_radio_edit	World Fragments III(radio edit)		PRS	7	7
-world_fragments_iii_radio_edit	World Fragments III(radio edit)		FTR	9	9.8
-won_t_back_down	Won't Back Down		PST	3	3.5
-won_t_back_down	Won't Back Down		PRS	6	6.5
-won_t_back_down	Won't Back Down		FTR	9	9.8
-vandalism	Vandalism		PST	3	3.5
-vandalism	Vandalism		PRS	7	7
-vandalism	Vandalism		FTR	9	9.7
-vallista	Vallista		PST	4	4.5
-vallista	Vallista		PRS	7	7.8
-vallista	Vallista		FTR	9	9.7
-ultimate_taste	Ultimate taste		PST	3	3.5
-ultimate_taste	Ultimate taste		PRS	6	6.5
-ultimate_taste	Ultimate taste		FTR	9	9.9
-song_13kif4u	彼方の夢へと		PST	4	4.5
-song_13kif4u	彼方の夢へと		PRS	8	8.5
-song_13kif4u	彼方の夢へと		FTR	9	9.8
-the_ultimacy	THE ULTIMACY		PST	3	3
-the_ultimacy	THE ULTIMACY		PRS	7	7
-the_ultimacy	THE ULTIMACY		FTR	9	9.8
-the_survivor_game_edit	The Survivor (Game Edit)		PST	3	3.5
-the_survivor_game_edit	The Survivor (Game Edit)		PRS	6	6.5
-the_survivor_game_edit	The Survivor (Game Edit)		FTR	9	9.9
-the_message	The Message		PST	3	3
-the_message	The Message		PRS	6	6.5
-the_message	The Message		FTR	9	9.7
-song_d6i6ix	森奥虚跡		PST	3	3.5
-song_d6i6ix	森奥虚跡		PRS	6	6.5
-song_d6i6ix	森奥虚跡		FTR	9	9.7
-technicolour	Technicolour		PST	3	3.5
-technicolour	Technicolour		PRS	7	7
-technicolour	Technicolour		FTR	9	9.8
-syriana	Syriana		PST	4	4.5
-syriana	Syriana		PRS	7	7.5
-syriana	Syriana		FTR	9	9.9
-swan_song	Swan Song		PST	3	3
-swan_song	Swan Song		PRS	7	7.5
-swan_song	Swan Song		FTR	9	9.9
-song_1qcosq1	彩る夏の恋花火		PST	3	3
-song_1qcosq1	彩る夏の恋花火		PRS	6	6.5
-song_1qcosq1	彩る夏の恋花火		FTR	9	9.9
-sulfur	Sulfur		PST	4	4
-sulfur	Sulfur		PRS	6	6
-sulfur	Sulfur		FTR	9	9.7
-soundwitch	SOUNDWiTCH		PST	3	3.5
-soundwitch	SOUNDWiTCH		PRS	6	6.5
-soundwitch	SOUNDWiTCH		FTR	9	9.8
-shrink	shrink		PST	3	3.5
-shrink	shrink		PRS	7	7
-shrink	shrink		FTR	9	9.8
-song_19pxv53	朱月ノ姫		PST	3	3.5
-song_19pxv53	朱月ノ姫		PRS	7	7
-song_19pxv53	朱月ノ姫		FTR	9	9.8
-scarlet_cage	Scarlet Cage		PST	4	4
-scarlet_cage	Scarlet Cage		PRS	7	7.5
-scarlet_cage	Scarlet Cage		FTR	9	9.8
-sacrifice_feat_ayame	SACRIFICE feat. ayame		PST	3	3.5
-sacrifice_feat_ayame	SACRIFICE feat. ayame		PRS	7	7.5
-sacrifice_feat_ayame	SACRIFICE feat. ayame		FTR	9	9.7
-rgb	RGB		PST	4	4
-rgb	RGB		PRS	7	7.8
-rgb	RGB		FTR	9	9.8
-protoflicker	Protoflicker		PST	3	3
-protoflicker	Protoflicker		PRS	7	7
-protoflicker	Protoflicker		FTR	9	9.8
-ouverture	Ouvertüre		PST	2	2.5
-ouverture	Ouvertüre		PRS	7	7.5
-ouverture	Ouvertüre		FTR	9	9.8
-old_school_salvage	Old School Salvage		PST	4	4
-old_school_salvage	Old School Salvage		PRS	7	7.8
-old_school_salvage	Old School Salvage		FTR	9	9.8
-n_smo	nέο κόsmo		PST	4	4
-n_smo	nέο κόsmo		PRS	7	7.8
-n_smo	nέο κόsmo		FTR	9	9.7
-new_york_back_raise	New York Back Raise		PST	4	4.5
-new_york_back_raise	New York Back Raise		PRS	7	7
-new_york_back_raise	New York Back Raise		FTR	9	9.9
-nameless_passion	Nameless Passion		PST	3	3
-nameless_passion	Nameless Passion		PRS	7	7
-nameless_passion	Nameless Passion		FTR	9	9.8
-modelista	Modelista		PST	3	3.5
-modelista	Modelista		PRS	7	7.5
-modelista	Modelista		FTR	9+*1	9.9
-mirzam	Mirzam		PST	4	4
-mirzam	Mirzam		PRS	7	7.5
-mirzam	Mirzam		FTR	9	9.9
-mirror_kamome_sano_remix	MIRROR - kamome sano remix		PST	4	4
-mirror_kamome_sano_remix	MIRROR - kamome sano remix		PRS	7	7
-mirror_kamome_sano_remix	MIRROR - kamome sano remix		FTR	9	9.9
-memory_forest	Memory Forest		PST	3	3.5
-memory_forest	Memory Forest		PRS	6	6
-memory_forest	Memory Forest		FTR	9	9.8
-mazy_metroplex	Mazy Metroplex		PST	3	3
-mazy_metroplex	Mazy Metroplex		PRS	7	7.8
-mazy_metroplex	Mazy Metroplex		FTR	9	9.8
-maxrage	MAXRAGE		PST	3	3.5
-maxrage	MAXRAGE		PRS	6	6.5
-maxrage	MAXRAGE		FTR	9	9.9
-macrocosmic_modulation	Macrocosmic Modulation		PST	4	4
-macrocosmic_modulation	Macrocosmic Modulation		PRS	7	7.8
-macrocosmic_modulation	Macrocosmic Modulation		FTR	9	9.8
-luna_rossa	Luna Rossa		PST	3	3
-luna_rossa	Luna Rossa		PRS	6	6
-luna_rossa	Luna Rossa		FTR	9	9.7
-loveless_dress	Loveless Dress		PST	3	3.5
-loveless_dress	Loveless Dress		PRS	6	6.5
-loveless_dress	Loveless Dress		FTR	9	9.7
-lost_in_the_abyss	Lost in the Abyss		PST	3	3.5
-lost_in_the_abyss	Lost in the Abyss		PRS	6	6.5
-lost_in_the_abyss	Lost in the Abyss		FTR	9	9.7
-lost_desire	Lost Desire		PST	4	4
-lost_desire	Lost Desire		PRS	7	7.8
-lost_desire	Lost Desire		FTR	9	9.8
-livht_my_w_y	LIVHT MY W​Δ​Y		PST	4	4.5
-livht_my_w_y	LIVHT MY W​Δ​Y		PRS	7	7.5
-livht_my_w_y	LIVHT MY W​Δ​Y		FTR	9	9.8
-linear_accelerator	Linear Accelerator		PST	2	2.5
-linear_accelerator	Linear Accelerator		PRS	6	6.5
-linear_accelerator	Linear Accelerator		FTR	9	9.8
-lethaeus	Lethaeus		PST	3	3.5
-lethaeus	Lethaeus		PRS	6	6.5
-lethaeus	Lethaeus		FTR	9	9.7
-let_s_rock_arcaea_mix	Let's Rock (Arcaea mix)		PST	3	3
-let_s_rock_arcaea_mix	Let's Rock (Arcaea mix)		PRS	7	7
-let_s_rock_arcaea_mix	Let's Rock (Arcaea mix)		FTR	9	9.7
-arr_demetori	感情の摩天楼 ～Arr.Demetori		PST	3	3.5
-arr_demetori	感情の摩天楼 ～Arr.Demetori		PRS	6	6.5
-arr_demetori	感情の摩天楼 ～Arr.Demetori		FTR	9	9.8
-init	init()		PST	4	4
-init	init()		PRS	7	7.5
-init	init()		FTR	9	9.8
-ignition	Ignition		PST	3	3.5
-ignition	Ignition		PRS	6	6
-ignition	Ignition		FTR	9	9.8
-hyper_vision	HYPER VISION		PST	4	4.5
-hyper_vision	HYPER VISION		PRS	7	7.5
-hyper_vision	HYPER VISION		FTR	9	9.8
-song_18ah544	ヒュブリスの頂に聳えるのは		PST	4	4.5
-song_18ah544	ヒュブリスの頂に聳えるのは		PRS	7	7.8
-song_18ah544	ヒュブリスの頂に聳えるのは		FTR	9	9.8
-song_12z331	蛍火の雪		PST	3	3.5
-song_12z331	蛍火の雪		PRS	7	7
-song_12z331	蛍火の雪		FTR	9	9.7
-heart_jackin	Heart Jackin'		PST	3	3
-heart_jackin	Heart Jackin'		PRS	5	5.5
-heart_jackin	Heart Jackin'		FTR	9	9.7
-song_1hsrupj	秋の陽炎		PST	3	3.5
-song_1hsrupj	秋の陽炎		PRS	7	7
-song_1hsrupj	秋の陽炎		FTR	9	9.8
-hailstone	Hailstone		PST	3	3.5
-hailstone	Hailstone		PRS	7	7
-hailstone	Hailstone		FTR	9	9.7
-got_hive_of_ra	Got hive of Ra		PST	3	3
-got_hive_of_ra	Got hive of Ra		PRS	6	6.5
-got_hive_of_ra	Got hive of Ra		FTR	9	9.8
-goldenslaughterer	goldenslaughterer		PST	4	4
-goldenslaughterer	goldenslaughterer		PRS	6	6.5
-goldenslaughterer	goldenslaughterer		FTR	9	9.7
-genesis	Genesis		PST	4	4
-genesis	Genesis		PRS	7	7
-genesis	Genesis		FTR	9	9.8
-galaxy_friends	Galaxy Friends		PST	3	3.5
-galaxy_friends	Galaxy Friends		PRS	6	6
-galaxy_friends	Galaxy Friends		FTR	9	9.9
-fluffy_flash	FLUFFY FLASH		PST	3	3.5
-fluffy_flash	FLUFFY FLASH		PRS	6	6.5
-fluffy_flash	FLUFFY FLASH		FTR	9	9.8
-flexidefine	flexidefine		PST	2	2
-flexidefine	flexidefine		PRS	6	6
-flexidefine	flexidefine		FTR	9	9.9
-filament	Filament		PST	4	4.5
-filament	Filament		PRS	7	7.8
-filament	Filament		FTR	9	9.7
-far_away_light	Far Away Light		PST	4	4.5
-far_away_light	Far Away Light		PRS	7	7.8
-far_away_light	Far Away Light		FTR	9	9.8
-fallensquare	Fallensquare		PST	3	3
-fallensquare	Fallensquare		PRS	7	7.5
-fallensquare	Fallensquare		FTR	9	9.7
-dx	DX超性能フルメタル少女		PST	3	3
-dx	DX超性能フルメタル少女		PRS	6	6
-dx	DX超性能フルメタル少女		FTR	9	9.7
-dreadnought	Dreadnought		PST	4	4
-dreadnought	Dreadnought		PRS	7	7
-dreadnought	Dreadnought		FTR	9	9.7
-song_1o2bn07	ディストーション・ニンゲン		PST	3	3
-song_1o2bn07	ディストーション・ニンゲン		PRS	6	6.5
-song_1o2bn07	ディストーション・ニンゲン		FTR	9	9.9
-devillic_sphere	Devillic Sphere		PST	4	4
-devillic_sphere	Devillic Sphere		PRS	7	7.8
-devillic_sphere	Devillic Sphere		FTR	9	9.9
-defection	Defection		PST	3	3.5
-defection	Defection		PRS	6	6.5
-defection	Defection		FTR	9	9.8
-dazzle_hop	Dazzle hop		PST	3	3.5
-dazzle_hop	Dazzle hop		PRS	6	6.5
-dazzle_hop	Dazzle hop		FTR	9	9.7
-corruption	Corruption		PST	3	3
-corruption	Corruption		PRS	6	6.5
-corruption	Corruption		FTR	9	9.8
-callima_karma	Callima Karma		PST	3	3.5
-callima_karma	Callima Karma		PRS	7	7.5
-callima_karma	Callima Karma		FTR	9	9.8
-blrink	BLRINK		PST	3	3.5
-blrink	BLRINK		PRS	7	7.8
-blrink	BLRINK		FTR	9	9.7
-black_territory	Black Territory		PST	3	3
-black_territory	Black Territory		PRS	7	7.5
-black_territory	Black Territory		FTR	9	9.8
-black_lotus	Black Lotus		PST	3	3
-black_lotus	Black Lotus		PRS	6	6.5
-black_lotus	Black Lotus		FTR	9	9.7
-beautiful_dreamer	Beautiful Dreamer		PST	4	4
-beautiful_dreamer	Beautiful Dreamer		PRS	7	7.8
-beautiful_dreamer	Beautiful Dreamer		FTR	9	9.9
-battle_no_1	BATTLE NO.1		PST	3	3.5
-battle_no_1	BATTLE NO.1		PRS	6	6.5
-battle_no_1	BATTLE NO.1		FTR	9	9.7
-badtek	BADTEK		PST	4	4
-badtek	BADTEK		PRS	7	7
-badtek	BADTEK		FTR	9	9.7
-b_b_k_k_b_k_k	B.B.K.K.B.K.K.		PST	4	4.5
-b_b_k_k_b_k_k	B.B.K.K.B.K.K.		PRS	7	7
-b_b_k_k_b_k_k	B.B.K.K.B.K.K.		FTR	9	9.7
-awaken_in_ruins	Awaken In Ruins		PST	3	3.5
-awaken_in_ruins	Awaken In Ruins		PRS	7	7.5
-awaken_in_ruins	Awaken In Ruins		FTR	9	9.7
-astra_walkthrough	Astra walkthrough		PST	4	4.5
-astra_walkthrough	Astra walkthrough		PRS	7	7.8
-astra_walkthrough	Astra walkthrough		FTR	9	9.9
-ascent	Ascent		PST	3	3
-ascent	Ascent		PRS	6	6
-ascent	Ascent		FTR	9	9.8
-arcahv	Arcahv		PST	4	4.5
-arcahv	Arcahv		PRS	7	7.8
-arcahv	Arcahv		FTR	9	9.9
-antagonism	Antagonism		PST	4	4.5
-antagonism	Antagonism		PRS	7	7.8
-antagonism	Antagonism		FTR	9	9.9
-amygdata	amygdata		PST	4	4
-amygdata	amygdata		PRS	7	7.5
-amygdata	amygdata		FTR	9	9.7
-song_1l52msi	雨神楽		PST	4	4
-song_1l52msi	雨神楽		PRS	7	7.5
-song_1l52msi	雨神楽		FTR	9	9.9
-alterale	AlterAle		PST	3	3
-alterale	AlterAle		PRS	6	6
-alterale	AlterAle		FTR	9	9.7
-ai_drew	Ai Drew		PST	3	3.5
-ai_drew	Ai Drew		PRS	6	6.5
-ai_drew	Ai Drew		FTR	9	9.8
-acheron	Acheron		PST	3	3.5
-acheron	Acheron		PRS	7	7.5
-acheron	Acheron		FTR	9	9.7
-7thsense	7thSense		PST	3	3
-7thsense	7thSense		PRS	7	7.8
-7thsense	7thSense		FTR	9	9.9
-1_unknown_number	+1(UNKNOWN)-NUMBER		PST	4	4
-1_unknown_number	+1(UNKNOWN)-NUMBER		PRS	7	7
-1_unknown_number	+1(UNKNOWN)-NUMBER		FTR	9	9.7
-last	Last		PST	4	4
-last	Last		PRS	7	7
-last	Last		FTR	9	9
-last_moment	Last | Moment		BYD	9	9.6
-last_eternity	Last | Eternity		BYD	9	9.7
-axium_crisis	Axium Crisis		PST	5	5.5
-axium_crisis	Axium Crisis		PRS	8	8.5
-axium_crisis	Axium Crisis		FTR	10	10.6
-axium_divergence	Axium Divergence		BYD	11	11.3
-dropdead	dropdead.		PST	1	1.5
-dropdead	dropdead.		PRS	9	9.5
-dropdead	dropdead.		FTR	8	9.1
-overdead	overdead.		BYD	10	10.5
-ignotus	Ignotus		PST	3	3.5
-ignotus	Ignotus		PRS	6	6.5
-ignotus	Ignotus		FTR	9	9.3
-ignotus_afterburn	Ignotus Afterburn		BYD	9	9.9
-pragmatism	PRAGMATISM		PST	4	4.5
-pragmatism	PRAGMATISM		PRS	8	8.6
-pragmatism	PRAGMATISM		FTR	10	10.1
-pragmatism_resurrection	PRAGMATISM -RESURRECTION-		BYD	11	11.2
-red_and_blue	Red and Blue		PST	4	4
-red_and_blue	Red and Blue		PRS	7	7.8
-red_and_blue	Red and Blue		FTR	9	9.4
-red_and_blue_and_green	Red and Blue and Green		BYD	10	10.2
-singularity	Singularity		PST	4	4.5
-singularity	Singularity		PRS	7	7.8
-singularity	Singularity		FTR	10	10.5
-singularity_vvvip	Singularity VVVIP		BYD	10	10.4
-vicious_heroism	Vicious Heroism		PST	4	4
-vicious_heroism	Vicious Heroism		PRS	7	7.5
-vicious_heroism	Vicious Heroism		FTR	10	10
-vicious_anti_heroism	Vicious [ANTi] Heroism		BYD	11	11.2
+song_id,title,reading,difficulty,level,constant
+sayonara_hatsukoi,Sayonara Hatsukoi,,PST,1,1.5
+sayonara_hatsukoi,Sayonara Hatsukoi,,PRS,4,4.5
+sayonara_hatsukoi,Sayonara Hatsukoi,,FTR,7,7
+sayonara_hatsukoi,Sayonara Hatsukoi,,ETR,8,8.5
+fairytale,Fairytale,,PST,1,1
+fairytale,Fairytale,,PRS,3,3.5
+fairytale,Fairytale,,FTR,7,7
+fairytale,Fairytale,,BYD,9,9.5
+vexaria,Vexaria,,PST,2,2.5
+vexaria,Vexaria,,PRS,5,5
+vexaria,Vexaria,,FTR,7,7
+vexaria,Vexaria,,BYD,9,9
+rise,Rise,,PST,2,2.5
+rise,Rise,,PRS,4,4
+rise,Rise,,FTR,7+,7.8
+lucifer,Lucifer,,PST,3,3.5
+lucifer,Lucifer,,PRS,5,5.5
+lucifer,Lucifer,,FTR,8,8.2
+snow_white,Snow White,,PST,2,2.5
+snow_white,Snow White,,PRS,5,5
+snow_white,Snow White,,FTR,8,8.4
+snow_white,Snow White,,BYD,9+,9.7
+shades_of_light_in_a_transcendent_realm,Shades of Light in a Transcendent Realm,,PST,3,3
+shades_of_light_in_a_transcendent_realm,Shades of Light in a Transcendent Realm,,PRS,6,6
+shades_of_light_in_a_transcendent_realm,Shades of Light in a Transcendent Realm,,ETR,8,8.3
+shades_of_light_in_a_transcendent_realm,Shades of Light in a Transcendent Realm,,BYD,9,9.1
+babaroque,Babaroque,,PST,3,3
+babaroque,Babaroque,,PRS,6,6.5
+babaroque,Babaroque,,FTR,8,8.5
+lost_civilization,Lost Civilization,,PST,4,4
+lost_civilization,Lost Civilization,,PRS,7,7
+lost_civilization,Lost Civilization,,FTR,9,9.2
+lost_civilization,Lost Civilization,,BYD,9+,9.8
+goodtek_arcaea_edit,GOODTEK(Arcaea Edit),,PST,4,4
+goodtek_arcaea_edit,GOODTEK(Arcaea Edit),,PRS,6,6.5
+goodtek_arcaea_edit,GOODTEK(Arcaea Edit),,FTR,9,9.3
+goodtek_arcaea_edit,GOODTEK(Arcaea Edit),,BYD,9+,9.8
+qualia_ideaesthesia,qualia -ideaesthesia-,,PST,4,4.5
+qualia_ideaesthesia,qualia -ideaesthesia-,,PRS,7,7
+qualia_ideaesthesia,qualia -ideaesthesia-,,FTR,9,9.1
+qualia_ideaesthesia,qualia -ideaesthesia-,,BYD,9+,9.8
+dement_after_legend,Dement ~after legend~,,PST,3,3.5
+dement_after_legend,Dement ~after legend~,,PRS,6,6
+dement_after_legend,Dement ~after legend~,,FTR,7+,7.8
+dement_after_legend,Dement ~after legend~,,BYD,9+,9.9
+dandelion,Dandelion,,PST,2,2.5
+dandelion,Dandelion,,PRS,6,6
+dandelion,Dandelion,,FTR,8,8.5
+infinity_heaven,Infinity Heaven,,PST,1,1.5
+infinity_heaven,Infinity Heaven,,PRS,5,5.5
+infinity_heaven,Infinity Heaven,,FTR,7+,7.8
+infinity_heaven,Infinity Heaven,,BYD,9,9.6
+anokumene,Anökumene,,PST,2,2.5
+anokumene,Anökumene,,PRS,6,6.5
+anokumene,Anökumene,,FTR,9,9.2
+anokumene,Anökumene,,BYD,9+,9.9
+brand_new_world,Brand new world,,PST,2,2
+brand_new_world,Brand new world,,PRS,4,4
+brand_new_world,Brand new world,,FTR,7+,7.8
+chronostasis,Chronostasis,,PST,3,3.5
+chronostasis,Chronostasis,,PRS,7,7.5
+chronostasis,Chronostasis,,FTR,8+,8.9
+song_1hkk81z,神奈川電脳暗渠,,PST,1,1
+song_1hkk81z,神奈川電脳暗渠,,PRS,5,5.5
+song_1hkk81z,神奈川電脳暗渠,,FTR,9,9
+song_1hkk81z,神奈川電脳暗渠,,BYD,9+,9.8
+song_17mlbui,クロートーと星の観測者,,PST,2,2
+song_17mlbui,クロートーと星の観測者,,PRS,5,5
+song_17mlbui,クロートーと星の観測者,,FTR,7+,7.8
+song_17mlbui,クロートーと星の観測者,,ETR,8+,8.8
+utopia_of_spring,ハルトピア ~Utopia of Spring~,,PST,1,1
+utopia_of_spring,ハルトピア ~Utopia of Spring~,,PRS,4,4.5
+utopia_of_spring,ハルトピア ~Utopia of Spring~,,FTR,8,8.5
+rabbit_in_the_black_room,Rabbit In The Black Room,,PST,2,2.5
+rabbit_in_the_black_room,Rabbit In The Black Room,,PRS,5,5.5
+rabbit_in_the_black_room,Rabbit In The Black Room,,FTR,8,8.4
+one_last_drive,One Last Drive,,PST,2,2.5
+one_last_drive,One Last Drive,,PRS,5,5.5
+one_last_drive,One Last Drive,,FTR,8,8.2
+dreamin_attraction,Dreamin' Attraction!!,,PST,4,4.5
+dreamin_attraction,Dreamin' Attraction!!,,PRS,7,7
+dreamin_attraction,Dreamin' Attraction!!,,FTR,9,9.4
+reinvent,Reinvent,,PST,2,2.5
+reinvent,Reinvent,,PRS,6,6.5
+reinvent,Reinvent,,FTR,8,8.5
+purgatorium,Purgatorium,,PST,2,2.5
+purgatorium,Purgatorium,,PRS,6,6
+purgatorium,Purgatorium,,FTR,8,8.4
+purgatorium,Purgatorium,,BYD,9,9.6
+monochrome_princess,Monochrome Princess,,PST,4,4.5
+monochrome_princess,Monochrome Princess,,PRS,7+,7.8
+monochrome_princess,Monochrome Princess,,FTR,9+,9.7
+senkyou,Senkyou,,PST,3,3
+senkyou,Senkyou,,PRS,5,5.5
+senkyou,Senkyou,,FTR,8+,8.7
+world_execute_me,world.execute(me);,,PST,3,3.5
+world_execute_me,world.execute(me);,,PRS,5,5
+world_execute_me,world.execute(me);,,FTR,8,8
+rugie,Rugie,,PST,3,3
+rugie,Rugie,,PRS,6,6
+rugie,Rugie,,FTR,9,9.2
+grimheart,Grimheart,,PST,2,2.5
+grimheart,Grimheart,,PRS,5,5
+grimheart,Grimheart,,FTR,8+,8.7
+blaster,Blaster,,PST,4,4
+blaster,Blaster,,PRS,7,7
+blaster,Blaster,,FTR,9,9.3
+cybernecia_catharsis,Cybernecia Catharsis,,PST,4,4
+cybernecia_catharsis,Cybernecia Catharsis,,PRS,7,7
+cybernecia_catharsis,Cybernecia Catharsis,,FTR,9,9.5
+cybernecia_catharsis,Cybernecia Catharsis,,BYD,9+,9.8
+inkar_usi,inkar-usi,,PST,2,2
+inkar_usi,inkar-usi,,PRS,4,4
+inkar_usi,inkar-usi,,FTR,7+,7.8
+inkar_usi,inkar-usi,,BYD,9,9.4
+suomi,Suomi,,PST,2,2
+suomi,Suomi,,PRS,5,5
+suomi,Suomi,,FTR,7+,7.8
+suomi,Suomi,,ETR,8+,8.9
+bookmaker_2d_version,Bookmaker (2D Version),,PST,4,4.5
+bookmaker_2d_version,Bookmaker (2D Version),,PRS,6,6.5
+bookmaker_2d_version,Bookmaker (2D Version),,FTR,8,8.3
+bookmaker_2d_version,Bookmaker (2D Version),,BYD,10,10
+song_uz6r57,堕楽の園,,PST,2,2
+song_uz6r57,堕楽の園,,PRS,7,7
+song_uz6r57,堕楽の園,,FTR,9,9.5
+nhelv,Nhelv,,PST,3,3
+nhelv,Nhelv,,PRS,6,6.5
+nhelv,Nhelv,,FTR,9+,9.9
+nhelv,Nhelv,,BYD,10+,10.9
+song_h6tugl,白道、多希望羊と信じありく。,,PST,3,3.5
+song_h6tugl,白道、多希望羊と信じありく。,,PRS,6,6
+song_h6tugl,白道、多希望羊と信じありく。,,FTR,9,9.6
+revixy,ReviXy,,PST,3,3
+revixy,ReviXy,,PRS,7,7
+revixy,ReviXy,,FTR,9,9.1
+vecto,VECTOЯ,,PST,3,3
+vecto,VECTOЯ,,PRS,7,7
+vecto,VECTOЯ,,FTR,9,9.4
+supernova,SUPERNOVA,,PST,3,3
+supernova,SUPERNOVA,,PRS,6,6
+supernova,SUPERNOVA,,FTR,9+,9.7
+diode,Diode,,PST,2,2.5
+diode,Diode,,PRS,5,5.5
+diode,Diode,,FTR,8,8.1
+freef4ll,FREEF4LL,,PST,4,4
+freef4ll,FREEF4LL,,PRS,7,7
+freef4ll,FREEF4LL,,FTR,8,8.6
+freef4ll,FREEF4LL,,BYD,9+,9.8
+oblivia,Oblivia,,PST,3,3.5
+oblivia,Oblivia,,PRS,5,5
+oblivia,Oblivia,,FTR,8,8.3
+oblivia,Oblivia,,BYD,9+,9.7
+avril_flicka_i_krans,Ävril -Flicka i krans-,,PST,3,3
+avril_flicka_i_krans,Ävril -Flicka i krans-,,PRS,6,6
+avril_flicka_i_krans,Ävril -Flicka i krans-,,FTR,8,8.3
+sakura_fubuki,Sakura Fubuki,,PST,3,3.5
+sakura_fubuki,Sakura Fubuki,,PRS,6,6.5
+sakura_fubuki,Sakura Fubuki,,FTR,9,9.4
+nulctrl,NULCTRL,,PST,3,3
+nulctrl,NULCTRL,,PRS,7,7.5
+nulctrl,NULCTRL,,FTR,9,9.5
+ddd,DDD,,PST,2,2.5
+ddd,DDD,,PRS,6,6.5
+ddd,DDD,,FTR,8,8.5
+song_lrozjt,ネコノテ・カリタガール,,PST,3,3
+song_lrozjt,ネコノテ・カリタガール,,PRS,6,6
+song_lrozjt,ネコノテ・カリタガール,,FTR,9,9.2
+san_skia,san skia,,PST,3,3.5
+san_skia,san skia,,PRS,6,6
+san_skia,san skia,,FTR,8,8.3
+altair_feat_spila,Altair (feat. *spiLa*),,PST,2,2.5
+altair_feat_spila,Altair (feat. *spiLa*),,PRS,6,6
+altair_feat_spila,Altair (feat. *spiLa*),,FTR,8,8.5
+song_1lomedf,無機質世界に彩を,,PST,4,4
+song_1lomedf,無機質世界に彩を,,PRS,6,6.5
+song_1lomedf,無機質世界に彩を,,FTR,9,9.4
+trap_crow,Trap Crow,,PST,4,4.5
+trap_crow,Trap Crow,,PRS,7+,7.8
+trap_crow,Trap Crow,,FTR,9+,9.9
+song_h5n058,だいあるのーと,,PST,3,3
+song_h5n058,だいあるのーと,,PRS,6,6
+song_h5n058,だいあるのーと,,FTR,8+,8.8
+remind_the_souls_short_version,Remind the Souls (Short Version),,PST,3,3.5
+remind_the_souls_short_version,Remind the Souls (Short Version),,PRS,7,7
+remind_the_souls_short_version,Remind the Souls (Short Version),,FTR,9,9.6
+the_formula,The Formula,,PST,3,3
+the_formula,The Formula,,PRS,6,6
+the_formula,The Formula,,FTR,9,9.3
+jingle,Jingle,,PST,2,2.5
+jingle,Jingle,,PRS,5,5.5
+jingle,Jingle,,FTR,7+,7.8
+jingle,Jingle,,ETR,9,9.5
+song_ca134r,エピクロスの虹はもう見えない,,PST,2,2.5
+song_ca134r,エピクロスの虹はもう見えない,,PRS,5,5.5
+song_ca134r,エピクロスの虹はもう見えない,,FTR,7,7.5
+song_ca134r,エピクロスの虹はもう見えない,,ETR,8+,8.8
+satisfaction,SATISFACTION,,PST,3,3.5
+satisfaction,SATISFACTION,,PRS,6,6.5
+satisfaction,SATISFACTION,,FTR,8,8.5
+satisfaction,SATISFACTION,,ETR,9,9.5
+dematerialized,Dematerialized,,PST,1,1.5
+dematerialized,Dematerialized,,PRS,4,4.5
+dematerialized,Dematerialized,,FTR,7,7.5
+dematerialized,Dematerialized,,ETR,8,8.3
+song_8opy3m,キャラメルポップコーンたべたいよ～,,PST,2,2.5
+song_8opy3m,キャラメルポップコーンたべたいよ～,,PRS,5,5.5
+song_8opy3m,キャラメルポップコーンたべたいよ～,,FTR,8,8.1
+song_8opy3m,キャラメルポップコーンたべたいよ～,,ETR,9,9.1
+syro,Syro,,PST,3,3.5
+syro,Syro,,PRS,6,6.5
+syro,Syro,,FTR,9,9.3
+testify,Testify,,PST,7+,7.8
+testify,Testify,,PRS,9,9.4
+testify,Testify,,FTR,10+,10.9
+testify,Testify,,BYD,12,12
+designant,Designant.,,PST,7,7.5
+designant,Designant.,,PRS,9,9.6
+designant,Designant.,,FTR,10+,10.9
+designant,Designant.,,BYD,11+,11.9
+song_spf6xk,魔王,,PST,4,4
+song_spf6xk,魔王,,PRS,7+,7.8
+song_spf6xk,魔王,,FTR,10,10
+song_spf6xk,魔王,,BYD,11,11.1
+tempestissimo,Tempestissimo,,PST,7,7
+tempestissimo,Tempestissimo,,PRS,9,9.5
+tempestissimo,Tempestissimo,,FTR,10+,10.7
+tempestissimo,Tempestissimo,,BYD,11,11.7
+pentiment,Pentiment,,PST,7,7
+pentiment,Pentiment,,PRS,8+,8.7
+pentiment,Pentiment,,FTR,10,10.4
+pentiment,Pentiment,,BYD,11,11.5
+lament_rain,Lament Rain,,PST,6,6.5
+lament_rain,Lament Rain,,PRS,8+,8.8
+lament_rain,Lament Rain,,FTR,10,10.6
+lament_rain,Lament Rain,,BYD,11,11.4
+arcana_eden,Arcana Eden,,PST,5,5.5
+arcana_eden,Arcana Eden,,PRS,8+,8.7
+arcana_eden,Arcana Eden,,FTR,10,10.5
+arcana_eden,Arcana Eden,,BYD,11,11.6
+undying_macula,Undying Macula,,PST,5,5.5
+undying_macula,Undying Macula,,PRS,8+,8.7
+undying_macula,Undying Macula,,FTR,10,10.1
+undying_macula,Undying Macula,,ETR,11,11
+song_1o895ey,多次元宇宙融合論,,PST,6,6.5
+song_1o895ey,多次元宇宙融合論,,PRS,8+,8.8
+song_1o895ey,多次元宇宙融合論,,FTR,10,10.6
+song_1o895ey,多次元宇宙融合論,,ETR,11,11.3
+alter_ego,ALTER EGO,,PST,6,6.5
+alter_ego,ALTER EGO,,PRS,9,9.2
+alter_ego,ALTER EGO,,FTR,10,10.5
+alter_ego,ALTER EGO,,ETR,11,11.3
+aether_crest_astral,Aether Crest: Astral,,PST,6,6
+aether_crest_astral,Aether Crest: Astral,,PRS,8+,8.9
+aether_crest_astral,Aether Crest: Astral,,FTR,10,10.6
+aether_crest_astral,Aether Crest: Astral,,ETR,11,11.5
+stronger,最強STRONGER,,PST,5,5.5
+stronger,最強STRONGER,,PRS,9,9.4
+stronger,最強STRONGER,,FTR,11,11
+lamia,LAMIA,,PST,5,5
+lamia,LAMIA,,PRS,8,8.5
+lamia,LAMIA,,FTR,11,11
+grievous_lady,Grievous Lady,,PST,6,6.5
+grievous_lady,Grievous Lady,,PRS,9,9.3
+grievous_lady,Grievous Lady,,FTR,11,11.1
+fracture_ray,Fracture Ray,,PST,6,6
+fracture_ray,Fracture Ray,,PRS,9,9.5
+fracture_ray,Fracture Ray,,FTR,11,11.1
+arghena,Arghena,,PST,7,7.5
+arghena,Arghena,,PRS,9,9.6
+arghena,Arghena,,FTR,11,11.3
+aegleseeker,Aegleseeker,,PST,5,5.5
+aegleseeker,Aegleseeker,,PRS,9,9.1
+aegleseeker,Aegleseeker,,FTR,11,11.2
+abstruse_dilemma,Abstruse Dilemma,,PST,5,5.5
+abstruse_dilemma,Abstruse Dilemma,,PRS,8+,8.9
+abstruse_dilemma,Abstruse Dilemma,,FTR,11,11.3
+1f1e33,#1f1e33,,PST,5,5.5
+1f1e33,#1f1e33,,PRS,9,9.2
+1f1e33,#1f1e33,,FTR,11,11.1
+infinite_strife,"Infinite Strife,",,PST,4,4
+infinite_strife,"Infinite Strife,",,PRS,7,7.5
+infinite_strife,"Infinite Strife,",,FTR,9+,9.9
+infinite_strife,"Infinite Strife,",,BYD,10+,10.9
+heavensdoor,Heavensdoor,,PST,4,4.5
+heavensdoor,Heavensdoor,,PRS,7,7.5
+heavensdoor,Heavensdoor,,FTR,9+,9.9
+heavensdoor,Heavensdoor,,BYD,10+,10.8
+heavenly_caress,Heavenly caress,,PST,3,3.5
+heavenly_caress,Heavenly caress,,PRS,7,7.5
+heavenly_caress,Heavenly caress,,FTR,9+,9.8
+heavenly_caress,Heavenly caress,,BYD,10+,10.9
+einherjar_joker,Einherjar Joker,,PST,4,4
+einherjar_joker,Einherjar Joker,,PRS,7,7
+einherjar_joker,Einherjar Joker,,FTR,9+,9.8
+einherjar_joker,Einherjar Joker,,BYD,10+,10.9
+breach_of_faith,Breach of Faith,,PST,5,5.5
+breach_of_faith,Breach of Faith,,PRS,8,8.4
+breach_of_faith,Breach of Faith,,FTR,10,10.3
+breach_of_faith,Breach of Faith,,BYD,10+,10.9
+xterfusion,Xterfusion,,PST,4,4.5
+xterfusion,Xterfusion,,PRS,8,8.3
+xterfusion,Xterfusion,,FTR,9+,9.8
+xterfusion,Xterfusion,,ETR,10+,10.7
+welcome_queen_of_fiction,"Welcome, Queen of Fiction.",,PST,5,5
+welcome_queen_of_fiction,"Welcome, Queen of Fiction.",,PRS,8,8.5
+welcome_queen_of_fiction,"Welcome, Queen of Fiction.",,FTR,10,10.1
+welcome_queen_of_fiction,"Welcome, Queen of Fiction.",,ETR,10+,10.9
+we_re_all_gonna_die,We're All Gonna Die,,PST,5,5.5
+we_re_all_gonna_die,We're All Gonna Die,,PRS,8,8
+we_re_all_gonna_die,We're All Gonna Die,,FTR,10,10.1
+we_re_all_gonna_die,We're All Gonna Die,,ETR,10+,10.9
+virtus,ViRTUS,,PST,5,5.5
+virtus,ViRTUS,,PRS,8,8.6
+virtus,ViRTUS,,FTR,9+,9.9
+virtus,ViRTUS,,ETR,10+,10.9
+signal,Signal,,PST,4,4
+signal,Signal,,PRS,7+,7.8
+signal,Signal,,FTR,9+,9.8
+signal,Signal,,ETR,10+,10.7
+nightmare,Nightmare,,PST,4,4.5
+nightmare,Nightmare,,PRS,7,7.8
+nightmare,Nightmare,,FTR,9+,9.8
+nightmare,Nightmare,,ETR,10+,10.8
+megalovania_camellia_remix,MEGALOVANIA (Camellia Remix),,PST,5,5.5
+megalovania_camellia_remix,MEGALOVANIA (Camellia Remix),,PRS,8,8.4
+megalovania_camellia_remix,MEGALOVANIA (Camellia Remix),,FTR,9+,9.8
+megalovania_camellia_remix,MEGALOVANIA (Camellia Remix),,ETR,10+,10.9
+marenyx,MARENYX,,PST,4,4.5
+marenyx,MARENYX,,PRS,7+,7.8
+marenyx,MARENYX,,FTR,9,9.5
+marenyx,MARENYX,,ETR,10+,10.8
+lilly,Lilly,,PST,5,5
+lilly,Lilly,,PRS,8,8.4
+lilly,Lilly,,FTR,9+,9.9
+lilly,Lilly,,ETR,10+,10.8
+inverted_world,Inverted World,,PST,3,3
+inverted_world,Inverted World,,PRS,7,7
+inverted_world,Inverted World,,FTR,9,9.5
+inverted_world,Inverted World,,ETR,10+,10.7
+desive,Désive,,PST,5,5
+desive,Désive,,PRS,8,8
+desive,Désive,,FTR,9+,9.9
+desive,Désive,,ETR,10+,10.8
+don_t_fight_the_music,Don't Fight The Music,,PST,4,4.5
+don_t_fight_the_music,Don't Fight The Music,,PRS,7+,7.8
+don_t_fight_the_music,Don't Fight The Music,,FTR,9,9.3
+don_t_fight_the_music,Don't Fight The Music,,ETR,10+,10.7
+distorted_fate,Distorted Fate,,PST,4,4.5
+distorted_fate,Distorted Fate,,PRS,7+,7.8
+distorted_fate,Distorted Fate,,FTR,9,9.6
+distorted_fate,Distorted Fate,,ETR,10+,10.8
+code_oblivion,Code: Oblivion,,PST,5,5.5
+code_oblivion,Code: Oblivion,,PRS,8,8.3
+code_oblivion,Code: Oblivion,,FTR,9+,9.9
+code_oblivion,Code: Oblivion,,ETR,10+,10.9
+chronologia,chronologia,,PST,4,4.5
+chronologia,chronologia,,PRS,7+,7.8
+chronologia,chronologia,,FTR,9+,9.8
+chronologia,chronologia,,ETR,10+,10.8
+andorxor,ANDORXOR,,PST,4,4.5
+andorxor,ANDORXOR,,PRS,7+,7.8
+andorxor,ANDORXOR,,FTR,9+,9.9
+andorxor,ANDORXOR,,ETR,10+,10.8
+acid_god,Acid God,,PST,4,4.5
+acid_god,Acid God,,PRS,7+,7.8
+acid_god,Acid God,,FTR,9+,9.9
+acid_god,Acid God,,ETR,10+,10.9
+4,ω4,,PST,3,3.5
+4,ω4,,PRS,7+,7.8
+4,ω4,,FTR,10+,10.8
+world_vanquisher,World Vanquisher,,PST,2,2.5
+world_vanquisher,World Vanquisher,,PRS,5,5.5
+world_vanquisher,World Vanquisher,,FTR,10+,10.7
+vulcanus,Vulcānus,,PST,5,5.5
+vulcanus,Vulcānus,,PRS,8,8.5
+vulcanus,Vulcānus,,FTR,10+,10.9
+teravolt,TeraVolt,,PST,5,5
+teravolt,TeraVolt,,PRS,8+,8.9
+teravolt,TeraVolt,,FTR,10+,10.8
+temptation,TEmPTaTiON,,PST,5,5
+temptation,TEmPTaTiON,,PRS,8,8.2
+temptation,TEmPTaTiON,,FTR,10+,10.9
+stasis,Stasis,,PST,4,4.5
+stasis,Stasis,,PRS,7,7
+stasis,Stasis,,FTR,10+,10.8
+song_gtzuea,蜘蛛の糸,,PST,4,4.5
+song_gtzuea,蜘蛛の糸,,PRS,7+,7.8
+song_gtzuea,蜘蛛の糸,,FTR,10+,10.8
+ringed_genesis,Ringed Genesis,,PST,5,5.5
+ringed_genesis,Ringed Genesis,,PRS,8,8.4
+ringed_genesis,Ringed Genesis,,FTR,10+,10.8
+resonance,烈華RESONANCE,,PST,5,5
+resonance,烈華RESONANCE,,PRS,8+,8.9
+resonance,烈華RESONANCE,,FTR,10+,10.7
+primitive_lights,PRIMITIVE LIGHTS,,PST,5,5.5
+primitive_lights,PRIMITIVE LIGHTS,,PRS,8+,8.8
+primitive_lights,PRIMITIVE LIGHTS,,FTR,10+,10.8
+ouroboros_twin_stroke_of_the_end,ouroboros -twin stroke of the end-,,PST,4,4.5
+ouroboros_twin_stroke_of_the_end,ouroboros -twin stroke of the end-,,PRS,7,7.5
+ouroboros_twin_stroke_of_the_end,ouroboros -twin stroke of the end-,,FTR,10+,10.7
+null_apophenia,NULL APOPHENIA,,PST,4,4.5
+null_apophenia,NULL APOPHENIA,,PRS,8+,8.8
+null_apophenia,NULL APOPHENIA,,FTR,10+,10.7
+song_1fg22iz,業 -善なる神とこの世の悪について-,,PST,5,5.5
+song_1fg22iz,業 -善なる神とこの世の悪について-,,PRS,8,8.5
+song_1fg22iz,業 -善なる神とこの世の悪について-,,FTR,10+,10.9
+meta_mysteria,Meta-Mysteria,,PST,5,5
+meta_mysteria,Meta-Mysteria,,PRS,7+,7.8
+meta_mysteria,Meta-Mysteria,,FTR,10+,10.8
+romance,狂恋ROMANCE,,PST,4,4
+romance,狂恋ROMANCE,,PRS,7+,7.8
+romance,狂恋ROMANCE,,FTR,10+,10.7
+genocider,GENOCIDER,,PST,4,4.5
+genocider,GENOCIDER,,PRS,8+,8.9
+genocider,GENOCIDER,,FTR,10+,10.8
+divine_light_of_myriad,光速神授説 - Divine Light of Myriad -,,PST,4,4.5
+divine_light_of_myriad,光速神授説 - Divine Light of Myriad -,,PRS,7+,7.8
+divine_light_of_myriad,光速神授説 - Divine Light of Myriad -,,FTR,10+,10.8
+dantalion,Dantalion,,PST,5,5
+dantalion,Dantalion,,PRS,8,8.2
+dantalion,Dantalion,,FTR,10+,10.8
+da_at_the_first_seeker_of_souls,DA'AT -The First Seeker of Souls-,,PST,5,5.5
+da_at_the_first_seeker_of_souls,DA'AT -The First Seeker of Souls-,,PRS,8,8.4
+da_at_the_first_seeker_of_souls,DA'AT -The First Seeker of Souls-,,FTR,10+,10.9
+cyaegha,Cyaegha,,PST,5,5.5
+cyaegha,Cyaegha,,PRS,8,8.4
+cyaegha,Cyaegha,,FTR,10+,10.7
+chaos,CHAOS,,PST,5,5.5
+chaos,CHAOS,,PRS,7,7.5
+chaos,CHAOS,,FTR,10+,10.9
+buchigire_berserker,BUCHiGiRE Berserker,,PST,5,5
+buchigire_berserker,BUCHiGiRE Berserker,,PRS,8,8.6
+buchigire_berserker,BUCHiGiRE Berserker,,FTR,10+,10.8
+black_mind,Black MInD,,PST,5,5
+black_mind,Black MInD,,PRS,8,8
+black_mind,Black MInD,,FTR,10+,10.8
+and_revive_the_melody,And Revive The Melody,,PST,5,5.5
+and_revive_the_melody,And Revive The Melody,,PRS,8,8.5
+and_revive_the_melody,And Revive The Melody,,FTR,10+,10.9
+amazing_mightyyyy,AMAZING MIGHTYYYY!!!!,,PST,4,4.5
+amazing_mightyyyy,AMAZING MIGHTYYYY!!!!,,PRS,7+,7.8
+amazing_mightyyyy,AMAZING MIGHTYYYY!!!!,,FTR,10+,10.7
+altergate,AlterGate,,PST,5,5.5
+altergate,AlterGate,,PRS,8+,8.7
+altergate,AlterGate,,FTR,10+,10.7
+ii,͟͝͞Ⅱ́̕,,PST,5,5
+ii,͟͝͞Ⅱ́̕,,PRS,8+,8.9
+ii,͟͝͞Ⅱ́̕,,FTR,10+,10.8
+song_80lswp,最高の悪夢,,PST,3,3.5
+song_80lswp,最高の悪夢,,PRS,6,6.5
+song_80lswp,最高の悪夢,,FTR,8+,8.9
+song_80lswp,最高の悪夢,,BYD,10,10.2
+trappola_bewitching,妖艶魔女 -trappola bewitching-,,PST,3,3
+trappola_bewitching,妖艶魔女 -trappola bewitching-,,PRS,6,6
+trappola_bewitching,妖艶魔女 -trappola bewitching-,,FTR,9+,9.9
+trappola_bewitching,妖艶魔女 -trappola bewitching-,,BYD,10,10.6
+small_cloud_sugar_candy,Small Cloud Sugar Candy,,PST,3,3
+small_cloud_sugar_candy,Small Cloud Sugar Candy,,PRS,6,6.5
+small_cloud_sugar_candy,Small Cloud Sugar Candy,,FTR,9,9.3
+small_cloud_sugar_candy,Small Cloud Sugar Candy,,BYD,10,10.3
+saint_or_sinner,Saint or Sinner,,PST,3,3
+saint_or_sinner,Saint or Sinner,,PRS,6,6
+saint_or_sinner,Saint or Sinner,,FTR,8+,8.8
+saint_or_sinner,Saint or Sinner,,BYD,10,10.4
+renegade,Renegade,,PST,4,4.5
+renegade,Renegade,,PRS,7+,7.8
+renegade,Renegade,,FTR,9,9.6
+renegade,Renegade,,BYD,10,10.2
+rays_of_remnant,Rays of Remnant,,PST,4,4.5
+rays_of_remnant,Rays of Remnant,,PRS,7,7.5
+rays_of_remnant,Rays of Remnant,,FTR,9+,9.7
+rays_of_remnant,Rays of Remnant,,BYD,10,10.4
+quon,Quon,,PST,2,2.5
+quon,Quon,,PRS,6,6
+quon,Quon,,FTR,8+,8.7
+quon,Quon,,BYD,10,10.2
+purple_verse,Purple Verse,,PST,4,4
+purple_verse,Purple Verse,,PRS,7,7.5
+purple_verse,Purple Verse,,FTR,9,9.6
+purple_verse,Purple Verse,,BYD,10,10.6
+party_vinyl,Party Vinyl,,PST,4,4
+party_vinyl,Party Vinyl,,PRS,7+,7.8
+party_vinyl,Party Vinyl,,FTR,9,9.4
+party_vinyl,Party Vinyl,,BYD,10,10.3
+omakeno_stroke,OMAKENO Stroke,,PST,3,3
+omakeno_stroke,OMAKENO Stroke,,PRS,6,6.5
+omakeno_stroke,OMAKENO Stroke,,FTR,9,9.5
+omakeno_stroke,OMAKENO Stroke,,BYD,10,10.3
+libertas,Libertas,,PST,3,3.5
+libertas,Libertas,,PRS,5,5.5
+libertas,Libertas,,FTR,9,9.2
+libertas,Libertas,,BYD,10,10.5
+lastendconductor,lastendconductor,,PST,3,3.5
+lastendconductor,lastendconductor,,PRS,7,7.5
+lastendconductor,lastendconductor,,FTR,9,9.4
+lastendconductor,lastendconductor,,BYD,10,10.2
+la_qryma_of_the_wasteland,La'qryma of the Wasteland,,PST,3,3.5
+la_qryma_of_the_wasteland,La'qryma of the Wasteland,,PRS,6,6.5
+la_qryma_of_the_wasteland,La'qryma of the Wasteland,,FTR,9,9.1
+la_qryma_of_the_wasteland,La'qryma of the Wasteland,,BYD,10,10
+impact,IMPACT,,PST,3,3.5
+impact,IMPACT,,PRS,7+,7.8
+impact,IMPACT,,FTR,9,9.6
+impact,IMPACT,,BYD,10,10.4
+energy_synergy_matrix,ENERGY SYNERGY MATRIX,,PST,3,3.5
+energy_synergy_matrix,ENERGY SYNERGY MATRIX,,PRS,7,7
+energy_synergy_matrix,ENERGY SYNERGY MATRIX,,FTR,9,9.6
+energy_synergy_matrix,ENERGY SYNERGY MATRIX,,BYD,10,10.3
+be_there,Be There,,PST,4,4
+be_there,Be There,,PRS,7,7.5
+be_there,Be There,,FTR,9,9.4
+be_there,Be There,,BYD,10,10.5
+altale,Altale,,PST,2,2.5
+altale,Altale,,PRS,5,5.5
+altale,Altale,,FTR,9+,9.8
+altale,Altale,,BYD,10,10
+z_le,ΛZΛLEΛ,,PST,4,4
+z_le,ΛZΛLEΛ,,PRS,7,7
+z_le,ΛZΛLEΛ,,FTR,9,9.4
+z_le,ΛZΛLEΛ,,ETR,10,10
+zephyrlasting,zephyrlasting,,PST,3,3.5
+zephyrlasting,zephyrlasting,,PRS,7,7.5
+zephyrlasting,zephyrlasting,,FTR,9,9.5
+zephyrlasting,zephyrlasting,,ETR,10,10.3
+xxium_and_purple_haze,Xxium and Purple haze,,PST,2,2.5
+xxium_and_purple_haze,Xxium and Purple haze,,PRS,7+,7.8
+xxium_and_purple_haze,Xxium and Purple haze,,FTR,9+,9.9
+xxium_and_purple_haze,Xxium and Purple haze,,ETR,10,10.5
+song_169eyxf,黄昏の協奏曲,,PST,4,4.5
+song_169eyxf,黄昏の協奏曲,,PRS,7+,7.8
+song_169eyxf,黄昏の協奏曲,,FTR,9,9.5
+song_169eyxf,黄昏の協奏曲,,ETR,10,10.5
+third_sun,Third Sun,,PST,3,3.5
+third_sun,Third Sun,,PRS,7,7
+third_sun,Third Sun,,FTR,9,9.4
+third_sun,Third Sun,,ETR,10,10
+song_1xnvruw,［筏］は云う。幾ら漂流すれど不撓の心さえ有れば軈て行到ると。,,PST,4,4.5
+song_1xnvruw,［筏］は云う。幾ら漂流すれど不撓の心さえ有れば軈て行到ると。,,PRS,7,7.5
+song_1xnvruw,［筏］は云う。幾ら漂流すれど不撓の心さえ有れば軈て行到ると。,,FTR,9,9.5
+song_1xnvruw,［筏］は云う。幾ら漂流すれど不撓の心さえ有れば軈て行到ると。,,ETR,10,10.4
+song_1fz4hkn,テレパシ,,PST,4,4.5
+song_1fz4hkn,テレパシ,,PRS,7+,7.8
+song_1fz4hkn,テレパシ,,FTR,9,9.6
+song_1fz4hkn,テレパシ,,ETR,10,10.4
+synthesis,Synthesis.,,PST,4,4
+synthesis,Synthesis.,,PRS,8,8.2
+synthesis,Synthesis.,,FTR,9+,9.7
+synthesis,Synthesis.,,ETR,10,10.5
+song_1w9pm50,ザラメノキワミ,,PST,3,3
+song_1w9pm50,ザラメノキワミ,,PRS,6,6.5
+song_1w9pm50,ザラメノキワミ,,FTR,9,9.1
+song_1w9pm50,ザラメノキワミ,,ETR,10,10.1
+song_1f4so7w,羽化する亜球体,,PST,5,5
+song_1f4so7w,羽化する亜球体,,PRS,8,8.1
+song_1f4so7w,羽化する亜球体,,FTR,9,9.6
+song_1f4so7w,羽化する亜球体,,ETR,10,10.6
+straight_into_the_lights,Straight into the lights,,PST,4,4
+straight_into_the_lights,Straight into the lights,,PRS,7,7.5
+straight_into_the_lights,Straight into the lights,,FTR,9,9.5
+straight_into_the_lights,Straight into the lights,,ETR,10,10.5
+riot_in_the_system,Riot in the System,,PST,4,4.5
+riot_in_the_system,Riot in the System,,PRS,7,7.5
+riot_in_the_system,Riot in the System,,FTR,9,9.5
+riot_in_the_system,Riot in the System,,ETR,10,10.1
+rain_of_conflict_in_a_radiant_abyss,Rain of Conflict in a Radiant Abyss,,PST,5,5
+rain_of_conflict_in_a_radiant_abyss,Rain of Conflict in a Radiant Abyss,,PRS,7+,7.8
+rain_of_conflict_in_a_radiant_abyss,Rain of Conflict in a Radiant Abyss,,FTR,9,9.5
+rain_of_conflict_in_a_radiant_abyss,Rain of Conflict in a Radiant Abyss,,ETR,10,10.5
+paranoid_arc,Paranoid Arc,,PST,4,4.5
+paranoid_arc,Paranoid Arc,,PRS,7+,7.8
+paranoid_arc,Paranoid Arc,,FTR,9,9.6
+paranoid_arc,Paranoid Arc,,ETR,10,10.5
+song_h0m2p,オーバーライド,,PST,4,4
+song_h0m2p,オーバーライド,,PRS,7,7.5
+song_h0m2p,オーバーライド,,FTR,9,9.5
+song_h0m2p,オーバーライド,,ETR,10,10.2
+oblivion,OBLIVION,,PST,4,4
+oblivion,OBLIVION,,PRS,7,7
+oblivion,OBLIVION,,FTR,9,9.5
+oblivion,OBLIVION,,ETR,10,10.1
+no_way_back,No Way Back,,PST,4,4.5
+no_way_back,No Way Back,,PRS,7,7.5
+no_way_back,No Way Back,,FTR,8+,8.9
+no_way_back,No Way Back,,ETR,10,10.4
+my_life_is_mine_alone,My life is mine alone!,,PST,2,2.5
+my_life_is_mine_alone,My life is mine alone!,,PRS,5,5.5
+my_life_is_mine_alone,My life is mine alone!,,FTR,8+,8.8
+my_life_is_mine_alone,My life is mine alone!,,ETR,10,10.1
+song_1gsxsr9,メルティーラプソディー,,PST,3,3.5
+song_1gsxsr9,メルティーラプソディー,,PRS,7,7.5
+song_1gsxsr9,メルティーラプソディー,,FTR,9,9.6
+song_1gsxsr9,メルティーラプソディー,,ETR,10,10.4
+megalovania,MEGALOVANIA,,PST,4,4.5
+megalovania,MEGALOVANIA,,PRS,7,7.5
+megalovania,MEGALOVANIA,,FTR,9,9.5
+megalovania,MEGALOVANIA,,ETR,10,10.5
+song_tgow7r,愛して愛して愛して,,PST,3,3.5
+song_tgow7r,愛して愛して愛して,,PRS,7,6.5
+song_tgow7r,愛して愛して愛して,,FTR,8+,8.7
+song_tgow7r,愛して愛して愛して,,ETR,10,10.5
+infinite_dimension,INFINITE DIMENSION,,PST,2,2.5
+infinite_dimension,INFINITE DIMENSION,,PRS,6,6
+infinite_dimension,INFINITE DIMENSION,,FTR,8,8.6
+infinite_dimension,INFINITE DIMENSION,,ETR,10,10.1
+incarnator00,INCARNATOR₀₀,,PST,3,3.5
+incarnator00,INCARNATOR₀₀,,PRS,6,6.5
+incarnator00,INCARNATOR₀₀,,FTR,8+,8.9
+incarnator00,INCARNATOR₀₀,,ETR,10,10.4
+goodrage,GOODRAGE,,PST,4,4.5
+goodrage,GOODRAGE,,PRS,7+,7.8
+goodrage,GOODRAGE,,FTR,9,9.3
+goodrage,GOODRAGE,,ETR,10,10.2
+song_4b30wf,神っぽいな,,PST,4,3.5
+song_4b30wf,神っぽいな,,PRS,7,7
+song_4b30wf,神っぽいな,,FTR,9,9.3
+song_4b30wf,神っぽいな,,ETR,10,10
+song_f05b3b,幻想のサテライト,,PST,2,2.5
+song_f05b3b,幻想のサテライト,,PRS,6,6.5
+song_f05b3b,幻想のサテライト,,FTR,8+,8.7
+song_f05b3b,幻想のサテライト,,ETR,10,10.1
+eternity_break,Eternity Break,,PST,3,3.5
+eternity_break,Eternity Break,,PRS,7,7.5
+eternity_break,Eternity Break,,FTR,9,9.6
+eternity_break,Eternity Break,,ETR,10,10.4
+dual_doom_deathmatch,Dual Doom Deathmatch,,PST,3,3.5
+dual_doom_deathmatch,Dual Doom Deathmatch,,PRS,6,6.5
+dual_doom_deathmatch,Dual Doom Deathmatch,,FTR,8+,8.9
+dual_doom_deathmatch,Dual Doom Deathmatch,,ETR,10,10.3
+dual_dependency,Dual Dependency,,PST,4,4.5
+dual_dependency,Dual Dependency,,PRS,7+,7.8
+dual_dependency,Dual Dependency,,FTR,9,9.5
+dual_dependency,Dual Dependency,,ETR,10,10.4
+don_t_die,Don't Die,,PST,3,3.5
+don_t_die,Don't Die,,PRS,7,7
+don_t_die,Don't Die,,FTR,9,9.4
+don_t_die,Don't Die,,ETR,10,10.1
+dies_irae,Dies irae,,PST,4,4.5
+dies_irae,Dies irae,,PRS,7,7.5
+dies_irae,Dies irae,,FTR,9,9.5
+dies_irae,Dies irae,,ETR,10,10.6
+cryogenic,Cryogenic,,PST,5,5
+cryogenic,Cryogenic,,PRS,7,7.5
+cryogenic,Cryogenic,,FTR,9,9.2
+cryogenic,Cryogenic,,ETR,10,10.1
+chaosblast,CHAOSBLAST,,PST,4,4.5
+chaosblast,CHAOSBLAST,,PRS,7+,7.8
+chaosblast,CHAOSBLAST,,FTR,9,9.6
+chaosblast,CHAOSBLAST,,ETR,10,10.5
+c_s_q_n,c.s.q.n.,,PST,4,4
+c_s_q_n,c.s.q.n.,,PRS,7,7.5
+c_s_q_n,c.s.q.n.,,FTR,9,9.6
+c_s_q_n,c.s.q.n.,,ETR,10,10.3
+break_break_break,BREaK! BREaK! BREaK!,,PST,3,3.5
+break_break_break,BREaK! BREaK! BREaK!,,PRS,6,6.5
+break_break_break,BREaK! BREaK! BREaK!,,FTR,8+,8.8
+break_break_break,BREaK! BREaK! BREaK!,,ETR,10,10.3
+blythe,BlythE,,PST,3,3
+blythe,BlythE,,PRS,7,7.5
+blythe,BlythE,,FTR,9,9.4
+blythe,BlythE,,ETR,10,10.5
+blazing_air,BlazinG AIR,,PST,3,3.5
+blazing_air,BlazinG AIR,,PRS,6,6.5
+blazing_air,BlazinG AIR,,FTR,8+,8.9
+blazing_air,BlazinG AIR,,ETR,10,10.1
+song_6kvvob,アズゴア,,PST,4,4.5
+song_6kvvob,アズゴア,,PRS,7,7.5
+song_6kvvob,アズゴア,,FTR,8+,8.8
+song_6kvvob,アズゴア,,ETR,10,10.2
+8_em,8-EM,,PST,4,4.5
+8_em,8-EM,,PRS,7+,7.8
+8_em,8-EM,,FTR,9,9.5
+8_em,8-EM,,ETR,10,10.3
+10pt8ion,10pt8ion,,PST,4,4
+10pt8ion,10pt8ion,,PRS,7+,7.8
+10pt8ion,10pt8ion,,FTR,9+,9.8
+10pt8ion,10pt8ion,,ETR,10,10.5
+uar_ina,γuarδina,,PST,4,4
+uar_ina,γuarδina,,PRS,8,8
+uar_ina,γuarδina,,FTR,10,10.4
+terl_us,αterlβus,,PST,4,4
+terl_us,αterlβus,,PRS,7,7.5
+terl_us,αterlβus,,FTR,10,10.2
+xtreme,XTREME,,PST,4,4.5
+xtreme,XTREME,,PRS,7+,7.8
+xtreme,XTREME,,FTR,10,10.5
+xanatos,Xanatos,,PST,4,4
+xanatos,Xanatos,,PRS,7,7.5
+xanatos,Xanatos,,FTR,10,10
+wish_upon_a_snow,Wish Upon a Snow,,PST,4,4.5
+wish_upon_a_snow,Wish Upon a Snow,,PRS,7,7.5
+wish_upon_a_snow,Wish Upon a Snow,,FTR,10,10.5
+viyella_s_tears,Viyella's Tears,,PST,4,4
+viyella_s_tears,Viyella's Tears,,PRS,7+,7.8
+viyella_s_tears,Viyella's Tears,,FTR,10,10.3
+valhalla_0,Valhalla:0,,PST,4,4.5
+valhalla_0,Valhalla:0,,PRS,7,7.5
+valhalla_0,Valhalla:0,,FTR,10,10.2
+unknown_levels,UNKNOWN LEVELS,,PST,4,4
+unknown_levels,UNKNOWN LEVELS,,PRS,8,8.1
+unknown_levels,UNKNOWN LEVELS,,FTR,10,10.6
+ultradiaxon_n3,ultradiaxon-N3,,PST,4,4.5
+ultradiaxon_n3,ultradiaxon-N3,,PRS,8,8.5
+ultradiaxon_n3,ultradiaxon-N3,,FTR,10,10.3
+trrricksters,Trrricksters!!,,PST,4,4.5
+trrricksters,Trrricksters!!,,PRS,7,7.5
+trrricksters,Trrricksters!!,,FTR,10,10.1
+trpno,TRPNO,,PST,4,4.5
+trpno,TRPNO,,PRS,7+,7.8
+trpno,TRPNO,,FTR,10,10
+song_1y6w6xf,アリス・リデルに捧ぐ,,PST,4,4
+song_1y6w6xf,アリス・リデルに捧ぐ,,PRS,7,7.5
+song_1y6w6xf,アリス・リデルに捧ぐ,,FTR,10,10.3
+to_the_milky_way,To the Milky Way,,PST,5,5
+to_the_milky_way,To the Milky Way,,PRS,8+,8.9
+to_the_milky_way,To the Milky Way,,FTR,10,10.4
+tiferet,Tiferet,,PST,4,4.5
+tiferet,Tiferet,,PRS,7+,7.8
+tiferet,Tiferet,,FTR,10,10.3
+super_ambulance,SUPER AMBULANCE,,PST,4,4.5
+super_ambulance,SUPER AMBULANCE,,PRS,7,7.5
+super_ambulance,SUPER AMBULANCE,,FTR,10,10.3
+spirit_of_the_dauntless,Spirit of the Dauntless,,PST,4,4.5
+spirit_of_the_dauntless,Spirit of the Dauntless,,PRS,7+,7.8
+spirit_of_the_dauntless,Spirit of the Dauntless,,FTR,10,10.5
+sheriruth_laur_remix,Sheriruth (Laur Remix),,PST,4,4
+sheriruth_laur_remix,Sheriruth (Laur Remix),,PRS,7+,7.8
+sheriruth_laur_remix,Sheriruth (Laur Remix),,FTR,10,10.5
+sheriruth,Sheriruth,,PST,5,5.5
+sheriruth,Sheriruth,,PRS,7,7.5
+sheriruth,Sheriruth,,FTR,10,10
+seclusion,Seclusion,,PST,4,4
+seclusion,Seclusion,,PRS,7,7.5
+seclusion,Seclusion,,FTR,10,10.6
+scarlet_lance,Scarlet Lance,,PST,4,4
+scarlet_lance,Scarlet Lance,,PRS,7,7
+scarlet_lance,Scarlet Lance,,FTR,10,10
+rost_page_gene,ROST PAGE GENE,,PST,5,5
+rost_page_gene,ROST PAGE GENE,,PRS,8,8.2
+rost_page_gene,ROST PAGE GENE,,FTR,10,10.3
+rise_of_the_world,Rise of the World,,PST,4,4.5
+rise_of_the_world,Rise of the World,,PRS,8,8.1
+rise_of_the_world,Rise of the World,,FTR,10,10.5
+redolent_shape,Redolent Shape,,PST,4,4.5
+redolent_shape,Redolent Shape,,PRS,7,7.5
+redolent_shape,Redolent Shape,,FTR,10,10.2
+qovat,Qovat,,PST,4,4.5
+qovat,Qovat,,PRS,8,8.2
+qovat,Qovat,,FTR,10,10.4
+pupa,PUPA,,PST,4,4
+pupa,PUPA,,PRS,7+,7.8
+pupa,PUPA,,FTR,10,10.4
+song_qmah0,プラシイボ♥バトラー,,PST,5,5.5
+song_qmah0,プラシイボ♥バトラー,,PRS,8,8.3
+song_qmah0,プラシイボ♥バトラー,,FTR,10,10.4
+overwhelm,Overwhelm,,PST,5,5
+overwhelm,Overwhelm,,PRS,8,8.5
+overwhelm,Overwhelm,,FTR,10,10.6
+oshama_scramble,Oshama Scramble!,,PST,3,3.5
+oshama_scramble,Oshama Scramble!,,PRS,6,6.5
+oshama_scramble,Oshama Scramble!,,FTR,10,10
+nirv_luce,Nirv lucE,,PST,2,2.5
+nirv_luce,Nirv lucE,,PRS,7,7
+nirv_luce,Nirv lucE,,FTR,10,10.2
+neo_wings,NEO WINGS,,PST,4,4
+neo_wings,NEO WINGS,,PRS,7,7.5
+neo_wings,NEO WINGS,,FTR,10,10.2
+mvurbd,MVURBD,,PST,4,4.5
+mvurbd,MVURBD,,PRS,7+,7.8
+mvurbd,MVURBD,,FTR,10,10.6
+mirinae,MIRINAE,,PST,4,4.5
+mirinae,MIRINAE,,PRS,8,8.3
+mirinae,MIRINAE,,FTR,10,10.4
+metallic_punisher,Metallic Punisher,,PST,3,3
+metallic_punisher,Metallic Punisher,,PRS,7,7
+metallic_punisher,Metallic Punisher,,FTR,10,10.3
+medusa,Medusa,,PST,4,4.5
+medusa,Medusa,,PRS,7,7
+medusa,Medusa,,FTR,10,10.1
+masquerade_legion,Masquerade Legion,,PST,3,3.5
+masquerade_legion,Masquerade Legion,,PRS,6,6.5
+masquerade_legion,Masquerade Legion,,FTR,10,10
+manic_jeer,Manic Jeer,,PST,4,4
+manic_jeer,Manic Jeer,,PRS,7+,7.8
+manic_jeer,Manic Jeer,,FTR,10,10.6
+malicious_mischance,Malicious Mischance,,PST,4,4
+malicious_mischance,Malicious Mischance,,PRS,7+,7.8
+malicious_mischance,Malicious Mischance,,FTR,10,10.2
+magnolia,Magnolia,,PST,4,4.5
+magnolia,Magnolia,,PRS,7+,7.8
+magnolia,Magnolia,,FTR,10,10.2
+loschen,Löschen,,PST,3,3.5
+loschen,Löschen,,PRS,7,7
+loschen,Löschen,,FTR,10,10.2
+lucid_traveler,Lucid Traveler,,PST,4,4.5
+lucid_traveler,Lucid Traveler,,PRS,8+,8.9
+lucid_traveler,Lucid Traveler,,FTR,10,10.5
+logos,Logos,,PST,4,4
+logos,Logos,,PRS,7+,7.8
+logos,Logos,,FTR,10,10.2
+live_fast_die_young,Live Fast Die Young,,PST,4,4.5
+live_fast_die_young,Live Fast Die Young,,PRS,8,8.5
+live_fast_die_young,Live Fast Die Young,,FTR,10,10.6
+lightning_screw,Lightning Screw,,PST,4,4.5
+lightning_screw,Lightning Screw,,PRS,7+,7.8
+lightning_screw,Lightning Screw,,FTR,10,10.5
+liar,Liar,,PST,4,4.5
+liar,Liar,,PRS,7+,7.8
+liar,Liar,,FTR,10,10
+lethal_voltage,Lethal Voltage,,PST,4,4.5
+lethal_voltage,Lethal Voltage,,PRS,7+,7.8
+lethal_voltage,Lethal Voltage,,FTR,10,10.4
+last_celebration,Last Celebration,,PST,3,3.5
+last_celebration,Last Celebration,,PRS,6,6.5
+last_celebration,Last Celebration,,FTR,10,10.4
+kissing_lucifer,Kissing Lucifer,,PST,4,4.5
+kissing_lucifer,Kissing Lucifer,,PRS,7+,7.8
+kissing_lucifer,Kissing Lucifer,,FTR,10,10.4
+song_1qyirc0,患部で止まってすぐ溶ける ～ 狂気の優曇華院,,PST,4,4
+song_1qyirc0,患部で止まってすぐ溶ける ～ 狂気の優曇華院,,PRS,7,7.5
+song_1qyirc0,患部で止まってすぐ溶ける ～ 狂気の優曇華院,,FTR,10,10.1
+judgement,Judgement,,PST,5,5.5
+judgement,Judgement,,PRS,8,8.6
+judgement,Judgement,,FTR,10,10.5
+izana,IZANA,,PST,5,5
+izana,IZANA,,PRS,8,8.3
+izana,IZANA,,FTR,10,10.3
+internet_yamero,INTERNET YAMERO,,PST,4,4.5
+internet_yamero,INTERNET YAMERO,,PRS,7+,7.8
+internet_yamero,INTERNET YAMERO,,FTR,10,9.9
+song_1um2kor,怒槌,,PST,3,3.5
+song_1um2kor,怒槌,,PRS,7,7.5
+song_1um2kor,怒槌,,FTR,10,10.3
+hivemind,HIVEMIND,,PST,4,4
+hivemind,HIVEMIND,,PRS,8,8.6
+hivemind,HIVEMIND,,FTR,10,10
+nayuta_2017_ver,緋色月下、狂咲ノ絶 (nayuta 2017 ver.),,PST,3,3.5
+nayuta_2017_ver,緋色月下、狂咲ノ絶 (nayuta 2017 ver.),,PRS,6,6.5
+nayuta_2017_ver,緋色月下、狂咲ノ絶 (nayuta 2017 ver.),,FTR,10,10.3
+halcyon,Halcyon,,PST,5,5.5
+halcyon,Halcyon,,PRS,8,8.2
+halcyon,Halcyon,,FTR,10,10.5
+grandspell,Grandspell,,PST,4,4.5
+grandspell,Grandspell,,PRS,8,8.4
+grandspell,Grandspell,,FTR,10,10.2
+good_bye_merry_go_round,"Good bye, Merry-Go-Round.",,PST,4,4.5
+good_bye_merry_go_round,"Good bye, Merry-Go-Round.",,PRS,7,7.5
+good_bye_merry_go_round,"Good bye, Merry-Go-Round.",,FTR,10,10.6
+glory_road,GLORY：ROAD,,PST,4,4.5
+glory_road,GLORY：ROAD,,PRS,7,7
+glory_road,GLORY：ROAD,,FTR,10,10.5
+gimme_da_blood,GIMME DA BLOOD,,PST,3,3.5
+gimme_da_blood,GIMME DA BLOOD,,PRS,7,7.5
+gimme_da_blood,GIMME DA BLOOD,,FTR,10,10.5
+garakuta_doll_play,Garakuta Doll Play,,PST,4,4.5
+garakuta_doll_play,Garakuta Doll Play,,PRS,6,6.5
+garakuta_doll_play,Garakuta Doll Play,,FTR,10,10.4
+g_e_n_g_a_o_z_o,G e n g a o z o,,PST,4,4
+g_e_n_g_a_o_z_o,G e n g a o z o,,PRS,8,8.1
+g_e_n_g_a_o_z_o,G e n g a o z o,,FTR,10,10.1
+free_myself,Free Myself,,PST,4,4.5
+free_myself,Free Myself,,PRS,7,7.5
+free_myself,Free Myself,,FTR,10,10
+felis,Felis,,PST,4,4
+felis,Felis,,PRS,7,7.5
+felis,Felis,,FTR,10,10.4
+ether_strike,Ether Strike,,PST,5,5.5
+ether_strike,Ether Strike,,PRS,8,8.3
+ether_strike,Ether Strike,,FTR,10,10.3
+ego_eimi,Ego Eimi,,PST,5,5.5
+ego_eimi,Ego Eimi,,PRS,8,8.6
+ego_eimi,Ego Eimi,,FTR,10,10.5
+eden,eden,,PST,4,4.5
+eden,eden,,PRS,8,8.2
+eden,eden,,FTR,10,10.5
+dull_blade,Dull Blade,,PST,4,4.5
+dull_blade,Dull Blade,,PRS,8,8
+dull_blade,Dull Blade,,FTR,10,10.5
+desertrealm,Desertrealm,,PST,4,4.5
+desertrealm,Desertrealm,,PRS,8,8.5
+desertrealm,Desertrealm,,FTR,10,10.6
+cyanine,cyanine,,PST,4,4
+cyanine,cyanine,,PRS,7+,7.8
+cyanine,cyanine,,FTR,10,10.6
+crimson_throne,Crimson Throne,,PST,4,4
+crimson_throne,Crimson Throne,,PRS,8,8
+crimson_throne,Crimson Throne,,FTR,10,10.6
+corps_sans_organes,corps-sans-organes,,PST,4,4.5
+corps_sans_organes,corps-sans-organes,,PRS,7+,7.8
+corps_sans_organes,corps-sans-organes,,FTR,10,10.6
+conflict,conflict,,PST,4,4.5
+conflict,conflict,,PRS,7,7.5
+conflict,conflict,,FTR,10,10.2
+climax,Climax,,PST,4,4.5
+climax,Climax,,PRS,7+,7.8
+climax,Climax,,FTR,10,10.4
+chronicle,Chronicle,,PST,5,5
+chronicle,Chronicle,,PRS,8+,8.9
+chronicle,Chronicle,,FTR,10,10.5
+chromafill,Chromafill,,PST,4,4
+chromafill,Chromafill,,PRS,7,7
+chromafill,Chromafill,,FTR,10,10
+capella,Capella,,PST,4,4.5
+capella,Capella,,PRS,7+,7.8
+capella,Capella,,FTR,10,10.2
+song_yjlgtw,竹,,PST,3,3
+song_yjlgtw,竹,,PRS,6,6.5
+song_yjlgtw,竹,,FTR,10,10
+back_to_basics,Back to Basics,,PST,5,5
+back_to_basics,Back to Basics,,PRS,8+,8.7
+back_to_basics,Back to Basics,,FTR,10,10.6
+aurgelmir,Aurgelmir,,PST,4,4.5
+aurgelmir,Aurgelmir,,PRS,8,8.5
+aurgelmir,Aurgelmir,,FTR,10,10.5
+attraqtia,AttraqtiA,,PST,4,4
+attraqtia,AttraqtiA,,PRS,8,8.3
+attraqtia,AttraqtiA,,FTR,10,10.6
+astral_quantization,Astral Quantization,,PST,5,5
+astral_quantization,Astral Quantization,,PRS,8,8.1
+astral_quantization,Astral Quantization,,FTR,10,10.6
+angel_s_boundary,Angel's Boundary,,PST,5,5
+angel_s_boundary,Angel's Boundary,,PRS,8,8.5
+angel_s_boundary,Angel's Boundary,,FTR,10,10.2
+alexandrite,Alexandrite,,PST,4,4.5
+alexandrite,Alexandrite,,PRS,7,7.5
+alexandrite,Alexandrite,,FTR,10,10
+aleph_0,Aleph-0,,PST,5,5.5
+aleph_0,Aleph-0,,PRS,8+,8.8
+aleph_0,Aleph-0,,FTR,10,10.5
+x,[X],,PST,4,4.5
+x,[X],,PRS,7+,7.8
+x,[X],,FTR,10,10.6
+99_glooms,99 Glooms,,PST,4,4
+99_glooms,99 Glooms,,PRS,7+,7.8
+99_glooms,99 Glooms,,FTR,10,10.3
+teriqma,Teriqma,,PST,3,3
+teriqma,Teriqma,,PRS,6,6.5
+teriqma,Teriqma,,FTR,9,9.4
+teriqma,Teriqma,,BYD,9+,9.7
+moonheart,Moonheart,,PST,2,2.5
+moonheart,Moonheart,,PRS,5,5.5
+moonheart,Moonheart,,FTR,8,8.4
+moonheart,Moonheart,,BYD,9+,9.7
+song_je3qur,狂言綺語,,PST,3,3.5
+song_je3qur,狂言綺語,,PRS,6,6.5
+song_je3qur,狂言綺語,,FTR,9,9.3
+song_je3qur,狂言綺語,,BYD,9+,9.9
+eccentric_tale,Eccentric Tale,,PST,2,2
+eccentric_tale,Eccentric Tale,,PRS,5,5.5
+eccentric_tale,Eccentric Tale,,FTR,8,8.4
+eccentric_tale,Eccentric Tale,,BYD,9+,9.9
+waltz_for_lorelei,Waltz for Lorelei,,PST,2,2.5
+waltz_for_lorelei,Waltz for Lorelei,,PRS,5,5.5
+waltz_for_lorelei,Waltz for Lorelei,,FTR,8+,8.8
+waltz_for_lorelei,Waltz for Lorelei,,ETR,9+,9.8
+vainspire,Vainspire,,PST,3,3.5
+vainspire,Vainspire,,PRS,7,7
+vainspire,Vainspire,,FTR,8,8.4
+vainspire,Vainspire,,ETR,9+,9.9
+u_a_d,U.A.D,,PST,3,3.5
+u_a_d,U.A.D,,PRS,6,6.5
+u_a_d,U.A.D,,FTR,8+,8.7
+u_a_d,U.A.D,,ETR,9+,9.8
+tic_tac_toe,Tic! Tac! Toe!,,PST,3,3.5
+tic_tac_toe,Tic! Tac! Toe!,,PRS,7,7.5
+tic_tac_toe,Tic! Tac! Toe!,,FTR,8+,8.8
+tic_tac_toe,Tic! Tac! Toe!,,ETR,9+,9.9
+taboo_tears_you_up_2017,taboo tears you up 2017,,PST,3,3
+taboo_tears_you_up_2017,taboo tears you up 2017,,PRS,6,6.5
+taboo_tears_you_up_2017,taboo tears you up 2017,,FTR,8,8.4
+taboo_tears_you_up_2017,taboo tears you up 2017,,ETR,9+,9.8
+stargate_extreme,STARGATE EXTREME,,PST,4,4
+stargate_extreme,STARGATE EXTREME,,PRS,6,6
+stargate_extreme,STARGATE EXTREME,,FTR,9,9.3
+stargate_extreme,STARGATE EXTREME,,ETR,9+,9.9
+song_12h8ofk,正義の槍,,PST,3,3.5
+song_12h8ofk,正義の槍,,PRS,6,6.5
+song_12h8ofk,正義の槍,,FTR,8,8.8
+song_12h8ofk,正義の槍,,ETR,9+,9.9
+song_1ozseyr,進捗どうですか?,,PST,3,3.5
+song_1ozseyr,進捗どうですか?,,PRS,7,7.5
+song_1ozseyr,進捗どうですか?,,FTR,8+,8.8
+song_1ozseyr,進捗どうですか?,,ETR,9+,9.9
+particle,Particle,,PST,3,3.5
+particle,Particle,,PRS,6,6
+particle,Particle,,FTR,9,9.5
+particle,Particle,,ETR,9+,9.7
+paradox_palette,Paradox Palette,,PST,4,4
+paradox_palette,Paradox Palette,,PRS,7,7.5
+paradox_palette,Paradox Palette,,FTR,8+,8.8
+paradox_palette,Paradox Palette,,ETR,9+,9.9
+morningloom,MORNINGLOOM,,PST,3,3
+morningloom,MORNINGLOOM,,PRS,6,6.5
+morningloom,MORNINGLOOM,,FTR,8+,8.8
+morningloom,MORNINGLOOM,,ETR,9+,9.8
+miles,Miles,,PST,3,3.5
+miles,Miles,,PRS,6,6.5
+miles,Miles,,FTR,8,8.2
+miles,Miles,,ETR,9+,9.8
+liftoff,LiftOff,,PST,3,3
+liftoff,LiftOff,,PRS,6,6.5
+liftoff,LiftOff,,FTR,8,8.2
+liftoff,LiftOff,,ETR,9+,9.8
+song_1v3fkjt,ラヴィ,,PST,3,3.5
+song_1v3fkjt,ラヴィ,,PRS,6,6
+song_1v3fkjt,ラヴィ,,FTR,8+,8.8
+song_1v3fkjt,ラヴィ,,ETR,9+,9.9
+song_d6pdp4,これでホントにサヨナラ,,PST,2,2.5
+song_d6pdp4,これでホントにサヨナラ,,PRS,6,6.5
+song_d6pdp4,これでホントにサヨナラ,,FTR,8,8.2
+song_d6pdp4,これでホントにサヨナラ,,ETR,9+,9.7
+ionostream,IONOSTREAM,,PST,3,3.5
+ionostream,IONOSTREAM,,PRS,6,6
+ionostream,IONOSTREAM,,FTR,8+,8.7
+ionostream,IONOSTREAM,,ETR,9+,9.7
+innocence,Innocence,,PST,3,3
+innocence,Innocence,,PRS,6,6.5
+innocence,Innocence,,FTR,8,8.5
+innocence,Innocence,,ETR,9+,9.7
+incomplete_the_one,incomplete the one,,PST,3,3.5
+incomplete_the_one,incomplete the one,,PRS,7,7.5
+incomplete_the_one,incomplete the one,,FTR,8+,8.8
+incomplete_the_one,incomplete the one,,ETR,9+,9.9
+hypnotize,Hypnotize,,PST,3,3.5
+hypnotize,Hypnotize,,PRS,7,7
+hypnotize,Hypnotize,,FTR,8+,8.9
+hypnotize,Hypnotize,,ETR,9+,9.9
+disintegration,disintegration,,PST,4,4
+disintegration,disintegration,,PRS,6,6.5
+disintegration,disintegration,,FTR,8,8.3
+disintegration,disintegration,,ETR,9+,9.8
+crimson_quartz,Crimson Quartz,,PST,3,3
+crimson_quartz,Crimson Quartz,,PRS,6,6
+crimson_quartz,Crimson Quartz,,FTR,8+,8.8
+crimson_quartz,Crimson Quartz,,ETR,9+,9.8
+cosmogyral,Cosmogyral,,PST,2,2.5
+cosmogyral,Cosmogyral,,PRS,5,5.5
+cosmogyral,Cosmogyral,,FTR,8,8.6
+cosmogyral,Cosmogyral,,ETR,9+,9.8
+chain2nite,CHAIN2NITE,,PST,4,4
+chain2nite,CHAIN2NITE,,PRS,6,6.5
+chain2nite,CHAIN2NITE,,FTR,8,8.6
+chain2nite,CHAIN2NITE,,ETR,9+,9.9
+black_mirror_on_the_wall,Black Mirror on the Wall,,PST,3,3.5
+black_mirror_on_the_wall,Black Mirror on the Wall,,PRS,6,6.5
+black_mirror_on_the_wall,Black Mirror on the Wall,,FTR,8,8.6
+black_mirror_on_the_wall,Black Mirror on the Wall,,ETR,9+,9.7
+altersist,Altersist,,PST,2,2.5
+altersist,Altersist,,PRS,6,6
+altersist,Altersist,,FTR,8,8.4
+altersist,Altersist,,ETR,9+,9.8
+tau,τ (tau),,PST,4,4.5
+tau,τ (tau),,PRS,7+,7.8
+tau,τ (tau),,FTR,9+,9.7
+song_1fcfszf,μ,,PST,3,3.5
+song_1fcfszf,μ,,PRS,7,7.5
+song_1fcfszf,μ,,FTR,9+,9.7
+song_1fpb7ab,~_+,,PST,4,4.5
+song_1fpb7ab,~_+,,PRS,8,8
+song_1fpb7ab,~_+,,FTR,9+,9.9
+song_oxdk47,ヨミビトシラズ,,PST,4,4.5
+song_oxdk47,ヨミビトシラズ,,PRS,8,8
+song_oxdk47,ヨミビトシラズ,,FTR,9+,9.8
+xeraphinite,Xeraphinite,,PST,3,3
+xeraphinite,Xeraphinite,,PRS,7,7.5
+xeraphinite,Xeraphinite,,FTR,9+,9.8
+world_fragments_iii_radio_edit,World Fragments III(radio edit),,PST,3,3.5
+world_fragments_iii_radio_edit,World Fragments III(radio edit),,PRS,7,7
+world_fragments_iii_radio_edit,World Fragments III(radio edit),,FTR,9+,9.8
+won_t_back_down,Won't Back Down,,PST,3,3.5
+won_t_back_down,Won't Back Down,,PRS,6,6.5
+won_t_back_down,Won't Back Down,,FTR,9+,9.8
+vandalism,Vandalism,,PST,3,3.5
+vandalism,Vandalism,,PRS,7,7
+vandalism,Vandalism,,FTR,9+,9.7
+vallista,Vallista,,PST,4,4.5
+vallista,Vallista,,PRS,7+,7.8
+vallista,Vallista,,FTR,9+,9.7
+ultimate_taste,Ultimate taste,,PST,3,3.5
+ultimate_taste,Ultimate taste,,PRS,6,6.5
+ultimate_taste,Ultimate taste,,FTR,9+,9.9
+song_13kif4u,彼方の夢へと,,PST,4,4.5
+song_13kif4u,彼方の夢へと,,PRS,8,8.5
+song_13kif4u,彼方の夢へと,,FTR,9+,9.8
+the_ultimacy,THE ULTIMACY,,PST,3,3
+the_ultimacy,THE ULTIMACY,,PRS,7,7
+the_ultimacy,THE ULTIMACY,,FTR,9+,9.8
+the_survivor_game_edit,The Survivor (Game Edit),,PST,3,3.5
+the_survivor_game_edit,The Survivor (Game Edit),,PRS,6,6.5
+the_survivor_game_edit,The Survivor (Game Edit),,FTR,9+,9.9
+the_message,The Message,,PST,3,3
+the_message,The Message,,PRS,6,6.5
+the_message,The Message,,FTR,9+,9.7
+song_d6i6ix,森奥虚跡,,PST,3,3.5
+song_d6i6ix,森奥虚跡,,PRS,6,6.5
+song_d6i6ix,森奥虚跡,,FTR,9+,9.7
+technicolour,Technicolour,,PST,3,3.5
+technicolour,Technicolour,,PRS,7,7
+technicolour,Technicolour,,FTR,9+,9.8
+syriana,Syriana,,PST,4,4.5
+syriana,Syriana,,PRS,7,7.5
+syriana,Syriana,,FTR,9+,9.9
+swan_song,Swan Song,,PST,3,3
+swan_song,Swan Song,,PRS,7,7.5
+swan_song,Swan Song,,FTR,9+,9.9
+song_1qcosq1,彩る夏の恋花火,,PST,3,3
+song_1qcosq1,彩る夏の恋花火,,PRS,6,6.5
+song_1qcosq1,彩る夏の恋花火,,FTR,9+,9.9
+sulfur,Sulfur,,PST,4,4
+sulfur,Sulfur,,PRS,6,6
+sulfur,Sulfur,,FTR,9+,9.7
+soundwitch,SOUNDWiTCH,,PST,3,3.5
+soundwitch,SOUNDWiTCH,,PRS,6,6.5
+soundwitch,SOUNDWiTCH,,FTR,9+,9.8
+shrink,shrink,,PST,3,3.5
+shrink,shrink,,PRS,7,7
+shrink,shrink,,FTR,9+,9.8
+song_19pxv53,朱月ノ姫,,PST,3,3.5
+song_19pxv53,朱月ノ姫,,PRS,7,7
+song_19pxv53,朱月ノ姫,,FTR,9+,9.8
+scarlet_cage,Scarlet Cage,,PST,4,4
+scarlet_cage,Scarlet Cage,,PRS,7,7.5
+scarlet_cage,Scarlet Cage,,FTR,9+,9.8
+sacrifice_feat_ayame,SACRIFICE feat. ayame,,PST,3,3.5
+sacrifice_feat_ayame,SACRIFICE feat. ayame,,PRS,7,7.5
+sacrifice_feat_ayame,SACRIFICE feat. ayame,,FTR,9+,9.7
+rgb,RGB,,PST,4,4
+rgb,RGB,,PRS,7+,7.8
+rgb,RGB,,FTR,9+,9.8
+protoflicker,Protoflicker,,PST,3,3
+protoflicker,Protoflicker,,PRS,7,7
+protoflicker,Protoflicker,,FTR,9+,9.8
+ouverture,Ouvertüre,,PST,2,2.5
+ouverture,Ouvertüre,,PRS,7,7.5
+ouverture,Ouvertüre,,FTR,9+,9.8
+old_school_salvage,Old School Salvage,,PST,4,4
+old_school_salvage,Old School Salvage,,PRS,7+,7.8
+old_school_salvage,Old School Salvage,,FTR,9+,9.8
+n_smo,nέο κόsmo,,PST,4,4
+n_smo,nέο κόsmo,,PRS,7+,7.8
+n_smo,nέο κόsmo,,FTR,9+,9.7
+new_york_back_raise,New York Back Raise,,PST,4,4.5
+new_york_back_raise,New York Back Raise,,PRS,7,7
+new_york_back_raise,New York Back Raise,,FTR,9+,9.9
+nameless_passion,Nameless Passion,,PST,3,3
+nameless_passion,Nameless Passion,,PRS,7,7
+nameless_passion,Nameless Passion,,FTR,9+,9.8
+modelista,Modelista,,PST,3,3.5
+modelista,Modelista,,PRS,7,7.5
+modelista,Modelista,,FTR,9+*1,9.9
+mirzam,Mirzam,,PST,4,4
+mirzam,Mirzam,,PRS,7,7.5
+mirzam,Mirzam,,FTR,9+,9.9
+mirror_kamome_sano_remix,MIRROR - kamome sano remix,,PST,4,4
+mirror_kamome_sano_remix,MIRROR - kamome sano remix,,PRS,7,7
+mirror_kamome_sano_remix,MIRROR - kamome sano remix,,FTR,9+,9.9
+memory_forest,Memory Forest,,PST,3,3.5
+memory_forest,Memory Forest,,PRS,6,6
+memory_forest,Memory Forest,,FTR,9+,9.8
+mazy_metroplex,Mazy Metroplex,,PST,3,3
+mazy_metroplex,Mazy Metroplex,,PRS,7+,7.8
+mazy_metroplex,Mazy Metroplex,,FTR,9+,9.8
+maxrage,MAXRAGE,,PST,3,3.5
+maxrage,MAXRAGE,,PRS,6,6.5
+maxrage,MAXRAGE,,FTR,9+,9.9
+macrocosmic_modulation,Macrocosmic Modulation,,PST,4,4
+macrocosmic_modulation,Macrocosmic Modulation,,PRS,7+,7.8
+macrocosmic_modulation,Macrocosmic Modulation,,FTR,9+,9.8
+luna_rossa,Luna Rossa,,PST,3,3
+luna_rossa,Luna Rossa,,PRS,6,6
+luna_rossa,Luna Rossa,,FTR,9+,9.7
+loveless_dress,Loveless Dress,,PST,3,3.5
+loveless_dress,Loveless Dress,,PRS,6,6.5
+loveless_dress,Loveless Dress,,FTR,9+,9.7
+lost_in_the_abyss,Lost in the Abyss,,PST,3,3.5
+lost_in_the_abyss,Lost in the Abyss,,PRS,6,6.5
+lost_in_the_abyss,Lost in the Abyss,,FTR,9+,9.7
+lost_desire,Lost Desire,,PST,4,4
+lost_desire,Lost Desire,,PRS,7+,7.8
+lost_desire,Lost Desire,,FTR,9+,9.8
+livht_my_w_y,LIVHT MY W​Δ​Y,,PST,4,4.5
+livht_my_w_y,LIVHT MY W​Δ​Y,,PRS,7,7.5
+livht_my_w_y,LIVHT MY W​Δ​Y,,FTR,9+,9.8
+linear_accelerator,Linear Accelerator,,PST,2,2.5
+linear_accelerator,Linear Accelerator,,PRS,6,6.5
+linear_accelerator,Linear Accelerator,,FTR,9+,9.8
+lethaeus,Lethaeus,,PST,3,3.5
+lethaeus,Lethaeus,,PRS,6,6.5
+lethaeus,Lethaeus,,FTR,9+,9.7
+let_s_rock_arcaea_mix,Let's Rock (Arcaea mix),,PST,3,3
+let_s_rock_arcaea_mix,Let's Rock (Arcaea mix),,PRS,7,7
+let_s_rock_arcaea_mix,Let's Rock (Arcaea mix),,FTR,9+,9.7
+arr_demetori,感情の摩天楼 ～Arr.Demetori,,PST,3,3.5
+arr_demetori,感情の摩天楼 ～Arr.Demetori,,PRS,6,6.5
+arr_demetori,感情の摩天楼 ～Arr.Demetori,,FTR,9+,9.8
+init,init(),,PST,4,4
+init,init(),,PRS,7,7.5
+init,init(),,FTR,9+,9.8
+ignition,Ignition,,PST,3,3.5
+ignition,Ignition,,PRS,6,6
+ignition,Ignition,,FTR,9+,9.8
+hyper_vision,HYPER VISION,,PST,4,4.5
+hyper_vision,HYPER VISION,,PRS,7,7.5
+hyper_vision,HYPER VISION,,FTR,9+,9.8
+song_18ah544,ヒュブリスの頂に聳えるのは,,PST,4,4.5
+song_18ah544,ヒュブリスの頂に聳えるのは,,PRS,7+,7.8
+song_18ah544,ヒュブリスの頂に聳えるのは,,FTR,9+,9.8
+song_12z331,蛍火の雪,,PST,3,3.5
+song_12z331,蛍火の雪,,PRS,7,7
+song_12z331,蛍火の雪,,FTR,9+,9.7
+heart_jackin,Heart Jackin',,PST,3,3
+heart_jackin,Heart Jackin',,PRS,5,5.5
+heart_jackin,Heart Jackin',,FTR,9+,9.7
+song_1hsrupj,秋の陽炎,,PST,3,3.5
+song_1hsrupj,秋の陽炎,,PRS,7,7
+song_1hsrupj,秋の陽炎,,FTR,9+,9.8
+hailstone,Hailstone,,PST,3,3.5
+hailstone,Hailstone,,PRS,7,7
+hailstone,Hailstone,,FTR,9+,9.7
+got_hive_of_ra,Got hive of Ra,,PST,3,3
+got_hive_of_ra,Got hive of Ra,,PRS,6,6.5
+got_hive_of_ra,Got hive of Ra,,FTR,9+,9.8
+goldenslaughterer,goldenslaughterer,,PST,4,4
+goldenslaughterer,goldenslaughterer,,PRS,6,6.5
+goldenslaughterer,goldenslaughterer,,FTR,9+,9.7
+genesis,Genesis,,PST,4,4
+genesis,Genesis,,PRS,7,7
+genesis,Genesis,,FTR,9+,9.8
+galaxy_friends,Galaxy Friends,,PST,3,3.5
+galaxy_friends,Galaxy Friends,,PRS,6,6
+galaxy_friends,Galaxy Friends,,FTR,9+,9.9
+fluffy_flash,FLUFFY FLASH,,PST,3,3.5
+fluffy_flash,FLUFFY FLASH,,PRS,6,6.5
+fluffy_flash,FLUFFY FLASH,,FTR,9+,9.8
+flexidefine,flexidefine,,PST,2,2
+flexidefine,flexidefine,,PRS,6,6
+flexidefine,flexidefine,,FTR,9+,9.9
+filament,Filament,,PST,4,4.5
+filament,Filament,,PRS,7+,7.8
+filament,Filament,,FTR,9+,9.7
+far_away_light,Far Away Light,,PST,4,4.5
+far_away_light,Far Away Light,,PRS,7+,7.8
+far_away_light,Far Away Light,,FTR,9+,9.8
+fallensquare,Fallensquare,,PST,3,3
+fallensquare,Fallensquare,,PRS,7,7.5
+fallensquare,Fallensquare,,FTR,9+,9.7
+dx,DX超性能フルメタル少女,,PST,3,3
+dx,DX超性能フルメタル少女,,PRS,6,6
+dx,DX超性能フルメタル少女,,FTR,9+,9.7
+dreadnought,Dreadnought,,PST,4,4
+dreadnought,Dreadnought,,PRS,7,7
+dreadnought,Dreadnought,,FTR,9+,9.7
+song_1o2bn07,ディストーション・ニンゲン,,PST,3,3
+song_1o2bn07,ディストーション・ニンゲン,,PRS,6,6.5
+song_1o2bn07,ディストーション・ニンゲン,,FTR,9+,9.9
+devillic_sphere,Devillic Sphere,,PST,4,4
+devillic_sphere,Devillic Sphere,,PRS,7+,7.8
+devillic_sphere,Devillic Sphere,,FTR,9+,9.9
+defection,Defection,,PST,3,3.5
+defection,Defection,,PRS,6,6.5
+defection,Defection,,FTR,9+,9.8
+dazzle_hop,Dazzle hop,,PST,3,3.5
+dazzle_hop,Dazzle hop,,PRS,6,6.5
+dazzle_hop,Dazzle hop,,FTR,9+,9.7
+corruption,Corruption,,PST,3,3
+corruption,Corruption,,PRS,6,6.5
+corruption,Corruption,,FTR,9+,9.8
+callima_karma,Callima Karma,,PST,3,3.5
+callima_karma,Callima Karma,,PRS,7,7.5
+callima_karma,Callima Karma,,FTR,9+,9.8
+blrink,BLRINK,,PST,3,3.5
+blrink,BLRINK,,PRS,7+,7.8
+blrink,BLRINK,,FTR,9+,9.7
+black_territory,Black Territory,,PST,3,3
+black_territory,Black Territory,,PRS,7,7.5
+black_territory,Black Territory,,FTR,9+,9.8
+black_lotus,Black Lotus,,PST,3,3
+black_lotus,Black Lotus,,PRS,6,6.5
+black_lotus,Black Lotus,,FTR,9+,9.7
+beautiful_dreamer,Beautiful Dreamer,,PST,4,4
+beautiful_dreamer,Beautiful Dreamer,,PRS,7+,7.8
+beautiful_dreamer,Beautiful Dreamer,,FTR,9+,9.9
+battle_no_1,BATTLE NO.1,,PST,3,3.5
+battle_no_1,BATTLE NO.1,,PRS,6,6.5
+battle_no_1,BATTLE NO.1,,FTR,9+,9.7
+badtek,BADTEK,,PST,4,4
+badtek,BADTEK,,PRS,7,7
+badtek,BADTEK,,FTR,9+,9.7
+b_b_k_k_b_k_k,B.B.K.K.B.K.K.,,PST,4,4.5
+b_b_k_k_b_k_k,B.B.K.K.B.K.K.,,PRS,7,7
+b_b_k_k_b_k_k,B.B.K.K.B.K.K.,,FTR,9+,9.7
+awaken_in_ruins,Awaken In Ruins,,PST,3,3.5
+awaken_in_ruins,Awaken In Ruins,,PRS,7,7.5
+awaken_in_ruins,Awaken In Ruins,,FTR,9+,9.7
+astra_walkthrough,Astra walkthrough,,PST,4,4.5
+astra_walkthrough,Astra walkthrough,,PRS,7+,7.8
+astra_walkthrough,Astra walkthrough,,FTR,9+,9.9
+ascent,Ascent,,PST,3,3
+ascent,Ascent,,PRS,6,6
+ascent,Ascent,,FTR,9+,9.8
+arcahv,Arcahv,,PST,4,4.5
+arcahv,Arcahv,,PRS,7+,7.8
+arcahv,Arcahv,,FTR,9+,9.9
+antagonism,Antagonism,,PST,4,4.5
+antagonism,Antagonism,,PRS,7+,7.8
+antagonism,Antagonism,,FTR,9+,9.9
+amygdata,amygdata,,PST,4,4
+amygdata,amygdata,,PRS,7,7.5
+amygdata,amygdata,,FTR,9+,9.7
+song_1l52msi,雨神楽,,PST,4,4
+song_1l52msi,雨神楽,,PRS,7,7.5
+song_1l52msi,雨神楽,,FTR,9+,9.9
+alterale,AlterAle,,PST,3,3
+alterale,AlterAle,,PRS,6,6
+alterale,AlterAle,,FTR,9+,9.7
+ai_drew,Ai Drew,,PST,3,3.5
+ai_drew,Ai Drew,,PRS,6,6.5
+ai_drew,Ai Drew,,FTR,9+,9.8
+acheron,Acheron,,PST,3,3.5
+acheron,Acheron,,PRS,7,7.5
+acheron,Acheron,,FTR,9+,9.7
+7thsense,7thSense,,PST,3,3
+7thsense,7thSense,,PRS,7+,7.8
+7thsense,7thSense,,FTR,9+,9.9
+1_unknown_number,+1(UNKNOWN)-NUMBER,,PST,4,4
+1_unknown_number,+1(UNKNOWN)-NUMBER,,PRS,7,7
+1_unknown_number,+1(UNKNOWN)-NUMBER,,FTR,9+,9.7
+last,Last,,PST,4,4
+last,Last,,PRS,7,7
+last,Last,,FTR,9,9
+last_moment,Last | Moment,,BYD,9,9.6
+last_eternity,Last | Eternity,,BYD,9+,9.7
+axium_crisis,Axium Crisis,,PST,5,5.5
+axium_crisis,Axium Crisis,,PRS,8,8.5
+axium_crisis,Axium Crisis,,FTR,10,10.6
+axium_divergence,Axium Divergence,,BYD,11,11.3
+dropdead,dropdead.,,PST,1,1.5
+dropdead,dropdead.,,PRS,9,9.5
+dropdead,dropdead.,,FTR,8+,9.1
+overdead,overdead.,,BYD,10,10.5
+ignotus,Ignotus,,PST,3,3.5
+ignotus,Ignotus,,PRS,6,6.5
+ignotus,Ignotus,,FTR,9,9.3
+ignotus_afterburn,Ignotus Afterburn,,BYD,9+,9.9
+pragmatism,PRAGMATISM,,PST,4,4.5
+pragmatism,PRAGMATISM,,PRS,8,8.6
+pragmatism,PRAGMATISM,,FTR,10,10.1
+pragmatism_resurrection,PRAGMATISM -RESURRECTION-,,BYD,11,11.2
+red_and_blue,Red and Blue,,PST,4,4
+red_and_blue,Red and Blue,,PRS,7+,7.8
+red_and_blue,Red and Blue,,FTR,9,9.4
+red_and_blue_and_green,Red and Blue and Green,,BYD,10,10.2
+singularity,Singularity,,PST,4,4.5
+singularity,Singularity,,PRS,7+,7.8
+singularity,Singularity,,FTR,10,10.5
+singularity_vvvip,Singularity VVVIP,,BYD,10,10.4
+vicious_heroism,Vicious Heroism,,PST,4,4
+vicious_heroism,Vicious Heroism,,PRS,7,7.5
+vicious_heroism,Vicious Heroism,,FTR,10,10
+vicious_anti_heroism,Vicious [ANTi] Heroism,,BYD,11,11.2
