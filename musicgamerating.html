@@ -529,7 +529,7 @@
         .diff-ETR { background: #ef4444; color: white; }
         .diff-BYD { background: #991b1b; color: #fecaca; }
 
-        /* Arcaea 楽曲DB */
+        /* 楽曲DB（Arcaea / Phigros） */
         .arcaea-source-card {
             margin-bottom: 20px;
             padding: 16px;
@@ -649,7 +649,7 @@
         .arcaea-chart-button span { color: var(--text-muted); font-size: 0.68rem; }
         .arcaea-manual-help { margin: 0; color: var(--text-muted); font-size: 0.78rem; line-height: 1.6; }
 
-        #arc-constant[readonly] {
+        #arc-constant[readonly], #phi-constant[readonly] {
             cursor: not-allowed;
             opacity: 0.8;
         }
@@ -670,6 +670,7 @@
         /* FC / AP バッジ */
         .fc-badges {
             display: flex;
+            flex-wrap: wrap;
             gap: 6px;
             margin-bottom: 8px;
         }
@@ -712,6 +713,7 @@
 
         .badge-FR { background: #bfdbfe; color: #1e3a5f; }
         .badge-PM { background: linear-gradient(135deg, #fde68a, #f59e0b); color: #1c1917; }
+        .badge-TC { background: #d1fae5; color: #065f46; }
         .badge-FC-arc { background: #bbf7d0; color: #052e16; }
         .badge-FC-phi { background: #bbf7d0; color: #052e16; }
         .badge-FC-tak { background: #bbf7d0; color: #052e16; }
@@ -808,7 +810,7 @@
 
             <div class="rate-display" id="arc-display">
                 <div class="rate-label">単曲レート (PTT)</div>
-                <div class="rate-value empty" id="arc-rate">--.-—</div>
+                <div class="rate-value empty" id="arc-rate">--.---</div>
                 <div id="arc-rank"></div>
             </div>
 
@@ -816,6 +818,7 @@
             <div class="add-to-best">
                 <div class="add-to-best-label">ベスト枠に追加</div>
                 <div class="fc-badges">
+                    <label><input type="checkbox" id="arc-tc" checked onchange="calcArcaea()">Track Complete（単曲PT +0.200）</label>
                     <label><input type="checkbox" id="arc-fr">Full Recall</label>
                     <label><input type="checkbox" id="arc-pm">Pure Memory</label>
                 </div>
@@ -836,12 +839,12 @@
             <div class="best-section">
                 <div class="best-header">
                     <div class="best-title-group">
-                        <span class="best-title" id="arc-best-title">📊 ベスト枠 (TOP30)</span>
+                        <span class="best-title" id="arc-best-title">📊 ベスト枠 (TOP50)</span>
                         <div class="best-view-switch" role="group" aria-label="Arcaea登録曲の表示方法">
-                            <button class="best-view-button active" id="arc-top30" type="button"
-                                aria-pressed="true" onclick="setArcaeaTopLimit(30)">TOP30</button>
-                            <button class="best-view-button" id="arc-top50" type="button"
-                                aria-pressed="false" onclick="setArcaeaTopLimit(50)">TOP50</button>
+                            <button class="best-view-button" id="arc-top30" type="button"
+                                aria-pressed="false" onclick="setArcaeaTopLimit(30)">TOP30</button>
+                            <button class="best-view-button active" id="arc-top50" type="button"
+                                aria-pressed="true" onclick="setArcaeaTopLimit(50)">TOP50</button>
                             <button class="best-view-button" id="arc-all-rate" type="button"
                                 aria-pressed="false" onclick="setArcaeaAllView('rate')">全曲 レート順</button>
                             <button class="best-view-button" id="arc-all-constant" type="button"
@@ -857,8 +860,8 @@
                     </div>
                 </div>
                 <div class="best-score-bar">
-                    <span class="best-avg-label" id="arc-avg-label">TOP30 平均レート（現行PTT参考値）</span>
-                    <span class="best-avg-value" id="arc-avg">--.-—</span>
+                    <span class="best-avg-label" id="arc-avg-label">TOP50 Potential（TOP10×2＋TOP11〜50）÷60</span>
+                    <span class="best-avg-value" id="arc-avg">--.---</span>
                 </div>
                 <div class="best-list" id="arc-best-list">
                     <div class="empty-best">曲を追加するとここに表示されます</div>
@@ -887,11 +890,40 @@
                     oninput="savePlayer('phigros')">
             </div>
 
+            <div class="arcaea-source-card">
+                <div class="arcaea-source-heading">
+                    <span class="arcaea-source-title">楽曲と譜面を選択</span>
+                    <div class="arcaea-mode-toggle" role="group" aria-label="Phigros譜面定数の入力方法">
+                        <button type="button" class="arcaea-mode-button active" id="phi-mode-database"
+                            aria-pressed="true" onclick="setPhigrosInputMode('database')">曲DBから選択</button>
+                        <button type="button" class="arcaea-mode-button" id="phi-mode-manual"
+                            aria-pressed="false" onclick="setPhigrosInputMode('manual')">手動入力</button>
+                    </div>
+                </div>
+                <div id="phi-database-panel">
+                    <div class="arcaea-search-wrap" id="phi-search-wrap">
+                        <input class="score-input arcaea-search-input" type="search" id="phi-song-search"
+                            autocomplete="off" placeholder="曲名から検索"
+                            aria-label="Phigros曲検索" aria-controls="phi-song-results"
+                            onfocus="renderPhigrosSongResults()" oninput="renderPhigrosSongResults()">
+                        <div class="arcaea-search-results" id="phi-song-results" role="listbox" hidden></div>
+                    </div>
+                    <div class="arcaea-db-status" id="phi-db-status" aria-live="polite">楽曲DBを読み込んでいます…</div>
+                    <div class="arcaea-selection" id="phi-selection" hidden>
+                        <div class="arcaea-selected-title" id="phi-selected-title"></div>
+                        <div class="arcaea-chart-buttons" id="phi-chart-buttons"></div>
+                    </div>
+                </div>
+                <div id="phi-manual-panel" hidden>
+                    <p class="arcaea-manual-help">CSVに未登録の曲は、譜面定数と曲名を手動入力して従来どおり計算できます。</p>
+                </div>
+            </div>
+
             <div class="input-group">
-                <label class="input-label">譜面定数<span class="hint">例: 15.0</span></label>
+                <label class="input-label" id="phi-constant-label">譜面定数<span class="hint">曲DBの譜面から自動取得</span></label>
                 <input class="score-input" type="number" inputmode="decimal"
                     id="phi-constant" placeholder="0.0" step="0.1" min="0" max="20"
-                    oninput="calcPhigros()">
+                    readonly aria-readonly="true" oninput="calcPhigros()">
             </div>
             <div class="input-group">
                 <label class="input-label">達成率 (%)<span class="hint">0.00 〜 100.00</span></label>
@@ -1052,6 +1084,7 @@
     <div class="toast" id="toast"></div>
 
     <script src="js/arcaea-csv.js"></script>
+    <script src="js/phigros-csv.js"></script>
     <script>
     // =============================================
     //  ゲーム切替
@@ -1209,7 +1242,7 @@
         document.getElementById('arc-constant').value = chart.constant;
         document.getElementById('arc-song-name').value = song.title;
         document.getElementById('arc-diff').value = difficulty;
-        document.querySelectorAll('.arcaea-chart-button').forEach(button => {
+        document.querySelectorAll('#arc-chart-buttons .arcaea-chart-button').forEach(button => {
             button.classList.toggle('active', button.dataset.chartId === chart.chartId);
         });
         calcArcaea();
@@ -1232,6 +1265,7 @@
         document.getElementById('arc-score').value = '';
         document.getElementById('arc-song-name').value = '';
         document.getElementById('arc-diff').value = 'FTR';
+        document.getElementById('arc-tc').checked = true;
         document.getElementById('arc-fr').checked = false;
         document.getElementById('arc-pm').checked = false;
         calcArcaea();
@@ -1256,16 +1290,17 @@
             if (!entry.chartId || entry.score == null) return entry;
             const linked = arcaeaChartsById.get(entry.chartId);
             if (!linked) return entry;
-            const rate = calcRateFromScore('arcaea', entry.score, linked.chart.constant);
+            const rate = calcRateFromScore('arcaea', entry.score, linked.chart.constant, entry.tc !== false);
             const next = {
                 ...entry,
                 name: linked.song.title,
                 diff: linked.chart.difficulty,
                 constant: linked.chart.constant,
+                tc: entry.tc !== false,
                 rate
             };
             if (next.name !== entry.name || next.diff !== entry.diff ||
-                next.constant !== entry.constant || next.rate !== entry.rate) changed = true;
+                next.constant !== entry.constant || next.tc !== entry.tc || next.rate !== entry.rate) changed = true;
             return next;
         });
         if (!changed) return;
@@ -1299,19 +1334,243 @@
     }
 
     // =============================================
+    //  Phigros 楽曲DB（data/phigros.csv・読み取り専用）
+    //  EZ / HD / IN / AT列は譜面定数。表示レベルは定数の小数点以下切り捨て。
+    // =============================================
+    let phigrosSongs = [];
+    let phigrosChartsById = new Map();
+    let selectedPhigrosSong = null;
+    let selectedPhigrosChart = null;
+    let phigrosInputMode = 'database';
+
+    function setPhigrosDatabaseStatus(message, isError = false) {
+        const status = document.getElementById('phi-db-status');
+        status.textContent = message;
+        status.classList.toggle('error', isError);
+    }
+
+    function setPhigrosInputMode(mode) {
+        phigrosInputMode = mode === 'manual' ? 'manual' : 'database';
+        const isDatabase = phigrosInputMode === 'database';
+        const constantInput = document.getElementById('phi-constant');
+        document.getElementById('phi-database-panel').hidden = !isDatabase;
+        document.getElementById('phi-manual-panel').hidden = isDatabase;
+        document.getElementById('phi-mode-database').classList.toggle('active', isDatabase);
+        document.getElementById('phi-mode-manual').classList.toggle('active', !isDatabase);
+        document.getElementById('phi-mode-database').setAttribute('aria-pressed', String(isDatabase));
+        document.getElementById('phi-mode-manual').setAttribute('aria-pressed', String(!isDatabase));
+        constantInput.readOnly = isDatabase;
+        constantInput.setAttribute('aria-readonly', String(isDatabase));
+        document.getElementById('phi-constant-label').innerHTML = isDatabase
+            ? '譜面定数<span class="hint">曲DBの譜面から自動取得</span>'
+            : '譜面定数<span class="hint">例: 15.0</span>';
+        if (isDatabase) constantInput.value = selectedPhigrosChart ? selectedPhigrosChart.constant : '';
+        calcPhigros();
+    }
+
+    function renderPhigrosSongResults() {
+        const container = document.getElementById('phi-song-results');
+        if (phigrosInputMode !== 'database') {
+            container.hidden = true;
+            return;
+        }
+        const query = PhigrosCsv.normalizeSearchText(document.getElementById('phi-song-search').value.trim());
+        const matches = phigrosSongs
+            .filter(song => !query || PhigrosCsv.normalizeSearchText(song.song).includes(query))
+            .sort((a, b) => {
+                if (!query) return a.song.localeCompare(b.song, 'ja', { sensitivity: 'base' });
+                const aStarts = PhigrosCsv.normalizeSearchText(a.song).startsWith(query) ? 0 : 1;
+                const bStarts = PhigrosCsv.normalizeSearchText(b.song).startsWith(query) ? 0 : 1;
+                return aStarts - bStarts || a.song.localeCompare(b.song, 'ja', { sensitivity: 'base' });
+            })
+            .slice(0, 30);
+
+        container.replaceChildren();
+        if (!matches.length) {
+            const empty = document.createElement('div');
+            empty.className = 'arcaea-no-results';
+            empty.textContent = phigrosSongs.length ? '一致する曲がありません' : '登録済み楽曲がありません';
+            container.appendChild(empty);
+        } else {
+            matches.forEach(song => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'arcaea-song-result';
+                button.setAttribute('role', 'option');
+                button.addEventListener('click', () => selectPhigrosSong(song.song_id));
+                const title = document.createElement('span');
+                title.className = 'arcaea-song-result-title';
+                title.textContent = song.song;
+                button.appendChild(title);
+                container.appendChild(button);
+            });
+        }
+        container.hidden = false;
+    }
+
+    function selectPhigrosSong(songId) {
+        const song = phigrosSongs.find(item => item.song_id === songId);
+        if (!song) return;
+        selectedPhigrosSong = song;
+        selectedPhigrosChart = null;
+        document.getElementById('phi-song-search').value = song.song;
+        document.getElementById('phi-song-results').hidden = true;
+        document.getElementById('phi-selected-title').textContent = song.song;
+        document.getElementById('phi-selection').hidden = false;
+        document.getElementById('phi-constant').value = '';
+        document.getElementById('phi-song-name').value = song.song;
+
+        const buttons = document.getElementById('phi-chart-buttons');
+        buttons.replaceChildren();
+        PhigrosCsv.DIFFICULTIES.forEach(difficulty => {
+            const chart = song.charts[difficulty];
+            if (!chart) return;
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'arcaea-chart-button';
+            button.dataset.chartId = chart.chartId;
+            button.addEventListener('click', () => selectPhigrosChart(song.song_id, difficulty));
+            const label = document.createElement('strong');
+            label.textContent = difficulty;
+            const detail = document.createElement('span');
+            detail.textContent = `Lv ${chart.level} · 定数 ${chart.constant}`;
+            button.append(label, detail);
+            buttons.appendChild(button);
+        });
+        if (!buttons.children.length) {
+            const empty = document.createElement('span');
+            empty.className = 'arcaea-no-results';
+            empty.textContent = 'この曲は譜面定数が未登録です';
+            buttons.appendChild(empty);
+        }
+        calcPhigros();
+    }
+
+    function selectPhigrosChart(songId, difficulty) {
+        const song = phigrosSongs.find(item => item.song_id === songId);
+        const chart = song?.charts[difficulty];
+        if (!song || !chart) return;
+        selectedPhigrosSong = song;
+        selectedPhigrosChart = chart;
+        document.getElementById('phi-constant').value = chart.constant;
+        document.getElementById('phi-song-name').value = song.song;
+        document.getElementById('phi-diff').value = difficulty;
+        document.querySelectorAll('#phi-chart-buttons .arcaea-chart-button').forEach(button => {
+            button.classList.toggle('active', button.dataset.chartId === chart.chartId);
+        });
+        calcPhigros();
+    }
+
+    function resetPhigrosCalculator() {
+        selectedPhigrosSong = null;
+        selectedPhigrosChart = null;
+        document.getElementById('phi-song-search').value = '';
+        document.getElementById('phi-song-results').replaceChildren();
+        document.getElementById('phi-song-results').hidden = true;
+        document.getElementById('phi-selection').hidden = true;
+        document.getElementById('phi-selected-title').textContent = '';
+        document.getElementById('phi-chart-buttons').replaceChildren();
+        document.getElementById('phi-constant').value = '';
+        document.getElementById('phi-achieve').value = '';
+        document.getElementById('phi-song-name').value = '';
+        document.getElementById('phi-diff').value = 'IN';
+        document.getElementById('phi-fc').checked = false;
+        document.getElementById('phi-is-phi').checked = false;
+        calcPhigros();
+    }
+
+    function getCurrentPhigrosChartId() {
+        if (phigrosInputMode !== 'database' || !selectedPhigrosSong || !selectedPhigrosChart) return null;
+        const name = document.getElementById('phi-song-name').value.trim();
+        const difficulty = document.getElementById('phi-diff').value;
+        const constant = parseFloat(document.getElementById('phi-constant').value);
+        return name === selectedPhigrosSong.song &&
+            difficulty === selectedPhigrosChart.difficulty &&
+            constant === selectedPhigrosChart.constant
+            ? selectedPhigrosChart.chartId
+            : null;
+    }
+
+    function refreshPhigrosBestFromDatabase() {
+        const list = loadBest('phigros');
+        let changed = false;
+        const refreshed = list.map(entry => {
+            if (!entry.chartId || entry.score == null) return entry;
+            const linked = phigrosChartsById.get(entry.chartId);
+            if (!linked) return entry;
+            const rate = calcRateFromScore('phigros', entry.score, linked.chart.constant);
+            const next = {
+                ...entry,
+                name: linked.song.song,
+                diff: linked.chart.difficulty,
+                constant: linked.chart.constant,
+                rate
+            };
+            if (next.name !== entry.name || next.diff !== entry.diff ||
+                next.constant !== entry.constant || next.rate !== entry.rate) changed = true;
+            return next;
+        });
+        if (!changed) return;
+        refreshed.sort((a, b) => b.rate - a.rate);
+        saveBest('phigros', enforceBestStorageLimit('phigros', refreshed));
+        renderBest('phigros');
+    }
+
+    async function loadPhigrosSongDatabase() {
+        try {
+            const response = await fetch('data/phigros.csv', { cache: 'no-cache' });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const rows = PhigrosCsv.parseDatabase(await response.text());
+            const errors = PhigrosCsv.validateRows(rows);
+            if (errors.length) throw new Error(errors.join(' / '));
+            phigrosSongs = PhigrosCsv.groupSongs(rows);
+            phigrosChartsById = new Map();
+            let chartCount = 0;
+            phigrosSongs.forEach(song => {
+                Object.values(song.charts).forEach(chart => {
+                    phigrosChartsById.set(chart.chartId, { song, chart });
+                    chartCount++;
+                });
+            });
+            setPhigrosDatabaseStatus(`${phigrosSongs.length}曲・${chartCount}譜面を読み込み済み`);
+            refreshPhigrosBestFromDatabase();
+        } catch (error) {
+            phigrosSongs = [];
+            phigrosChartsById = new Map();
+            setPhigrosDatabaseStatus(`楽曲DBを読み込めませんでした（${error.message}）。手動入力をご利用ください。`, true);
+            setPhigrosInputMode('manual');
+        }
+    }
+
+    // =============================================
     //  レート計算ロジック（Pythonから移植）
     // =============================================
 
     // --- Arcaea ---
+    function calculateArcaeaChartPotential(score, constant, trackComplete = true) {
+        const s = Number(score);
+        const c = Number(constant);
+        if (!Number.isFinite(s) || !Number.isFinite(c)) return null;
+
+        let rate;
+        if (s >= 10000000)       rate = c + 2.0;
+        else if (s >= 9800000)   rate = c + 1.0 + (s - 9800000) / 200000;
+        else                     rate = Math.max(0, c + (s - 9500000) / 300000);
+
+        if (trackComplete) rate += 0.2;
+        return Math.round(rate * 1000) / 1000;
+    }
+
     function calcArcaea() {
         const c = parseFloat(document.getElementById('arc-constant').value);
         const s = parseInt(document.getElementById('arc-score').value);
+        let trackComplete = document.getElementById('arc-tc').checked;
         const display = document.getElementById('arc-display');
         const rateEl = document.getElementById('arc-rate');
         const rankEl = document.getElementById('arc-rank');
 
         if (isNaN(c) || isNaN(s)) {
-            rateEl.textContent = '--.-—';
+            rateEl.textContent = '--.---';
             rateEl.className = 'rate-value empty';
             rankEl.innerHTML = '';
             display.classList.remove('has-result');
@@ -1319,13 +1578,12 @@
         }
         if (s > 10005000) { showToast('⚠️ スコアが理論値(10,005,000)を超えています', true); return; }
 
-        let rate;
-        if (s >= 10000000)       rate = c + 2.0;
-        else if (s >= 9800000)   rate = c + 1.0 + (s - 9800000) / 200000;
-        else                     rate = Math.max(0, c + (s - 9500000) / 300000);
-
-        rate = Math.round(rate * 100) / 100;
-        rateEl.textContent = rate.toFixed(2);
+        if (s >= 10000000) {
+            trackComplete = true;
+            document.getElementById('arc-tc').checked = true;
+        }
+        const rate = calculateArcaeaChartPotential(s, c, trackComplete);
+        rateEl.textContent = rate.toFixed(3);
         rateEl.className = 'rate-value';
         display.classList.add('has-result');
         const { label, cls } = arcRank(s);
@@ -1451,7 +1709,7 @@
     //  TAKUMI3: B40 合計
     // =============================================
     const BEST_STORAGE_LIMITS = { arcaea: null, phigros: 27, takumi3: 40 };
-    let arcaeaTopLimit = 30;
+    let arcaeaTopLimit = 50;
     let arcaeaListMode = 'best';
 
     function escapeHtml(value) {
@@ -1477,10 +1735,10 @@
         return topList.reduce((sum, entry) => sum + entry.rate, 0) / 30;
     }
 
-    // 現行仕様のArcaea Player Potential集計（TOP30固定）。
-    // Ver.7.0の正式な詳細式が判明した際は、この関数を差し替える。
+    // Ver.7.0以降のArcaea Player Potential集計。
+    // TOP10を2倍し、TOP11〜50と合わせた60枠で平均する。
     function calculateArcaeaPlayerPotential(list) {
-        return calculateArcaeaTopAverage(list, 30);
+        return calculateArcaeaTopAverage(list, 50);
     }
 
     function enforceBestStorageLimit(game, list) {
@@ -1504,7 +1762,8 @@
     }
 
     function loadArcaeaTopLimit() {
-        arcaeaTopLimit = localStorage.getItem('fig_arcaea_top_limit') === '50' ? 50 : 30;
+        const savedLimit = localStorage.getItem('fig_arcaea_top_limit');
+        arcaeaTopLimit = savedLimit === '30' ? 30 : 50;
         const savedMode = localStorage.getItem('fig_arcaea_list_mode');
         arcaeaListMode = ['all-rate', 'all-constant'].includes(savedMode) ? savedMode : 'best';
     }
@@ -1544,8 +1803,8 @@
 
         document.getElementById('arc-best-title').textContent = `📊 ベスト枠 (TOP${arcaeaTopLimit})`;
         document.getElementById('arc-avg-label').textContent = arcaeaTopLimit === 30
-            ? `TOP30 平均レート（${itemCount}/30曲・現行PTT参考値）`
-            : `TOP50 レート（${itemCount}/50曲・(TOP10×2＋TOP11〜50)÷60）`;
+            ? `TOP30 平均レート（${itemCount}/30曲・旧仕様参考値）`
+            : `TOP50 Potential（${itemCount}/50曲・(TOP10×2＋TOP11〜50)÷60）`;
     }
 
     function setArcaeaTopLimit(limit) {
@@ -1573,6 +1832,33 @@
         localStorage.setItem('fig_best_' + game, JSON.stringify(list));
     }
 
+    // Ver.7.0以前の保存形式は削除せず、TC未保存を「Track Complete」として補完する。
+    // スコアと定数が残っている項目だけ新しい小数第3位の単曲PTへ再計算する。
+    function migrateArcaeaBestToCurrentPotential() {
+        const list = loadBest('arcaea');
+        let changed = false;
+        const migrated = list.map(entry => {
+            const tc = entry.tc !== false;
+            const next = { ...entry, tc };
+            if (entry.tc !== tc) changed = true;
+            if (entry.score != null && entry.constant != null) {
+                const rate = calcRateFromScore('arcaea', entry.score, entry.constant, tc);
+                if (rate !== null && rate !== entry.rate) {
+                    next.rate = rate;
+                    changed = true;
+                }
+            } else if (entry.tc === undefined && entry.rate != null && Number.isFinite(Number(entry.rate))) {
+                // スコア未保存の旧項目は、旧単曲PTへTCボーナスだけを一度加える。
+                next.rate = Math.round((Number(entry.rate) + 0.2) * 1000) / 1000;
+                changed = true;
+            }
+            return next;
+        });
+        if (!changed) return;
+        migrated.sort((a, b) => b.rate - a.rate);
+        saveBest('arcaea', migrated);
+    }
+
     function getCurrentRate(game) {
         const el = {
             arcaea: 'arc-rate', phigros: 'phi-rate', takumi3: 'tak-rate'
@@ -1595,15 +1881,11 @@
     }
 
     // スコア＋定数からレートを計算（CSV インポート時も使用）
-    function calcRateFromScore(game, score, constant) {
+    function calcRateFromScore(game, score, constant, trackComplete = true) {
         if (score == null || constant == null) return null;
         let rate = 0;
         if (game === 'arcaea') {
-            const s = score, c = constant;
-            if (s >= 10000000)     rate = c + 2.0;
-            else if (s >= 9800000) rate = c + 1.0 + (s - 9800000) / 200000;
-            else                   rate = Math.max(0, c + (s - 9500000) / 300000);
-            rate = Math.round(rate * 100) / 100;
+            rate = calculateArcaeaChartPotential(score, constant, trackComplete);
         } else if (game === 'phigros') {
             const a = score, c = constant;
             rate = a < 70 ? 0 : Math.round(c * Math.pow((a - 55) / 45, 2) * 100) / 100;
@@ -1636,8 +1918,9 @@
         const score    = getCurrentScore(game);
 
         // FC / AP フラグ取得
-        let fr = false, pm = false, fc = false, isPhi = false, aj = false;
+        let tc = true, fr = false, pm = false, fc = false, isPhi = false, aj = false;
         if (game === 'arcaea') {
+            tc = document.getElementById('arc-tc').checked;
             fr = document.getElementById('arc-fr').checked;
             pm = document.getElementById('arc-pm').checked;
         } else if (game === 'phigros') {
@@ -1648,14 +1931,16 @@
             aj = document.getElementById('tak-aj').checked;
         }
 
-        // 既存データは曲名 + 難易度、新しいArcaea DB選択データはchartIdでも照合する。
+        // 既存データは曲名 + 難易度、DB選択データはchartIdでも照合する。
         const entryKey = name + '\x00' + diff;
-        const chartId = game === 'arcaea' ? getCurrentArcaeaChartId() : null;
+        const chartId = game === 'arcaea'
+            ? getCurrentArcaeaChartId()
+            : game === 'phigros' ? getCurrentPhigrosChartId() : null;
 
         let list = loadBest(game);
         const existingIdx = list.findIndex(e =>
             (chartId && e.chartId === chartId) ||
-            (e.name + '\x00' + (e.diff || '')) === entryKey
+            ((!chartId || !e.chartId) && (e.name + '\x00' + (e.diff || '')) === entryKey)
         );
 
         if (existingIdx !== -1) {
@@ -1668,11 +1953,16 @@
 
         const entry = { name, diff, rate, constant, score };
         if (game === 'arcaea')  {
+            entry.tc = tc;
             entry.fr = fr;
             entry.pm = pm;
             if (chartId) entry.chartId = chartId;
         }
-        if (game === 'phigros') { entry.fc = fc; entry.isPhi = isPhi; }
+        if (game === 'phigros') {
+            entry.fc = fc;
+            entry.isPhi = isPhi;
+            if (chartId) entry.chartId = chartId;
+        }
         if (game === 'takumi3') { entry.fc = fc; entry.aj = aj; }
 
         list.push(entry);
@@ -1683,12 +1973,10 @@
         renderBest(game);
         if (game === 'arcaea') {
             resetArcaeaCalculator();
+        } else if (game === 'phigros') {
+            resetPhigrosCalculator();
         } else {
             document.getElementById(nameId).value = '';
-            if (game === 'phigros') {
-                document.getElementById('phi-fc').checked = false;
-                document.getElementById('phi-is-phi').checked = false;
-            }
             if (game === 'takumi3') {
                 document.getElementById('tak-fc').checked = false;
                 document.getElementById('tak-aj').checked = false;
@@ -1714,7 +2002,8 @@
     // =============================================
     // CSV エクスポート／インポート
     // 形式: 1行目=プレイヤー名,ゲーム名
-    //       2行目以降=曲名,難易度,譜面定数,スコア,フラグ,chartId(Arcaeaのみ・任意)
+    //       2行目以降=曲名,難易度,譜面定数,スコア,フラグ,chartId,
+    //                    trackComplete(Arcaeaのみ・任意。旧CSVはTCとして扱う)
     // =============================================
 
     function csvQuote(s) {
@@ -1761,7 +2050,8 @@
                 e.score ?? '',   // スコア（旧エントリはスコア未保存のため空）
                 flag
             ];
-            if (game === 'arcaea') columns.push(csvQuote(e.chartId ?? ''));
+            if (game === 'arcaea' || game === 'phigros') columns.push(csvQuote(e.chartId ?? ''));
+            if (game === 'arcaea') columns.push(e.tc === false ? '0' : '1');
             rows.push(columns.join(','));
         });
 
@@ -1788,11 +2078,12 @@
             reader.onload = re => {
                 try {
                 const text  = re.target.result.replace(/^\uFEFF/, ''); // strip BOM
-                // Arcaeaは曲名内の改行も扱えるようRFC 4180相当でレコードを解析する。
-                // 他ゲームは従来形式・従来処理を維持する。
+                // DB対応ゲームは曲名内の改行も扱えるようRFC 4180相当でレコードを解析する。
                 const records = game === 'arcaea'
                     ? ArcaeaCsv.parseCsv(text).filter(row => row.some(value => value.trim()))
-                    : text.split(/\r?\n/).filter(line => line.trim()).map(parseCSVLine);
+                    : game === 'phigros'
+                        ? PhigrosCsv.parseCsv(text).filter(row => row.some(value => value.trim()))
+                        : text.split(/\r?\n/).filter(line => line.trim()).map(parseCSVLine);
                 if (records.length < 2) { showToast('⚠️ CSVが空か形式が違います'); return; }
 
                 // 1行目: プレイヤー名,ゲーム名
@@ -1816,21 +2107,30 @@
                     const score    = p[3] !== '' ? parseFloat(p[3]) : null;
                     const flag     = parseInt(p[4] ?? 0) || 0;
                     const chartId  = (p[5] || '').trim();
+                    const trackComplete = game === 'arcaea' ? (p[6] ?? '').trim() !== '0' : true;
                     if (!name || score == null || isNaN(score)) continue;
-                    const rate = calcRateFromScore(game, score, constant);
+                    const rate = calcRateFromScore(game, score, constant, trackComplete);
                     if (rate === null || isNaN(rate)) continue;
 
                     const key = name + '\x00' + diff;
-                    const idx = list.findIndex(e => (e.name + '\x00' + (e.diff || '')) === key);
+                    const idx = list.findIndex(e =>
+                        (chartId && e.chartId === chartId) ||
+                        ((!chartId || !e.chartId) && (e.name + '\x00' + (e.diff || '')) === key)
+                    );
                     if (idx !== -1) list.splice(idx, 1);
 
                     const entry = { name, diff, rate, constant, score };
                     if (game === 'arcaea')  {
+                        entry.tc = trackComplete;
                         entry.fr = flag >= 1;
                         entry.pm = flag >= 2;
                         if (chartId) entry.chartId = chartId;
                     }
-                    if (game === 'phigros') { entry.fc = flag >= 1; entry.isPhi = flag >= 2; }
+                    if (game === 'phigros') {
+                        entry.fc = flag >= 1;
+                        entry.isPhi = flag >= 2;
+                        if (chartId) entry.chartId = chartId;
+                    }
                     if (game === 'takumi3') { entry.fc = flag >= 1; entry.aj  = flag >= 2; }
                     list.push(entry);
                     count++;
@@ -1854,7 +2154,7 @@
         const list = loadBest(game);
         const limit = getBestDisplayLimit(game);
         const topList = list.slice(0, limit);
-        const dec = game === 'takumi3' ? 3 : 2;
+        const dec = game === 'arcaea' || game === 'takumi3' ? 3 : 2;
 
         // ===== Arcaea: TOP30 / TOP50 参考平均 =====
         if (game === 'arcaea') {
@@ -1863,15 +2163,15 @@
             const displayItems = getArcaeaDisplayItems(list);
             updateArcaeaTopControls(displayItems.length);
             if (displayItems.length === 0) {
-                avgEl.textContent = arcaeaListMode === 'best' ? '--.-—' : '0曲';
+                avgEl.textContent = arcaeaListMode === 'best' ? '--.---' : '0曲';
                 listEl.innerHTML = '<div class="empty-best">曲を追加するとここに表示されます</div>';
                 return;
             }
             if (arcaeaListMode === 'best') {
                 const displayedAverage = arcaeaTopLimit === 30
-                    ? calculateArcaeaPlayerPotential(list)
-                    : calculateArcaeaTopAverage(list, 50);
-                avgEl.textContent = displayedAverage.toFixed(2);
+                    ? calculateArcaeaTopAverage(list, 30)
+                    : calculateArcaeaPlayerPotential(list);
+                avgEl.textContent = displayedAverage.toFixed(3);
             } else {
                 avgEl.textContent = `${list.length}曲`;
             }
@@ -1879,11 +2179,12 @@
                 <div class="best-item">
                     <span class="best-rank ${i < 3 ? 'top3' : ''}">#${String(i+1).padStart(2,'0')}</span>
                     ${e.diff ? `<span class="diff-badge diff-${e.diff}">${e.diff}</span>` : ''}
+                    ${e.tc !== false ? '<span class="achieve-badge badge-TC">TC</span>' : ''}
                     ${e.pm  ? '<span class="achieve-badge badge-PM">PM</span>'  : ''}
                     ${e.fr && !e.pm ? '<span class="achieve-badge badge-FR">FR</span>' : ''}
                     <span class="best-song-name" title="${escapeHtml(e.name)}">${escapeHtml(e.name)}</span>
                     ${e.constant != null ? `<span class="best-constant">定数 ${e.constant}</span>` : ''}
-                    <span class="best-rate">${e.rate.toFixed(2)}</span>
+                    <span class="best-rate">${e.rate.toFixed(3)}</span>
                     <button class="best-edit"   onclick="editBestItem('arcaea',${storageIndex})">✎</button>
                     <button class="best-delete" onclick="removeBestItem('arcaea',${storageIndex})">✕</button>
                 </div>`).join('');
@@ -1993,7 +2294,7 @@
         const t = GAME_THEMES[game];
         const limit = getBestDisplayLimit(game);
         const topList = list.slice(0, limit);
-        const dec = game === 'takumi3' ? 3 : 2;
+        const dec = game === 'arcaea' || game === 'takumi3' ? 3 : 2;
 
         // プレイヤー名
         const playerEl = { arcaea: 'arc-player', phigros: 'phi-player', takumi3: 'tak-player' }[game];
@@ -2004,7 +2305,7 @@
         if (game === 'arcaea') {
             const avg = calculateArcaeaTopAverage(topList, limit);
             const note = limit === 50 ? '・TOP10×2の60枠換算' : '';
-            scoreText = `TOP${limit} avg: ${avg.toFixed(2)}  (${topList.length}/${limit}曲${note})`;
+            scoreText = `TOP${limit} avg: ${avg.toFixed(3)}  (${topList.length}/${limit}曲${note})`;
         } else if (game === 'phigros') {
             const sum27   = topList.reduce((a, b) => a + b.rate, 0);
             const phi3    = topList.filter(e => e.isPhi).sort((a,b) => b.rate - a.rate).slice(0, 3);
@@ -2016,7 +2317,8 @@
             scoreText = `合計: ${total.toFixed(3)}  (${topList.length}/${limit}曲)`;
         }
 
-        const COLS = 4;
+        // TOP30 / TOP50 / B40が端数なく並ぶよう、生成画像は横5列に統一する。
+        const COLS = 5;
         const ROWS = Math.ceil(topList.length / COLS);
         const CARD_W = 280;
         const CARD_H = 62;
@@ -2135,6 +2437,7 @@
             const FONT_B = `-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
             const badges = [];
             if (game === 'arcaea') {
+                if (entry.tc !== false) badges.push({ label: 'TC', bg: '#6ee7b7', fg: '#003b2a' });
                 if (entry.pm) badges.push({ label: 'PM', bg: '#ffb700', fg: '#1a1000' });
                 else if (entry.fr) badges.push({ label: 'FR', bg: '#7ecfff', fg: '#00274d' });
             } else if (game === 'phigros') {
@@ -2305,15 +2608,19 @@
         loadPlayer('phigros');
         loadPlayer('takumi3');
         loadArcaeaTopLimit();
+        migrateArcaeaBestToCurrentPotential();
         renderBest('arcaea');
         renderBest('phigros');
         renderBest('takumi3');
         setArcaeaInputMode('database');
         loadArcaeaSongDatabase();
+        setPhigrosInputMode('database');
+        loadPhigrosSongDatabase();
         document.addEventListener('click', event => {
-            if (!event.target.closest('.arcaea-search-wrap')) {
+            if (!event.target.closest('#arc-database-panel .arcaea-search-wrap')) {
                 document.getElementById('arc-song-results').hidden = true;
             }
+            if (!event.target.closest('#phi-search-wrap')) document.getElementById('phi-song-results').hidden = true;
         });
     });
     // =============================================
@@ -2364,6 +2671,7 @@
         const badgeArea = document.getElementById('em-badges');
         if (game === 'arcaea') {
             badgeArea.innerHTML = `
+                <label><input type="checkbox" id="em-tc"${entry.tc !== false ? ' checked' : ''}> Track Complete (+0.200)</label>
                 <label><input type="checkbox" id="em-fr"${entry.fr ? ' checked' : ''}> Full Recall</label>
                 <label><input type="checkbox" id="em-pm"${entry.pm ? ' checked' : ''}> Pure Memory</label>`;
         } else if (game === 'phigros') {
@@ -2394,7 +2702,8 @@
                          ? parseFloat(document.getElementById('em-constant').value) : null;
         const scoreRaw = document.getElementById('em-score').value;
         const score    = scoreRaw !== '' ? parseFloat(scoreRaw) : null;
-        const rate     = calcRateFromScore(game, score, constant);
+        const tc       = game === 'arcaea' ? document.getElementById('em-tc')?.checked !== false : true;
+        const rate     = calcRateFromScore(game, score, constant, tc);
 
         if (score === null || isNaN(score)) { showToast('⚠️ スコアを入力してください', true); return; }
         if (constant === null || isNaN(constant)) { showToast('⚠️ 譜面定数を入力してください', true); return; }
@@ -2420,7 +2729,13 @@
                 linked.chart.difficulty === diff && linked.chart.constant === constant;
             if (!stillLinked) delete updated.chartId;
         }
-        if (game === 'arcaea')  { updated.fr = fr; updated.pm = pm; }
+        if (game === 'phigros' && updated.chartId) {
+            const linked = phigrosChartsById.get(updated.chartId);
+            const stillLinked = linked && linked.song.song === name &&
+                linked.chart.difficulty === diff && linked.chart.constant === constant;
+            if (!stillLinked) delete updated.chartId;
+        }
+        if (game === 'arcaea')  { updated.tc = tc; updated.fr = fr; updated.pm = pm; }
         if (game === 'phigros') { updated.fc = fc; updated.isPhi = isPhi; }
         if (game === 'takumi3') { updated.fc = fc; updated.aj = aj; }
 
