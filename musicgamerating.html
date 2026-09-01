@@ -528,6 +528,7 @@
         .diff-FTR { background: #a855f7; color: white; }
         .diff-ETR { background: #ef4444; color: white; }
         .diff-BYD { background: #991b1b; color: #fecaca; }
+        .diff-INS { background: linear-gradient(135deg, #172554, #0f766e); color: #e0f2fe; }
 
         /* 楽曲DB（Arcaea / Phigros） */
         .arcaea-source-card {
@@ -830,6 +831,7 @@
                         <option value="FTR" selected>FTR</option>
                         <option value="ETR">ETR</option>
                         <option value="BYD">BYD</option>
+                        <option value="INS">INS</option>
                     </select>
                     <button class="small-btn small-btn-primary" onclick="addToBest('arcaea')">＋ 追加</button>
                 </div>
@@ -1128,6 +1130,28 @@
         status.classList.toggle('error', isError);
     }
 
+    function hasKnownArcaeaConstant(chart) {
+        return Boolean(
+            chart && chart.constant !== null && chart.constant !== undefined && chart.constant !== '' &&
+            Number.isFinite(Number(chart.constant))
+        );
+    }
+
+    function formatArcaeaChartDetail(chart) {
+        return `Lv ${chart.level} · 定数 ${hasKnownArcaeaConstant(chart) ? chart.constant : '未判明'}`;
+    }
+
+    function updateArcaeaConstantLabel() {
+        const label = document.getElementById('arc-constant-label');
+        if (arcaeaInputMode === 'manual') {
+            label.innerHTML = '譜面定数<span class="hint">例: 11.4</span>';
+        } else if (selectedArcaeaChart && !hasKnownArcaeaConstant(selectedArcaeaChart)) {
+            label.innerHTML = '譜面定数<span class="hint">未判明（必要なら手動入力へ切替）</span>';
+        } else {
+            label.innerHTML = '譜面定数<span class="hint">曲DBの譜面から自動取得</span>';
+        }
+    }
+
     function setArcaeaInputMode(mode) {
         arcaeaInputMode = mode === 'manual' ? 'manual' : 'database';
         const isDatabase = arcaeaInputMode === 'database';
@@ -1140,12 +1164,10 @@
         document.getElementById('arc-mode-manual').setAttribute('aria-pressed', String(!isDatabase));
         constantInput.readOnly = isDatabase;
         constantInput.setAttribute('aria-readonly', String(isDatabase));
-        document.getElementById('arc-constant-label').innerHTML = isDatabase
-            ? '譜面定数<span class="hint">曲DBの譜面から自動取得</span>'
-            : '譜面定数<span class="hint">例: 11.4</span>';
+        updateArcaeaConstantLabel();
 
         if (isDatabase) {
-            if (selectedArcaeaChart) constantInput.value = selectedArcaeaChart.constant;
+            if (hasKnownArcaeaConstant(selectedArcaeaChart)) constantInput.value = selectedArcaeaChart.constant;
             else constantInput.value = '';
         }
         calcArcaea();
@@ -1212,6 +1234,7 @@
         document.getElementById('arc-selection').hidden = false;
         document.getElementById('arc-constant').value = '';
         document.getElementById('arc-song-name').value = song.title;
+        updateArcaeaConstantLabel();
 
         const buttons = document.getElementById('arc-chart-buttons');
         buttons.replaceChildren();
@@ -1226,7 +1249,7 @@
             const label = document.createElement('strong');
             label.textContent = difficulty;
             const detail = document.createElement('span');
-            detail.textContent = `Lv ${chart.level} · 定数 ${chart.constant}`;
+            detail.textContent = formatArcaeaChartDetail(chart);
             button.append(label, detail);
             buttons.appendChild(button);
         });
@@ -1239,9 +1262,10 @@
         if (!song || !chart) return;
         selectedArcaeaSong = song;
         selectedArcaeaChart = chart;
-        document.getElementById('arc-constant').value = chart.constant;
+        document.getElementById('arc-constant').value = hasKnownArcaeaConstant(chart) ? chart.constant : '';
         document.getElementById('arc-song-name').value = song.title;
         document.getElementById('arc-diff').value = difficulty;
+        updateArcaeaConstantLabel();
         document.querySelectorAll('#arc-chart-buttons .arcaea-chart-button').forEach(button => {
             button.classList.toggle('active', button.dataset.chartId === chart.chartId);
         });
@@ -1268,17 +1292,21 @@
         document.getElementById('arc-tc').checked = true;
         document.getElementById('arc-fr').checked = false;
         document.getElementById('arc-pm').checked = false;
+        updateArcaeaConstantLabel();
         calcArcaea();
     }
 
     function getCurrentArcaeaChartId() {
-        if (arcaeaInputMode !== 'database' || !selectedArcaeaSong || !selectedArcaeaChart) return null;
+        if (!selectedArcaeaSong || !selectedArcaeaChart) return null;
         const name = document.getElementById('arc-song-name').value.trim();
         const difficulty = document.getElementById('arc-diff').value;
         const constant = parseFloat(document.getElementById('arc-constant').value);
+        const constantMatches = hasKnownArcaeaConstant(selectedArcaeaChart)
+            ? constant === selectedArcaeaChart.constant
+            : Number.isFinite(constant);
         return name === selectedArcaeaSong.title &&
             difficulty === selectedArcaeaChart.difficulty &&
-            constant === selectedArcaeaChart.constant
+            constantMatches
             ? selectedArcaeaChart.chartId
             : null;
     }
@@ -1289,7 +1317,7 @@
         const refreshed = list.map(entry => {
             if (!entry.chartId || entry.score == null) return entry;
             const linked = arcaeaChartsById.get(entry.chartId);
-            if (!linked) return entry;
+            if (!linked || !hasKnownArcaeaConstant(linked.chart)) return entry;
             const rate = calcRateFromScore('arcaea', entry.score, linked.chart.constant, entry.tc !== false);
             const next = {
                 ...entry,
@@ -1318,12 +1346,17 @@
             if (errors.length) throw new Error(errors.join(' / '));
             arcaeaSongs = ArcaeaCsv.groupSongs(rows);
             arcaeaChartsById = new Map();
+            let unknownConstantCount = 0;
             arcaeaSongs.forEach(song => {
                 Object.values(song.charts).forEach(chart => {
                     arcaeaChartsById.set(chart.chartId, { song, chart });
+                    if (!hasKnownArcaeaConstant(chart)) unknownConstantCount++;
                 });
             });
-            setArcaeaDatabaseStatus(`${arcaeaSongs.length}曲・${rows.length}譜面を読み込み済み`);
+            setArcaeaDatabaseStatus(
+                `${arcaeaSongs.length}曲・${rows.length}譜面を読み込み済み` +
+                (unknownConstantCount ? `（定数未判明 ${unknownConstantCount}譜面）` : '')
+            );
             refreshArcaeaBestFromDatabase();
         } catch (error) {
             arcaeaSongs = [];
@@ -2405,6 +2438,7 @@
                     PST: ['#4ade80','#052e16'], PRS: ['#fbbf24','#1c1917'],
                     FTR: ['#a855f7','#fff'],    ETR: ['#ef4444','#fff'],
                     BYD: ['#991b1b','#fecaca'],
+                    INS: ['#172554','#e0f2fe'],
                     Normal: ['#4ade80','#052e16'], Hard: ['#60a5fa','#1e3a5f'],
                     Master: ['#a855f7','#fff'],    Insanity: ['#ef4444','#fff'],
                     Ravage: ['#1e1b4b','#c7d2fe'],
@@ -2627,7 +2661,7 @@
     //  エントリ編集モーダル
     // =============================================
     const DIFF_OPTIONS = {
-        arcaea:  ['PST','PRS','FTR','ETR','BYD'],
+        arcaea:  ['PST','PRS','FTR','ETR','BYD','INS'],
         phigros: ['EZ','HD','IN','AT'],
         takumi3: ['Normal','Hard','Master','Insanity','Ravage']
     };
