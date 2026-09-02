@@ -2,7 +2,7 @@
     'use strict';
 
     const HEADERS = ['song_id', 'title', 'reading', 'difficulty', 'level', 'constant'];
-    const DIFFICULTIES = ['PST', 'PRS', 'FTR', 'ETR', 'BYD'];
+    const DIFFICULTIES = ['PST', 'PRS', 'FTR', 'ETR', 'BYD', 'INS'];
     const SAFE_ID_PATTERN = /^[a-z0-9][a-z0-9_-]*$/;
 
     function parseCsv(text) {
@@ -138,8 +138,8 @@
             if (!DIFFICULTIES.includes(difficulty)) {
                 errors.push(`${prefix}: difficulty「${difficulty || '(空欄)'}」が不正です`);
             }
-            if (hasLevel !== hasConstant) {
-                errors.push(`${prefix}: levelとconstantは両方入力するか、両方空欄にしてください`);
+            if (!hasLevel && hasConstant) {
+                errors.push(`${prefix}: levelが空欄の譜面にはconstantを入力できません`);
             } else if (!hasLevel) {
                 errors.push(`${prefix}: 譜面行のlevelとconstantが両方空欄です`);
             }
@@ -197,7 +197,9 @@
             song.charts[row.difficulty] = {
                 difficulty: row.difficulty,
                 level: String(row.level),
-                constant: Number(row.constant),
+                constant: row.constant === '' || row.constant === null || row.constant === undefined
+                    ? null
+                    : Number(row.constant),
                 chartId: `${row.song_id}:${row.difficulty}`
             };
         });
