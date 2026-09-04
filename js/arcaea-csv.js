@@ -207,7 +207,30 @@
     }
 
     function normalizeSearchText(value) {
-        return String(value ?? '').normalize('NFKC').toLocaleLowerCase('ja');
+        return String(value ?? '')
+            .normalize('NFKC')
+            .toLocaleLowerCase('ja')
+            .replace(/[\u30A1-\u30F6]/g, character =>
+                String.fromCharCode(character.charCodeAt(0) - 0x60)
+            );
+    }
+
+    function compactSearchText(value) {
+        return normalizeSearchText(value).replace(/[\p{Separator}\p{Punctuation}\p{Symbol}]/gu, '');
+    }
+
+    function matchesSearchText(value, query) {
+        const target = compactSearchText(value);
+        const needle = compactSearchText(query);
+        if (!needle) return true;
+        if (target.includes(needle)) return true;
+
+        let needleIndex = 0;
+        for (const character of target) {
+            if (character === needle[needleIndex]) needleIndex++;
+            if (needleIndex === needle.length) return true;
+        }
+        return false;
     }
 
     function hashString(value) {
@@ -247,6 +270,7 @@
         validateRows,
         groupSongs,
         normalizeSearchText,
+        matchesSearchText,
         generateSongId
     };
 

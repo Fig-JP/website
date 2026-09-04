@@ -1182,7 +1182,7 @@
 
         const query = ArcaeaCsv.normalizeSearchText(document.getElementById('arc-song-search').value.trim());
         const matches = arcaeaSongs
-            .filter(song => !query || ArcaeaCsv.normalizeSearchText(`${song.title}\n${song.reading}`).includes(query))
+            .filter(song => ArcaeaCsv.matchesSearchText(`${song.title}\n${song.reading}`, query))
             .sort((a, b) => {
                 if (!query) return a.title.localeCompare(b.title, 'ja', { sensitivity: 'base' });
                 const aStarts = ArcaeaCsv.normalizeSearchText(a.title).startsWith(query) ? 0 : 1;
