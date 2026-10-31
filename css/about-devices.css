@@ -1,0 +1,74 @@
+/* Alternating product rows; inset frosted-glass frames keep every device cleanly bounded. */
+.device-category { margin-top: 36px; }
+.device-category > h3 { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; font: 500 1rem/1.5 var(--mono); color: var(--text-primary); }
+.device-category > h3::after { content: ''; flex: 1; height: 1px; background: var(--border-color); }
+.device-category > h3 > span { font-size: .75rem; color: var(--accent); }
+.device-rows { display: grid; gap: 18px; }
+.device-row { appearance: none; display: grid; grid-template-columns: 1.1fr 1fr; align-items: stretch; gap: 20px; width: 100%; padding: 18px; overflow: hidden; text-align: left; cursor: pointer; color: var(--text-primary); font: inherit; border: 1px solid #d7eaff29; border-radius: 20px; background: linear-gradient(120deg, #dbeaff0b, #dbeaff02), #0a152347; box-shadow: inset 0 1px 0 #ffffff0c; transition: border-color .25s, box-shadow .25s; }
+.device-row:hover { border-color: #78f0c58c; box-shadow: 0 12px 32px #0002, inset 0 1px 0 #ffffff18; }
+.device-row-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-width: 0; padding: 14px 16px; }
+.device-index { margin-bottom: 20px; color: var(--accent); font: .7rem/1.5 var(--mono); letter-spacing: .08em; }
+.device-row-name { font-size: clamp(1.35rem, 3vw, 2.1rem); font-weight: 650; line-height: 1.2; letter-spacing: -.04em; overflow-wrap: anywhere; }
+.device-row-color { margin-top: 12px; color: var(--text-secondary); font-size: .85rem; line-height: 1.5; }
+.device-row-detail { display: flex; align-items: center; gap: 18px; margin-top: 28px; font-size: .75rem; color: var(--text-secondary); }
+.device-row-detail > span { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid #d7eaff40; border-radius: 50%; color: var(--accent); transition: background .25s, transform .25s; }
+.device-row:hover .device-row-detail > span { background: #78f0c51a; transform: rotate(45deg); }
+.device-row-visual { position: relative; display: grid; place-items: center; min-width: 0; padding: 20px; border: 1px solid #d7eaff33; border-radius: 14px; background: radial-gradient(circle at 50% 50%, #e8f3ff24 0%, #d7eaff10 62%, transparent 100%), linear-gradient(135deg, #ffffff1a, #d7eaff08 55%, #9ec5ff12), #16243666; box-shadow: inset 0 1px 0 #ffffff29, inset 0 -1px 0 #84a9ff14, 0 8px 24px #00000026; -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); overflow: hidden; transition: border-color .25s, box-shadow .25s, background .25s; }
+.device-row:hover .device-row-visual { border-color: #78f0c566; box-shadow: inset 0 1px 0 #ffffff38, inset 0 -1px 0 #78f0c51a, 0 10px 28px #00000033; }
+.device-row-visual img { display: block; width: 100%; height: 236px; object-fit: contain; filter: drop-shadow(0 10px 22px #00000045); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.device-row:hover .device-row-visual img { transform: scale(1.035); }
+.device-row.image-first { grid-template-columns: 1fr 1.1fr; }
+.device-row.image-first .device-row-visual { grid-column: 1; grid-row: 1; }
+.device-row.image-first .device-row-copy { grid-column: 2; grid-row: 1; }
+
+/* Native modal occupies the full viewport and keeps keyboard focus inside. */
+.device-dialog { position: fixed; inset: 0; width: 100%; max-width: none; height: 100%; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; border-radius: 0; color: var(--text-primary); background: radial-gradient(ellipse at 90% 90%, #223d48 0, transparent 65%), #0c1521; overflow-y: auto; overscroll-behavior: contain; }
+.device-dialog::backdrop { background: #080c12; }
+.device-dialog[open] { animation: device-reveal .3s ease-out; }
+.device-dialog-header { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: max(18px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) 18px max(24px, env(safe-area-inset-left)); background: #0c1521ee; border-bottom: 1px solid var(--border-color); backdrop-filter: blur(18px); }
+.device-dialog-path { color: var(--text-secondary); font: .8rem/1.5 var(--mono); overflow-wrap: anywhere; }
+.device-dialog-path span { color: var(--accent); }
+.device-dialog-close { flex-shrink: 0; display: flex; gap: 20px; align-items: center; min-height: 44px; padding: 8px 16px; cursor: pointer; border: 1px solid #d7eaff40; border-radius: 24px; background: #ffffff09; color: var(--text-primary); font: inherit; font-size: .875rem; }
+.device-dialog-close span { font-size: 1.5rem; line-height: 1; }
+.device-dialog-close:hover { border-color: var(--accent); }
+.device-dialog-body { width: min(1320px, 100%); margin: auto; min-height: calc(100dvh - 81px); padding: clamp(24px, 5vw, 80px); display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+.device-dialog-visual { position: relative; display: grid; place-items: center; aspect-ratio: 1; min-width: 0; padding: 32px; border-radius: 28px; border: 1px solid #d7eaff33; background: radial-gradient(circle at 50% 50%, #e8f3ff24 0%, #d7eaff10 62%, transparent 100%), linear-gradient(135deg, #ffffff1a, #d7eaff08 55%, #9ec5ff12), #16243666; box-shadow: inset 0 1px 0 #ffffff29, inset 0 -1px 0 #84a9ff14, 0 16px 40px #00000038; -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); overflow: hidden; }
+.device-dialog-visual img { display: block; width: 100%; height: 100%; max-height: 65dvh; object-fit: contain; filter: drop-shadow(0 14px 28px #00000050); }
+.device-dialog-info { min-width: 0; padding: 12px 0; }
+.device-dialog-eyebrow { color: var(--accent); font: .75rem/1.6 var(--mono); letter-spacing: .12em; margin-bottom: 24px; }
+.device-dialog-eyebrow span { margin-left: 14px; color: var(--text-secondary); }
+.device-dialog-info h2 { font-size: clamp(2rem, 4.6vw, 4rem); line-height: 1.08; letter-spacing: -.045em; overflow-wrap: anywhere; }
+.device-dialog-color { color: var(--text-secondary); margin-top: 16px; line-height: 1.7; }
+.device-dialog-specs { display: grid; grid-template-columns: minmax(80px, .65fr) minmax(0, 1.6fr); margin-top: 32px; font-size: .95rem; line-height: 1.65; }
+.device-dialog-specs dt, .device-dialog-specs dd { padding: 14px 0; border-top: 1px solid var(--border-color); overflow-wrap: anywhere; }
+.device-dialog-specs dt { color: var(--text-secondary); padding-right: 16px; }
+.device-dialog-specs dd { margin: 0; }
+.device-dialog-date { margin-top: 24px; font-size: .75rem; color: var(--text-secondary); }
+.device-image-source { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; font-size: .75rem; color: var(--text-secondary); text-underline-offset: 4px; }
+html:has(.device-dialog[open]) { overflow: hidden; }
+@keyframes device-reveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (max-width: 700px) {
+    .device-dialog-body { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 24px 24px max(40px, env(safe-area-inset-bottom)); }
+    .device-dialog-visual { width: 100%; max-width: 480px; justify-self: center; max-height: 45dvh; aspect-ratio: 1.2; padding: 24px; border-radius: 22px; }
+    .device-dialog-visual img { max-height: 35dvh; }
+    .device-dialog-info h2 { font-size: clamp(2rem, 7vw, 3rem); }
+    .device-dialog-eyebrow { margin-bottom: 16px; }
+}
+@media (max-width: 600px) {
+    .device-rows { gap: 12px; }
+    .device-row, .device-row.image-first { grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; border-radius: 15px; }
+    .device-row-copy { padding: 8px 6px; }
+    .device-index { font-size: .58rem; margin-bottom: 14px; letter-spacing: .02em; }
+    .device-row-name { font-size: clamp(1.05rem, 4.1vw, 1.45rem); line-height: 1.25; }
+    .device-row-color { font-size: .7rem; margin-top: 10px; }
+    .device-row-detail { font-size: .65rem; margin-top: 20px; gap: 8px; }
+    .device-row-detail > span { width: 24px; height: 24px; }
+    .device-row-visual { padding: 10px; border-radius: 10px; }
+    .device-row-visual img { height: 160px; }
+    .device-dialog-header { padding-left: 16px; padding-right: 16px; }
+    .device-dialog-path { font-size: .7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .device-dialog[open] { animation: none; }
+    .device-row, .device-row-visual, .device-row-visual img, .device-row-detail > span { transition: none; }
+}

@@ -3,449 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Figのプロフィール。ガジェットと音ゲーが好きな高専生。使っている端末や、作っているサイト・アプリについて。">
+    <meta name="color-scheme" content="dark">
     <title>About Me | Fig's ToolBox</title>
     <link rel="stylesheet" href="css/common.css">
     <style>
-        /* About専用 */
-        .profile-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--accent);
-            box-shadow: 0 10px 30px var(--accent-light);
-            margin-bottom: 20px;
-        }
-        
-        .handle {
-            color: var(--accent);
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        
-        .profile-section {
-            margin-bottom: 40px;
-        }
-        
-        .profile-section h2 {
-            color: var(--accent);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .profile-section p {
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-        }
-        
-        .hobby-tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-        
-        .hobby-tag {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-end) 100%);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* 所持端末カード用 */
-        details > summary {
-            cursor: pointer;
-            list-style: none;
-            user-select: none;
-        }
-        details > summary::-webkit-details-marker { display: none; }
-        details > summary h2::before {
-            content: "▶ ";
-            font-size: 0.7em;
-            opacity: 0.5;
-        }
-        details[open] > summary h2::before {
-            content: "▼ ";
-        }
-        
-        .device-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 12px;
-        }
-
-        .device-item {
-            background: var(--result-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px 20px;
-            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-        }
-
-        .device-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px var(--accent-light);
-            border-color: var(--accent);
-        }
-
-        .device-name {
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text-primary);
-            margin-bottom: 6px;
-        }
-
-        .device-spec {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        .device-sub-specs {
-            list-style: none;
-            padding: 0;
-            margin-top: 6px;
-        }
-
-        .device-sub-specs li {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            padding: 2px 0 2px 14px;
-            position: relative;
-            line-height: 1.5;
-        }
-
-        .device-sub-specs li::before {
-            content: "–";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        .device-accessories {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 10px;
-        }
-
-        .accessory-tag {
-            background: var(--accent-light);
-            color: var(--accent);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            padding: 3px 10px;
-            font-weight: 600;
-        }
-
+        .about-page { max-width: 1000px; padding: 48px; }
+        .profile-header { display: flex; align-items: center; gap: 32px; padding-bottom: 36px; }
+        .avatar { width: 120px; height: 120px; flex-shrink: 0; border-radius: 28px; object-fit: cover; border: 1px solid var(--border-color); }
+        .eyebrow { color: var(--text-secondary); font-size: .875rem; font-weight: 600; letter-spacing: .12em; }
+        .profile-header h1 { text-align: left; font-size: 3.5rem; line-height: 1.1; margin: 8px 0 12px; letter-spacing: -.04em; }
+        .handle { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; }
+        .profile-section { padding: 32px 0; border-top: 1px solid var(--border-color); }
+        .profile-section:last-child { padding-bottom: 0; }
+        .profile-section h2 { color: var(--text-primary); font-size: 1.5rem; margin-bottom: 16px; line-height: 1.5; }
+        .profile-section p { color: var(--text-secondary); line-height: 1.9; }
+        .profile-section p + p { margin-top: 12px; }
+        .intro { font-size: 1.125rem; }
+        .hobby-tags { display: flex; gap: 8px; flex-wrap: wrap; list-style: none; margin-top: 20px; }
+        .hobby-tags li { background: var(--result-bg); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 7px 13px; border-radius: 8px; font-size: .875rem; }
+        .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+        .section-heading h2 { margin-bottom: 0; }
+        .updated { font-size: .875rem; color: var(--text-secondary); }
+        .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; list-style: none; }
+        .link-btn { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary); text-decoration: none; font-size: .9375rem; font-weight: 600; background: var(--result-bg); }
+        .link-btn:hover { border-color: var(--accent); }
+        a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+        .skip-link { position: fixed; left: 16px; top: -100px; z-index: 2000; background: var(--card-bg); color: var(--text-primary); padding: 12px 20px; border-radius: 8px; }
+        .skip-link:focus { top: 12px; }
         @media (max-width: 600px) {
-            .device-list {
-                grid-template-columns: 1fr;
-            }
+            body { padding: 76px 12px 12px; }
+            nav { padding: 15px 16px; }
+            .logo { font-size: 1.1rem; }
+            .nav-links { gap: 12px; }
+            .about-page { padding: 28px 20px; margin: 20px auto; }
+            .profile-header { gap: 20px; padding-bottom: 28px; flex-wrap: wrap; }
+            .avatar { width: 88px; height: 88px; border-radius: 22px; }
+            .profile-header h1 { font-size: 2.75rem; }
+            .profile-section { padding: 28px 0; }
+            .links li, .link-btn { width: 100%; }
         }
-        
-        .links {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-end) 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .link-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px var(--accent-light);
-        }
-        
-        @media (max-width: 768px) {
-            .avatar {
-                width: 120px;
-                height: 120px;
-            }
-        }
-
-        /* ローディング画面全体 */
-        #loader {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: var(--card-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
-        }
-
-        .loader-content {
-            width: 85%;
-            max-width: 450px;
-            text-align: center;
-        }
-
-        .loader-title {
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 800;
-            color: var(--accent-end);
-            letter-spacing: 0.3em;
-            margin-bottom: 15px;
-            animation: pulse 1.5s infinite;
-        }
-
-        .loader-bar-container {
-            width: 100%;
-            height: 12px;
-            background: var(--border-color);
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 12px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .loader-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-end));
-            border-radius: 20px;
-            transition: width 0.2s ease-out;
-        }
-
-        .loader-info {
-            display: flex;
-            justify-content: space-between;
-            font-family: monospace;
-            font-size: 1rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        #loader.loaded {
-            opacity: 0;
-            visibility: hidden;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; }
         }
     </style>
+    <link rel="stylesheet" href="css/about.css?v=3">
+    <link rel="stylesheet" href="css/about-devices.css?v=2">
 </head>
 <body>
-    <div id="loader">
-        <div class="loader-content">
-            <div class="loader-title">Fig's Server<br>SERVER CONNECTING</div>
-            <div class="loader-bar-container">
-                <div class="loader-bar" id="loaderBar"></div>
+    <div class="ambient" aria-hidden="true">
+        <div class="ambient-grid"></div>
+        <div class="glitch-band"></div>
+        <div class="glitch-band"></div>
+        <div class="glitch-band"></div>
+        <div class="arrival-glitch" id="arrival-glitch"><i></i><i></i></div>
+    </div>
+    <div id="boot-screen" class="boot-screen" data-phase="boot" hidden>
+        <div class="win-boot-stage" id="win-boot-stage" role="status" aria-live="polite" aria-label="システムを起動しています">
+            <div class="win-boot-logo-wrap">
+                <img src="images/fig-logo.png" alt="FiG" class="win-boot-logo" width="828" height="508">
             </div>
-            <div class="loader-info">
-                <span class="status-text">LOADING...</span>
-                <span class="percent-container"><span id="percent">0</span>%</span>
+            <div class="win-boot-spinner-wrap" aria-hidden="true">
+                <svg class="win-ring-spinner" viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="19" fill="none" stroke-width="3.6" stroke-linecap="round"></circle>
+                </svg>
+            </div>
+        </div>
+        <div class="win-signin-stage" id="win-signin-stage" hidden>
+            <div class="win-signin-card">
+                <div class="win-signin-avatar-wrap">
+                    <img src="icon.jpg" alt="" class="win-signin-avatar" width="128" height="128">
+                </div>
+                <div class="win-signin-user">Fig</div>
+                <div class="win-signin-sub">NITTsuruokaC · #kosen24s</div>
+                <button type="button" class="win-unlock-btn" id="win-unlock-btn">ロック解除</button>
+                <div class="win-signing-in" id="win-signing-in" role="status" aria-live="polite" hidden>
+                    <svg class="win-ring-spinner win-ring-spinner--sm" viewBox="0 0 48 48" aria-hidden="true">
+                        <circle cx="24" cy="24" r="19" fill="none" stroke-width="4" stroke-linecap="round"></circle>
+                    </svg>
+                    <span class="win-signing-in-text" id="win-signing-in-text">サインインしています...</span>
+                </div>
+            </div>
+            <div class="win-signin-tray" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/></svg>
             </div>
         </div>
     </div>
-
-    <nav>
+    <a class="skip-link" href="#main">本文へスキップ</a>
+    <nav aria-label="メインナビゲーション">
         <div class="nav-container">
             <a href="index.html" class="logo">🛠️ Fig's ToolBox</a>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="active" aria-current="page">About</a></li>
             </ul>
         </div>
     </nav>
-    
-    <div class="container container-wide">
-        <div class="profile-header">
-            <img src="icon.jpg" alt="Figのアイコン" class="avatar">
-            <h1>Fig</h1>
-            <p class="handle">kosen24s</p>
+
+    <main id="main" class="container about-page">
+        <div class="glass-reflection" aria-hidden="true"><div class="glass-highlight" id="glass-highlight"></div></div>
+        <div class="window-bar">
+            <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="window-path">~/fig/<strong>about</strong></span>
+            <button class="fx-toggle" id="fx-toggle" type="button" aria-label="アニメーション演出" aria-pressed="true" hidden>FX / ON</button>
         </div>
-        
-        <div class="profile-section">
-            <h2>🎓 所属</h2>
-            <p>NITTsuruokaC #kosen24s</p>
-            <p>高専生として日々勉強に励んでいます。レポート提出前の徹夜はお手の物...？</p>
-        </div>
-        
-        <div class="profile-section">
-            <h2>🎮 趣味</h2>
-            <div class="hobby-tags">
-                <span class="hobby-tag">ガジェット</span>
-                <span class="hobby-tag">音ゲー</span>
-                <span class="hobby-tag">アプリ、Webサイト開発</span>
+        <header class="profile-header">
+            <button class="avatar-trigger" id="terminal-trigger" type="button" aria-label="Figのアイコン。5回押すと隠しターミナルを開きます" disabled>
+                <img src="icon.jpg" alt="" class="avatar" width="120" height="120">
+            </button>
+            <div>
+                <p class="eyebrow">&gt; hello, world.</p>
+                <h1><span class="glitch-name">Fig<span class="glitch-copy" aria-hidden="true">Fig</span><span class="glitch-copy" aria-hidden="true">Fig</span></span></h1>
+                <p class="handle">鶴岡高専 / #kosen24s</p>
+                <p class="profile-code" aria-label="興味：Web、アプリ、ガジェット"><span>interests</span> = [<span class="code-string">"web", "apps", "gadgets"</span>];</p>
             </div>
-            <p style="margin-top: 15px;">
-                ガジェットを集めるのが大好き。音ゲーは趣味としてプレイしています。<br>
-                最近はWebサイト開発、アプリ開発にも手を付けています<br>
-                高専生らしく、技術と遊びの両立を目指しています
-            </p>
-        </div>
-        
-        <div class="profile-section">
-            <details>
-            <summary><h2 style="display:inline;margin:0;">💻 所持端末</h2></summary>
-            <div class="device-list">
-                <div class="device-item">
-                    <div class="device-name">📱 iPhone 16 Pro</div>
-                    <div class="device-spec">A18 Pro · 256GB · Natural Titanium</div>
-                		<div class="device-accessories">
-                        <span class="accessory-tag">Apple Care+ (2years)</span>
-                		</div>
-                </div>
+        </header>
+        <p class="terminal-hint" id="terminal-hint" hidden>// try typing <kbd>fig</kbd><span> · mobile? tap the icon × 5</span></p>
 
-                <div class="device-item">
-                    <div class="device-name">📱 iPhone 13 mini</div>
-                    <div class="device-spec">A15 Bionic · 128GB · Starlight</div>
-                </div>
-                
-                <div class="device-item">
-                    <div class="device-name">📱 OPPO Find X7 Ultra</div>
-                    <div class="device-spec">Snapdragon 8 gen 3 ・ 16/256GB ・ Tailored Black</div>
-                </div>
-                
-                <div class="device-item">
-                    <div class="device-name">📱 Galaxy Z Flip 7</div>
-                    <div class="device-spec">Samsung Exynos 2500 ・ 12/256GB · Blue Shadow</div>
-                </div>
+        <section class="profile-section" aria-labelledby="profile-title">
+            <span class="section-label" aria-hidden="true">01 / PROFILE</span>
+            <h2 id="profile-title">自己紹介</h2>
+            <p class="intro">Figです。NITTsuruokaC #kosen24s</p>
+            <p>ガジェットと音ゲーが好きな高専生です。<br>最近はWebサイトとかアプリも作ってます。<br>端末はApple多めですが、Androidも使ってます。</p>
+            <ul class="hobby-tags" aria-label="好きなこと">
+                <li>ガジェット</li>
+                <li>音ゲー</li>
+                <li>アプリ開発</li>
+                <li>Webサイト開発</li>
+            </ul>
+        </section>
 
-                <div class="device-item">
-                    <div class="device-name">📱 Vivo X50 Pro+</div>
-                    <div class="device-spec">Snapdragon 865 · 12/256GB · Camel</div>
-                </div>
-
-                <div class="device-item">
-                    <div class="device-name">📟 iPad Pro 11" (3rd)</div>
-                    <div class="device-spec">M1 · 256GB · Space Gray</div>
-                    <div class="device-accessories">
-                        <span class="accessory-tag">Apple Pencil 第2世代</span>
-                        <span class="accessory-tag">Magic Keyboard</span>
-                    </div>
-                </div>
-                
-                <div class="device-item">
-                    <div class="device-name">📟 Xiaomi Pad Mini</div>
-                    <div class="device-spec">Dimensity 9400+ · 12/512GB · Gray</div>
-                    <div class="device-accessories">
-                        <span class="accessory-tag">Xiaomi Focus Pen</span>
-                    </div>
-                </div>
-                
-                <div class="device-item">
-                    <div class="device-name">💻 MacBook Pro 14"</div>
-                    <div class="device-spec">Silver</div>
-                    <ul class="device-sub-specs">
-                        <li>M5 Pro (15コアCPU、16コアGPU、16コアNeural Engine)</li>
-                        <li>24GBユニファイドメモリ</li>
-                        <li>1TB SSDストレージ</li>
-                        <li>Nano-textureディスプレイ</li>
-                    </ul>
-                    <div class="device-accessories">
-                        <span class="accessory-tag">Apple Care+ (3years)</span>
-                		</div>
-                </div>
-                
-                <div class="device-item">
-                    <div class="device-name">🖥️ 自作PC</div>
-                    <ul class="device-sub-specs">
-                        <li>Ryzen 7 3700X</li>
-                        <li>DDR4 16GB × 2</li>
-                        <li>Radeon RX Vega 56 8GB</li>
-                        <li>M.2 SSD 1TB + 512GB</li>
-                    </ul>
-                </div>
-                
-                <div class="device-item">
-                    <div class="device-name">⌚ Apple Watch SE (2nd)</div>
-                    <div class="device-spec">44mm · GPS+Wi-Fi · Midnight</div>
-                </div>
-                
-                <div class="device-item">
-                    <div class="device-name">🎧 AirPods 4</div>
-                    <div class="device-spec">with ANC</div>
-                </div>
-
-                <div class="device-item">
-                    <div class="device-name">🎧 Nothing Ear (a)</div>
-                        <div class="device-spec">Black</div>
-                </div>
+        <section class="profile-section setup-section" aria-labelledby="devices-title">
+            <span class="section-label" aria-hidden="true">02 / SETUP</span>
+            <div class="section-heading">
+                <h2 id="devices-title">メイン布陣</h2>
+                <span class="updated"><time datetime="2026-10-11">2026.10.11</time> 時点</span>
             </div>
-            </details>
-        </div>
-        <div class="profile-section">
-            <h2>🛠️ このサイトについて</h2>
-            <p>
-                自分で使いやすいツールを作ろうと思い立ち、このサイトを作成。<br>
-                すべてブラウザ上で動作し、(勤怠管理アプリケーションを除き)データは外部に送信されません。
-            </p>
-        </div>
-        
-        <div class="profile-section">
-            <h2>📱 関連リンク・連絡先</h2>
-            <p>ツールに関するご意見・バグ報告は、GitHubのIssueまたはTwitter, DiscordのDMまでお願いします。<br></p>
-            <div class="links">
-                <a href="https://github.com/Fig-JP" class="link-btn" target="_blank">GitHub</a>
-                <a href="https://x.com/i/user/1823970695933779968" class="link-btn" target="_blank">Twitter</a>
-                <a href="https://x.com/i/user/1954558062385332225" class="link-btn" target="_blank">Twitter - Personal</a>
-                <a href="https://discord.gg/FNfV9SBsWJ" class="link-btn" target="_blank">My Discord Server</a>
+            <p>普段使ってる端末たち。気になったら押してみて。</p>
+            <section class="device-category" aria-labelledby="category-0">
+                <h3 id="category-0">Apple <span>06</span></h3>
+            <div class="device-rows">
+                <button class="device-row" type="button" data-device="iphone-air" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="iPhone Airの詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">01 / APPLE</span>
+                        <span class="device-row-name">iPhone Air</span>
+                        <span class="device-row-color">Cloud White</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/iphone-air.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row image-first" type="button" data-device="ipad-pro" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="11″ iPad Proの詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">02 / APPLE</span>
+                        <span class="device-row-name">11″ iPad Pro</span>
+                        <span class="device-row-color">Space Black</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/ipad-pro.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row" type="button" data-device="macbook-pro" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="14″ MacBook Proの詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">03 / APPLE</span>
+                        <span class="device-row-name">14″ MacBook Pro</span>
+                        <span class="device-row-color">Silver</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/macbook-pro.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row image-first" type="button" data-device="watch" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="Apple Watch Series 9の詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">04 / APPLE</span>
+                        <span class="device-row-name">Apple Watch Series 9</span>
+                        <span class="device-row-color">Midnight</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/watch.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row" type="button" data-device="airpods" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="AirPods 5の詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">05 / APPLE</span>
+                        <span class="device-row-name">AirPods 5</span>
+                        <span class="device-row-color">Wireless Charging Case</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/airpods.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row image-first" type="button" data-device="airpods-pro" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="AirPods Proの詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">06 / APPLE</span>
+                        <span class="device-row-name">AirPods Pro</span>
+                        <span class="device-row-color">3rd generation</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/airpods-pro.png?v=3" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
             </div>
-        </div>
-    </div>
-    
+            </section>
+            <section class="device-category" aria-labelledby="category-6">
+                <h3 id="category-6">Other Gadgets <span>05</span></h3>
+            <div class="device-rows">
+                <button class="device-row" type="button" data-device="galaxy" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="Galaxy Z Flip 7の詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">07 / OTHER GADGETS</span>
+                        <span class="device-row-name">Galaxy Z Flip 7</span>
+                        <span class="device-row-color">Blue</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/galaxy.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row image-first" type="button" data-device="band" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="Xiaomi Smart Band 9 Proの詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">08 / OTHER GADGETS</span>
+                        <span class="device-row-name">Xiaomi Smart Band 9 Pro</span>
+                        <span class="device-row-color">Moonlight Silver</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/band.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row" type="button" data-device="olympus" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="OLYMPUS PEN E-PL10の詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">09 / OTHER GADGETS</span>
+                        <span class="device-row-name">OLYMPUS PEN E-PL10</span>
+                        <span class="device-row-color">White</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/olympus.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row image-first" type="button" data-device="attackshark" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="AttackShark X6の詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">10 / OTHER GADGETS</span>
+                        <span class="device-row-name">AttackShark X6</span>
+                        <span class="device-row-color">White</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/attackshark.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row" type="button" data-device="razer" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="RAZER Viper V2 Proの詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">11 / OTHER GADGETS</span>
+                        <span class="device-row-name">RAZER Viper V2 Pro</span>
+                        <span class="device-row-color">White</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/razer.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+            </div>
+            </section>
+            <section class="device-category" aria-labelledby="category-11">
+                <h3 id="category-11">Audio <span>03</span></h3>
+            <div class="device-rows">
+                <button class="device-row image-first" type="button" data-device="nothing" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="Nothing Ear (a)の詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">12 / AUDIO</span>
+                        <span class="device-row-name">Nothing Ear (a)</span>
+                        <span class="device-row-color">Black</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/nothing.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row" type="button" data-device="space" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="Tanchjim SPACEの詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">13 / AUDIO</span>
+                        <span class="device-row-name">Tanchjim SPACE</span>
+                        <span class="device-row-color">USB DAC</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/space.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+                <button class="device-row image-first" type="button" data-device="aria" aria-haspopup="dialog" aria-controls="device-dialog" aria-label="MOONDROP Aria 2の詳細">
+                    <span class="device-row-copy">
+                        <span class="device-index" aria-hidden="true">14 / AUDIO</span>
+                        <span class="device-row-name">MOONDROP Aria 2</span>
+                        <span class="device-row-color">水月雨</span>
+                        <span class="device-row-detail">詳しく見る <span aria-hidden="true">↗</span></span>
+                    </span>
+                    <span class="device-row-visual"><img src="images/devices/aria.png?v=2" alt="" width="600" height="600" loading="lazy" decoding="async"></span>
+                </button>
+            </div>
+            </section>
+        </section>
+
+        <section class="profile-section" aria-labelledby="site-title">
+            <span class="section-label" aria-hidden="true">03 / THIS SITE</span>
+            <h2 id="site-title">このサイトについて</h2>
+            <p>自分で使いやすいツールが欲しくて作りました。<br>使えそうなのがあればどうぞ。</p>
+            <p>読み込み画面とか隠しコマンドとか、そういうのも入れてます。</p>
+        </section>
+
+        <section class="profile-section" aria-labelledby="links-title">
+            <span class="section-label" aria-hidden="true">04 / CONNECT</span>
+            <h2 id="links-title">リンク・連絡先</h2>
+            <p>ツールの不具合とかはGitHubのIssueか、Twitter・DiscordのDMまでお願いします。</p>
+            <ul class="links">
+                <li><a href="https://github.com/Fig-JP" class="link-btn" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></li>
+                <li><a href="https://x.com/i/user/1823970695933779968" class="link-btn" target="_blank" rel="noopener noreferrer">X <span aria-hidden="true">↗</span></a></li>
+                <li><a href="https://x.com/Fdpzk" class="link-btn" target="_blank" rel="noopener noreferrer">X · 鍵垢 @Fdpzk <span aria-hidden="true">↗</span></a></li>
+                <li><a href="https://discord.gg/FNfV9SBsWJ" class="link-btn" target="_blank" rel="noopener noreferrer">Discord Server <span aria-hidden="true">↗</span></a></li>
+            </ul>
+        </section>
+    </main>
+
     <footer>
         <p>Created by Fig | <a href="index.html">Fig's ToolBox Home</a></p>
     </footer>
-    <script>
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loader');
-            const bar = document.getElementById('loaderBar');
-            const percentText = document.getElementById('percent');
-            let currentWidth = 0;
-
-            const animateLoader = () => {
-                if (currentWidth >= 100) {
-                    setTimeout(() => {
-                        loader.classList.add('loaded');
-                    }, 400);
-                    return;
-                }
-
-                let increment = Math.random() * 20;
-                currentWidth = Math.min(100, currentWidth + increment);
-                
-                bar.style.width = currentWidth + '%';
-                percentText.innerText = Math.floor(currentWidth);
-
-                setTimeout(animateLoader, Math.random() * 200 + 50);
-            };
-
-            setTimeout(animateLoader, 300);
-        });
-    </script>
+    <dialog class="device-dialog" id="device-dialog" aria-labelledby="device-dialog-title">
+        <header class="device-dialog-header">
+            <span class="device-dialog-path">~/fig/setup/<span id="device-dialog-category"></span></span>
+            <button class="device-dialog-close" type="button" autofocus>閉じる <span aria-hidden="true">×</span></button>
+        </header>
+        <div class="device-dialog-body">
+            <div class="device-dialog-visual"><img id="device-dialog-image" alt="" width="800" height="800"></div>
+            <div class="device-dialog-info">
+                <p class="device-dialog-eyebrow">MY SETUP <span id="device-dialog-number"></span></p>
+                <h2 id="device-dialog-title"></h2>
+                <p class="device-dialog-color" id="device-dialog-color"></p>
+                <dl class="device-dialog-specs" id="device-dialog-specs"></dl>
+                <p class="device-dialog-date">2026.10.11 時点の構成</p>
+                <a class="device-image-source" id="device-image-source" target="_blank" rel="noopener noreferrer">製品画像の出典 ↗</a>
+            </div>
+        </div>
+    </dialog>
+    <dialog class="secret-terminal" id="secret-terminal" aria-labelledby="terminal-title" aria-describedby="terminal-welcome">
+        <div class="terminal-topbar">
+            <h2 id="terminal-title"><span aria-hidden="true">&gt;_</span> fig@toolbox: ~</h2>
+            <button class="terminal-close" id="terminal-close" type="button" aria-label="ターミナルを閉じる">閉じる ×</button>
+        </div>
+        <div class="terminal-body">
+            <p class="terminal-welcome" id="terminal-welcome">見つけてくれてありがとう。<br><span>よかったら <code>help</code> からどうぞ。</span></p>
+            <div class="terminal-output" id="terminal-output" role="log" aria-label="コマンドの実行結果" aria-live="polite" aria-relevant="additions"></div>
+            <form id="terminal-form" class="terminal-form" autocomplete="off">
+                <label for="terminal-input"><span aria-hidden="true">guest@fig:~ $</span><span class="sr-only">コマンド</span></label>
+                <input id="terminal-input" name="command" type="text" maxlength="160" placeholder="help" spellcheck="false" autocapitalize="off" enterkeyhint="send" autocomplete="off" autofocus>
+                <button class="terminal-run" type="submit" aria-label="コマンドを実行">↵</button>
+            </form>
+        </div>
+        <div class="terminal-status" aria-hidden="true"><span>↑ ↓ history</span><span>esc to leave</span></div>
+    </dialog>
+    <script type="application/json" id="device-data">[{"id": "iphone-air", "category": "Apple", "name": "iPhone Air", "color": "Cloud White", "summary": "256GB", "specs": [["ストレージ", "256GB"], ["カラー", "Cloud White"], ["保証", "AppleCare+"]], "image": "images/devices/iphone-air.png?v=2", "source": "https://shop.bense.net/Apple-iPhone-Air-256-GB-Cloud-White/6413622"}, {"id": "ipad-pro", "category": "Apple", "name": "11″ iPad Pro", "color": "Space Black", "summary": "M4 / 256GB", "specs": [["モデル", "第5世代（M4） / Wi-Fi"], ["ストレージ", "256GB"], ["カラー", "Space Black"]], "image": "images/devices/ipad-pro.png?v=2", "source": "https://www.flipkart.com/apple-2024-ipad-pro-m4-256-gb-rom-11-0-inch-wi-fi-only-space-black/p/itmcac10b3f31928"}, {"id": "macbook-pro", "category": "Apple", "name": "14″ MacBook Pro", "color": "Silver", "summary": "M5 Pro / 24GB / 1TB", "specs": [["チップ", "M5 Pro"], ["メモリ", "24GB"], ["ストレージ", "1TB"], ["カラー", "Silver"], ["ディスプレイ", "Nano-texture"], ["保証", "AppleCare+"]], "image": "images/devices/macbook-pro.png?v=2", "source": "https://www.studio7thailand.com/th/p/apple-macbook-pro-14-m5-pro-chip-15c-cpu16c-gpu24gb1tb-silver-2026-eng-keyboard-z1mh001xa_d48y52"}, {"id": "watch", "category": "Apple", "name": "Apple Watch Series 9", "color": "Midnight", "summary": "45mm / GPS", "specs": [["ケース", "45mm"], ["モデル", "GPS"], ["カラー", "Midnight"]], "image": "images/devices/watch.png?v=2", "source": "https://www.mac-ave.com/product/apple-watch-series-9-gps-45mm-midnight-aluminum-case-with-midnight-sport-band-m-l/"}, {"id": "airpods", "category": "Apple", "name": "AirPods 5", "color": "Wireless Charging Case", "summary": "AppleCare+", "specs": [["ケース", "Wireless Charging Case"], ["保証", "AppleCare+"]], "image": "images/devices/airpods.png?v=2", "source": "https://www.son-video.com/article/ecouteurs-true-wireless/apple/airpods-5"}, {"id": "airpods-pro", "category": "Apple", "name": "AirPods Pro", "color": "3rd generation", "summary": "AppleCare+", "specs": [["モデル", "第3世代"], ["保証", "AppleCare+"]], "image": "images/devices/airpods-pro.png?v=3", "source": "https://www.jbhifi.co.nz/products/apple-airpods-pro-3"}, {"id": "galaxy", "category": "Other Gadgets", "name": "Galaxy Z Flip 7", "color": "Blue", "summary": "12GB / 256GB", "specs": [["メモリ", "12GB"], ["ストレージ", "256GB"], ["カラー", "Blue"]], "image": "images/devices/galaxy.png?v=2", "source": "https://www.emag.ro/telefon-mobil-samsung-galaxy-z-flip7-12gb-ram-256gb-5g-blue-shadow-sm-f766bdbgeue/pd/D95WT93BM/"}, {"id": "band", "category": "Other Gadgets", "name": "Xiaomi Smart Band 9 Pro", "color": "Moonlight Silver", "summary": "", "specs": [["カラー", "Moonlight Silver"]], "image": "images/devices/band.png?v=2", "source": "https://www.jarcomputers.com/xiaomi-smart-band-9-pro-moonlight-silver-prod-smwaxiaomibhr8715gl.html"}, {"id": "olympus", "category": "Other Gadgets", "name": "OLYMPUS PEN E-PL10", "color": "White", "summary": "2 lenses", "specs": [["カラー", "WHITE"], ["レンズ 01", "M.ZUIKO DIGITAL ED 14-42mm F3.5-5.6 EZ"], ["レンズ 02", "M.ZUIKO DIGITAL ED 40-150mm F4.0-5.6 R"]], "image": "images/devices/olympus.png?v=2", "source": "https://www.olympus.co.jp/technology/museum/camera/products/digital-pen/e-pl10/?page=technology_museum"}, {"id": "attackshark", "category": "Other Gadgets", "name": "AttackShark X6", "color": "White", "summary": "", "specs": [["カラー", "WHITE"]], "image": "images/devices/attackshark.png?v=2", "source": "https://attackshark.com/products/x6-49g-wireless-gaming-mouse-charging-dock"}, {"id": "razer", "category": "Other Gadgets", "name": "RAZER Viper V2 Pro", "color": "White", "summary": "", "specs": [["カラー", "WHITE"]], "image": "images/devices/razer.png?v=2", "source": "https://kakaku.com/item/K0001441892/images/"}, {"id": "nothing", "category": "Audio", "name": "Nothing Ear (a)", "color": "Black", "summary": "", "specs": [["カラー", "Black"]], "image": "images/devices/nothing.png?v=2", "source": "https://checkout-jp.nothing.tech/products/ear-a?variant=44101739970721"}, {"id": "space", "category": "Audio", "name": "Tanchjim SPACE", "color": "USB DAC", "summary": "", "specs": [["機種", "Tanchjim SPACE"]], "image": "images/devices/space.png?v=2", "source": "https://www.audiophonics.fr/fr/dac-portables/tanchjim-space-dac-usb-portable-2x-cs43131-symetrique-32bit-384khz-dsd256-p-17668.html"}, {"id": "aria", "category": "Audio", "name": "MOONDROP Aria 2", "color": "水月雨", "summary": "", "specs": [["機種", "MOONDROP（水月雨）Aria 2"]], "image": "images/devices/aria.png?v=2", "source": "https://shenzhenaudio.com/products/moondrop-aria-2-in-ear-headphone"}]</script>
+    <script src="js/about-devices.js?v=2"></script>
+    <script src="js/about.js?v=3"></script>
+    <script src="js/about-terminal.js?v=3"></script>
+    <script src="js/about-interactions.js"></script>
 </body>
-
 </html>
